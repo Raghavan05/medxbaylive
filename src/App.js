@@ -45,6 +45,7 @@ import Patients from './components/Footerpage/Patients/Patients';
 import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysician';
 import Conditions from './components/patientBlog/ConditionLibrariesMenu';
 import EditBlog from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/EditBlog';
+import BlogDetails from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/BlogDetails';
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
@@ -89,6 +90,7 @@ function App() {
           <Route path="/doctor/physician" element={[<Nestednavbar/>,<DoctorPhysician />,<Footer/>]}/>
           <Route path="/blogs/edit/:id" element={[<Nestednavbar/>,<EditBlog />,<Footer/>]}/>
 
+          <Route path="/blogs/:id" element={[<Nestednavbar/>,<BlogDetails />,<Footer/>]}/>
 
 
         </Routes>

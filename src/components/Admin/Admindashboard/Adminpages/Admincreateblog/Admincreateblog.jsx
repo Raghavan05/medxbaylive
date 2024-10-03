@@ -12,8 +12,8 @@ const AdminBlogUploadForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     author: "",
-    category: "",
-    subCategory: "",
+    categories: "",
+    selectedConditions: [],
     hashtags: "",
     priority: "",
     description: "",
@@ -22,19 +22,34 @@ const AdminBlogUploadForm = () => {
     authorId : ""
   });
 
-  const [doctors, setDoctors] = useState([]); // Store doctors' data
+  const [doctors, setDoctors] = useState([]); 
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
+  const [conditions, setConditions] = useState([]); 
 
   useEffect(() => {
     const fetchDoctors = async () => {
+   
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/blog`);
-        setDoctors(response.data.doctors); // Set doctors data for dropdown
-        
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/blog`, {
+          withCredentials: true,
+        });
+        console.log("data", response.data); 
+        if (response.data) {
+    
+          if (response.data.conditions) {
+            setConditions(response.data.conditions);
+          }
+          if (response.data.doctors) {
+            setDoctors(response.data.doctors);
+          } else {
+          
+          }
+        } else {
+         
+        }
       } catch (error) {
-        toast.error("Failed to fetch doctors.");
-        console.error("Error fetching doctors:", error);
+        toast.info("Failed to fetch doctors.");
       }
     };
     
@@ -54,14 +69,14 @@ const AdminBlogUploadForm = () => {
     setFormData({
       title: "",
       author: "",
-      category: "",
+      categories: "",
       subCategory: "",
       hashtags: "",
       priority: "",
       description: "",
       image: null,
       save: false,
-      authorId: "", // Reset doctor assignment
+      authorId: "", 
     });
   };
 
@@ -79,26 +94,19 @@ const AdminBlogUploadForm = () => {
       });
 
       if (res.data) {
-        toast.success("Blog published successfully!");
+         toast.info("Blog published successfully!");
         handleAddClick();
       } else {
-        toast.error("Failed to publish blog.");
+        toast.info("Failed to publish blog.");
         console.error("Failed to publish blog:", res.data);
       }
     } catch (e) {
-      toast.error("An error occurred while publishing the blog.");
+      toast.info("An error occurred while publishing the blog.");
       console.error(e);
     }
   };
 
   const categories = ["Technology", "Health", "Travel", "Food", "Lifestyle"];
-  const subCategories = {
-    Technology: ["AI", "Blockchain", "Cybersecurity"],
-    Health: ["Nutrition", "Mental Health", "Fitness"],
-    Travel: ["Adventure", "Culture", "Guides"],
-    Food: ["Recipes", "Reviews", "Nutrition"],
-    Lifestyle: ["Fashion", "Home Decor", "Wellness"],
-  };
 
   return (
     <>
@@ -123,24 +131,9 @@ const AdminBlogUploadForm = () => {
             </div>
 
             <div className="admin-create-blog-header">
-              <input
-                type="text"
-                value={formData.author}
-                name="author"
-                className="admin-create-blog-input"
-                onChange={handleChange}
-                required
-              />
-              <p className="admin-create-blog-placeholder">
-                Author Name
-                <span style={{ color: "red" }}> *</span>
-              </p>
-            </div>
-
-            <div className="admin-create-blog-header">
               <select
-                value={formData.category}
-                name="category"
+                value={formData.categories}
+                name="categories"
                 className="admin-create-blog-input"
                 onChange={handleChange}
                 required
@@ -160,27 +153,34 @@ const AdminBlogUploadForm = () => {
               </p>
             </div>
 
-            <div className="admin-create-blog-header">
+            <div className="publish-blog-header">
+              <p className="publish-blog-placeholder">
+                Select Conditions
+                <span style={{ color: "red" }}> *</span>
+              </p>
               <select
-                value={formData.subCategory}
-                name="subCategory"
-                className="admin-create-blog-input"
-                onChange={handleChange}
-                required
+                value={formData.selectedConditions}
+                className="publish-blog-input"
+                onChange={(e) => {
+                  const value = Array.from(e.target.selectedOptions, option => option.value);
+                  setFormData({ ...formData, selectedConditions: value });
+                }}
               >
                 <option value="" disabled hidden>
-                  Choose Blog Sub Category
+                  Choose Conditions
                 </option>
-                {formData.category &&
-                  subCategories[formData.category].map((subCategory, index) => (
-                    <option key={index} value={subCategory}>
-                      {subCategory}
+                {conditions.length > 0 ? (
+                  conditions.map((condition, index) => (
+                    <option key={index} value={condition.name}>
+                      {condition.name}
                     </option>
-                  ))}
+                  ))
+                ) : (
+                  <option disabled>No conditions available</option>
+                )}
               </select>
-              <p className="admin-create-blog-placeholder">
-                Blog Sub Category
-                <span style={{ color: "red" }}> *</span>
+              <p className="publish-blog-placeholder">
+                Blog Conditions
               </p>
             </div>
 
@@ -242,8 +242,8 @@ const AdminBlogUploadForm = () => {
               </div>
             </div>
 
-                        {/* Doctor Assignment */}
-                        <div className="admin-create-blog-header">
+      
+            <div className="admin-create-blog-header">
               <select
                 value={formData.authorId}
                 name="authorId"

@@ -40,12 +40,13 @@ const LogoSlider = () => {
 
   return (
     <div className="logo-slider">
-        <div className='logo-titile'>Our  <span>Partners </span></div>
-        <div className='logo-text-home'>We believe that collaboration fuels innovation, allowing us to deliver the ultimate value to our customers. By working alongside our esteemed partners, we delve into new possibilities, driving progress and creating lasting impact.</div>
-      <div
-        className="logo-track"
-        style={{ transform: `translateX(${-currentIndex * (100 / 4)}%)` }}
-      >
+        <h3 className='logo-titile'>Our  <span>Partners </span></h3>
+        <p className='logo-text-home'>We believe that collaboration fuels innovation, 
+          allowing us to deliver the ultimate value to our customers. 
+          By working alongside our esteemed partners,
+           we delve into new possibilities, 
+           driving progress and creating lasting impact.</p>
+      <div className="logo-track" style={{ transform: `translateX(${-currentIndex * (100 / 4)}%)` }}>
         {logos.map((logo) => (
           <div key={logo.id} className="logo-slide">
             <img src={logo.src} alt={logo.alt} />

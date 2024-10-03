@@ -203,10 +203,10 @@ const Navbar = () => {
       <header>
         <nav className={navbarClass}>
           <a className="navbar-brand" href="/"><img src={logobrand} alt="Brand Logo" className='brand-img' /></a>
-          <button className="navbar-toggler" type="button" data-toggle="" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className=" navbar-collapse" id="navbarNav">
+          <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               {userRole !== 'doctor' && (
                 <li className="nav-item active ml-md-4">

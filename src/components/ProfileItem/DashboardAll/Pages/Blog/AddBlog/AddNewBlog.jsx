@@ -1,25 +1,56 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./addnewblog.css";
 import Blog from "../Blog";
 import Editor from "./Editor";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const AddNewBlog = ({loadBlogs}) => {
   const [showAddNewBlog, setShowAddNewBlog] = useState(false);
+  
   const [newBlog, setNewBlog] = useState({
     title: "",
     author: "",
     category: "",
-    subcategories: "",
+    selectedConditions: [],
     hashtags: "",
     priority: "",
     description: "",
     image: null,
     save: false,
   });
+  
+  const [conditions, setConditions] = useState([]); 
+
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchConditions = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/doctor/blog`);
+        if (response.data && response.data.conditions) {
+          setConditions(response.data.conditions); 
+        } else {
+          toast.info("Failed to fetch conditions");
+        }
+      } catch (error) {
+        console.error("Error fetching conditions:", error);
+        toast.info("Error fetching conditions from server");
+      }
+    };
+    
+    fetchConditions();
+  }, []); 
+
+  const handleConditionsChange = (e) => {
+    const selectedValues = Array.from(e.target.selectedOptions).map(option => option.value);
+    setNewBlog((prevBlog) => ({
+      ...prevBlog,
+      selectedConditions: selectedValues,
+    }));
+  };
 
   const handleAddClick = () => {
     setShowAddNewBlog(true);
@@ -31,44 +62,43 @@ const AddNewBlog = ({loadBlogs}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Blog submitted:", newBlog);
+
   };
 
-  // Example options for the select boxes
   const categories = ["Technology", "Health", "Travel", "Food", "Lifestyle"];
-  const subCategories = {
-    Technology: ["AI", "Blockchain", "Cybersecurity"],
-    Health: ["Nutrition", "Mental Health", "Fitness"],
-    Travel: ["Adventure", "Culture", "Guides"],
-    Food: ["Recipes", "Reviews", "Nutrition"],
-    Lifestyle: ["Fashion", "Home Decor", "Wellness"],
+
+  const handlePublish = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("title", newBlog.title);
+      formData.append("author", newBlog.author);
+      formData.append("category", newBlog.category);
+      formData.append("hashtags", newBlog.hashtags);
+      formData.append("priority", newBlog.priority);
+      formData.append("description", newBlog.description);
+      formData.append("image", newBlog.image);
+      formData.append("selectedConditions", newBlog.selectedConditions);
+
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/doctor/blog`,
+        formData,
+        { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (res.data) {
+         toast.info("Blog Published");
+        loadBlogs();
+        handleCancel();
+      } else {
+        toast.info("Failed to publish blog");
+      }
+    } catch (error) {
+      console.error("Error publishing blog:", error);
+      toast.info("Server error occurred");
+    }
   };
 
-  const handlePublish = () => {
-    toast.success("Blog Publish");
-    console.log("Blog submitted:", newBlog);
-    try{
-      const res= axios.post(`${process.env.REACT_APP_BASE_URL}/doctor/blog`,
-        newBlog,
-        {
-            withCredentials: true,
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-        console.log(res)
-        if (res.data) {
-          console.log("Blog updated successfully:", res.data);
-          loadBlogs()
-          handleCancel()
-      } else {
-          console.error("Failed to update Blog:", res.data);
-      } 
-
-    }catch(e){
-      console.log(e)
-    }
-  }
-
+  
   return (
     <>
             <ToastContainer />
@@ -132,28 +162,37 @@ const AddNewBlog = ({loadBlogs}) => {
             </div>
 
             <div className="publish-blog-header">
-              <select
-                value={newBlog.subcategories}
-                className="publish-blog-input"
-                onChange={(e) =>
-                  setNewBlog({ ...newBlog, subcategories: e.target.value })
-                }
-              >
-                <option value="" disabled hidden>
-                  Choose Blog Sub Category
-                </option>
-                {newBlog.category &&
-                  subCategories[newBlog.category].map((subcategories, index) => (
-                    <option key={index} value={subcategories}>
-                      {subcategories}
-                    </option>
-                  ))}
-              </select>
-              <p className="publish-blog-placeholder">
-                Blog Sub Category
-                <span style={{ color: "red" }}> *</span>
-              </p>
-            </div>
+  <p className="publish-blog-placeholder">
+    Select Conditions
+    <span style={{ color: "red" }}> *</span>
+  </p>
+  <select
+    value={newBlog.selectedConditions}
+    className="publish-blog-input"
+    onChange={(e) => {
+      const value = Array.from(e.target.selectedOptions, option => option.value);
+      setNewBlog({ ...newBlog, selectedConditions: value });
+    }}
+  >
+    <option value="" disabled hidden>
+      Choose Conditions
+    </option>
+    {conditions.length > 0 ? (
+      conditions.map((condition, index) => (
+        <option key={index} value={condition.name}>
+          {condition.name}
+        </option>
+      ))
+    ) : (
+      <option disabled>No conditions available</option>
+    )}
+  </select>
+  <p className="publish-blog-placeholder">
+   Blog Conditions
+  </p>
+</div>
+
+
 
             <div className="publish-blog-header">
               <input
