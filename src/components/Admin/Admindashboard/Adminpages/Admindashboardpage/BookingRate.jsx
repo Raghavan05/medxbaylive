@@ -108,9 +108,8 @@ const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
 
   return (
     <>
-    
-      <div className='admin-booking-header'>
-        <h2 className="admin-booking-title">Booking Rate</h2>
+      <div className='booking-header'>
+        <h2 className="booking-title">Booking Rate</h2>
         <div className="admin-select-container">
           <select 
             className='admin-recently'
@@ -125,13 +124,13 @@ const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
           <RiArrowDownSLine className="admin-arrow-icon-filter" />
         </div>
       </div>
-      <div className="admin-booking-area">
-        <div className="admin-rate">
-          <h1 className="admin-booking-number">{highestPercentage}%</h1>
-          <p className='admin-booking-description'>Your highest booking rate this week</p>
-          <p className="admin-increase">Your booking rate is 6% increase from the previous week</p>
+      <div className="booking-area">
+        <div className="rate">
+          <h1 className="booking-number">{highestPercentage}%</h1>
+          <p className='booking-description'>Your highest booking rate this week</p>
+          <p className="increase">Your booking rate is 6% increase from the previous week</p>
         </div>
-        <div className="admin-chart">
+        <div className="chart">
           <Bar ref={chartRef} data={data} options={options} />
         </div>
       </div>

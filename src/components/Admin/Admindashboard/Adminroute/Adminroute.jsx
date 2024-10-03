@@ -46,12 +46,12 @@ const Adminroute = () => {
         <Route path="/admin-createblog" element={<Admincreateblog/>} />
 
         <Route path="/admin-doctorprofile" element={<AdmindoctorProfile/>} />
-        <Route path="/admin-doctorprofile-verification" element={<Doctorprofileverification/>} />
+        <Route path="/admin-doctorprofile/admin-doctorprofile-verification/:id" element={<Doctorprofileverification/>} />
         
         <Route path="/admin-doctorsubscription" element={<Admindoctorsubscription/>} />
          
         <Route path="/admin-managebookings" element={<Adminmanagebookings/>} />
-        <Route path="/admin-viewbookings" element={<Bookingdetails/>} />
+        <Route path="/admin-managebookings/admin-viewbookings/:id" element={<Bookingdetails/>} />
 
 
         <Route path="/admin-managepayments" element={<Adminmangepayments/>} />

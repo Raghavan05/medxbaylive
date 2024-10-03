@@ -19,7 +19,7 @@ const AdmindoctorProfile = () => {
     }, []);
 
     const handleButtonClick = (doctorId) => {
-        navigate(`/profile/${doctorId}`);
+        navigate(`admin-doctorprofile-verification/${doctorId}`);
     };
 
     const getStatusClassName = (status) => {

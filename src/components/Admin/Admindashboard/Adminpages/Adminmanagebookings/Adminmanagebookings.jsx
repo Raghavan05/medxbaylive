@@ -3,6 +3,7 @@ import './adminmanagebookings.css';
 import { RiSearchLine } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { format } from 'date-fns';
 
 const Adminmanagebooking = () => {
   const navigate = useNavigate();
@@ -14,46 +15,41 @@ const Adminmanagebooking = () => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/bookings`);
-        console.log('Fetched bookings:', response.data); // Log the response
-        console.log('Type of fetched data:', Array.isArray(response.data)); // Verify the data type
-        if (Array.isArray(response.data)) {
-          setBookings(response.data);
+        // console.log('Fetched bookings:', response.data); // Log the full response to confirm structure
+        if (Array.isArray(response.data.bookings)) {
+          setBookings(response.data.bookings);
         } else {
-          console.error('Fetched data is not an array');
+          console.error('Bookings data is not an array');
         }
       } catch (error) {
         console.error('Error fetching bookings:', error);
       }
     };
-
+  
     fetchBookings();
   }, []);
 
   const filteredBookings = (Array.isArray(bookings) ? bookings : []).filter(booking => {
-    console.log('Filtering booking:', booking);
     const consultationType = booking.consultationType?.toLowerCase() || '';
     const patientName = booking.patientName?.toLowerCase() || '';
     const doctorName = booking.doctorName?.toLowerCase() || '';
     const doctorEmail = booking.doctorEmail?.toLowerCase() || '';
-  
+
     const matchesTab = activeTab === 'All' || consultationType === activeTab;
     const matchesSearch = !searchQuery ||
       patientName.includes(searchQuery.toLowerCase()) ||
       doctorName.includes(searchQuery.toLowerCase()) ||
       doctorEmail.includes(searchQuery.toLowerCase());
-  
-    console.log('Matches tab:', matchesTab, 'Matches search:', matchesSearch);
-  
+
     return matchesTab && matchesSearch;
   });
-  
 
   const handleSearch = () => {
     setSearchQuery(searchQuery.trim());
   };
 
   const handleViewDetails = (booking) => {
-    navigate('/admin-viewbookings', { state: { booking } });
+    navigate(`admin-viewbookings/${booking._id}`, { state: { booking } });
   };
 
   return (
@@ -97,7 +93,7 @@ const Adminmanagebooking = () => {
                   <td>{booking.patientName}</td>
                   <td>{booking.doctorName}</td>
                   <td>{booking.doctorEmail}</td>
-                  <td>{booking.date}</td>
+                  <td>{booking.date ? format(new Date(booking.date), 'dd/MM/yyyy') : 'N/A'}</td> {/* Format date */}
                   <td>{booking.consultationType}</td>
                   <td>
                     <button className='admin-bookings-View' onClick={() => handleViewDetails(booking)}>

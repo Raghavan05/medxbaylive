@@ -30,7 +30,7 @@ const Adminviewpatients = () => {
     useEffect(() => {
         const fetchPatientDetails = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}admin/view-patients`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/view-patients`,{withCredentials:'true'});
                 setPatients(response.data.patients);
             } catch (error) {
                 console.error('Error fetching patients:', error);

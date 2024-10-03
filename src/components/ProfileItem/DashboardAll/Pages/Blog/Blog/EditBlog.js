@@ -132,12 +132,12 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
             required
           />
           <p className="publish-blog-placeholder">
-            Blog Title
+         Title
             <span style={{ color: "red" }}> *</span>
           </p>
         </div>
 
-        <div className="publish-blog-header">
+        {/* <div className="publish-blog-header">
           <input
             type="text"
             value={newBlog.author}
@@ -151,7 +151,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
             Author Name
             <span style={{ color: "red" }}> *</span>
           </p>
-        </div>
+        </div> */}
 
         <div className="publish-blog-header">
           <select
@@ -163,7 +163,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
             required
           >
             <option value="" disabled hidden>
-              Choose Blog Category
+              Choose  Category
             </option>
             {categories.map((category, index) => (
               <option key={index} value={category}>
@@ -172,7 +172,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
             ))}
           </select>
           <p className="publish-blog-placeholder">
-            Blog Category
+         Category
             <span style={{ color: "red" }}> *</span>
           </p>
         </div>
@@ -204,7 +204,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
     )}
   </select>
   <p className="publish-blog-placeholder">
-    Blog Conditions
+   Conditions
   </p>
 </div>
 
@@ -226,7 +226,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
 
         <div className="publish-blog-header">
           <p className="publish-blog-placeholder-status">
-            Blog priority
+       priority
             <span style={{ color: "red" }}> *</span>
           </p>
           <div className="publish-blog-check-aina">
@@ -314,7 +314,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
             className="publish-button-inside" 
             onClick={handlePublish}
           >
-            <span>Publish Blog</span>
+            <span>Request Publish</span>
           </button>
           <button 
             type="button" 

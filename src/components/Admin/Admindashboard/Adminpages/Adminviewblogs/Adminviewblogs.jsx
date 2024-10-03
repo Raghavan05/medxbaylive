@@ -22,12 +22,6 @@ const Adminviewblogs = () => {
         };
         fetchData();
     }, []);
-    if (!viewblogs) {
-        return <div className="loader-container">
-                    <div className="loader"></div>
-                </div>
-      ;
-      }
 
     const handleSearch = () => {
         setSearchQuery(searchQuery.trim());
@@ -136,7 +130,7 @@ const Adminviewblogs = () => {
                                 </td>
                                 <td>
                                     <button className='Adminviewblogs-View' onClick={() => handleViewDetails(_id)}>
-                                        View blogs
+                         Preview
                                     </button>
                                 </td>
                                 <td>

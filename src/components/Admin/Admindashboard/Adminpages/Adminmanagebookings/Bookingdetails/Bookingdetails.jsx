@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './bookingdetails.css';
 import { FaArrowAltCircleLeft } from "react-icons/fa";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Bookingdetails = () => {
   const navigate = useNavigate(); 
   const { state } = useLocation(); // Retrieve the passed state
-  const { booking } = state || {}; // Destructure booking from state
+  const { id } = useParams(); // Get the booking ID from the URL params
+  const [booking, setBooking] = useState(state?.booking || null);
 
+  useEffect(() => {
+    console.log("Current booking:", booking); // Log the current booking state
+    if (!booking) {
+      const fetchBookingDetails = async () => {
+        console.log("Fetching booking details..."); // Log before fetching
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/booking-details/${id}`);
+          console.log("API response:", response.data); // Log the full response
+          setBooking(response.data.booking);
+        } catch (error) {
+          console.error('Error fetching booking details:', error);
+        }
+      };
+      fetchBookingDetails();
+    }
+  }, [id, booking]);
+  
   if (!booking) {
     return <div>No booking details available.</div>;
   }
@@ -40,10 +59,10 @@ const Bookingdetails = () => {
             </div>
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">Appointment Date</label>
-              <input className="bookingdetails-input" type="text" value={booking.date} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.appointmentDate} readOnly />
             </div>
             <div className="bookingdetails-item">
-              <label className="bookingdetails-label">Appointment time</label>
+              <label className="bookingdetails-label">Appointment Time</label>
               <input className="bookingdetails-input" type="text" value={booking.appointmentTime} readOnly />
             </div>
             <div className="bookingdetails-item">
@@ -62,27 +81,27 @@ const Bookingdetails = () => {
           <div className="bookingdetails-layout">
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">Hospital Name</label>
-              <input className="bookingdetails-input" type="text" value={booking.hospitalName} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.hospital.name} readOnly />
             </div>
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">Street</label>
-              <input className="bookingdetails-input" type="text" value={booking.street} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.hospital.location.street} readOnly />
             </div>
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">City</label>
-              <input className="bookingdetails-input" type="text" value={booking.city} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.hospital.location.city} readOnly />
             </div>
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">State</label>
-              <input className="bookingdetails-input" type="text" value={booking.state} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.hospital.location.state} readOnly />
             </div>
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">Country</label>
-              <input className="bookingdetails-input" type="text" value={booking.country} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.hospital.location.country} readOnly />
             </div>
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">Zip Code</label>
-              <input className="bookingdetails-input" type="text" value={booking.zipCode} readOnly />
+              <input className="bookingdetails-input" type="text" value={booking.hospital.location.zip} readOnly />
             </div>
           </div>
         </div>
@@ -92,11 +111,11 @@ const Bookingdetails = () => {
           <div className="bookingdetails-layout-payment">
             <div className="bookingdetails-item">
               <label className="bookingdetails-label">Amount</label>
-              <input className="bookingdetails-amount" type="text" value={booking.amount} readOnly />
+              <input className="bookingdetails-amount" type="text" value={booking.payment} readOnly />
             </div>
             <div className="bookingdetails-item">
-              <label className="bookingdetails-label">Status</label>
-              <button className='admin-booking-paid'>{booking.paymentStatus}</button>
+              <label className="bookingdetails-label">Payment Status</label>
+              <button className='admin-booking-paid'>{booking.paid ? "Paid" : "Not Paid"}</button>
             </div>
           </div>
         </div>

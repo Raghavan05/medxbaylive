@@ -62,7 +62,7 @@ const Editviewdoctor = () => {
     if (!doctorData) {
       const fetchDoctorDetails = async () => {
         try {
-          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/edit-doctor/${id}`);
+          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/edit-doctor/${id}`,{withCredentials:true});
           const doctorDetails = response.data.doctor;
           setFormData({
             ...formData,
@@ -138,7 +138,7 @@ const Editviewdoctor = () => {
 
     try {
       // Post the updated form data to the backend
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/update-doctor/${id}`, formData);
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/update-doctor/${id}`, formData,{withCredentials:true});
       toast.success('Doctor details updated successfully', {
         position: 'top-right'  // Use 'top-right' instead of toast.POSITION.TOP_RIGHT
       });

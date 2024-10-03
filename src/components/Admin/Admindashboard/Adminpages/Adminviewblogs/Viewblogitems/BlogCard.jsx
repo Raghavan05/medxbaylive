@@ -5,6 +5,7 @@ import PostComment from "./PostComment";
 import { IoIosCalendar } from "react-icons/io";
 import { TbSquareRoundedArrowDown } from "react-icons/tb";
 import axios from 'axios';
+import Loader from "../../../../../Loader/Loader";
 
 const BlogCard = () => {
   const { id } = useParams(); // Get the ID from the URL
@@ -61,12 +62,26 @@ const BlogCard = () => {
     setActiveBlog((prev) => (prev === id ? null : id));
   };
 
-  if (!blogDetails) {
-    return <div className="loader-container">
-                <div className="loader"></div>
-            </div>
-  ;
-  }
+  // Function to truncate description
+  const truncateDescription = (description, maxLength) => {
+    if (description.length > maxLength) {
+      return `${description.slice(0, maxLength)}...`;
+    }
+    return description;
+  };
+   // Function to format the date as "20 Sep 2024"
+   const formatDate = (dateString) => {
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+  };
+
+  // if (!blogDetails) {
+  //   return (
+  //     <div className="loader-container">
+  //       <div className="loader"></div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="Adminviewblog-blog-card-container">
@@ -88,12 +103,14 @@ const BlogCard = () => {
               </div>
               <div className="Adminviewblog-date-info-cnt">
                 <IoIosCalendar size="1.1rem" className="Adminviewblog-date-info-cnt-icon" />
-                <p className="Adminviewblog-blue-text">{new Date(blogDetails.date).toLocaleDateString()}</p>
+                <p className="Adminviewblog-blue-text">{formatDate(blogDetails.date)}</p>
               </div>
             </div>
             <div className="Adminviewblog-blog-content-preview-cnt">
               <h4>{blogDetails.title}</h4>
-              <p className="blog-preview-text">{blogDetails.description}</p> {/* Ensure description is styled appropriately */}
+               <p className="blog-preview-text" dangerouslySetInnerHTML={{
+                  __html: truncateDescription(blogDetails?.description,154)
+                }}></p>
             </div>
             <div className="Adminviewblog-readMore-cnt" onClick={handleBlogClick}>
               <h4>Read more in {blogDetails.readCount || 0} Minutes</h4>
@@ -104,18 +121,21 @@ const BlogCard = () => {
             </div>
             {activeBlog === id && (
               <div className="Adminviewblog-blogdetailstransition">
-                <BlogDetails blog={blogDetails} />
+                <BlogDetails 
+                  blog={blogDetails} 
+                  blogImage={blogImage}
+                  profilePicture={profilePicture}
+                />
                 <PostComment blogId={blogDetails._id} />
               </div>
             )}
           </div>
         </div>
       ) : (
-        <div className="Adminviewblog-placeholder">Loading blog details...</div>
+        <Loader/>
       )}
     </div>
   );
 };
 
 export default BlogCard;
-  

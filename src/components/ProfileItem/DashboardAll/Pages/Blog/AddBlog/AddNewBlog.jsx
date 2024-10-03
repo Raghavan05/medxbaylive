@@ -20,7 +20,7 @@ const AddNewBlog = ({loadBlogs}) => {
     image: null,
     save: false,
   });
-  
+  const [showPreview, setShowPreview] = useState(false); 
   const [conditions, setConditions] = useState([]); 
 
   const quillRef = useRef(null);
@@ -118,11 +118,11 @@ const AddNewBlog = ({loadBlogs}) => {
                 }
               />
               <p className="publish-blog-placeholder">
-                Blog Title
+   Title
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
-
+{/* 
             <div className="publish-blog-header">
               <input
                 type="text"
@@ -136,7 +136,7 @@ const AddNewBlog = ({loadBlogs}) => {
                 Author Name
                 <span style={{ color: "red" }}> *</span>
               </p>
-            </div>
+            </div> */}
 
             <div className="publish-blog-header">
               <select
@@ -147,7 +147,7 @@ const AddNewBlog = ({loadBlogs}) => {
                 }
               >
                 <option value="" disabled hidden>
-                  Choose Blog Category
+                  Choose Category
                 </option>
                 {categories.map((category, index) => (
                   <option key={index} value={category}>
@@ -156,14 +156,14 @@ const AddNewBlog = ({loadBlogs}) => {
                 ))}
               </select>
               <p className="publish-blog-placeholder">
-                Blog Category
+              Category
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
 
             <div className="publish-blog-header">
   <p className="publish-blog-placeholder">
-    Select Conditions
+Conditions
     <span style={{ color: "red" }}> *</span>
   </p>
   <select
@@ -187,9 +187,9 @@ const AddNewBlog = ({loadBlogs}) => {
       <option disabled>No conditions available</option>
     )}
   </select>
-  <p className="publish-blog-placeholder">
-   Blog Conditions
-  </p>
+  {/* <p className="publish-blog-placeholder">
+Conditions
+  </p> */}
 </div>
 
 
@@ -211,7 +211,7 @@ const AddNewBlog = ({loadBlogs}) => {
 
             <div className="publish-blog-header">
               <p className="publish-blog-placeholder-status">
-                Blog priority
+               priority
                 <span style={{ color: "red" }}> *</span>
               </p>
               <div className="publish-blog-check-aina">
@@ -290,9 +290,56 @@ const AddNewBlog = ({loadBlogs}) => {
             </div>
           </div>
 
+          <div className="preview-toggle">
+              <button
+                type="button"
+                onClick={() => setShowPreview(!showPreview)}
+                className="toggle-preview-button"
+              >
+                {showPreview ? "Hide Preview" : "Show Preview"}
+              </button>
+            </div>
+
+          {showPreview && (
+              <div className="blog-preview">
+                <h3>Preview</h3>
+                {newBlog.image && (
+                  <div>
+                    <strong>Image:</strong>
+                    <img
+                      src={URL.createObjectURL(newBlog.image)}
+                      alt="Blog"
+                      className="preview-image"
+                    />
+                  </div>
+                )}
+                <h2>{newBlog.title || "Blog Title"}</h2>
+                {/* <p><strong>Author:</strong> {newBlog.author || "Author Name"}</p> */}
+                <p><strong>Category:</strong> {newBlog.category || "Category"}</p>
+                <p>
+                  <strong>Conditions:</strong>{" "}
+                  {newBlog.selectedConditions.length > 0
+                    ? newBlog.selectedConditions.join(", ")
+                    : "No Conditions Selected"}
+                </p>
+                <p><strong>Tags:</strong> {newBlog.hashtags || "#tags"}</p>
+                <p><strong>Priority:</strong> {newBlog.priority || "Low"}</p>
+                <div>
+                  <strong>Description:</strong>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: newBlog.description || "<p>No description provided.</p>",
+                    }}
+                  />
+                </div>
+             
+              </div>
+            )}
+
+
           <div className="publish-button">
             <div className="publish-button-inside" onClick={handlePublish}>
-              <span>Publish Blog</span>
+              <span>Request Publish</span>
             </div>
             <div className="publish-button-inside" onClick={handleAddClick} 
             style={{ background: "#3334480D", color: "black" }} >

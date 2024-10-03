@@ -26,6 +26,7 @@ const AdminBlogUploadForm = () => {
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
   const [conditions, setConditions] = useState([]); 
+  const [showPreview, setShowPreview] = useState(false); 
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -125,7 +126,7 @@ const AdminBlogUploadForm = () => {
                 required
               />
               <p className="admin-create-blog-placeholder">
-                Blog Title
+           Title
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
@@ -139,7 +140,7 @@ const AdminBlogUploadForm = () => {
                 required
               >
                 <option value="" disabled hidden>
-                  Choose Blog Category
+                  Choose Category
                 </option>
                 {categories.map((category, index) => (
                   <option key={index} value={category}>
@@ -148,14 +149,14 @@ const AdminBlogUploadForm = () => {
                 ))}
               </select>
               <p className="admin-create-blog-placeholder">
-                Blog Category
+         Category
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
 
             <div className="publish-blog-header">
               <p className="publish-blog-placeholder">
-                Select Conditions
+ Conditions
                 <span style={{ color: "red" }}> *</span>
               </p>
               <select
@@ -179,9 +180,9 @@ const AdminBlogUploadForm = () => {
                   <option disabled>No conditions available</option>
                 )}
               </select>
-              <p className="publish-blog-placeholder">
-                Blog Conditions
-              </p>
+              {/* <p className="publish-blog-placeholder">
+        Conditions
+              </p> */}
             </div>
 
             <div className="admin-create-blog-header">
@@ -201,7 +202,7 @@ const AdminBlogUploadForm = () => {
 
             <div className="admin-create-blog-header">
               <p className="admin-create-blog-placeholder-status">
-                Blog Priority
+            Priority
                 <span style={{ color: "red" }}> *</span>
               </p>
               <div className="admin-create-blog-check-hilo">
@@ -302,6 +303,53 @@ const AdminBlogUploadForm = () => {
                 </p>
               </div>
             </div>
+
+            <div className="preview-toggle">
+              <button
+                type="button"
+                onClick={() => setShowPreview(!showPreview)}
+                className="toggle-preview-button"
+              >
+                {showPreview ? "Hide Preview" : "Show Preview"}
+              </button>
+            </div>
+
+          {showPreview && (
+              <div className="blog-preview">
+                <h3>Preview</h3>
+                {formData.image && (
+                  <div>
+                    <strong>Image:</strong>
+                    <img
+                      src={URL.createObjectURL(formData.image)}
+                      alt="Blog"
+                      className="preview-image"
+                    />
+                  </div>
+                )}
+                <h2>{formData.title || "Blog Title"}</h2>
+                {/* <p><strong>Author:</strong> {formData.author || "Author Name"}</p> */}
+                <p><strong>Category:</strong> {formData.category || "Category"}</p>
+                <p>
+                  <strong>Conditions:</strong>{" "}
+                  {formData.selectedConditions.length > 0
+                    ? formData.selectedConditions.join(", ")
+                    : "No Conditions Selected"}
+                </p>
+                <p><strong>Tags:</strong> {formData.hashtags || "#tags"}</p>
+                <p><strong>Priority:</strong> {formData.priority || "Low"}</p>
+                <div>
+                  <strong>Description:</strong>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: formData.description || "<p>No description provided.</p>",
+                    }}
+                  />
+                </div>
+             
+              </div>
+            )}
+
 
             <div className="admin-create-blog-button">
               <button type="submit" className="admin-create-blog-button-inside">
