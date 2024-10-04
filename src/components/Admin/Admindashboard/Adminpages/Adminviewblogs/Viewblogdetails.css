@@ -15,10 +15,10 @@
 .dashboard-page-item-review-head .review-scroll{}*/
 
 .Adminviewblog-blogs-cnt {
-  width: 100%;
-  display: flex;
+  width: 80%;
+  /* display: flex; */
   justify-content:center;
-  align-items:flex-start;
+  /* align-items:flex-start; */
   gap:20px;
 }
 

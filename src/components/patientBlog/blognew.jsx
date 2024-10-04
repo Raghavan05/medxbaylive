@@ -1,177 +1,332 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate, useParams } from 'react-router-dom'; // Import useNavigate
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { FaThumbsUp } from 'react-icons/fa';
-
+import profileimg from "../Assets/profileimg.png";
+import UserBlogComments from './UserBlogComments'
 import './blognew.css';
+import axios from 'axios';
 
-const NutritionTips = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+const Blognew = () => {
+  const { id } = useParams();
+  const [blogPageData, setBlogPageData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
+  const [authorData, setAuthorData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [newComment, setNewComment] = useState({ comment: '', save: false });
+  const [isCurrentFocus, setIsCurrentFocus] = useState(null);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [comments ,setComments] = useState([]);
 
-  const articlesData = [
-    {
-      id: 1,
-      image: '../Re.png', // Replace with actual URLs
-      category: 'TELEMEDICINE',
-      date: '05 June, 2024',
-      title: 'Free Checkup',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat convallis felis vitae tortor.',
-      link: '#'
-    },
-    {
-      id: 2,
-       image: '../Re.png', // Replace with actual URLs,
-      category: 'HEALTHCARE',
-      date: '10 July, 2024',
-      title: 'Health Insurance Benefits',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat convallis felis vitae tortor.',
-      link: '#'
-    },
-    {
-      id: 3,
-      image: '../Re.png', // Replace with actual URLs,
-      category: 'NUTRITION',
-      date: '18 August, 2024',
-      title: 'Healthy Diet Tips',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat convallis felis vitae tortor.',
-      link: '#'
+  const handlePublish = async (e) => {
+    e.preventDefault();
+
+    if (!newComment.comment.trim()) {
+      setErrorMsg('Please enter a comment');
+      return;
     }
-  ];
 
+    try {
+      // Sending a POST request to the backend
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/patient/blogs/comment/${blogPageData._id}`,
+        {
+          comment: newComment.comment,
+        },
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        // Success: Comment added
+        setNewComment({ comment: '', save: false }); // Clear the comment input
+        alert('Comment added successfully!');
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      setErrorMsg('Failed to post comment. Please try again.');
+    }
+  };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchdataforblogs = async () => {
+      try {
+        // Fetch blog categories and recent blogs
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/blogs`, { withCredentials: true });
+        const data = response.data;
+        if (response.ok) {
+          setLoading(false);
+        }
+        console.log(data);
+        setRelatedBlogs(data.recentBlogs);
+        setCategories(data.categories);
+
+        // Fetch blog post details
+        const blogPostresponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/blogs/view/${id}`, { withCredentials: true });
+        const blogData = blogPostresponse.data;
+        setBlogPageData(blogData.blog);
+  setComments(blogData.blog.comments)
+
+        
+
+        console.log(blogData.blog)
+
+        // Fetch author details if the blog has an author
+        if (blogPageData?.authorId) {
+          setLoading(false);
+          const id = blogPageData.authorId
+          const authordataResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/author/${id}`, { withCredentials: true });
+          setAuthorData(authordataResponse.data);
+          console.log(authordataResponse.data);
+        }
+
+      } catch (error) {
+        setLoading(false);
+
+        console.error('Error loading blog data:', error);
+      }
+    };
+    fetchdataforblogs();
+  }, [id, blogPageData?.authorId]);
+
+  console.log(blogPageData);
+  console.log(id);  
+
+
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
+  const getProfileImage = (formData) => {
+    if (formData?.data?.type === 'Buffer') {
+      return bufferToBase64(formData.data);
+    } else if (typeof formData?.data === 'string') {
+      return `data:image/jpeg;base64,${formData.data}`;
+    }
+  };
+
+  const bufferToBase64 = (buffer) => {
+    if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+      const bytes = new Uint8Array(buffer.data);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return `data:image/jpeg;base64,${btoa(binary)}`;
+    } else {
+      console.error('Unexpected buffer type:', typeof buffer);
+      return '';
+    }
+  };
+  const truncateDescription = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
+  };
+  const handleShowall = () => {
+    if (blogPageData?.conditions?.length > 0) {
+      navigate(`/blogs/ShowAll/${blogPageData.conditions[0]}`);
+    }
+  };
+  
+
+  if (loading) {
+    return (
+      <div className="blogPage-loading-screen">
+        <div className="blogPage-loading-spinner"></div>
+      </div>
+    );
+  }
   return (
     <Container className="nutrition-tips-container">
       {/* Back Button */}
-      <Button 
-         
-        onClick={() => navigate(-1)} // Go to the previous page
-        className="back-button"
-        style={{ marginBottom: '20px' }} // Optional styling
-      >
+      <Button onClick={() => navigate(-1)} className="back-button" style={{ marginBottom: '20px' }}>
         ← Back
       </Button>
 
       {/* Header Section */}
       <div className="nutrition-tips-header">
-        <h1 className="nutrition-tips-title">
-          Nutrition Tips and Hacks
-        </h1>
-        {/* <Button variant="contained" className="nutrition-tips-button">
-          Nutrition
-        </Button> */}
+        <h1 className="nutrition-tips-title">{blogPageData?.title}</h1>
       </div>
 
       {/* Subheader */}
       <p className="nutrition-tips-subheader">
         <span>
-          <img src="../Image.png" alt="Authoress" />
-        </span>&nbsp;  Dr. Tracey Wilson &nbsp; &nbsp;&nbsp;| &nbsp;&nbsp; August 20, 2024 &nbsp; |&nbsp;&nbsp; &nbsp;. 6 Minute Read &nbsp; |&nbsp;&nbsp; &nbsp;<span>
-          <img src="../heart.png" alt="Authoress" />
-        </span> &nbsp; 654K Views
+          <img className='small-profile' src={getProfileImage(authorData?.author?.profilePicture)} alt="Author" />
+        </span>
+        &nbsp; {blogPageData?.author} &nbsp; | &nbsp; August 20, 2024 &nbsp; | &nbsp; {blogPageData?.readCount} Read &nbsp; | &nbsp;{' '}
+        <span>
+          <img src="../heart.png" alt="Views" />
+        </span>
+        &nbsp;
+        {blogPageData?.views ? blogPageData?.readCount + " Views" : "654K Views"}
       </p>
 
       {/* Image Section */}
       <div className="nutrition-tips-image-container">
         <img
-          src="https://th.bing.com/th/id/OIP.FtLIstvQFyS67dC8qYWO3AHaCv?rs=1&pid=ImgDetMain"
-          alt="Doctor with fruits"
+          src={getProfileImage(blogPageData?.image)}
+          alt={blogPageData?.title || "Blog image"}
           className="nutrition-tips-image"
         />
       </div>
 
       {/* Content Section */}
       <div className="nutrition-tips-content">
-        {/* <h2 className="nutrition-tips-content-heading">Section 1.10.33 of “de Finibus Bonorum et Malorum”</h2> */}
-        <p style={{marginTop:"30px"}} className="nutrition-tips-content-paragraph">Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
-"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+        <div
+          dangerouslySetInnerHTML={{
+            __html: blogPageData?.description
+          }}
+        ></div>
+        {/* <p style={{ marginTop: '30px' }} className="nutrition-tips-content-paragraph">{blogPageData?.description || "No content available"}</p> */}
 
-1914 translation by H. Rackham
-"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-          aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-          eos qui ratione voluptatem sequi nesciunt.
+        {/* <p style={{ marginTop: '30px' }} className="nutrition-tips-content-paragraph">
+          Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
         </p>
-
         <h2 className="nutrition-tips-content-heading">Section 1.10.33 of "de Finibus Bonorum et Malorum"</h2>
         <p className="nutrition-tips-content-paragraph">
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
         </p>
 
         <h1 className="nutrition-tips-content-headings">Section</h1>
         <p className="nutrition-tips-content-paragraph">
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."</p>
-       
+          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+        </p>
+
         <h1 className="nutrition-tips-content-headings">Section 1.10.33</h1>
         <p className="nutrition-tips-content-paragraph">
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
-Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
-"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat
-        </p>
-      
+          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+        </p> */}
       </div>
+
+      {/* Social Media */}
       <div className="social-media-container">
-      <div className="social-icons">
-        <a href="#" className="icon">
-          <FaFacebook />
-        </a>
-        <a href="#" className="icon">
-          <FaTwitter />
-        </a>
-        <a href="#" className="icon">
-          <FaInstagram />
-        </a>
+        <div className="social-icons">
+          <a href="#" className="icon">
+            <FaFacebook />
+          </a>
+          <a href="#" className="icon">
+            <FaTwitter />
+          </a>
+          <a href="#" className="icon">
+            <FaInstagram />
+          </a>
+        </div>
+        <p className="helpful-text">
+          Was this helpful? &nbsp;&nbsp;
+          <span>
+            <FaThumbsUp style={{ fontSize: '24px', marginTop: '-10px' }} />
+          </span>
+        </p>
       </div>
-      <p className="helpful-text">Was this helpful? &nbsp;&nbsp;<span> <FaThumbsUp style={{ color: 'grey', fontSize: '24px',marginTop:"-10px" }} /></span></p>
+
+      {/* About Author */}
+      <div className="about-author-section">
+        <h1 className="nutrition-tips-content-headingse">About the Author</h1>
+        <div className="author-cards">
+          <img
+            src={getProfileImage(authorData?.author?.profilePicture)}
+            alt={authorData?.author?.name}
+            className="author-image"
+          />
+          <div className="author-info">
+            <h5 className="author-infos">{authorData?.author?.name}</h5>
+            <p style={{ color: '#787887' }}>
+              {authorData?.author?.speciality
+                .filter(speciality =>
+                  blogPageData?.conditions?.some(condition => condition.toLowerCase() === speciality.toLowerCase())
+                )
+                .map((matchedSpeciality, index, array) => (
+                  <span key={index}>
+                    {matchedSpeciality}
+                    {/* Add a comma between specialties only if there are more than one */}
+                    {array.length > 1 && index < array.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
+            </p>
+
+
+            <p style={{ color: '#787887' }}>{authorData?.author?.experience + " years experience overall" || "xy years experience overall"}</p>
+            <p style={{ color: '#272848', marginTop: '10px' }}>
+              <b>{authorData?.author?.state}, {authorData?.author?.country}</b>
+            </p>
+            <p style={{ color: '#272848' }}>{authorData?.author?.aboutMe}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Leave a Comment */}
+      <div className="UserBlog-leave-comment-cnt">
+      <h4 className="UserBlog-comments-title">Leave a Comment</h4>
+      <form onSubmit={handlePublish}>
+        <div className="UserBlog-textarea-comment-post">
+          <textarea
+            value={newComment.comment}
+            className="UserBlog-input-textarea-commit-post"
+            onFocus={() => setIsCurrentFocus("comment")}
+            onBlur={() => setIsCurrentFocus(null)}
+            onChange={(e) => setNewComment({ ...newComment, comment: e.target.value })}
+          />
+          <p
+            className={`UserBlog-input-placeholder-commit-post ${newComment.comment || isCurrentFocus === "comment" ? "focused" : ""}`}
+          >
+            Comment <span style={{ color: "red" }}> *</span>
+          </p>
+        </div>
+
+        <div className="UserBlog-comment-term-conformation-cnt">
+          <input
+            type="checkbox"
+            checked={newComment.save}
+            onChange={() => setNewComment({ ...newComment, save: !newComment.save })}
+            className="UserBlog-comment-checkbox"
+          />
+          <span className="UserBlog-checkbox-comment-txt">
+            Save my name, email, and website in this browser for the next time I comment.
+          </span>
+        </div>
+        <button type="submit" className="UserBlog-submit-button">Post Comment</button>
+      </form>
+      {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>} {/* Display error message */}
     </div>
+    {/* Comments */}
+    <UserBlogComments comments={comments} BlogPageData={blogPageData}/>
+      {/* Similar Articles */}
+      <div className="similar-articles-section">
+        <h2 className="nutrition-tips-content-headingse">Similar Articles</h2>
+        <div className="articles">
+          {relatedBlogs.slice(0,3).map((blog) => (
+            <div key={blog.id} className="article-card">
+              <img src={getProfileImage(blog.image)} alt={blog.title} className="article-image" />
+              <div className="article-info">
+                <span className="category">{blog.categories.map((category) => (
+                  category
+                ))}</span>
+                <span className="categorysimg"><img className="" src='../Vector.png' /></span>
+                <p className="date">{formatDate(blog.date)}</p>
+                <h3 className="article-title">{blog.title}</h3>
 
-        <div className="about-author-section">
-          <h1 className="nutrition-tips-content-headingse">
-            About the Author
-          </h1>
-          <div className="author-cards">
-            <img 
-              src="../has.png" // Replace with an actual image
-              alt="Author"
-              className="author-image"
-            />
-            <div className="author-info">
-              <h5 className="author-infos">Dr. Shantanu Jambhekar</h5>
-              <p style={{ color: "#787887" }}>Dentist</p>
-              <p style={{ color: "#787887" }}>16 years experience overall</p>
-              <p style={{ color: "#272848", marginTop: "10px" }}><b>Pare, Mumbai</b></p>
-              <p style={{ color: "#272848" }}>Smilescence Center for Advanced Dentistry</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Similar Articles Section */}
-        <div className="similar-articles-section">
-          <h2 className="nutrition-tips-content-headingse">Similar Articles</h2>
-          <div className="articles">
-            {articlesData.map(article => (
-              <div key={article.id} className="article-card">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="article-image"
-                />
-                <div className="article-info">
-                  <span className="category">{article.category}</span>
-                  <span className="categorysimg"><img className="" src='../Vector.png' /></span> 
-                  <p className="date">{article.date}</p>
-                  <h3>{article.title}</h3>
-                  <p>{article.description}</p>
-                  <a href={article.link} className="learn-more">Learn More -></a>
-                </div>
+                <p dangerouslySetInnerHTML={{
+                  __html: truncateDescription(blogPageData?.description, 20)
+                }}></p>
+                <a href={blog.link} className="learn-more">Learn More </a>
               </div>
-            ))}
-          </div>
-          <button className="view-all">View All</button>
+
+
+            </div>
+          ))}
         </div>
-      
+        <button className="view-all"onClick={handleShowall}>
+        view all
+      </button>
+      </div>
     </Container>
   );
 };
 
-export default NutritionTips;
+export default Blognew;

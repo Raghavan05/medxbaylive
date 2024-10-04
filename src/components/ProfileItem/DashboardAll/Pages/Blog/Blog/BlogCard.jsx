@@ -20,11 +20,10 @@ const bufferToBase64 = (buffer) => {
   }
 };
 
-const BlogCard = ({blogData,loadBlogs}) => {
+const BlogCard = ({ blogData, loadBlogs }) => {
   const [activeBlog, setActiveBlog] = useState(null);
 
   const getProfileImage = (formData) => {
-  
     if (formData?.data?.type === 'Buffer') {
       return bufferToBase64(formData.data);
     } else if (typeof formData?.data === 'string') {
@@ -33,10 +32,9 @@ const BlogCard = ({blogData,loadBlogs}) => {
       return profileImage;
     }
   };
-  
 
   const handleBlogClick = (id) => {
-    setActiveBlog((prev) => (prev == id ? null : id));
+    setActiveBlog((prev) => (prev === id ? null : id));
   };
 
   const blogs = Array.isArray(blogData) ? blogData : [blogData];
@@ -49,8 +47,10 @@ const BlogCard = ({blogData,loadBlogs}) => {
           className="blog-card-wrapper"
           style={{ display: activeBlog && activeBlog !== blog._id ? 'none' : 'block' }}
         >
-          <div  className="blog-card-cnt">
-            <img src={getProfileImage(blog.image)} alt="blog" className="blog-card-img" />
+          <div className="blog-card-cnt">
+            {!activeBlog || activeBlog !== blog._id ? (
+              <img src={getProfileImage(blog.image)} alt="blog" className="blog-card-img" />
+            ) : null}
             <div className="blog-card-profileInfo-cnt">
               <div className="profileInfo-cnt">
                 <img
@@ -79,12 +79,11 @@ const BlogCard = ({blogData,loadBlogs}) => {
                 className="readMore-cnt-icon"
               />
             </div>
-            {activeBlog == blog._id && (
+            {activeBlog === blog._id && (
               <div className="blogdetailstransition">
                 <BlogDetails blog={blog} />
                 <PostComment id={blog._id} loadBlogs={loadBlogs} />
               </div>
-               
             )}
           </div>
         </div>

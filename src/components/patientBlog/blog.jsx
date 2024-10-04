@@ -3,7 +3,8 @@ import "./blog.css";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import moment from "moment";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import DOMPurify from 'dompurify';
 
 const VerifiedTick = () => (
   <div className="blogPageVerifiedTick">
@@ -193,19 +194,20 @@ const Blog = () => {
   const [featuredBlog, setFeaturedBlog] = useState([]);
   const [sideFeatureBlog, setSideFeatureBlog] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const loadBlogs = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${condition}`
+      , { withCredentials: true }
     );
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data) {
       setLoading(false);
       var data = response.data;
       setHastags(data.hashtags);
       if (Array.isArray(data.blogsByCategory)) {
         setCategoryData(data.blogsByCategory);
-        // console.log(categoryData)
       } else {
         setCategoryData(0); // Or handle as needed
       }
@@ -215,34 +217,51 @@ const Blog = () => {
       // setBlogData(response.data);
       setTempBlog(response.data);
       setCategories(data.blogsByCategory);
-      console.log(categories)
       const sortedBlogs = data.topPriorityBlogs.sort(
         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );
       setFeaturedBlog(sortedBlogs[0]);
-      setSideFeatureBlog(sortedBlogs.slice(1));
+      setSideFeatureBlog(sortedBlogs);
     } else {
       setLoading(false);
       setBlogData([]);
     }
   };
+  console.log(categoryData)
+  console.log(categories)
+
 
   useEffect(() => {
     loadBlogs();
   }, []);
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start", // Align the section to the start
+      });
 
-  const tagData = [
-    "Endodontics (10)",
-    "Endodontics (15)",
-    "Neurology (70)",
-    "Insurance (16)",
-    "Dental (60)",
-    "Neurology (70)",
-    "Diabetes (10)",
-    "Dermotology (15)",
-    "Stress (25)",
-    "blood pressure (25)",
-  ];
+      // Apply an offset (e.g., 50px) after the smooth scroll is complete
+      setTimeout(() => {
+        const offset = 280;
+        window.scrollBy({ top: -offset, behavior: "smooth" });
+      }, 500); // Slight delay to ensure smooth scroll completes
+    }
+  };
+  const truncateDescription = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
+  };
+
+
+
+    // Filter the categoryData based on the search query
+    const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
+      const categoryName = count._id[0].toLowerCase(); // Get the category name
+      return categoryName.includes(searchQuery.toLowerCase()); // Filter by search query
+    });
 
   if (loading) {
     return (
@@ -253,191 +272,277 @@ const Blog = () => {
   }
 
   return (
-    <div className="blogPageOuterBox">
-      <div className="blogPageHeading">CONDITION LIBRARIES</div>
-      <div className="blogPageBox">
-        <div className="blogPageLHS">
-          <div className="blogPageFeaturedBoxOuter">
-            <div className="blogPageFeaturedHeading">Featured</div>
-            <div className="blogPageFeaturedBox">
-              <div className="blogPageFeaturedLHS">
-                <img
-                  src={getProfileImage(featuredBlog?.image)}
-                  alt="Featured Img"
-                />
-                <div>
-                  <div>
-                    {featuredBlog?.title
-                      ? featuredBlog.title.length > 85
-                        ? featuredBlog.title.substring(0, 85) + "..."
-                        : featuredBlog.title
-                      : "No Title Available"}
-                  </div>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: featuredBlog?.description
-                        ? featuredBlog.description.length > 140
-                          ? featuredBlog.description.substring(0, 140) + "..."
-                          : featuredBlog.description
-                        : "No Description Available",
-                    }}
-                  ></div>
+    <>
+      {/* Navbar Section with Image Background */}
+      <div className="condition-banner-container">
+        <h1>CONDITION LIBRARIES</h1>
+        <p>Content and tools to explore treatment, causes and care options for Condition libraries</p>
+        <div className="condition-nav-tabs">
+          <a href="#overview" className="active" onClick={() => scrollToSection("overview")}>Overview</a>
+          {Object.entries(categoryData)
+            .map(([_, count], i) => {
+              const categoryName = count._id[0]; // Assuming _id holds the category name
+              const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+
+              return (
+                <div key={i}>
+                  <a href={`#${sanitizedCategoryName}`} onClick={() => scrollToSection(sanitizedCategoryName)}>{categoryName}</a>
                 </div>
-              </div>
-              <div className="blogPageFeaturedRHS">
-                <BlogMiniCard data={sideFeatureBlog} />
-              </div>
-            </div>
-          </div>
-          {Object.entries(categories)
-  .slice(0, 1)
-  .map(([name, value], index) => (
-    <BlogBiggerCard
-      key={index}
-      title={value._id}
-      shorter={true}
-      data={Array.isArray(value.blogs) ? value.blogs.slice(0, 2) : []}  // Ensure value.blogs is an array
-    />
-  ))}
-
-{Object.entries(categories)
-  .slice(1, 2)
-  .map(([name, value], index) => (
-    <BlogBiggerCard
-      key={index}
-      shorter={true}
-      title={value._id}
-      data={Array.isArray(value.blogs) ? value.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
-    />
-  ))}
-
-{Object.entries(categories)
-  .slice(3, 4)
-  .map(([name, value], index) => (
-    <BlogBiggerCard
-      key={index}
-      shorter={true}
-      title={value._id}
-      data={Array.isArray(value.blogs) ? value.blogs.slice(0, 1) : []}  // Ensure value.blogs is an array
-    />
-  ))}
-
-
-        </div>
-        <div className="blogPageRHS">
-          <div className="blogPageSearchBox">
-            <input type="text" placeholder="Search here..." />
-            <SearchIcon />
-          </div>
-          <div className="blogPageRHSContent">
-            <div className="blogPageTagBoxOuter">
-              <div className="blogPageTagHeading">Categories</div>
-              {Object.entries(categoryData)
-                .sort(() => 0.5 - Math.random())
-                .slice(0, 5)
-                .map(([_, count], i) => {
-                  const categoryName = count._id[0] || "Unknown Category"; // Assuming _id holds the category name
-                  const blogCount = count.blogs.length || 0; // Count the number of blogs
-                  return (
-                    <div className="blogPageTag" key={i}>
-                      <TagIcon />
-                      <div>
-                        {categoryName} ({blogCount})
-                      </div>
-                    </div>
-                  );
-                })}
-
-            </div>
-
-            <BlogSmallCard
-              title={"Recent Blog"}
-              data={recentBlog.slice(0, 4)}
-              showAllLink={`/blogs/showAll`}
-            />
-            <BlogSmallCard
-              title={"Most Reads"}
-              data={mostReadBlog.slice(0, 3)}
-              showAllLink={`/blogs/showAll`}
-            />
-            <BlogSmallCard
-              title={"Recommended Reading"}
-              data={mostReadBlog.slice(0, 2)}
-              showAllLink={`/blogs/showAll`}
-            />
-
-            <div className="blogPageRHS-defaultCardBox">
-              <div className="blogPageRHS-defaultCardBoxHeader">
-                <div className="blogPageRHS-defaultCardBoxTitle">Tags</div>
-                <a href="http://google.com" alt="#">
-                  Show All
-                </a>
-              </div>
-              <div className="blogPagetags-chips">
-                {hashtags.slice(0, 10).map((tag, index) => (
-                  <div key={index} className="blogPagetags-chip">
-                    <div className="blogPagetags-chip-text"> {tag._id}</div>
-                    {/* <FaTimes className="blogPagetags-chip-close" /> */}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+              );
+            })}
+          <a href="#Top-doctors" onClick={() => scrollToSection("Top-doctors")}>Top doctors</a>
+          <a href="/Filters">Find a Doctor</a>
         </div>
       </div>
+      <div className="blogPageOuterBox">
+        <div className="blogPageBox">
+          <div className="blogPageLHS">
+            <div className="blogPageFeaturedBoxOuter">
+              <div className="blogPageFeaturedHeading">Featured</div>
+              <div className="blogPageFeaturedBox">
+                <div className="blogPageFeaturedLHS">
+                  <Link to={`/blogPost/${featuredBlog._id}`} >
 
-      {Object.entries(categories)
-        .slice(-2, -1)
-        .map(([name, value], index) => (
-          <BlogBiggerCard
-            key={index}
-            showAllLink={`/blogs/showAll`}
-            title={value._id}
-            data={Array.isArray(value.blogs) ? value.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
-          />
-        ))}
+                    <img
+                      src={getProfileImage(featuredBlog?.image)}
+                      alt="Featured Img"
+                    />
+                  </Link>
+                  <div>
+                    <div >
+                      <Link to={`/blogPost/${featuredBlog._id}`} className="text-decoration-none " style={{ color: "#000" }}>
 
-      <BlogDoctorCard
-        title="Top high blood pressure specialists"
-        data={topRatedDoctors}
-      />
+                        {featuredBlog?.title
+                          ? featuredBlog.title.length > 85
+                            ? featuredBlog.title.substring(0, 85) + "..."
+                            : featuredBlog.title
+                          : "No Title Available"}
+                      </Link>
+                    </div>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: featuredBlog?.description
+                          ? featuredBlog.description.length > 140
+                            ? truncateDescription(featuredBlog.description, 20)
+                            : featuredBlog.description
+                          : "No Description Available",
+                      }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="blogPageFeaturedRHS">
+                  <BlogMiniCard data={sideFeatureBlog} />
+                </div>
+              </div>
+            </div>
+          
+            {filteredCategories.slice(0, 1)
+              .map(([index, count], i) => {
+                const categoryName = count._id[0]; // Assuming _id holds the category name
+                const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
 
-      {Object.entries(categories)
-        .slice(-1)
-        .map(([name, value], index) => (
-          <BlogBiggerCard
-            key={index}
-            showAllLink={`/blogs/showAll`}
-            title={value._id}
-            data={Array.isArray(value.blogs) ? value.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
-          />
-        ))}
+                return (
+                  <BlogBiggerCard
+                    id={sanitizedCategoryName}
+                    key={index}
+                    conditionParams = {condition}
+                    title={count._id}
+                    shorter={true}
+                    data={Array.isArray(count.blogs) ? count.blogs.slice(0, 2) : []}  // Ensure value.blogs is an array
+                  />
+                );
+              })}
 
-      {Object.entries(categories)
-        .slice(-2, -1)
-        .map(([name, value], index) => (
-          <BlogLargerCard
-            key={index}
-            showAllLink={`/blogs/showAll`}
-            title={value._id}
-            data={Array.isArray(value.blogs) ? value.blogs.slice(0, 3) : []}  // Ensure value is an array
-          />
-        ))}
-    </div>
+            {filteredCategories.slice(1, 2)
+              .map(([index, count], i) => {
+                const categoryName = count._id[0]; // Assuming _id holds the category name
+                const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+
+                return (
+                  <BlogBiggerCard
+                    id={sanitizedCategoryName}
+                    key={index}
+                    title={count._id}
+                    shorter={true}
+                    data={Array.isArray(count.blogs) ? count.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
+                  />
+                );
+              })}
+
+          
+            {filteredCategories.slice(3, 4)
+              .map(([index, count], i) => {
+                const categoryName = count._id[0]; // Assuming _id holds the category name
+                const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+
+                return (
+                  <BlogBiggerCard
+                    id={sanitizedCategoryName}
+                    key={index}
+                    title={count._id}
+                    shorter={true}
+                    data={Array.isArray(count.blogs) ? count.blogs.slice(0, 1) : []}  // Ensure value.blogs is an array
+                  />
+                );
+              })}
+
+
+
+          </div>
+          <div className="blogPageRHS">
+            {/* Search bar */}
+            <div className="blogPageSearchBox">
+              <input
+                type="text"
+                placeholder="Search here..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
+              />
+              <SearchIcon />
+            </div>
+            <div className="blogPageRHSContent">
+              <div className="blogPageTagBoxOuter">
+                <div className="blogPageTagHeading">Categories</div>
+                {filteredCategories.sort(() => 0.5 - Math.random())
+                  .slice(0, 5)
+                  .map(([_, count], i) => {
+                    const categoryName = count._id[0] || "Unknown Category"; // Assuming _id holds the category name
+                    const blogCount = count.blogs.length || 0; // Count the number of blogs
+                    return (
+                      <div className="blogPageTag" key={i}>
+                        <TagIcon />
+                        <div>
+                          {categoryName} ({blogCount})
+                        </div>
+                      </div>
+                    );
+                  })}
+
+              </div>
+
+              <BlogSmallCard
+                title={"Recent Blog"}
+                data={recentBlog.slice(0, 4)}
+                showAllLink={`/blogs/showAll`}
+              />
+              <BlogSmallCard
+                title={"Most Reads"}
+                data={mostReadBlog.slice(0, 3)}
+                showAllLink={`/blogs/showAll`}
+              />
+              <BlogSmallCard
+                title={"Recommended Reading"}
+                data={mostReadBlog.slice(0, 2)}
+                showAllLink={`/blogs/showAll`}
+              />
+
+              <div className="blogPageRHS-defaultCardBox">
+                <div className="blogPageRHS-defaultCardBoxHeader">
+                  <div className="blogPageRHS-defaultCardBoxTitle">Tags</div>
+                  {/* <a href="http://google.com" alt="#">
+                    Show All
+                  </a> */}
+                </div>
+                <div className="blogPagetags-chips">
+                  {hashtags.slice(0, 10).map((tag, index) => (
+                    <div key={index} className="blogPagetags-chip">
+                      <div className="blogPagetags-chip-text"> {tag._id}</div>
+                      {/* <FaTimes className="blogPagetags-chip-close" /> */}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <BlogDoctorCard
+          title="Top high blood pressure specialists"
+          data={topRatedDoctors}
+        />
+
+        {filteredCategories.slice(-2, -1)
+
+          .map(([index, count], i) => {
+            const categoryName = count._id[0]; // Assuming _id holds the category name
+            const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+
+            return (
+              <BlogBiggerCard
+                id={sanitizedCategoryName}
+                key={index}
+                title={count._id}
+                shorter={true}
+                data={Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
+              />
+            );
+          })}
+      
+        {filteredCategories.slice(-1)
+          .map(([index, count], i) => {
+            const categoryName = count._id[0]; // Assuming _id holds the category name
+            const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+
+            return (
+              <BlogBiggerCard
+                id={sanitizedCategoryName}
+                key={index}
+                title={count._id}
+                shorter={true}
+                data={Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
+              />
+            );
+          })}
+
+        
+        {filteredCategories.slice(-2, -1)
+
+          .map(([index, count], i) => {
+            const categoryName = count._id[0]; // Assuming _id holds the category name
+            const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+
+            return (
+              <BlogLargerCard
+                id={sanitizedCategoryName}
+                key={index}
+                title={count._id}
+                shorter={true}
+                data={Array.isArray(count.blogs) ? count.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
+              />
+            );
+          })}
+      </div>
+    </>
   );
 };
 
-const BlogLargerCard = ({ title, data, showAllLink }) => {
+const BlogLargerCard = ({ id, title, data }) => {
+  // State to control the number of visible blogs
+  const [visibleBlogs, setVisibleBlogs] = useState(1);
+  const [loadMoreClicked, setLoadMoreClicked] = useState(false); // Track whether 'Load More' was clicked
+  const navigate = useNavigate(); // For programmatic navigation
+
+  // Function to handle the 'Load More' click
+  const handleLoadMore = () => {
+    if (!loadMoreClicked) {
+      // If 'Load More' was not clicked, show 2 more blogs
+      setVisibleBlogs(visibleBlogs + 1);
+      setLoadMoreClicked(true); // Update the state to change button to "Show All"
+    } else {
+      // Redirect to show all page when 'Show All' is clicked
+      navigate('/blogs/showAll');
+    }
+  };
+
   return (
-    <div className="blogPageDefaultCardOuter">
+    <div className="blogPageDefaultCardOuter" id={id}>
       <div className="blogPageDefaultCardHeader">
         <div className="blogPageDefaultCardHeading">{title}</div>
-        {/* <a href={showAllLink} alt="ggle">
-          Show All
-        </a> */}
       </div>
       <div className="blogPageLargerCardBox">
-        {data.slice(0, 3).map((x, index) => (
+        {data.slice(0, visibleBlogs).map((x, index) => (
           <div className="blogPageLargerCard" key={index}>
             <div className="blogPageLargerCardLHS">
               <img src={getProfileImage(x.image)} alt={x.title} />
@@ -453,27 +558,20 @@ const BlogLargerCard = ({ title, data, showAllLink }) => {
               <div
                 className="blogPageLargerCardDesc"
                 dangerouslySetInnerHTML={{
-                  __html: x?.description
+                  __html: DOMPurify.sanitize(x?.description)
                     ? x.description.length > 195
-                      ? x.description.substring(0, 195) + "..."
-                      : x.description
+                      ? x.description.substring(0, 190) + "..."
+                      : DOMPurify.sanitize(x.description)
                     : "No Description Available",
                 }}
-              >
-                {/* {x.description.length > 195
-                  ? `${x.description.substring(0, 195)}...`
-                  : x.description} */}
-              </div>
-              <div className=" blogPageLargerCardAuthor">By {x.author}</div>
+              />
+              <div className="blogPageLargerCardAuthor">By {x.author}</div>
               <div className="blogPageLargerCardDate">
-                {x.date}
                 {moment(x.date).format("MMMM DD, YYYY")}
               </div>
-
               <Link
                 to={`/blogPost/${x._id}`}
                 className="blogPageLargerCardRead"
-                alt="alter"
               >
                 Read more in 10 Minutes ⟶
               </Link>
@@ -481,26 +579,27 @@ const BlogLargerCard = ({ title, data, showAllLink }) => {
           </div>
         ))}
       </div>
-      <Link className="blogPageLoadMoreBtn" to={`/blogs/showAll`}>
-        Load more...
-      </Link>
+
+      {/* Load More/Show All button */}
+      {visibleBlogs && (
+        <button className="blogPageLoadMoreBtn" onClick={handleLoadMore}>
+          {loadMoreClicked ? "Show All" : "Load more..."}
+        </button>
+      )}
     </div>
   );
 };
 
-const BlogDoctorCard = ({ title, data, showAllLink = "http://google.com" }) => {
+const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" }) => {
   return (
-    <div className="blogPageDefaultCardOuter">
+    <div className="blogPageDefaultCardOuter section" id="Top-doctors">
       <div className="blogPageDefaultCardHeader">
         <div className="blogPageDefaultCardHeading">{title}</div>
-        {/* <a href={showAllLink}alt="ggle">
-          Show All
-        </a> */}
       </div>
 
-      <div className="blogPageDoctorCardBox">
+      <div className="blogPageDoctorCardBox ">
         {data.slice(0, 4).map((x, index) => (
-          <div className="blogPageDoctorCard" key={index}>
+          <div className="blogPageDoctorCard " key={index}>
             <div className="blogPageDoctorCardImgBox">
               <img src={getProfileImage(x.profilePicture)} alt={x.name} />
               <VerifiedTick />
@@ -521,9 +620,6 @@ const BlogDoctorCard = ({ title, data, showAllLink = "http://google.com" }) => {
               "NO DATA" years experience
             </div>
             <div className="blogPageDoctorCardDesc">
-              {/* {x.conditions.length > 140
-                ? `${x.conditions.substring(0, 140)}...`
-                : x.conditions} */}
               {x.conditions.join(" ").length > 140
                 ? `${x.conditions.join(" ").substring(0, 140)}...`
                 : x.conditions.join(" ")}
@@ -536,20 +632,23 @@ const BlogDoctorCard = ({ title, data, showAllLink = "http://google.com" }) => {
   );
 };
 
+
 const BlogMiniCard = ({ data }) => {
   return (
     <>
-      {data.map((x, index) => {
+      {data.slice(1).map((x, index) => {
         return (
-          <div className="blogPageFeaturedRHSCard" key={index}>
+          <div className="blogPageFeaturedRHSCard" key={index + 1}>
             <img src={getProfileImage(x.image)} alt={x.title} />
             <div>
               <div>
-                {x?.title
-                  ? x.title.length > 77
-                    ? `${x.title.substring(0, 77)}...`
-                    : x.title
-                  : "No Title Available"}
+                <Link to={`/blogPost/${x._id}`} className="text-decoration-none text-dark">
+                  {x?.title
+                    ? x.title.length > 77
+                      ? `${x.title.substring(0, 77)}...`
+                      : x.title
+                    : "No Title Available"}
+                </Link>
               </div>
               <div>{moment(x.date).format("MMMM DD, YYYY")}</div>
             </div>
@@ -561,52 +660,61 @@ const BlogMiniCard = ({ data }) => {
 };
 
 const BlogBiggerCard = ({
+  id,
   title,
   data,
-  showAllLink = "/blogs/showAll",
+  conditionParams,
+  showAllLink = `/blogs/showAll/${conditionParams}/${title}`,
   shorter = false,
 }) => {
   return (
     <div
-      className="blogPageDefaultCardOuter"
+      className="blogPageDefaultCardOuter section"
       style={{ width: shorter ? "84%" : "100%" }}
     >
       <div className="blogPageDefaultCardHeader">
         <div className="blogPageDefaultCardHeading">{title}</div>
-        <a href={showAllLink} alt="Showall link">
+        {/* <a href={showAllLink} alt="Showall link">
           Show All
-        </a>
+        </a> */}
       </div>
       <div className="blogPageDefaultCardBox">
         {data.map((x, index) => (
-          <div className="blogPageDefaultCard" key={index}>
+          <div className="blogPageDefaultCard" key={index} id={id}>
             <div className="blogPageDefaultCardLHS">
-              <img src={getProfileImage(x.image)} alt={x.title} />
+              {/* Wrap the image with a Link */}
+              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
+                <img src={getProfileImage(x.image)} alt={x.title} />
+              </Link>
               <div className="blogPageDefaultCardAuthor">By {x.author}</div>
               <div className="blogPageDefaultCardDate">
                 {moment(x.date).format("MMMM DD, YYYY")}
               </div>
             </div>
             <div className="blogPageDefaultCardRHS">
-              <div>
-                {x?.title
-                  ? x.title.length > 65
-                    ? `${x.title.substring(0, 65)}...`
-                    : x.title
-                  : "No Title Available"}
-              </div>
+              {/* Wrap the title with a Link */}
+              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
+                <div>
+                  {x?.title
+                    ? x.title.length > 65
+                      ? `${x.title.substring(0, 65)}...`
+                      : x.title
+                    : "No Title Available"}
+                </div>
+              </Link>
 
               <div
                 dangerouslySetInnerHTML={{
-                  __html: x?.description
+                  __html: DOMPurify.sanitize(x?.description)
                     ? x.description.length > 220
                       ? x.description.substring(0, 220) + "..."
-                      : x.description
+                      : DOMPurify.sanitize(x.description)
                     : "No Description Available",
                 }}
               ></div>
 
-              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
+              {/* Read more link */}
+              <Link to={`/blogPost/${x._id}`} alt={x?.title} className="read-more-link">
                 Read more in 10 Minutes ⟶
               </Link>
             </div>
@@ -616,39 +724,46 @@ const BlogBiggerCard = ({
     </div>
   );
 };
-
 const BlogSmallCard = ({ title, data, showAllLink }) => {
   return (
     <div className="blogPageRHS-defaultCardBox">
       <div className="blogPageRHS-defaultCardBoxHeader">
         <div className="blogPageRHS-defaultCardBoxTitle">{title}</div>
-        <Link to={showAllLink}>Show All</Link>{" "}
+        {/* <Link to={showAllLink}>Show All</Link>{" "} */}
       </div>
       <div className="blogPageRHS-defaultCard-grid">
         {data.map((x, index) => (
           <div key={index} className="blogPageRHS-defaultCard">
             <div className="blogPageRHS-defaultCard-left">
-              <img
-                src={getProfileImage(x?.image)}
-                alt={x?.title}
-                className="blogPageRHS-defaultCard-image"
-              />
+              <Link to={`/blogPost/${x._id}`} className="text-decoration-none text-dark">
+                <img
+                  src={getProfileImage(x?.image)}
+                  alt={x?.title}
+                  className="blogPageRHS-defaultCard-image"
+                />
+              </Link>
             </div>
             <div className="blogPageRHS-defaultCard-right">
               <div className="blogPageRHS-defaultCard-flex">
                 <div className="blogPageRHS-defaultCard-chips">
-                  {x?.categories[0]}
+                  <Link to={`/blogPost/${x._id}`} className="text-decoration-none text-dark">
+
+                    {x?.categories[0]}
+                  </Link>
                 </div>
                 <div className="blogPageRHS-defaultCard-date">
                   {moment(x?.date).format("MMM DD, YYYY")}
                 </div>
               </div>
               <div className="blogPageRHS-defaultCard-title">
-                {x?.title
-                  ? x.title.length > 45
-                    ? `${x.title.substring(0, 45)}...`
-                    : x.title
-                  : "No Title Available"}
+                <Link to={`/blogPost/${x._id}`} className="text-decoration-none text-dark">
+
+                  {x?.title
+                    ? x.title.length > 45
+                      ? `${x.title.substring(0, 45)}...`
+                      : x.title
+                    : "No Title Available"}
+                </Link>
               </div>
               <Link to={`/blogPost/${x._id}`}>
                 <div className="blogPageRHS-defaultCard-readmore">

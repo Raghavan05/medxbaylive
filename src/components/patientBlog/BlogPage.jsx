@@ -13,6 +13,7 @@ import profileimg from "../Assets/profileimg.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import DOMPurify from 'dompurify';
 
 const BlogPage = () => {
   const { id } = useParams();
@@ -44,7 +45,6 @@ const BlogPage = () => {
 
 
   useEffect(() => {
-    console.log('useeffect called')
     loadData();
   }, [id]);
 
@@ -78,8 +78,6 @@ const BlogPage = () => {
     }
   };
 
-
-
   return (
     <div className="blog-page-container">
       <div className="blog-content">
@@ -91,7 +89,7 @@ const BlogPage = () => {
             className="blog-image"
           />
 
-          <p className="blog-paragraph" dangerouslySetInnerHTML={{ __html: blogPageData?.description }} />
+<p className="blog-paragraph" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blogPageData?.description) }} />
 
         </div>
         <div className="author-info-container">

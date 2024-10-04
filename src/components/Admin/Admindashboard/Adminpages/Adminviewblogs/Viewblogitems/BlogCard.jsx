@@ -88,7 +88,9 @@ const BlogCard = () => {
       {blogDetails ? (
         <div className="Adminviewblog-blog-card-wrapper">
           <div className="Adminviewblog-blog-card-cnt">
-            <img src={blogImage || ''} alt="blog" className="Adminviewblog-blog-card-img" />
+          {activeBlog !== id && (
+              <img src={blogImage || ''} alt="blog" className="Adminviewblog-blog-card-img" />
+            )}
             <div className="Adminviewblog-blog-card-profileInfo-cnt">
               <div className="Adminviewblog-profileInfo-cnt">
                 <img
@@ -108,9 +110,11 @@ const BlogCard = () => {
             </div>
             <div className="Adminviewblog-blog-content-preview-cnt">
               <h4>{blogDetails.title}</h4>
-               <p className="blog-preview-text" dangerouslySetInnerHTML={{
+               <p className="blog-preview-text" 
+               dangerouslySetInnerHTML={{
                   __html: truncateDescription(blogDetails?.description,154)
-                }}></p>
+                }}
+                ></p>
             </div>
             <div className="Adminviewblog-readMore-cnt" onClick={handleBlogClick}>
               <h4>Read more in {blogDetails.readCount || 0} Minutes</h4>

@@ -135,7 +135,7 @@ const Adminsidebar = () => {
         >
           <Link to="/admin/dashboardpage/admin-viewblog" className="menu-link">
             <div className="sidebar-icon"><MdWallpaper /></div>
-            <span>View Blogs</span>
+            <span>Manage Library</span>
           </Link>
         </li>
         <li 

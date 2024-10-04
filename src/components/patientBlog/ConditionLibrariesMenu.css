@@ -7,10 +7,10 @@
     font-size: 2.0rem;  
     margin-bottom: 10px;
   }
-  
-.condition-lib-head1 span {
-  color:#0067FF;
-}
+  .condition-lib-head1 span{
+    color: #0067FF;
+  }
+
   
   .popular-conditions-heading {
     display: inline-block;
@@ -31,7 +31,14 @@
     left: 0;
     border-radius: 10px;
   }
-  
+  .popular-condition-name{
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .popular-condition-name:hover{
+    color: #0067FF;
+  }
+
   .allConditionsConditionLibraries {
     display: inline-block;
     font-weight: bold;
@@ -87,3 +94,4 @@
     font-weight: bold;
   }
   
+ 

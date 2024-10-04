@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // To navigate on condition click
 import axios from 'axios';
 import condtionLibImage from './ConditionLibImage.png';
-import asthma from '../../assests/asthma-condition.jpg'
+import asthma from '../../assests/img/asthma-condition.jpg'
+import Diabetes from '../../assests/img/diabetes-conditions.jpg'
+import viral_Infections from '../../assests/img/virusInfectionConditions.jpg'
+import Womens_Health from '../../assests/img/WomensHealthCondition.jpg'
+import Mens_Health from '../../assests/img/mensHealth-condition.jpg'
+import brain from '../../assests/img/brain-condition.jpg'
 import './ConditionLibrariesMenu.css'
 
 const Conditions = () => {
@@ -17,21 +22,28 @@ const Conditions = () => {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions`, {
                     withCredentials: true
                 });
-                setAllConditions(response.data.conditions);
+    
+                // Map condition strings to objects with `name` and `count` properties
+                const conditionsWithNamesAndCount = response.data.conditions.map(condition => ({
+                    name: condition,
+                    count: response.data.categoryCountMapObj[condition] || 0 // Get count from the categoryCountMapObj
+                }));
+                
+                setAllConditions(conditionsWithNamesAndCount);
             } catch (err) {
                 console.error('Error fetching conditions:', err);
             }
         };
         fetchConditions();
     }, []);
-
+    
     useEffect(() => {
         const popular = allConditions.slice(0, 6);
         setPopularConditions(popular);
     }, [allConditions]);
 
     const filteredConditions = allConditions.filter(condition =>
-        condition.name.toLowerCase().includes(searchTerm.toLowerCase())
+        condition?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Handle condition click
@@ -43,9 +55,9 @@ const Conditions = () => {
         <div className="container mt-5">
             <div className='row'>
                 <div className='col-8'>
-                    <img src={condtionLibImage} alt="Condition Library" />
+                    {/* <img src={condtionLibImage} alt="Condition Library" /> */}
                     <div className="mb-5">
-                        <h2 className="condition-lib-head1">Conditions <span>Libraries </span></h2>
+                        <h2 className="condition-lib-head1">Conditions <span>Libraries</span></h2>
                         <p className="condition-lib-info">Find information on symptoms, diagnosis, and treatment options to discuss with your doctor.</p>
                     </div>
 
@@ -61,7 +73,7 @@ const Conditions = () => {
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Diabetes')}>
-                                <img src={asthma} className="card-img-top" alt={'Diabetes'} />
+                                <img src={Diabetes} className="card-img-top" alt={'Diabetes'} />
                                 <div className="popular-condition">
                                     <h5 className="popular-condition-name my-4 mx-1">{'Diabetes'}</h5>
                                 </div>
@@ -69,7 +81,7 @@ const Conditions = () => {
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Viral Infections')}>
-                                <img src={asthma} className="card-img-top" alt={'Viral Infections'} />
+                                <img src={viral_Infections} className="card-img-top" alt={'Viral Infections'} />
                                 <div className="popular-condition">
                                     <h5 className="popular-condition-name my-4 mx-1">{'Viral Infections'}</h5>
                                 </div>
@@ -77,7 +89,7 @@ const Conditions = () => {
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick("Women's Health")}>
-                                <img src={asthma} className="card-img-top" alt={"Women's Health"} />
+                                <img src={Womens_Health} className="card-img-top" alt={"Women's Health"} />
                                 <div className="popular-condition">
                                     <h5 className="popular-condition-name my-4 mx-1">{"Women's Health"}</h5>
                                 </div>
@@ -85,7 +97,7 @@ const Conditions = () => {
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick("Men's Health")}>
-                                <img src={asthma} className="card-img-top" alt={"Men's Health"} />
+                                <img src={Mens_Health} className="card-img-top" alt={"Men's Health"} />
                                 <div className="popular-condition">
                                     <h5 className="popular-condition-name my-4 mx-1">{"Men's Health"}</h5>
                                 </div>
@@ -93,7 +105,7 @@ const Conditions = () => {
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Brain and Nerves')}>
-                                <img src={asthma} className="card-img-top" alt={'Brain and Nerves'} />
+                                <img src={brain} className="card-img-top" alt={'Brain and Nerves'} />
                                 <div className="popular-condition">
                                     <h5 className="popular-condition-name my-4 mx-1">{'Brain and Nerves'}</h5>
                                 </div>
@@ -129,7 +141,7 @@ const Conditions = () => {
                                 <ul className="list-unstyled">
                                     {filteredConditions.slice(0, Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
                                         <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
-                                            {condition.name}
+                                            {condition.name} ({condition.count})
                                         </li>
                                     ))}
                                 </ul>
@@ -138,7 +150,7 @@ const Conditions = () => {
                                 <ul className="list-unstyled">
                                     {filteredConditions.slice(Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
                                         <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
-                                            {condition.name}
+                                            {condition.name} ({condition.count})
                                         </li>
                                     ))}
                                 </ul>

@@ -13,13 +13,13 @@ const AdminBlogUploadForm = () => {
     title: "",
     author: "",
     categories: "",
-    selectedConditions: [],
+    selectedConditions: [], // Ensure this is always an array
     hashtags: "",
     priority: "",
     description: "",
     image: null,
     save: false,
-    authorId : ""
+    authorId: ""
   });
 
   const [doctors, setDoctors] = useState([]); 
@@ -30,24 +30,22 @@ const AdminBlogUploadForm = () => {
 
   useEffect(() => {
     const fetchDoctors = async () => {
-   
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/blog`, {
           withCredentials: true,
         });
         console.log("data", response.data); 
         if (response.data) {
-    
+        
           if (response.data.conditions) {
             setConditions(response.data.conditions);
           }
-          if (response.data.doctors) {
-            setDoctors(response.data.doctors);
-          } else {
-          
-          }
-        } else {
+  
          
+          const doctorsData = response.data.doctors || [];
+          const adminData = response.data.admin ? [{ _id: response.data.admin._id, name: response.data.admin.name }] : [];
+  
+          setDoctors([...doctorsData, ...adminData]);
         }
       } catch (error) {
         toast.info("Failed to fetch doctors.");
@@ -56,7 +54,6 @@ const AdminBlogUploadForm = () => {
     
     fetchDoctors();
   }, []);
-
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -71,7 +68,7 @@ const AdminBlogUploadForm = () => {
       title: "",
       author: "",
       categories: "",
-      subCategory: "",
+      selectedConditions: [], // Reset to an empty array
       hashtags: "",
       priority: "",
       description: "",
@@ -126,7 +123,7 @@ const AdminBlogUploadForm = () => {
                 required
               />
               <p className="admin-create-blog-placeholder">
-           Title
+                Title
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
@@ -149,23 +146,25 @@ const AdminBlogUploadForm = () => {
                 ))}
               </select>
               <p className="admin-create-blog-placeholder">
-         Category
+                Category
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
 
             <div className="publish-blog-header">
               <p className="publish-blog-placeholder">
- Conditions
+                Conditions
                 <span style={{ color: "red" }}> *</span>
               </p>
               <select
+              // Add this attribute to allow multiple selections
                 value={formData.selectedConditions}
                 className="publish-blog-input"
                 onChange={(e) => {
                   const value = Array.from(e.target.selectedOptions, option => option.value);
                   setFormData({ ...formData, selectedConditions: value });
                 }}
+                required
               >
                 <option value="" disabled hidden>
                   Choose Conditions
@@ -180,9 +179,6 @@ const AdminBlogUploadForm = () => {
                   <option disabled>No conditions available</option>
                 )}
               </select>
-              {/* <p className="publish-blog-placeholder">
-        Conditions
-              </p> */}
             </div>
 
             <div className="admin-create-blog-header">
@@ -202,7 +198,7 @@ const AdminBlogUploadForm = () => {
 
             <div className="admin-create-blog-header">
               <p className="admin-create-blog-placeholder-status">
-            Priority
+                Priority
                 <span style={{ color: "red" }}> *</span>
               </p>
               <div className="admin-create-blog-check-hilo">
@@ -243,7 +239,6 @@ const AdminBlogUploadForm = () => {
               </div>
             </div>
 
-      
             <div className="admin-create-blog-header">
               <select
                 value={formData.authorId}
@@ -253,7 +248,7 @@ const AdminBlogUploadForm = () => {
                 required
               >
                 <option value="" disabled hidden>
-                  Assign a Doctor
+                  Assign a Author
                 </option>
                 {Array.isArray(doctors) && doctors.map((doctor, index) => (
                   <option key={index} value={doctor._id}>
@@ -262,7 +257,7 @@ const AdminBlogUploadForm = () => {
                 ))}
               </select>
               <p className="admin-create-blog-placeholder">
-                Assign Doctor
+                Assign Author
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
@@ -273,7 +268,7 @@ const AdminBlogUploadForm = () => {
                   ref={quillRef}
                   defaultText="Description"
                   onTextChange={(content) => {
-                    const plainText = content.replace(/<[^>]*>/g, ""); // Remove HTML tags
+                    const plainText = content.replace(/<[^>]*>/g, ""); 
                     setFormData({ ...formData, description: plainText });
                   }}
                 />
@@ -314,7 +309,7 @@ const AdminBlogUploadForm = () => {
               </button>
             </div>
 
-          {showPreview && (
+            {showPreview && (
               <div className="blog-preview">
                 <h3>Preview</h3>
                 {formData.image && (
@@ -329,10 +324,10 @@ const AdminBlogUploadForm = () => {
                 )}
                 <h2>{formData.title || "Blog Title"}</h2>
                 {/* <p><strong>Author:</strong> {formData.author || "Author Name"}</p> */}
-                <p><strong>Category:</strong> {formData.category || "Category"}</p>
+                <p><strong>Category:</strong> {formData.categories || "Category"}</p>
                 <p>
                   <strong>Conditions:</strong>{" "}
-                  {formData.selectedConditions.length > 0
+                  {Array.isArray(formData.selectedConditions) && formData.selectedConditions.length > 0
                     ? formData.selectedConditions.join(", ")
                     : "No Conditions Selected"}
                 </p>
@@ -349,7 +344,6 @@ const AdminBlogUploadForm = () => {
              
               </div>
             )}
-
 
             <div className="admin-create-blog-button">
               <button type="submit" className="admin-create-blog-button-inside">

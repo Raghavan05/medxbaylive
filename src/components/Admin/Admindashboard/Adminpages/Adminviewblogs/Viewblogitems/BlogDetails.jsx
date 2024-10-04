@@ -1,6 +1,6 @@
 import React from "react";
 import Comment from "./Comment";
-import PostComment from "./PostComment";  // Import the PostComment component
+import PostComment from "./PostComment";  
 import { IoIosCalendar } from "react-icons/io";
 import { TbMessage } from "react-icons/tb";
 import { LuEye } from "react-icons/lu";
@@ -88,7 +88,7 @@ function BlogDetails({ blog ,blogImage,profilePicture}) {
 
       <div className="Adminviewblog-comments-cnt">
         <h4 className="Adminviewblog-comments-title">Comments</h4>
-        {/* Pass comments to the Comment component */}
+
         <Comment comments={blog.comments} />
       </div>
     </div>
