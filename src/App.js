@@ -23,7 +23,7 @@ import FilterPage from './components/FilterPage/FilterPage';
 import VerifyLogin from './components/login/VerifyLogin';
 import Verification from './components/login/Verification';
 import  Blog from './components/patientBlog/blog';
-import  BlogPage from './components/patientBlog/BlogPage';
+
 import Nestednavbar from './components/Nestednavbar2/Nestednavbar';
 import SubscriptionPlans from './components/Subscription/SubscriptionPlans';
 import { SearchProvider } from './components/context/context';
@@ -46,6 +46,8 @@ import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysi
 import Conditions from './components/patientBlog/ConditionLibrariesMenu';
 import EditBlog from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/EditBlog';
 import BlogDetails from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/BlogDetails';
+import  Blognew from './components/patientBlog/blognew';
+import  Showall from './components/patientBlog/newestblog';
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
@@ -70,7 +72,9 @@ function App() {
           <Route path="/condition-libraries-menu" element={[<Nestednavbar/>,<Conditions />,<Footer/>]}/>
           {/* <Route path="/condition-libraries-menu" element={<Conditions />}/> */}
           {/* <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/> */}
-          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<BlogPage />,<Footer/>]}/>      
+          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>      
+          <Route path="/blogs/showAll/:condition/:category" element={[<Nestednavbar/>,<Showall />,<Footer/>]}/>   
+          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>      
               <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
           <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />
           <Route path="/Message" element={[<Navbar/>,<Message />,<Footer/>]}  />
