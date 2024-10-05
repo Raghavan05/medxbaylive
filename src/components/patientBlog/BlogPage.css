@@ -15,7 +15,7 @@
 .blog-sidebar {
     width: 37%;
     height: 900px;
-    background-color: rgb(255, 255, 255);
+    background-color: black;
     box-shadow: 4px 5px 5px 3px gainsboro;
     padding: 20px;
     border-radius: 8px;

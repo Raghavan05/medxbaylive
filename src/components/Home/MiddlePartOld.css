@@ -9,12 +9,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 
   }
   
   /* Text Content */
-  .text-content {
+  .homemale-text-content {
     flex: 1;
     padding-right: 50px;
   }
@@ -43,7 +42,7 @@
    z-index: 1;
 }
 
-.doctor-image {
+.homepagemale-doctor-image {
     /* position: ; */
     width: 100%;
     max-width: 450px;
@@ -121,7 +120,6 @@ margin-right: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 }
 
 .homepageFemale-image-content {
@@ -318,7 +316,7 @@ animation-delay: 3s;
         flex-direction: column;
     }
 
-    .text-content, .homepageFemale-text-content {
+    .homemale-text-content, .homepageFemale-text-content {
         order: 2;
         padding-right: 0;
         padding-left: 0;
@@ -371,7 +369,7 @@ animation-delay: 3s;
         left: 10px;
     }
 
-    .doctor-image, .homepageFemale-doctor-image {
+    .homepagemale-doctor-image, .homepageFemale-doctor-image {
         max-width: 100%;
     }
 }
@@ -396,13 +394,34 @@ animation-delay: 3s;
     }
 }
 
-/* For large screens (1441px and above) */
-@media (min-width: 1441px) {
+@media (min-width: 1500px) {
     .homepage-doctor-section {
-        padding: 200px;
+        padding: 100px ;
+        display: flex;
+        justify-content: center; /* Center the content horizontally */
+        align-items: center; /* Center the content vertically */
+        gap: 60px;
+    }
+    .homepage-male-content,
+    .homepageFemale-content {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        width: 80%; 
     }
 
-    .home-maledoc-description, .homepageFemale-description {
-        width: 80%;
+    .text-content,
+    .homepageFemale-text-content {
+        width: 50%; 
+    }
+
+    .doctor-image,
+    .homepageFemale-doctor-image {
+        max-width: 450px; 
+    }
+
+    .home-maledoc-description,
+    .homepageFemale-description {
+        width: 90%; 
     }
 }

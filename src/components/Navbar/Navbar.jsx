@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { SlBell } from "react-icons/sl";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import profilePlaceholder from '../Assets/profileimg.png'; 
+import profilePlaceholder from '../Assets/profileimg.png';
 import SignupCard from '../signup/signup';
 import LoginCard from '../login/login';
 import logobrand from '../Assets/logobrand.png';
@@ -20,9 +20,9 @@ const Navbar = () => {
   const [isProvidersDropdownOpen, setProvidersDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState('');
-  const [profileImage, setProfileImage] = useState(profilePlaceholder); 
-  const [verified, setVerified] = useState(false); 
-  const [trialCountdown, setTrialCountdown] = useState(null); 
+  const [profileImage, setProfileImage] = useState(profilePlaceholder);
+  const [verified, setVerified] = useState(false);
+  const [trialCountdown, setTrialCountdown] = useState(null);
   const [trialEndDate, setTrialEndDate] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -83,10 +83,10 @@ const Navbar = () => {
 
     setIsLoggedIn(false);
     setUserRole('');
-    setProfileImage(profilePlaceholder); 
-    navigate('/'); 
+    setProfileImage(profilePlaceholder);
+    navigate('/');
 
-    window.location.reload();  
+    window.location.reload();
   };
 
   const handleLogin = (role) => {
@@ -95,28 +95,28 @@ const Navbar = () => {
 
     setIsLoggedIn(true);
     setUserRole(role);
-    setIsSignInClicked(false); 
-    setIsRegisterClicked(false); 
-    handleCloseLoginPopup(); 
-    handleClosePopup(); 
+    setIsSignInClicked(false);
+    setIsRegisterClicked(false);
+    handleCloseLoginPopup();
+    handleClosePopup();
   };
 
   const handleCloseLogin = () => {
     setShowLoginPopup(false);
   };
-  
+
   const handleCloseRegister = () => {
     setShowPopup(false);
   };
-  
+
   const handleShowLogin = () => {
     setShowLoginPopup(true);
   };
-  
+
   const handleShowRegister = () => {
     setShowPopup(true);
   };
-  
+
   useEffect(() => {
     const fetchProfileDetails = async () => {
       try {
@@ -124,25 +124,25 @@ const Navbar = () => {
         const apiUrl = role === 'doctor'
           ? `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`
           : `${process.env.REACT_APP_BASE_URL}/patient/profile`;
-  
+
         const response = await axios.get(apiUrl, { withCredentials: true });
         const userData = response.data;
-  
+
         if (userData) {
           if (role === 'doctor') {
             setVerified(userData.doctor.verified === 'Verified');
-  
+
             if (userData.doctor.profilePicture) {
               const profileImageData = `data:${userData.doctor.profilePicture.contentType};base64,${userData.doctor.profilePicture.data}`;
               setProfileImage(profileImageData);
             } else {
               setProfileImage(profilePlaceholder);
             }
-  
+
             if (userData.doctor.subscriptionType === 'Free') {
               const parsedTrialEndDate = new Date(userData.doctor.trialEndDate);
               setTrialEndDate(parsedTrialEndDate);
-  
+
               const calculateCountdown = () => {
                 const now = new Date();
                 if (parsedTrialEndDate > now) {
@@ -156,7 +156,7 @@ const Navbar = () => {
                   setTrialCountdown(null);
                 }
               };
-  
+
               calculateCountdown();
               const intervalId = setInterval(calculateCountdown, 1000);
               return () => clearInterval(intervalId);
@@ -177,16 +177,16 @@ const Navbar = () => {
         setProfileImage(profilePlaceholder);
       }
     };
-  
+
     fetchProfileDetails();
-  
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
   const handleLinkClick = () => {
-    window.scrollTo(0, 0);  
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -194,7 +194,7 @@ const Navbar = () => {
     const role = sessionStorage.getItem('role');
     setIsLoggedIn(loggedIn);
     setUserRole(role);
-  }, []); 
+  }, []);
 
   const navbarClass = userRole === 'doctor' ? 'navbar navbar-expand-lg navbar-light navbar-doctor' : 'navbar navbar-expand-lg navbar-light navbar-default';
 
@@ -214,53 +214,56 @@ const Navbar = () => {
                 </li>
               )}
 
-<li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
-                <Link 
-                  className="for-corporates nav-link nav-link-style dropdown-toggle" 
-                  to="/doctor/physician" 
-                  role="button" 
+              <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
+                <Link
+                  className="for-corporates nav-link nav-link-style dropdown-toggle"
+                  to="/doctor/physician"
+                  role="button"
                   onClick={handleLinkClick}
                 >
-Dr/Physician
+                  Dr/Physician
                 </Link>
               </li>
               <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
-                <Link 
-                  className="for-corporates nav-link nav-link-style dropdown-toggle" 
-                  to="/enterprise" 
-                  role="button" 
+                <Link
+                  className="for-corporates nav-link nav-link-style dropdown-toggle"
+                  to="/enterprise"
+                  role="button"
                   onClick={handleLinkClick}
                 >
-         Enterprise
+                  Enterprise
                 </Link>
               </li>
 
-              <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
-                <Link 
-                  className="for-corporates nav-link nav-link-style dropdown-toggle" 
-                  to="/patients" 
-                  role="button" 
+              <li className="nav-item dropdown active ml-md-3 mr-3" ref={corporateDropdownRef}>
+                <Link
+                  className="for-corporates nav-link nav-link-style dropdown-toggle"
+                  to="/patients"
+                  role="button"
                   onClick={handleLinkClick}
                 >
-         Patients
+                  Patients
                   {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
                 </Link>
               </li>
-          
+
               <li className="nav-item active ml-md-1">
 
-              <Link 
-                  className="for-corporates nav-link nav-link-style dropdown-toggle" 
-                  to="/condition-libraries-menu" 
-                  role="button" 
+                <Link
+                  className="for-corporates nav-link nav-link-style dropdown-toggle"
+                  to="/condition-libraries-menu"
+                  role="button"
                   onClick={handleLinkClick}
                 >
-     Condition Libraries
+                  Condition Libraries
                 </Link>
               </li>
 
               <li className="nav-item active ml-md-4">
                 <Link className="about-nav nav-link nav-link-style" to="/About/Section">About</Link>
+              </li>
+              <li className="nav-item active ml-md-4">
+                <Link className="about-nav nav-link nav-link-style" to="/Spotlights">Spotlights</Link>
               </li>
             </ul>
 
@@ -286,15 +289,15 @@ Dr/Physician
                     <Link className="nav-link dashboard-text-button" to="/SubscriptionPlans">Upgrade</Link>
                   </li>
                 )}
-                
+
                 {trialCountdown && (
                   <li className="nav-item active ml-md-4">
                     <div className='row'>
-                    <p className='free-trial-doctor'> Free Trial period: </p>
-                    <div className="trial-countdown">
+                      <p className='free-trial-doctor'> Free Trial period: </p>
+                      <div className="trial-countdown">
 
-                     {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
-                    </div>
+                        {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                      </div>
                       {/* {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s */}
                     </div>
                   </li>
@@ -317,7 +320,7 @@ Dr/Physician
                     <Link to='/profile/userprofile/notification'>
                       <div className='dashboard-setting-bell'>
                         <button type="button" className="nav-notification-button">
-                          <SlBell className='notification-icon'/>
+                          <SlBell className='notification-icon' />
                         </button>
                       </div>
                     </Link>
@@ -341,35 +344,35 @@ Dr/Physician
                     <button className='logout-button' onClick={handleLogout}><RiLogoutCircleRLine size='1.1rem' /></button>
                   </div>
                 </li>
-                
+
               </ul>
             )}
           </div>
         </nav>
         {isSignInClicked && (
           <div className="blur-background">
-            <LoginCard 
-              onClose={handleCloseSignupCard} 
+            <LoginCard
+              onClose={handleCloseSignupCard}
               onSwitchToSignup={handleRegisterClick}
-              handleClose={handleCloseLogin} 
-              handleLogin={handleLogin} 
-            /> 
+              handleClose={handleCloseLogin}
+              handleLogin={handleLogin}
+            />
           </div>
         )}
         {isRegisterClicked && (
           <div className="blur-background">
-            <SignupCard 
-              onCloseSignupCard={handleCloseLoginCard} 
+            <SignupCard
+              onCloseSignupCard={handleCloseLoginCard}
               onSwitchToLogin={handleSignInClick}
-              handleClose={handleCloseRegister} 
+              handleClose={handleCloseRegister}
             />
           </div>
         )}
-        <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin}/>
-        <LoginCard 
-          show={showLoginPopup} 
-          handleClose={handleCloseLoginPopup} 
-          openRegisterModal={handleShowRegister} 
+        <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
+        <LoginCard
+          show={showLoginPopup}
+          handleClose={handleCloseLoginPopup}
+          openRegisterModal={handleShowRegister}
           handleLogin={handleLogin}
         />
         <Provider show={showProviderModal} handleClose={() => setShowProviderModal(false)} />

@@ -17,10 +17,36 @@ const BlogCarousel = () => {
   // Fetch blog data based on the condition and category
   useEffect(() => {
     const fetchBlogs = async () => {
+      let apiUrl;
+
+    // Ensure 'condition' or 'category' is defined
+    // if (!condition) {
+    //   console.error("Condition is undefined or empty");
+    //   setLoading(false);
+    //   return;
+    // }
+       // Handle different API calls based on category
+    switch (category.toLowerCase()) {
+      case 'recent blog':
+        apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/recent-blogs`; // Update with actual route for recent blogs
+        break;
+
+      case 'most reads':
+        apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/most-read-blogs`; // Update with actual route for most reads
+        break;
+
+      case 'recommended reading':
+        apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/recommended-blogs`; // Update with actual route for recommended reading
+        break;
+
+      default:
+        // Fallback for conditions with spaces (e.g., diseases)
+        apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/category/${category}`;
+        break;
+    }
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/blogs/conditions/${condition}/category/${category}`, {
-          withCredentials: true
-        });
+        const response = await axios.get(apiUrl, { withCredentials: true });
+
         setBlogData(response.data.blogs || []); // Ensure to use response.data.blogs as per your backend structure
       } catch (error) {
         console.error('Error fetching blogs:', error);

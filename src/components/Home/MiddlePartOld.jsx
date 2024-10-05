@@ -124,7 +124,7 @@ const MiddlePart = () => {
           In the rapidly evolving world of healthcare, MedxBay is designed with you in mind.
             We see the strain of endless paperwork, fragmented systems, and missed patient connections.
             These hurdles can add to an already demanding environment, but with MedxBay, you are no longer navigating this alone.
-            Our platform is built to lift the burden,<br /> so you can focus on what you do best: caring for your patients.
+            Our platform is built to lift the burden, so you can focus on what you do best: caring for your patients.
           </p>
           <Link to="/enterprise" onClick={handleClick} >Learn More</Link>
         </div>

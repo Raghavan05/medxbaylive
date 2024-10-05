@@ -197,40 +197,57 @@ const Blog = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const loadBlogs = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${condition}`
-      , { withCredentials: true }
-    );
-    // console.log(response.data);
-    if (response.data) {
-      setLoading(false);
-      var data = response.data;
-      setHastags(data.hashtags);
-      if (Array.isArray(data.blogsByCategory)) {
-        setCategoryData(data.blogsByCategory);
-      } else {
-        setCategoryData(0); // Or handle as needed
-      }
-      setRecentBlog(data.recentBlogs);
-      setMostReadBlog(data.mostReadBlogs);
-      setTopRatedDoctors(data.topRatedDoctors);
-      // setBlogData(response.data);
-      setTempBlog(response.data);
-      setCategories(data.blogsByCategory);
-      const sortedBlogs = data.topPriorityBlogs.sort(
-        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    try {
+  
+      // Encode the condition to handle spaces and special characters
+      const encodedCondition = encodeURIComponent(condition);
+  
+      // Make the request using the encoded condition
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodedCondition}`, 
+        { withCredentials: true }
       );
-      setFeaturedBlog(sortedBlogs[0]);
-      setSideFeatureBlog(sortedBlogs);
-    } else {
+    console.log(response.data);
+
+        if (response.data) {
+        setLoading(false);
+        const data = response.data;
+  
+        // Set various state variables with the received data
+        setHastags(data.hashtags);
+  
+        if (Array.isArray(data.blogsByCategory)) {
+          setCategoryData(data.blogsByCategory);
+          console.log(data.blogsByCategory);
+        } else {
+          setCategoryData(0); // Handle the case where no blogs are returned
+        }
+  
+        setRecentBlog(data.recentBlogs);
+        setMostReadBlog(data.mostReadBlogs);
+        setTopRatedDoctors(data.topRatedDoctors);
+        console.log(data.topRatedDoctors);
+        
+        setTempBlog(response.data);
+        setCategories(data.blogsByCategory);
+  
+        // Sort topPriorityBlogs by updated date
+        const sortedBlogs = data.topPriorityBlogs.sort(
+          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        );
+  
+        setFeaturedBlog(sortedBlogs[0]);
+        setSideFeatureBlog(sortedBlogs);
+      } else {
+        setLoading(false);
+        setBlogData([]);
+      }
+    } catch (error) {
+      console.error("Error loading blogs:", error);
       setLoading(false);
-      setBlogData([]);
     }
   };
-  console.log(categoryData)
-  console.log(categories)
-
-
+  
   useEffect(() => {
     loadBlogs();
   }, []);
@@ -241,7 +258,6 @@ const Blog = () => {
         behavior: "smooth",
         block: "start", // Align the section to the start
       });
-
       // Apply an offset (e.g., 50px) after the smooth scroll is complete
       setTimeout(() => {
         const offset = 280;
@@ -254,15 +270,11 @@ const Blog = () => {
     const words = text.split(" ");
     return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
   };
-
-
-
-    // Filter the categoryData based on the search query
-    const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
-      const categoryName = count._id[0].toLowerCase(); // Get the category name
-      return categoryName.includes(searchQuery.toLowerCase()); // Filter by search query
-    });
-
+   // Filter the categoryData based on the search query
+const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
+  const categoryName = count._id && count._id[0] ? count._id[0].toLowerCase() : ''; // Check if count._id[0] exists and is valid
+  return categoryName.includes(searchQuery.toLowerCase()); // Filter by search query
+});
   if (loading) {
     return (
       <div className="blogPage-loading-screen">
@@ -270,7 +282,6 @@ const Blog = () => {
       </div>
     );
   }
-
   return (
     <>
       {/* Navbar Section with Image Background */}
@@ -302,7 +313,6 @@ const Blog = () => {
               <div className="blogPageFeaturedBox">
                 <div className="blogPageFeaturedLHS">
                   <Link to={`/blogPost/${featuredBlog._id}`} >
-
                     <img
                       src={getProfileImage(featuredBlog?.image)}
                       alt="Featured Img"
@@ -311,7 +321,6 @@ const Blog = () => {
                   <div>
                     <div >
                       <Link to={`/blogPost/${featuredBlog._id}`} className="text-decoration-none " style={{ color: "#000" }}>
-
                         {featuredBlog?.title
                           ? featuredBlog.title.length > 85
                             ? featuredBlog.title.substring(0, 85) + "..."
@@ -335,12 +344,11 @@ const Blog = () => {
                 </div>
               </div>
             </div>
-          
+        
             {filteredCategories.slice(0, 1)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
                 const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-
                 return (
                   <BlogBiggerCard
                     id={sanitizedCategoryName}
@@ -352,7 +360,6 @@ const Blog = () => {
                   />
                 );
               })}
-
             {filteredCategories.slice(1, 2)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
@@ -368,8 +375,6 @@ const Blog = () => {
                   />
                 );
               })}
-
-          
             {filteredCategories.slice(3, 4)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
@@ -385,9 +390,6 @@ const Blog = () => {
                   />
                 );
               })}
-
-
-
           </div>
           <div className="blogPageRHS">
             {/* Search bar */}
@@ -417,25 +419,22 @@ const Blog = () => {
                       </div>
                     );
                   })}
-
               </div>
-
               <BlogSmallCard
                 title={"Recent Blog"}
                 data={recentBlog.slice(0, 4)}
-                showAllLink={`/blogs/showAll`}
+                showAllLink={`/blogs/showAll/${condition}/${`Recent Blog`}`}
               />
               <BlogSmallCard
                 title={"Most Reads"}
                 data={mostReadBlog.slice(0, 3)}
-                showAllLink={`/blogs/showAll`}
+                showAllLink={`/blogs/showAll/${condition}/${`Most Reads`}`}
               />
               <BlogSmallCard
                 title={"Recommended Reading"}
                 data={mostReadBlog.slice(0, 2)}
-                showAllLink={`/blogs/showAll`}
+                showAllLink={`/blogs/showAll/${condition}/${`Recommended Reading`}`}
               />
-
               <div className="blogPageRHS-defaultCardBox">
                 <div className="blogPageRHS-defaultCardBoxHeader">
                   <div className="blogPageRHS-defaultCardBoxTitle">Tags</div>
@@ -455,54 +454,107 @@ const Blog = () => {
             </div>
           </div>
         </div>
-
-
-
         <BlogDoctorCard
           title="Top high blood pressure specialists"
           data={topRatedDoctors}
         />
-
         {filteredCategories.slice(-2, -1)
+  .map(([index, count], i) => {
+    const categoryName = count._id[0]; // Assuming _id holds the category name
+    const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+    const blogs = Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : [];  // Ensure count.blogs is an array
+    
+    // Split blogs into two halves
+    const leftSideBlogs = blogs.slice(0, 3);
+    const rightSideBlogs = blogs.slice(3, 6);
+    const showAllLink = "/showAllLink"
 
-          .map(([index, count], i) => {
-            const categoryName = count._id[0]; // Assuming _id holds the category name
-            const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-
-            return (
-              <BlogBiggerCard
-                id={sanitizedCategoryName}
-                key={index}
-                title={count._id}
-                shorter={true}
-                data={Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
-              />
-            );
-          })}
-      
-        {filteredCategories.slice(-1)
-          .map(([index, count], i) => {
-            const categoryName = count._id[0]; // Assuming _id holds the category name
-            const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-
-            return (
-              <BlogBiggerCard
-                id={sanitizedCategoryName}
-                key={index}
-                title={count._id}
-                shorter={true}
-                data={Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : []}  // Ensure value.blogs is an array
-              />
-            );
-          })}
-
+    return (
+      <>
+      <div className="blogPageDefaultCardHeader">
+        <div className="blogPageDefaultCardHeading">{count._id}</div>
+        <Link to={showAllLink} alt="Showall link">
+          Show All
+        </Link>
+      </div>
+      <div key={index} id={sanitizedCategoryName} className="blog-split-container">
         
-        {filteredCategories.slice(-2, -1)
+        <div className="blog-split-left">
+          {leftSideBlogs.map((blog, idx) => (
+            <BlogBiggerCard
+              key={idx}
+              title={count._id}
+              shorter={true}
+              data={[blog]}  // Wrap in an array since you're passing a single blog
+            />
+          ))}
+        </div>
+        <div className="blog-split-right">
+        
+          {rightSideBlogs.map((blog, idx) => (
+            <BlogBiggerCard
+              key={idx}
+              title={count._id}
+              shorter={true}
+              data={[blog]}  // Wrap in an array since you're passing a single blog
+            />
+          ))}
+        </div>
+      </div>
+      </>
+    );
+  })}
 
+{filteredCategories.slice( -1)
+  .map(([index, count], i) => {
+    const categoryName = count._id[0]; // Assuming _id holds the category name
+    const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+    const blogs = Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : [];  // Ensure count.blogs is an array
+    
+    // Split blogs into two halves
+    const leftSideBlogs = blogs.slice(0, 3);
+    const rightSideBlogs = blogs.slice(3, 6);
+    const showAllLink = "/showAllLink"
+
+    return (
+      <>
+      <div className="blogPageDefaultCardHeader">
+        <div className="blogPageDefaultCardHeading">{count._id}</div>
+        <Link to={showAllLink} alt="Showall link">
+          Show All
+        </Link>
+      </div>
+      <div key={index} id={sanitizedCategoryName} className="blog-split-container">
+        
+        <div className="blog-split-left">
+          {leftSideBlogs.map((blog, idx) => (
+            <BlogBiggerCard
+              key={idx}
+              title={count._id}
+              shorter={true}
+              data={[blog]}  // Wrap in an array since you're passing a single blog
+            />
+          ))}
+        </div>
+        <div className="blog-split-right">
+        
+          {rightSideBlogs.map((blog, idx) => (
+            <BlogBiggerCard
+              key={idx}
+              title={count._id}
+              shorter={true}
+              data={[blog]}  // Wrap in an array since you're passing a single blog
+            />
+          ))}
+        </div>
+      </div>
+      </>
+    );
+  })}
+        {filteredCategories.slice(-2, -1)
           .map(([index, count], i) => {
             const categoryName = count._id[0]; // Assuming _id holds the category name
             const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-
             return (
               <BlogLargerCard
                 id={sanitizedCategoryName}
@@ -517,13 +569,11 @@ const Blog = () => {
     </>
   );
 };
-
 const BlogLargerCard = ({ id, title, data }) => {
   // State to control the number of visible blogs
   const [visibleBlogs, setVisibleBlogs] = useState(1);
   const [loadMoreClicked, setLoadMoreClicked] = useState(false); // Track whether 'Load More' was clicked
   const navigate = useNavigate(); // For programmatic navigation
-
   // Function to handle the 'Load More' click
   const handleLoadMore = () => {
     if (!loadMoreClicked) {
@@ -535,7 +585,6 @@ const BlogLargerCard = ({ id, title, data }) => {
       navigate('/blogs/showAll');
     }
   };
-
   return (
     <div className="blogPageDefaultCardOuter" id={id}>
       <div className="blogPageDefaultCardHeader">
@@ -579,7 +628,6 @@ const BlogLargerCard = ({ id, title, data }) => {
           </div>
         ))}
       </div>
-
       {/* Load More/Show All button */}
       {visibleBlogs && (
         <button className="blogPageLoadMoreBtn" onClick={handleLoadMore}>
@@ -595,43 +643,49 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
     <div className="blogPageDefaultCardOuter section" id="Top-doctors">
       <div className="blogPageDefaultCardHeader">
         <div className="blogPageDefaultCardHeading">{title}</div>
+        {/* <a href={showAllLink} alt="ggle">
+          Show All
+        </a> */}
       </div>
 
       <div className="blogPageDoctorCardBox ">
-        {data.slice(0, 4).map((x, index) => (
-          <div className="blogPageDoctorCard " key={index}>
-            <div className="blogPageDoctorCardImgBox">
-              <img src={getProfileImage(x.profilePicture)} alt={x.name} />
-              <VerifiedTick />
-            </div>
-            <div className="blogPageDoctorCardHeader">
-              <div className="blogPageDoctorCardName"> {x.name}</div>
-              <div className="blogPageDoctorCardRating">
-                <FaStar />
-                {x.rating}
+        {data.length > 0 ? (
+          data.slice(0, 4).map((x, index) => (
+            <div className="blogPageDoctorCard " key={index}>
+              <div className="blogPageDoctorCardImgBox">
+                <img src={getProfileImage(x.profilePicture)} alt={x.name} />
+                <VerifiedTick />
               </div>
+              <div className="blogPageDoctorCardHeader">
+                <div className="blogPageDoctorCardName"> {x.name}</div>
+                <div className="blogPageDoctorCardRating">
+                  <FaStar />
+                  {x.rating}
+                </div>
+              </div>
+              <div className="blogPageDoctorCardSpecialist">
+                <DoctorSymbol />
+                {x.title}
+              </div>
+              <div className="blogPageDoctorCardExp">
+                <DoctorExp />
+                "NO DATA" years experience
+              </div>
+              <div className="blogPageDoctorCardDesc">
+                {x.conditions.join(" ").length > 140
+                  ? `${x.conditions.join(" ").substring(0, 140)}...`
+                  : x.conditions.join(" ")}
+              </div>
+              <button className="blogPageDoctorCardBtn">Book appointment</button>
             </div>
-            <div className="blogPageDoctorCardSpecialist">
-              <DoctorSymbol />
-              {x.title}
-            </div>
-            <div className="blogPageDoctorCardExp">
-              <DoctorExp />
-              "NO DATA" years experience
-            </div>
-            <div className="blogPageDoctorCardDesc">
-              {x.conditions.join(" ").length > 140
-                ? `${x.conditions.join(" ").substring(0, 140)}...`
-                : x.conditions.join(" ")}
-            </div>
-            <button className="blogPageDoctorCardBtn">Book appointment</button>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div>No doctors available.</div>
+        )}
       </div>
     </div>
   );
 };
-
 
 const BlogMiniCard = ({ data }) => {
   return (
@@ -672,12 +726,7 @@ const BlogBiggerCard = ({
       className="blogPageDefaultCardOuter section"
       style={{ width: shorter ? "84%" : "100%" }}
     >
-      <div className="blogPageDefaultCardHeader">
-        <div className="blogPageDefaultCardHeading">{title}</div>
-        {/* <a href={showAllLink} alt="Showall link">
-          Show All
-        </a> */}
-      </div>
+      
       <div className="blogPageDefaultCardBox">
         {data.map((x, index) => (
           <div className="blogPageDefaultCard" key={index} id={id}>
@@ -697,7 +746,7 @@ const BlogBiggerCard = ({
                 <div>
                   {x?.title
                     ? x.title.length > 65
-                      ? `${x.title.substring(0, 65)}...`
+                      ? `${x.title.substring(0, 50)}...`
                       : x.title
                     : "No Title Available"}
                 </div>
@@ -707,7 +756,7 @@ const BlogBiggerCard = ({
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(x?.description)
                     ? x.description.length > 220
-                      ? x.description.substring(0, 220) + "..."
+                      ? x.description.substring(0, 160) + "..."
                       : DOMPurify.sanitize(x.description)
                     : "No Description Available",
                 }}
@@ -729,7 +778,7 @@ const BlogSmallCard = ({ title, data, showAllLink }) => {
     <div className="blogPageRHS-defaultCardBox">
       <div className="blogPageRHS-defaultCardBoxHeader">
         <div className="blogPageRHS-defaultCardBoxTitle">{title}</div>
-        {/* <Link to={showAllLink}>Show All</Link>{" "} */}
+        <Link to={'showAllLink'}>Show All</Link>{" "}
       </div>
       <div className="blogPageRHS-defaultCard-grid">
         {data.map((x, index) => (

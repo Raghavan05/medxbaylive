@@ -12,6 +12,7 @@ import { CiClock2 } from "react-icons/ci";
 import { RiListView } from "react-icons/ri";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { TbBrandBlogger } from "react-icons/tb";
+import Loader from '../../../../Loader/Loader';
 
 const DashboardPage = () => {
   const [MyInsights, setMyInsights] = useState('This Month');
@@ -46,9 +47,7 @@ const DashboardPage = () => {
   }, [MyInsights]); // Dependency array - effect will run when MyInsights changes
   
   if (!dashboardData) {
-    return <div className="loader-container">
-    <div className="loader"></div>
-  </div>
+    return <Loader/>
   ;
   }
 

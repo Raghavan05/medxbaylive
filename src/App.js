@@ -48,6 +48,7 @@ import EditBlog from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/Edit
 import BlogDetails from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/BlogDetails';
 import  Blognew from './components/patientBlog/blognew';
 import  Showall from './components/patientBlog/newestblog';
+import NewsRoom from './components/NewsRoom/NewsRoom'
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
@@ -66,13 +67,14 @@ function App() {
           <Route path="/profile/*" element={<ProfileRoutes />} />
           <Route path="/doctorprofile/dashboardpage/*" element={<ConnectedRoutes />} />
           <Route path="/Filters" element={<FilterPage />} />
+          <Route path="/Spotlights" element={[<Navbar/>,<NewsRoom />,<Footer/>]} />
           <Route path="/verify/login" element={<VerifyLogin />} />
           <Route path="/verify" element={<Verification />} />
           <Route path="/condition-libraries/:condition" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
           <Route path="/condition-libraries-menu" element={[<Nestednavbar/>,<Conditions />,<Footer/>]}/>
           {/* <Route path="/condition-libraries-menu" element={<Conditions />}/> */}
           {/* <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/> */}
-          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>      
+          {/* <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>       */}
           <Route path="/blogs/showAll/:condition/:category" element={[<Nestednavbar/>,<Showall />,<Footer/>]}/>   
           <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>      
               <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />

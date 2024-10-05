@@ -17,39 +17,52 @@ const Conditions = () => {
     const navigate = useNavigate(); // To handle navigation
 
     useEffect(() => {
+        const controller = new AbortController();
         const fetchConditions = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions`, {
-                    withCredentials: true
+                    withCredentials: true,
+                    signal: controller.signal
                 });
-    
-                // Map condition strings to objects with `name` and `count` properties
+
                 const conditionsWithNamesAndCount = response.data.conditions.map(condition => ({
                     name: condition,
-                    count: response.data.categoryCountMapObj[condition] || 0 // Get count from the categoryCountMapObj
+                    count: response.data.categoryCountMapObj[condition] || 0
                 }));
-                
+
                 setAllConditions(conditionsWithNamesAndCount);
             } catch (err) {
-                console.error('Error fetching conditions:', err);
+                if (err.name !== 'CanceledError') {
+                    console.error('Error fetching conditions:', err);
+                }
             }
         };
         fetchConditions();
+
+        return () => {
+            controller.abort(); // Clean up the request if component unmounts
+        };
     }, []);
-    
+
+
     useEffect(() => {
         const popular = allConditions.slice(0, 6);
         setPopularConditions(popular);
     }, [allConditions]);
 
     const filteredConditions = allConditions.filter(condition =>
-        condition?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        condition?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || '')
     );
+    
+
 
     // Handle condition click
     const handleConditionClick = (conditionName) => {
-        navigate(`/condition-libraries/${conditionName}`); // Navigate to the individual condition page
+        if (conditionName) {
+            navigate(`/condition-libraries/${conditionName}`); // Safely navigate if the condition name is defined
+        }
     };
+    
 
     return (
         <div className="container mt-5">
@@ -137,24 +150,31 @@ const Conditions = () => {
                             />
                         </div>
                         <div className="row allConditionsLib mb-4">
-                            <div className="col-md-6">
-                                <ul className="list-unstyled">
-                                    {filteredConditions.slice(0, Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
-                                        <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
-                                            {condition.name} ({condition.count})
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="col-md-6">
-                                <ul className="list-unstyled">
-                                    {filteredConditions.slice(Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
-                                        <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
-                                            {condition.name} ({condition.count})
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            {filteredConditions.length > 0 ? (
+                                <>
+                                    <div className="col-md-6">
+                                        <ul className="list-unstyled">
+                                            {filteredConditions.slice(0, Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
+                                                <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
+                                                    {condition.name} ({condition.count})
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <ul className="list-unstyled">
+                                            {filteredConditions.slice(Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
+                                                <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
+                                                    {condition.name} ({condition.count})
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </>
+                            ) : (
+                                <p>No conditions found</p>
+                            )}
+
                         </div>
                     </div>
                 </div>
