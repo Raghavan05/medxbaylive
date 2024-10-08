@@ -5,6 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
+import Loader from "../Loader/Loader";
 
 const VerifiedTick = () => (
   <div className="blogPageVerifiedTick">
@@ -198,44 +199,44 @@ const Blog = () => {
 
   const loadBlogs = async () => {
     try {
-  
+
       // Encode the condition to handle spaces and special characters
       const encodedCondition = encodeURIComponent(condition);
-  
+
       // Make the request using the encoded condition
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodedCondition}`, 
+        `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodedCondition}`,
         { withCredentials: true }
       );
-    console.log(response.data);
+      console.log(response.data);
 
-        if (response.data) {
+      if (response.data) {
         setLoading(false);
         const data = response.data;
-  
+
         // Set various state variables with the received data
         setHastags(data.hashtags);
-  
+
         if (Array.isArray(data.blogsByCategory)) {
           setCategoryData(data.blogsByCategory);
           console.log(data.blogsByCategory);
         } else {
           setCategoryData(0); // Handle the case where no blogs are returned
         }
-  
+
         setRecentBlog(data.recentBlogs);
         setMostReadBlog(data.mostReadBlogs);
         setTopRatedDoctors(data.topRatedDoctors);
         console.log(data.topRatedDoctors);
-        
+
         setTempBlog(response.data);
         setCategories(data.blogsByCategory);
-  
+
         // Sort topPriorityBlogs by updated date
         const sortedBlogs = data.topPriorityBlogs.sort(
           (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
         );
-  
+
         setFeaturedBlog(sortedBlogs[0]);
         setSideFeatureBlog(sortedBlogs);
       } else {
@@ -247,7 +248,7 @@ const Blog = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     loadBlogs();
   }, []);
@@ -270,16 +271,14 @@ const Blog = () => {
     const words = text.split(" ");
     return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
   };
-   // Filter the categoryData based on the search query
-const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
-  const categoryName = count._id && count._id[0] ? count._id[0].toLowerCase() : ''; // Check if count._id[0] exists and is valid
-  return categoryName.includes(searchQuery.toLowerCase()); // Filter by search query
-});
+  // Filter the categoryData based on the search query
+  const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
+    const categoryName = count._id && count._id[0] ? count._id[0].toLowerCase() : ''; // Check if count._id[0] exists and is valid
+    return categoryName.includes(searchQuery.toLowerCase()); // Filter by search query
+  });
   if (loading) {
     return (
-      <div className="blogPage-loading-screen">
-        <div className="blogPage-loading-spinner"></div>
-      </div>
+      <Loader/>
     );
   }
   return (
@@ -344,12 +343,24 @@ const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
                 </div>
               </div>
             </div>
-        
-            {filteredCategories.slice(0, 1)
+
+            {/* {filteredCategories.slice(0, 1)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
                 const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+                const showAllLink = `/blogs/showAll/${condition}/${categoryName}`
+                const blogCount = count.blogs.length;
+
                 return (
+                  <>
+                    <div className="blogPageDefaultCardHeader">
+                      <div className="blogPageDefaultCardHeading">{count._id}</div>
+                      {blogCount > 4 && ( // Only show the link if there are more than 2 blogs
+          <Link to={showAllLink} alt="Showall link">
+            Show All
+          </Link>
+        )}
+                    </div>
                   <BlogBiggerCard
                     id={sanitizedCategoryName}
                     key={index}
@@ -358,52 +369,77 @@ const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
                     shorter={true}
                     data={Array.isArray(count.blogs) ? count.blogs.slice(0, 2) : []}  // Ensure value.blogs is an array
                   />
+                  </>
                 );
-              })}
-            {filteredCategories.slice(1, 2)
+              })} */}
+            {filteredCategories.slice(0, 2)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
                 const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+                const showAllLink = `/blogs/showAll/${condition}/${categoryName}`
+                const blogCount = count.blogs.length;
 
                 return (
-                  <BlogBiggerCard
-                    id={sanitizedCategoryName}
-                    key={index}
-                    title={count._id}
-                    shorter={true}
-                    data={Array.isArray(count.blogs) ? count.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
-                  />
+                  <>
+                    <div className="blogPageDefaultCardHeader">
+                      <div className="blogPageDefaultCardHeading">{count._id}</div>
+                      {blogCount > 3 && ( // Only show the link if there are more than 2 blogs
+                        <Link to={showAllLink} alt="Showall link">
+                          Show All
+                        </Link>
+                      )}
+                    </div>
+                    <BlogBiggerCard
+                      id={sanitizedCategoryName}
+                      key={index}
+                      title={count._id}
+                      shorter={true}
+                      data={Array.isArray(count.blogs) ? count.blogs.slice(0, 2) : []}  // Ensure value.blogs is an array
+                    />
+                  </>
                 );
               })}
             {filteredCategories.slice(3, 4)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
                 const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+                const showAllLink = `/blogs/showAll/${condition}/${categoryName}`
+                const blogCount = count.blogs.length;
 
                 return (
-                  <BlogBiggerCard
-                    id={sanitizedCategoryName}
-                    key={index}
-                    title={count._id}
-                    shorter={true}
-                    data={Array.isArray(count.blogs) ? count.blogs.slice(0, 1) : []}  // Ensure value.blogs is an array
-                  />
+                  <>
+                    <div className="blogPageDefaultCardHeader">
+                      <div className="blogPageDefaultCardHeading">{count._id}</div>
+                      {blogCount > 3 && ( // Only show the link if there are more than 2 blogs
+                        <Link to={showAllLink} alt="Showall link">
+                          Show All
+                        </Link>
+                      )}
+                    </div>
+                    <BlogBiggerCard
+                      id={sanitizedCategoryName}
+                      key={index}
+                      title={count._id}
+                      shorter={true}
+                      data={Array.isArray(count.blogs) ? count.blogs.slice(0, 1) : []}  // Ensure value.blogs is an array
+                    />
+                  </>
                 );
               })}
           </div>
-          <div className="blogPageRHS">
+          <div className="blogPageRHS sticky-sidebar">
             {/* Search bar */}
-            <div className="blogPageSearchBox">
+            {/* <div className="blogPageSearchBox">
               <input
                 type="text"
                 placeholder="Search here..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
+                onChange={(e) => setSearchQuery(e.target.value)} 
               />
               <SearchIcon />
-            </div>
+            </div> */}
             <div className="blogPageRHSContent">
-              <div className="blogPageTagBoxOuter">
+              {/* <div className="blogPageTagBoxOuter">
                 <div className="blogPageTagHeading">Categories</div>
                 {filteredCategories.sort(() => 0.5 - Math.random())
                   .slice(0, 5)
@@ -419,22 +455,24 @@ const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
                       </div>
                     );
                   })}
-              </div>
+              </div> */}
               <BlogSmallCard
                 title={"Recent Blog"}
                 data={recentBlog.slice(0, 4)}
+                blogCount={recentBlog.length}
                 showAllLink={`/blogs/showAll/${condition}/${`Recent Blog`}`}
               />
               <BlogSmallCard
                 title={"Most Reads"}
                 data={mostReadBlog.slice(0, 3)}
+                blogCount={mostReadBlog.length}
                 showAllLink={`/blogs/showAll/${condition}/${`Most Reads`}`}
               />
-              <BlogSmallCard
+              {/* <BlogSmallCard
                 title={"Recommended Reading"}
                 data={mostReadBlog.slice(0, 2)}
                 showAllLink={`/blogs/showAll/${condition}/${`Recommended Reading`}`}
-              />
+              /> */}
               <div className="blogPageRHS-defaultCardBox">
                 <div className="blogPageRHS-defaultCardBoxHeader">
                   <div className="blogPageRHS-defaultCardBoxTitle">Tags</div>
@@ -458,109 +496,93 @@ const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
           title="Top high blood pressure specialists"
           data={topRatedDoctors}
         />
-        {filteredCategories.slice(-2, -1)
-  .map(([index, count], i) => {
-    const categoryName = count._id[0]; // Assuming _id holds the category name
-    const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-    const blogs = Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : [];  // Ensure count.blogs is an array
-    
-    // Split blogs into two halves
-    const leftSideBlogs = blogs.slice(0, 3);
-    const rightSideBlogs = blogs.slice(3, 6);
-    const showAllLink = "/showAllLink"
+        {filteredCategories.slice(-2, -1).map(([index, count], i) => {
+          const categoryName = count._id[0]; // Assuming _id holds the category name
+          const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+          const blogs = Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : [];  // Ensure count.blogs is an array
+          const blogCount = count.blogs.length;
+          const showAllLink = `/blogs/showAll/${condition}/${categoryName}`
 
-    return (
-      <>
-      <div className="blogPageDefaultCardHeader">
-        <div className="blogPageDefaultCardHeading">{count._id}</div>
-        <Link to={showAllLink} alt="Showall link">
-          Show All
-        </Link>
-      </div>
-      <div key={index} id={sanitizedCategoryName} className="blog-split-container">
-        
-        <div className="blog-split-left">
-          {leftSideBlogs.map((blog, idx) => (
-            <BlogBiggerCard
-              key={idx}
-              title={count._id}
-              shorter={true}
-              data={[blog]}  // Wrap in an array since you're passing a single blog
-            />
-          ))}
-        </div>
-        <div className="blog-split-right">
-        
-          {rightSideBlogs.map((blog, idx) => (
-            <BlogBiggerCard
-              key={idx}
-              title={count._id}
-              shorter={true}
-              data={[blog]}  // Wrap in an array since you're passing a single blog
-            />
-          ))}
-        </div>
-      </div>
-      </>
-    );
-  })}
+          return (
+            <>
+              <div className="blogPageDefaultCardHeader">
+                <div className="blogPageDefaultCardHeading">{count._id}</div>
+                {blogCount > 5 && ( // Only show the link if there are more than 6 blogs
+                  <Link to={showAllLink} alt="Showall link">
+                    Show All
+                  </Link>
+                )}
+              </div>
+              <div key={index} id={sanitizedCategoryName} className="blog-alternate-container">
+                {blogs.map((blog, idx) => {
+                  // Alternate between left and right based on the blog index
+                  const isEven = idx % 2 === 0;
+                  return (
+                    <div key={idx} className={isEven ? "blog-left" : "blog-right"}>
+                      <BlogBiggerCard
+                        key={idx}
+                        title={count._id}
+                        shorter={true}
+                        data={[blog]}  // Wrap in an array since you're passing a single blog
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          );
+        })}
+        {filteredCategories.slice(-1).map(([index, count], i) => {
+          const categoryName = count._id[0]; // Assuming _id holds the category name
+          const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+          const blogs = Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : [];  // Ensure count.blogs is an array
+          const blogCount = count.blogs.length;
+          const showAllLink = `/blogs/showAll/${condition}/${categoryName}`
 
-{filteredCategories.slice( -1)
-  .map(([index, count], i) => {
-    const categoryName = count._id[0]; // Assuming _id holds the category name
-    const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-    const blogs = Array.isArray(count.blogs) ? count.blogs.slice(0, 6) : [];  // Ensure count.blogs is an array
-    
-    // Split blogs into two halves
-    const leftSideBlogs = blogs.slice(0, 3);
-    const rightSideBlogs = blogs.slice(3, 6);
-    const showAllLink = "/showAllLink"
+          return (
+            <>
+              <div className="blogPageDefaultCardHeader">
+                <div className="blogPageDefaultCardHeading">{count._id}</div>
+                {blogCount > 5 && ( // Only show the link if there are more than 6 blogs
+                  <Link to={showAllLink} alt="Showall link">
+                    Show All
+                  </Link>
+                )}
+              </div>
+              <div key={index} id={sanitizedCategoryName} className="blog-alternate-container">
+                {blogs.map((blog, idx) => {
+                  // Alternate between left and right based on the blog index
+                  const isEven = idx % 2 === 0;
+                  return (
+                    <div key={idx} className={isEven ? "blog-left" : "blog-right"}>
+                      <BlogBiggerCard
+                        key={idx}
+                        title={count._id}
+                        shorter={true}
+                        data={[blog]}  // Wrap in an array since you're passing a single blog
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          );
+        })}
 
-    return (
-      <>
-      <div className="blogPageDefaultCardHeader">
-        <div className="blogPageDefaultCardHeading">{count._id}</div>
-        <Link to={showAllLink} alt="Showall link">
-          Show All
-        </Link>
-      </div>
-      <div key={index} id={sanitizedCategoryName} className="blog-split-container">
-        
-        <div className="blog-split-left">
-          {leftSideBlogs.map((blog, idx) => (
-            <BlogBiggerCard
-              key={idx}
-              title={count._id}
-              shorter={true}
-              data={[blog]}  // Wrap in an array since you're passing a single blog
-            />
-          ))}
-        </div>
-        <div className="blog-split-right">
-        
-          {rightSideBlogs.map((blog, idx) => (
-            <BlogBiggerCard
-              key={idx}
-              title={count._id}
-              shorter={true}
-              data={[blog]}  // Wrap in an array since you're passing a single blog
-            />
-          ))}
-        </div>
-      </div>
-      </>
-    );
-  })}
         {filteredCategories.slice(-2, -1)
           .map(([index, count], i) => {
             const categoryName = count._id[0]; // Assuming _id holds the category name
             const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
+            const blogCount = count.blogs.length;
+
             return (
               <BlogLargerCard
                 id={sanitizedCategoryName}
                 key={index}
                 title={count._id}
+                condition={condition}
                 shorter={true}
+                blogCount={blogCount}
                 data={Array.isArray(count.blogs) ? count.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
               />
             );
@@ -569,7 +591,7 @@ const filteredCategories = Object.entries(categoryData).filter(([_, count]) => {
     </>
   );
 };
-const BlogLargerCard = ({ id, title, data }) => {
+const BlogLargerCard = ({ id, title, condition, data, blogCount }) => {
   // State to control the number of visible blogs
   const [visibleBlogs, setVisibleBlogs] = useState(1);
   const [loadMoreClicked, setLoadMoreClicked] = useState(false); // Track whether 'Load More' was clicked
@@ -582,7 +604,7 @@ const BlogLargerCard = ({ id, title, data }) => {
       setLoadMoreClicked(true); // Update the state to change button to "Show All"
     } else {
       // Redirect to show all page when 'Show All' is clicked
-      navigate('/blogs/showAll');
+      navigate(`/blogs/showAll/${condition}/${title}`);
     }
   };
   return (
@@ -629,7 +651,7 @@ const BlogLargerCard = ({ id, title, data }) => {
         ))}
       </div>
       {/* Load More/Show All button */}
-      {visibleBlogs && (
+      {visibleBlogs && blogCount > 2 && (
         <button className="blogPageLoadMoreBtn" onClick={handleLoadMore}>
           {loadMoreClicked ? "Show All" : "Load more..."}
         </button>
@@ -726,7 +748,7 @@ const BlogBiggerCard = ({
       className="blogPageDefaultCardOuter section"
       style={{ width: shorter ? "84%" : "100%" }}
     >
-      
+
       <div className="blogPageDefaultCardBox">
         {data.map((x, index) => (
           <div className="blogPageDefaultCard" key={index} id={id}>
@@ -773,12 +795,16 @@ const BlogBiggerCard = ({
     </div>
   );
 };
-const BlogSmallCard = ({ title, data, showAllLink }) => {
+const BlogSmallCard = ({ title, data, showAllLink, blogCount }) => {
   return (
     <div className="blogPageRHS-defaultCardBox">
       <div className="blogPageRHS-defaultCardBoxHeader">
         <div className="blogPageRHS-defaultCardBoxTitle">{title}</div>
-        <Link to={'showAllLink'}>Show All</Link>{" "}
+        {blogCount > 4 && ( // Only show the link if there are more than 2 blogs
+          <Link to={showAllLink} alt="Showall link">
+            Show All
+          </Link>
+        )}
       </div>
       <div className="blogPageRHS-defaultCard-grid">
         {data.map((x, index) => (

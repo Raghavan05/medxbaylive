@@ -1,11 +1,9 @@
 .nutrition-tips-container {
-  
-  padding-bottom: 2rem;
-  padding-left: 150px  !important;
-  padding-right: 150px  !important;
-  padding-top: 2rem !important;
+  font-family: 'Matter' !important;
 
-  
+  max-width: 100% !important;
+  padding: 0 !important;
+  background-color: #fff;
 }
 
 @media (max-width: 600px) {
@@ -18,12 +16,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .nutrition-tips-title {
+  font-family: 'Matter';
   color: #181A2A;
-  font-size: 36px;
+  font-size: 26px;
   font-weight: 600;
 }
 
@@ -38,7 +37,16 @@ background-color: #FF7F50;
     align-items: flex-start;
   }
 }
+.nutrition-container1{
+  padding-top: 40px;
+  width: 100%;
+  height: 60vh !important;
+  background-color: #eef4ff;
+}
+.nutrition-container2{
+  padding-bottom: 30px;
 
+}
 .nutrition-tips-subheader {
   color: #757575;
   font-size: 14px;
@@ -52,14 +60,15 @@ background-color: #FF7F50;
 
 .nutrition-tips-image-container {
   width: 100%;
-  height: 50vh; /* You can adjust this value if needed */
+  height: 60vh; /* You can adjust this value if needed */
   margin-bottom: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Ensures that the image doesn't overflow */
-  background-color: #f5f5f5; /* Optional background color */
-  border-radius: 10px;
+  border-radius: 20px;
+  margin-left: 0px;
+  margin-top: -180px !important;
 
 }
 
@@ -71,7 +80,8 @@ background-color: #FF7F50;
 
 .nutrition-tips-content {
   line-height: 1.6;
-  margin-top: 1.5rem;
+  margin-top: 6.5rem;
+  margin-bottom: 2.5rem;
 }
 
 @media (max-width: 600px) {
@@ -98,13 +108,7 @@ color:  #718096;
 
 }
 
-/* Container for the entire page */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
+
 
 /* About the Author Section */
 .about-author-section {
@@ -256,7 +260,7 @@ color:  #718096;
 
 /* Similar Articles Section */
 .similar-articles-section h2 {
-  margin-bottom: 20px;
+  margin: 20px 0px;
 }
 
 .similar-articles-section .articles {
@@ -264,6 +268,7 @@ color:  #718096;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-top: 0;
 }
 
 .similar-articles-section .articles .article-card {
@@ -291,6 +296,8 @@ color:  #718096;
 }
 
 .article-info{
+  font-family: 'Matter';
+
   margin-top: 10px !important;
 }
 
@@ -310,6 +317,9 @@ color:  #718096;
 .article-info p {
   color: #666;
   font-size: 0.9em;
+  font-weight: 500;
+  word-wrap: 200px;
+  overflow-wrap: break-word;
 }
 
 .learn-more {
@@ -359,13 +369,11 @@ color:  #718096;
   color: #BFD2F8 !important;
   background: #1F2B6C;
   border-radius: 50%;
-  margin-left: 135px;
+  margin-left: 145px;
   margin-top: -70px;
 padding: 20px;
 
 }
-
-
 
 .social-media-container {
   display: flex;

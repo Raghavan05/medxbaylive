@@ -1,4 +1,33 @@
+@font-face {
+  font-family: 'Matter';
+
+  src: url('/src/assests/matter-font/Matter-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Matter';
+
+  src: url('/src/assests/matter-font/Matter-Bold.ttf') format('truetype');
+
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Matter';
+  src: url('/src/assests/matter-font/Matter-SemiBold.ttf') format('truetype');
+
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Matter';
+
+  src: url('/src/assests/matter-font/Matter-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
 .conditions-container {
+  font-family: 'Matter' ;
     padding: 20px;
     text-align: start;
   }
@@ -6,13 +35,23 @@
   .condition-lib-head1 {
     font-size: 2.0rem;  
     margin-bottom: 10px;
+    font-weight: 600;
+  font-family: 'Matter' ;
+
   }
   .condition-lib-head1 span{
     color: #0067FF;
-  }
+    font-weight: 600;
 
+  }
+  .condition-lib-info{
+    font-family: 'Matter' ;
+
+  }
   
   .popular-conditions-heading {
+  font-family: 'Matter' ;
+
     display: inline-block;
     font-weight: bold;
     color: #000; /* Text color */
@@ -32,6 +71,8 @@
     border-radius: 10px;
   }
   .popular-condition-name{
+  font-family: 'Matter' ;
+
     cursor: pointer;
     font-weight: 600;
   }
@@ -47,6 +88,8 @@
     position: relative;
     padding-bottom: 10px; /* Adjust the space between text and underline */
     margin-bottom: 20px;
+  font-family: 'Matter' ;
+
   }
   .allConditionsConditionLibraries::after{
     content: '';
@@ -59,6 +102,8 @@
     border-radius: 10px;
   }
   .allConditionsLib ul li{
+    font-family: 'Matter' ;
+
     font-weight: 600;
     font-size: 1.2rem;
     cursor: pointer;

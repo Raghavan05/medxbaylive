@@ -190,6 +190,7 @@
   align-items: end;
   /* margin-bottom: 2.2vw; */
   justify-content: space-between;
+  /* align-items: end; */
   /* background-color: rebeccapurple; */
 }
 
@@ -430,8 +431,14 @@
 
 .blogPageRHS {
   width: 43%;
+  position: relative;
 }
-
+/* Sticky sidebar */
+.sticky-sidebar {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 20px; /* Distance from the top of the viewport when it sticks */
+}
 .blogPageSearchBox {
   display: flex;
   font-size: 1.2em;
@@ -1315,16 +1322,21 @@
 .condition-nav-tabs a.active {
   border-bottom: 3px solid #fff;
 }
-
-.blog-split-container {
+.blog-alternate-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0px; /* Optional: Add gap between columns */
 }
 
-.blog-split-left, .blog-split-right {
-  flex: 1;
+.blog-left, .blog-right {
+  width: 45%; /* Adjust the width of each blog item as necessary */
+  margin-bottom: 1.5rem;
 }
-.blog-split-left{
-  margin-right: 150px;
+
+.blog-left {
+  float: left;
+}
+
+.blog-right {
+  float: right;
 }

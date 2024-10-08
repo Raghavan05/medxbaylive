@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import './LogoSlider.css'; 
-import asthma from '../../../assests/asthma-condition.jpg'; 
-import care from '../../../assests/care.png'; 
-import exe from '../../../assests/New.png'; 
-import staque from '../../../assests/staque.png'; 
-import wallet from '../../../assests/wallet.png'; 
-import carer from '../../../assests/carer.png'; 
+import staque from '../Assets/staque.png'; 
+import Alliance from '../Assets/Alliance.png'; 
+import healthwallet from '../Assets/healthwallet.png'; 
+import carer from '../Assets/carer.png'; 
+
+
 
 
 const logos = [
-    { id: 1, src: exe, alt: 'Logo 3' },
-    { id: 2, src: carer, alt: 'Logo 4' },
+    { id: 1, src: staque, alt: 'Logo 1' },
+    { id: 2, src: Alliance, alt: 'Logo 2' },
 
-  { id: 3, src: staque, alt: 'Logo 2' },
-  { id: 4, src: care, alt: 'Logo 1' },
+  { id: 3, src: healthwallet, alt: 'Logo 3' },
+  { id: 4, src: carer, alt: 'Logo 4' },
 
-  { id: 5, src: exe, alt: 'Logo 3' },
-  { id: 6, src: carer, alt: 'Logo 4' },
+  { id: 5, src: staque, alt: 'Logo 1' },
+  { id: 6, src: Alliance, alt: 'Logo 2' },
 
-{ id: 7, src: staque, alt: 'Logo 2' },
-{ id: 8, src: care, alt: 'Logo 1' },
-
+{ id: 7, src: healthwallet, alt: 'Logo 3' },
+{ id: 8, src: carer, alt: 'Logo 4' },
 
 
 ];

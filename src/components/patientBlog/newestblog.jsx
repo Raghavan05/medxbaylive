@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './BlogCarousel.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import moment from 'moment';
 import profileimg from "../Assets/profileimg.png";
+import { RiArrowDownSLine } from "react-icons/ri";
+import Loader from '../Loader/Loader';
 
 const BlogCarousel = () => {
   const [blogData, setBlogData] = useState([]);
@@ -12,11 +14,14 @@ const BlogCarousel = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const { condition, category } = useParams();
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 2;
 
   // Fetch blog data based on the condition and category
   useEffect(() => {
     const fetchBlogs = async () => {
+      setLoading(false);
+
       let apiUrl;
 
     // Ensure 'condition' or 'category' is defined
@@ -35,9 +40,9 @@ const BlogCarousel = () => {
         apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/most-read-blogs`; // Update with actual route for most reads
         break;
 
-      case 'recommended reading':
-        apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/recommended-blogs`; // Update with actual route for recommended reading
-        break;
+      // case 'recommended reading':
+      //   apiUrl = `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodeURIComponent(condition)}/recommended-blogs`; // Update with actual route for recommended reading
+      //   break;
 
       default:
         // Fallback for conditions with spaces (e.g., diseases)
@@ -46,25 +51,29 @@ const BlogCarousel = () => {
     }
       try {
         const response = await axios.get(apiUrl, { withCredentials: true });
-
         setBlogData(response.data.blogs || []); // Ensure to use response.data.blogs as per your backend structure
+        console.log(response.data.blogs);
+        setLoading(false);
+
+        
       } catch (error) {
         console.error('Error fetching blogs:', error);
+        setLoading(false);
+
       }
     };
     fetchBlogs();
   }, [condition, category]); // Also include category in the dependency array
 
-  // Filter blogData based on search term
-  const filteredBlogs = blogData.filter((blog) => 
-    blog.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    blog.subtitle.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+ // Filter blogData based on search term
+ const filteredBlogs = blogData.filter((blog) =>
+  blog.title?.toLowerCase().includes(searchTerm?.toLowerCase())
+);
 
   const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredBlogs.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredBlogs.slice(indexOfFirstItem, indexOfLastItem); // Updated to reflect current items based on pagination
 
   const handlePrev = () => {
     setCurrentIndex(currentIndex === 0 ? blogData.length - itemsPerPage : currentIndex - itemsPerPage);
@@ -105,22 +114,40 @@ const BlogCarousel = () => {
       return "Loading Image";
     }
   };
-
+  const handleClick = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  if (loading) {
+    return (
+      <Loader/>
+    );
+  }
   return (
-    <div>
-      <div className="featured-b" style={{ textAlign: 'center', paddingTop: '40px' }}>BLOGS</div>
+    <>
+    <div className='ShowAll-Container-main'>
+
+    <div className=' container ShowAll-Container1'>
+      <div className="featured-b" style={{ textAlign: 'center', paddingTop: '40px' }}>CONDITION LIBRARIES</div>
       <br />
       <br />
       <div className="featured-title">Featured</div>
 
       <div className="carousel-container67">
-        <button className="carousel-btn prev" onClick={handlePrev}>&#60;</button>
+        <button className="carousel-btn-prev prev" onClick={handlePrev}>
+        <RiArrowDownSLine className="arrow-icon-filter" />
+          
+        </button>
 
         <div className="cards-wrapper">
           {visibleCards.map((card) => (
             <div key={card.id} className="card">
-              <div className="card-content">
+              <div className="BlogCarousel-card-content">
+                <div className='card-image04-div'>
                 <img src={getProfileImage(card.image)} alt={card.title} className="card-image04" />
+                </div>
+                  
                 <div className="text-content">
                   <h5>{card.title}</h5>
                   <h6>{card.subtitle}</h6>
@@ -133,56 +160,79 @@ const BlogCarousel = () => {
                           : "No Description Available",
                       }}
                     ></p>
-                  <a href={card.link} className="read-more-btn">Read More →</a>
+                  <Link className="read-more-btn" to={`/blogPost/${card._id}`} >Read More →</Link>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <button className="carousel-btn next" onClick={handleNext}>&#62;</button>
-      </div>
+        <button className="carousel-btn-next next" onClick={handleNext}>
+        <RiArrowDownSLine className="arrow-icon-filter" />
 
-      {/* Search and Filters */}
-      <div className="blog-search">
-        <input 
-          type="text" 
-          placeholder="Search for Blogs..." 
-          className="search-input" 
-          value={searchTerm} 
-          onChange={(e) => setSearchTerm(e.target.value)} 
-        />
-        <br />
-        <div className="filters">
-          <div className="featured-title">ALL POST</div>
-          <div>
-            <select className="filter-dropdown">
-              <option>Condition Type</option>
-              {/* Add more options */}
-            </select>
-            <select className="filter-dropdown">
-              <option>All Specialties</option>
-              {/* Add more options */}
-            </select>
-            <select className="filter-dropdown">
-              <option defaultValue>Sort By: Relevance</option>
-              <option>Latest</option>
-              <option>Oldest</option>
-              {/* Add more options */}
-            </select>
-          </div>
-        </div>
+        </button>
       </div>
+    </div>
+
+      <div className='showAll-second-container'>
+        <div className='container'>
+
+
+    {/* Search and Filters */}
+<div className="blog-search">
+  <input 
+    type="text" 
+    placeholder="Search for condition libraries..." 
+    className="blogCarousel-search-input" 
+    value={searchTerm} 
+    onChange={(e) => setSearchTerm(e.target.value)} 
+  />
+  <div className="filters">
+    <div className="featured-title">ALL POSTS</div>
+    <div className="filter-dropdowns">
+      {/* <div className="select-wrapper">
+        <select className="filter-dropdown">
+          <option>Condition Type</option>
+        </select>
+        <RiArrowDownSLine className="arrow-icon-filter" />
+      </div>
+      <div className="select-wrapper">
+        <select className="filter-dropdown">
+          <option>All Specialties</option>
+        </select>
+        <RiArrowDownSLine className="arrow-icon-filter" />
+      </div> */}
+      <div className="select-wrapper">
+        <select className="filter-dropdown">
+          <option defaultValue>Sort By: Relevance</option>
+          <option>Latest</option>
+          <option>Oldest</option>
+          {/* Add more options */}
+        </select>
+        <RiArrowDownSLine className="arrow-icon-filter" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
       {/* Paginated Blog List */}
       <div className="paginated-list-container67">
         <div className="card-container67">
           {currentItems.map((item) => (
             <div key={item.id} className="cards98">
+              <Link className="" to={`/blogPost/${item._id}`} >
               <img src={getProfileImage(item.image)} alt={item.title} className="card-image67" />
+              </Link>
               <div className="card-content67">
-                <span className="category67">{item.category}</span>
-                <h3>{item.title}</h3>
+              <Link className="text-decoration-none" to={`/blogPost/${item._id}`} >
+                <span className="category67">{category}</span>
+                </Link>
+
+                <Link className="read-more67 text-decoration-none" to={`/blogPost/${item._id}`} >
+                <h5 className='card-content67-title'>{item.title}</h5>
+                </Link>
                 <p
                   className="description67"
                   dangerouslySetInnerHTML={{
@@ -193,45 +243,56 @@ const BlogCarousel = () => {
                       : "No Description Available",
                   }}
                 ></p>
+                <Link className="read-more67" to={`/blogPost/${item._id}`} >Read More <span>→</span></Link>
                 <div className="author-details67">
-                  <span><img src={profileimg} alt="Author" className="author-image67" /></span>
-                  <span>{item.author}</span>
+                  <span><img src={getProfileImage(item.image)} alt="Author" className="author-image67" /></span>
+                  <span className='author-details67-title'>{item.author}</span>
                   <span className="date67">{moment(item.date).format("MMMM DD, YYYY")}</span>
                 </div>
-                <a href="#" className="read-more67">Read More &rarr;</a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Pagination Controls */}
-        <div className="pagination67">
-          <button
-            onClick={() => setCurrentPage(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            &laquo;
-          </button>
+        {/* Pagination new  */}
+        {totalPages > 1 && (
+  <section className="New-rooms-pagination">
+    <button className="New-rooms-prev" onClick={() => handleClick(currentPage - 1)} disabled={currentPage === 1}>
+      Prev
+    </button>
+    <button className={currentPage === 1 ? "New-rooms-page New-rooms-active" : "New-rooms-page"} onClick={() => handleClick(1)}>
+      1
+    </button>
+    {currentPage > 3 && <p className="New-rooms-dots">...</p>}
+    {currentPage > 2 && (
+      <button className="New-rooms-page" onClick={() => handleClick(currentPage - 1)}>
+        {currentPage - 1}
+      </button>
+    )}
+    {currentPage !== 1 && currentPage !== totalPages && (
+      <button className="New-rooms-page New-rooms-active">{currentPage}</button>
+    )}
+    {currentPage < totalPages - 1 && (
+      <button className="New-rooms-page" onClick={() => handleClick(currentPage + 1)}>
+        {currentPage + 1}
+      </button>
+    )}
+    {currentPage < totalPages - 2 && <p className="New-rooms-dots">...</p>}
+    <button className={currentPage === totalPages ? "New-rooms-page New-rooms-active" : "New-rooms-page"} onClick={() => handleClick(totalPages)}>
+      {totalPages}
+    </button>
+    <button className="New-rooms-next" onClick={() => handleClick(currentPage + 1)} disabled={currentPage === totalPages}>
+      Next
+    </button>
+  </section>
+)}
+      </div>
+      </div>
 
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              className={currentPage === index + 1 ? 'active' : ''}
-            >
-              {index + 1}
-            </button>
-          ))}
-
-          <button
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            &raquo;
-          </button>
-        </div>
       </div>
     </div>
+
+    </>
   );
 };
 

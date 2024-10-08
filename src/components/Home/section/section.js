@@ -4,12 +4,13 @@ import React from 'react';
 import Insights from '../Insight/Insights';
 
 import { useEffect } from 'react';
-import MiddlePart from '../MiddlePart';
-import Whyus from '../WhyUs/Whyus'
+import Global from '../Globalaccess/Globalaccess';
+import Patientscaring from '../Patientscaring/Patientscaring';
+import FindBy from '../Findby/Findby';
+import Redefine from '../Redefine/Redefine';
 import Nestednavbar from '../../Nestednavbar/Nestednavbar'
 import Hero from '../Hero/Hero'
 
-import Siri from '../siri/Siri';
 import TestimonialSlider from '../section5/TestimonialSlider'
 import LogoSlider from '../LogoSlider/LogoSlider';
 // import Insights from '../section.6/Appp';
@@ -21,11 +22,11 @@ function Section() {
   return (
     <div className="Container">
       <Hero/>
-      <Nestednavbar/>
-  
-      <Whyus/>
-      <MiddlePart />
-      <Siri/>
+      {/* <Nestednavbar/> */}
+      <Global/>
+      <FindBy/>
+      <Patientscaring/>
+      <Redefine/>
       <LogoSlider/>
       <Insights />
 

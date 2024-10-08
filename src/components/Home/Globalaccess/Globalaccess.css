@@ -1,0 +1,49 @@
+.Global-Access-section {
+    background-color: #f5f9ff; /* Light blue background */
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .Global-Access-heading h3 {
+    color: rgba(39, 40, 72, 1);
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 54.25px;    
+    margin-bottom: 40px;
+  }
+  
+  .Global-highlighted-text {
+    color: rgba(1, 103, 255, 1);
+  }
+  
+  .Global-Access-image img {
+    width: 60%; 
+    border-radius: 12px;
+    filter: drop-shadow(6px 4px 4px 20px rgba(0, 0, 0, 0.1)); 
+    margin-bottom: 40px;
+  }
+  
+  .Global-Access-text-content {
+    color: rgba(82, 82, 91, 1);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 25.5px;
+    max-width: 75%;
+    margin: 0 auto; 
+  }
+  
+  @media (max-width: 768px) {
+    .Global-Access-image img {
+      width: 100%; /* Full width on smaller screens */
+    }
+    
+    .Global-Access-heading h3 {
+      font-size: 24px;
+    }
+  
+    .Global-Access-text-content {
+      font-size: 14px;
+      padding: 0 15px;
+    }
+  }
+  

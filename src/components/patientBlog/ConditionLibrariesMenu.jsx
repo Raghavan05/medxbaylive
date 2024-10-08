@@ -156,7 +156,7 @@ const Conditions = () => {
                                         <ul className="list-unstyled">
                                             {filteredConditions.slice(0, Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
                                                 <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
-                                                    {condition.name} ({condition.count})
+                                                    {condition.name}
                                                 </li>
                                             ))}
                                         </ul>
@@ -165,7 +165,7 @@ const Conditions = () => {
                                         <ul className="list-unstyled">
                                             {filteredConditions.slice(Math.ceil(filteredConditions.length / 2)).map((condition, index) => (
                                                 <li key={index} className="mb-3" onClick={() => handleConditionClick(condition.name)}>
-                                                    {condition.name} ({condition.count})
+                                                    {condition.name}
                                                 </li>
                                             ))}
                                         </ul>

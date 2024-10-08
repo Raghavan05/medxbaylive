@@ -131,13 +131,13 @@ text-align: left;
   
 }
 
-.next {
+.Article-next {
     margin-left: 110%;
 
     cursor: pointer;
 }
 
-.previous {
+.Article-previous {
     margin-left: -127%;
 
     cursor: pointer;
@@ -156,12 +156,12 @@ text-align: left;
     visibility: hidden;
 }
 
-.previous svg{
+.Article-previous svg{
 position: relative;
 left: 90px;
 }
 
-.next svg{
+.Article-next svg{
     position: relative;
     right: 90px;
     }

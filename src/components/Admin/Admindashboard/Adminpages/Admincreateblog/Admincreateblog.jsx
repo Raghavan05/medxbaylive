@@ -293,7 +293,7 @@ const AdminBlogUploadForm = () => {
                   <span>Choose File</span>
                 </div>
                 <p className="admin-create-blog-placeholder">
-                  Image
+                Image size less than 2MB
                   <span style={{ color: "red" }}> *</span>
                 </p>
               </div>
