@@ -80,27 +80,40 @@ const AdminBlogUploadForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Description Validation: Strip HTML tags and check if it's empty
+    const plainTextDescription = formData.description.replace(/<[^>]*>/g, "").trim();
+    if (!plainTextDescription) {
+      toast.error("Please fill in the description to publish the blog.");
+      return;
+    }
+  
+    // Image Validation: Check if an image is uploaded
+    if (!formData.image) {
+      toast.error("Please upload an image to publish the blog.");
+      return;
+    }
+  
     try {
       const formDataToSend = new FormData();
       for (const key in formData) {
         formDataToSend.append(key, formData[key]);
       }
-
+  
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/blog-all`, formDataToSend, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+  
       if (res.data) {
-         toast.info("Blog published successfully!");
-        handleAddClick();
+        toast.success("Blog published successfully!");
+        handleAddClick();  // Reset form after successful submission
       } else {
-        toast.info("Failed to publish blog.");
-        console.error("Failed to publish blog:", res.data);
+        toast.error("Failed to publish blog.");
       }
-    } catch (e) {
-      toast.info("An error occurred while publishing the blog.");
-      console.error(e);
+    } catch (error) {
+      toast.error("An error occurred while publishing the blog.");
+      console.error(error);
     }
   };
 
@@ -344,7 +357,6 @@ const AdminBlogUploadForm = () => {
              
               </div>
             )}
-
             <div className="admin-create-blog-button">
               <button type="submit" className="admin-create-blog-button-inside">
                 Publish Blog

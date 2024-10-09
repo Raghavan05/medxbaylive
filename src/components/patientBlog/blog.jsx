@@ -199,17 +199,13 @@ const Blog = () => {
 
   const loadBlogs = async () => {
     try {
-
       // Encode the condition to handle spaces and special characters
       const encodedCondition = encodeURIComponent(condition);
-
       // Make the request using the encoded condition
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/patient/blogs/conditions/${encodedCondition}`,
         { withCredentials: true }
       );
-      console.log(response.data);
-
       if (response.data) {
         setLoading(false);
         const data = response.data;
@@ -227,11 +223,8 @@ const Blog = () => {
         setRecentBlog(data.recentBlogs);
         setMostReadBlog(data.mostReadBlogs);
         setTopRatedDoctors(data.topRatedDoctors);
-        console.log(data.topRatedDoctors);
-
         setTempBlog(response.data);
         setCategories(data.blogsByCategory);
-
         // Sort topPriorityBlogs by updated date
         const sortedBlogs = data.topPriorityBlogs.sort(
           (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
@@ -285,8 +278,8 @@ const Blog = () => {
     <>
       {/* Navbar Section with Image Background */}
       <div className="condition-banner-container">
-        <h1>CONDITION LIBRARIES</h1>
-        <p>Content and tools to explore treatment, causes and care options for Condition libraries</p>
+        <h1>{condition}</h1>
+        {/* <p>Content and tools to explore treatment, causes and care options for Condition libraries</p> */}
         <div className="condition-nav-tabs">
           <a href="#overview" className="active" onClick={() => scrollToSection("overview")}>Overview</a>
           {Object.entries(categoryData)

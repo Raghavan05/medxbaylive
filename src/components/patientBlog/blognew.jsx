@@ -226,25 +226,41 @@ const Blognew = () => {
         </div>
 
         {/* Social Media */}
-        <div className="social-media-container">
-          <div className="social-icons">
-            <a href="#" className="icon">
-              <FaFacebook />
-            </a>
-            <a href="#" className="icon">
-              <FaTwitter />
-            </a>
-            <a href="#" className="icon">
-              <FaInstagram />
-            </a>
-          </div>
-          <p className="helpful-text">
-            Was this helpful? &nbsp;&nbsp;
-            <span>
-              <FaThumbsUp style={{ fontSize: '24px', marginTop: '-10px' }} />
-            </span>
-          </p>
-        </div>
+<div className="social-media-container">
+  <div className="social-icons">
+    <a 
+      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="icon"
+    >
+      <FaFacebook />
+    </a>
+    <a 
+      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="icon"
+    >
+      <FaTwitter />
+    </a>
+    <a 
+      href={`https://www.instagram.com/?url=${encodeURIComponent(window.location.href)}`} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="icon"
+    >
+      <FaInstagram />
+    </a>
+  </div>
+  <p className="helpful-text">
+    Was this helpful? &nbsp;&nbsp;
+    <span>
+      <FaThumbsUp style={{ fontSize: '24px', marginTop: '-10px' }} />
+    </span>
+  </p>
+</div>
+
 
         {/* About Author */}
         <div className="about-author-section">

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './LogoSlider.css'; 
-import staque from '../Assets/staque.png'; 
+import staque from '../Assets/staque-removebg-gray-1.png'; 
 import Alliance from '../Assets/Alliance.png'; 
 import healthwallet from '../Assets/healthwallet.png'; 
 import carer from '../Assets/carer.png'; 
-
-
-
 
 const logos = [
     { id: 1, src: staque, alt: 'Logo 1' },

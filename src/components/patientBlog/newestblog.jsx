@@ -129,7 +129,7 @@ const BlogCarousel = () => {
     <div className='ShowAll-Container-main'>
 
     <div className=' container ShowAll-Container1'>
-      <div className="featured-b" style={{ textAlign: 'center', paddingTop: '40px' }}>CONDITION LIBRARIES</div>
+      <div className="featured-b" style={{ textAlign: 'center', paddingTop: '40px' }}>{condition}</div>
       <br />
       <br />
       <div className="featured-title">Featured</div>
@@ -214,8 +214,6 @@ const BlogCarousel = () => {
     </div>
   </div>
 </div>
-
-
 
       {/* Paginated Blog List */}
       <div className="paginated-list-container67">
