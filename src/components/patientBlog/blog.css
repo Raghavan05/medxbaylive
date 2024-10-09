@@ -1278,7 +1278,7 @@
 
 /* Banner styles */
 .condition-banner-container {
-  background-image: url('../../assests/img/dummy-banner-conditioLib.jpg'); /* Use the correct image path */
+  background: #ff7f50; /* Use the correct image path */
   background-size: cover;
   background-position: center;
   padding: 100px 0;
@@ -1314,9 +1314,13 @@
   color: white;
   font-size: 16px;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: none !important;
   padding-bottom: 5px;
   position: relative;
+}
+
+.condition-nav-tabs a:hover{
+  color: #fff;
 }
 
 .condition-nav-tabs a.active {
