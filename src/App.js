@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import DoctorPopUp from './components/DoctorEdit/DoctorPopUp';
 //Landing page imported
-import Section from './components/Home/section/section';
+import LandingAll from './components/Landing_page/LandingAll/LandingAll'
 
 //all components imported
 import ChangePassword from './components/login/changepassword';
@@ -58,10 +58,11 @@ function App() {
     <SearchProvider>
       <Router>
         <Routes>
-        <Route path="/" element={[<Navbar/>,<Section />,<PopupModal/>,<Footer/>]} />          <Route path="/reset-password" element={<ChangePassword />} />
+        <Route path="/" element={[<LandingAll/>,<PopupModal/>,<Footer/>]} />          
+        <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
           <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     
-
+          
           <Route path="/edit/profile/doctor" element={[<Navbar/>,<Editdoctorprofile />,<Footer/>]}  />
           <Route path="/doctor/:id" element={[<Nestednavbar/>,<DoctorProfile />,<Footer/>]}/>
           <Route path="/profile/*" element={<ProfileRoutes />} />

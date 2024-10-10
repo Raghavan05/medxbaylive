@@ -265,6 +265,9 @@ const Navbar = () => {
               <li className="nav-item active ml-md-4">
                 <Link className="about-nav nav-link nav-link-style" to="/Spotlights">NewsRoom</Link>
               </li>
+              {/* <li className="nav-item active ml-md-4">
+                <Link className="about-nav nav-link nav-link-style" onClick={handleShowBlogPopup}>AI</Link>
+              </li> */}
             </ul>
 
             {!isLoggedIn ? (

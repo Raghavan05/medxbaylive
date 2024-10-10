@@ -28,7 +28,7 @@
 
 body {
   margin: 0;
-  font-family: 'Matter', sans-serif;
+  font-family: 'Matter', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

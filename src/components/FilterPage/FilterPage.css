@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding-bottom: 30px;
 }
 .filter-edit {
   width: 20% !important; /* Adjust this value to your preferred width */
@@ -12,7 +13,7 @@
   justify-content: center;
   max-width: 24%;
 } */
-.doctorMainCard-edit.col-lg-6{
+.doctorMainCard-edit.col-lg-6{  
   display: flex !important;
   justify-content: start !important;
 }

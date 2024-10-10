@@ -13,6 +13,7 @@ import Hero from '../Hero/Hero'
 
 import TestimonialSlider from '../section5/TestimonialSlider'
 import LogoSlider from '../LogoSlider/LogoSlider';
+import BlogPopup from '../../patientBlog/BlogPopup';
 // import Insights from '../section.6/Appp';
 
 function Section() {
@@ -21,6 +22,7 @@ function Section() {
 }, []);
   return (
     <div className="Container">
+      <BlogPopup/>
       <Hero/>
       {/* <Nestednavbar/> */}
       <Global/>

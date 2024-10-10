@@ -1,0 +1,387 @@
+/* General main container styling */
+.home-awareness-container-main {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Awareness container for both sections */
+.home-awareness-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  min-height: 608px;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.home-awareness-left,
+.home-awareness-right {
+  flex: 1 1 48%;
+  position: relative;
+}
+
+/* Left Section */
+.home-awareness-left {
+  background: rgba(242, 246, 255, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.home-awareness-content {
+  margin-top: 50px;
+  margin-left: 250px;
+  margin-right: auto;
+  max-width: 450px;
+  z-index: 1;
+}
+
+.home-awareness-image {
+  position: absolute;
+  left: 0;
+  max-width: 495px;
+  height: auto;
+  z-index: 0;
+}
+
+.home-awareness-title {
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: #272848;
+  margin-bottom: 20px;
+}
+
+.home-awareness-text-left {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.2px;
+  text-align: left;
+  color: rgba(82, 82, 91, 1);
+  margin-bottom: 20px;
+}
+
+.home-awareness-special {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 28.8px;
+  text-align: left;
+  color: rgba(0, 0, 0, 1);
+  margin-bottom: 20px;
+}
+
+.home-awareness-button {
+  width: 100%;
+  max-width: 150px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #ff6b4a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.home-awareness-button:hover {
+  background-color: #ff8b6a;
+}
+
+/* Right Section */
+.home-awareness-right {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.home-awareness-content-right {
+  max-width: 450px;
+  margin-top: 50px;
+  margin-right: auto;
+}
+
+.home-awareness-title-right {
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: rgba(0, 0, 0, 1);
+  margin-bottom: 20px;
+}
+
+.home-awareness-text-right {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.2px;
+  text-align: left;
+  color: rgba(82, 82, 91, 1);
+  margin-bottom: 30px;
+}
+
+.home-awareness-health-image {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-width: 401px;
+  height: auto;
+}
+
+/* Responsive adjustments for large screens */
+@media (max-width: 1600px) {
+  .home-awareness-content,
+  .home-awareness-content-right {
+    margin-top: 40px;
+    max-width: 420px;
+  }
+
+  .home-awareness-image,
+  .home-awareness-health-image {
+    max-width: 480px;
+  }
+}
+
+/* Responsive adjustments for screens between 1440px and 1024px */
+@media (max-width: 1440px) and (min-width: 1024px) {
+  .home-awareness-container {
+    gap: 15px; /* Reduce the gap slightly */
+  }
+
+  .home-awareness-content,
+  .home-awareness-content-right {
+    max-width: 400px; /* Reduce content width to fit better */
+    margin-top: 30px; /* Adjust top margin */
+  }
+
+  .home-awareness-content {
+    margin-left: 200px;
+  }
+
+  .home-awareness-title,
+  .home-awareness-title-right {
+    font-size: 18px; /* Slightly smaller title font size */
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .home-awareness-text-left,
+  .home-awareness-text-right {
+    font-size: 12px; /* Adjust font size for text */
+    line-height: 20px;
+  }
+
+  .home-awareness-special {
+    font-size: 16px; /* Adjust special text font size */
+  }
+
+  .home-awareness-button {
+    max-width: 140px; /* Adjust button width */
+    padding: 8px; /* Slightly smaller padding */
+  }
+
+  .home-awareness-image {
+    max-width: 420px; /* Reduce image size slightly */
+  }
+
+  .home-awareness-health-image {
+    max-width: 350px; /* Reduce health image size */
+  }
+}
+
+@media (max-width: 1024px){
+  .home-awareness-container {
+    gap: 10px;
+  }
+
+  .home-awareness-content,
+  .home-awareness-content-right {
+    max-width: 400px; 
+    margin-top: 30px; 
+  }
+
+  .home-awareness-content {
+    margin-left: 200px;
+  }
+
+  .home-awareness-title,
+  .home-awareness-title-right {
+    font-size: 18px; 
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .home-awareness-text-left,
+  .home-awareness-text-right {
+    font-size: 12px; 
+    line-height: 20px;
+  }
+
+  .home-awareness-special {
+    font-size: 16px; 
+  }
+
+  .home-awareness-button {
+    max-width: 140px; 
+    padding: 8px; /* Slightly smaller padding */
+  }
+
+  .home-awareness-image {
+    max-width: 420px; /* Reduce image size slightly */
+  }
+  .home-awareness-health-image {
+    max-width: 350px; /* Reduce health image size */
+  }
+
+}
+
+
+/* Responsive adjustments for tablet screens (below 998px) */
+@media (max-width: 998px) {
+  .home-awareness-container {
+    flex-direction: column;
+    min-height: 1100px;
+  }
+  .home-awareness-content,
+  .home-awareness-content-right {
+    max-width: 70%; 
+    margin-top: 30px; 
+  }
+
+  .home-awareness-content {
+    margin-left: 200px;
+  }
+  .home-awareness-image {
+    max-width: 400px;
+  }
+
+}
+
+
+/* Responsive adjustments for tablet screens (below 998px) */
+@media (max-width: 768px) {
+  .home-awareness-container {
+    flex-direction: column;
+    min-height: 1100px;
+  }
+  .home-awareness-content,
+  .home-awareness-content-right {
+    max-width: 60%; 
+    margin-top: 30px; 
+  }
+
+  .home-awareness-content {
+    margin-left: 200px;
+  }
+  .home-awareness-image {
+    max-width: 350px;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .home-awareness-container {
+    flex-direction: column;
+    min-height: 1000px;
+  }
+  .home-awareness-content{
+    max-width: 70%; 
+    margin-top: 30px; 
+  }
+  .home-awareness-content-right {
+    max-width: 60%; 
+    margin-top: 30px; 
+  }
+
+  /* .home-awareness-content {
+    margin-left: 160px;
+  } */
+  .home-awareness-text-left {
+    margin-bottom: 10px;
+  }
+  .home-awareness-special {
+    margin-bottom: 10px;
+  }
+  .home-awareness-image {
+    max-width: 360px;
+  }
+
+  .home-awareness-health-image {
+    max-width: 300px; /* Reduce health image size */
+  }
+
+}
+/* Responsive adjustments for screens between 480px and 320px */
+@media (max-width: 480px) {
+  .home-awareness-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+
+  .home-awareness-right {
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .home-awareness-left, .home-awareness-right {
+    /* padding: 20px 10px; */
+    width: 100%;
+  }
+
+  .home-awareness-content {
+    order: 2;
+    margin-left: 0;
+    text-align: center;
+    padding-right: 0;
+    max-width: 100%;
+    margin-top: 30px;
+    padding: 20px;
+  }
+ 
+
+  .home-awareness-image {
+    order: 1; 
+    position: static;
+    width: 280px;
+    height: auto;
+    margin: 0 auto 50px 0; /* Center image with margin auto */
+    display: block; /* Ensures it takes up the block width */
+  }
+
+  .home-awareness-health-image {
+    order: 3;
+    position: static;
+    width: 250px;
+    height: auto;
+    margin: 20px 0 40px auto; /* Center image with margin auto */
+    display: block;
+  }
+  .home-awareness-text-right {
+    padding-right: 0px;
+  }
+  .home-awareness-content-right{
+    order: 4;
+    max-width: 100%;
+    margin-top: 30px;
+  }
+  
+  .home-awareness-image, .home-awareness-health-image {
+    width: 200px;
+    height: auto;
+    
+    display: block; /* Ensures image takes up block space */
+  }
+
+
+  .home-awareness-title {
+    font-size: 20px;
+  }
+
+  .home-awareness-text-left, .home-awareness-text-right {
+    font-size: 13px;
+  }
+
+  .home-awareness-special {
+    font-size: 16px;
+  }
+}
+
