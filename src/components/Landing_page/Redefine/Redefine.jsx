@@ -4,6 +4,7 @@ import IHS from "../Assets/IHS.png";
 import patientEHR from "../Assets/patientEHR.png";
 import Support from "../Assets/Support.png";
 import Telemedicine from "../Assets/Telemedicine.png";
+
 import Aos from "aos";
 import "aos/dist/aos.css";
 
@@ -16,13 +17,8 @@ const Redefine = () => {
     <div className="redefine-wellness-container">
       <div className="redefine-wellness-content">
         <div className="redefine-left-section">
-          <h1>
-            We are{" "}
-            <span className="redefine-highlight">
-              Redefining <br /> Wellness
-            </span>
-          </h1>
-          <p>
+          <h1 data-aos="fade-down" data-aos-duration="3000">We are <span className="redefine-highlight">Redefining <br /> Wellness</span></h1>
+          <p data-aos="zoom-in-up" data-aos-duration="2000">
             At MedxBay, we believe healthcare should be empowering, accessible,
             and deeply personal. That’s why we’re transforming the way care is
             delivered—connecting patients, providers, and medical suppliers in
@@ -31,7 +27,7 @@ const Redefine = () => {
             health records (EHR) to accessing life-changing care across
             hospitals, clinics, surgeries, wellness spas, and more.
           </p>
-          <p>
+          <p data-aos="zoom-in-up" data-aos-duration="2000">
             Whether you need expert advice, a second opinion, or ongoing
             support, we are your healthcare partner at every stage—from
             diagnosis to recovery and beyond. With secure telemedicine,

@@ -4,7 +4,8 @@ import staque from '../Assets/staque.png';
 import Alliance from '../Assets/Alliance.png'; 
 import healthwallet from '../Assets/healthwallet.png'; 
 import carer from '../Assets/carer.png'; 
-
+import Aos from "aos";
+import "aos/dist/aos.css";
 const logos = [
   { id: 1, src: staque, alt: 'Logo 1' },
   { id: 2, src: Alliance, alt: 'Logo 2' },
@@ -33,10 +34,14 @@ const LogoSlider = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    Aos.init();
+  }, []);
+
   return (
     <div className="logo-slider">
-        <h3 className='logo-titile'>Our  <span>Partners </span></h3>
-        <p className='logo-text-home'>We believe that collaboration fuels innovation, 
+        <h3 className='logo-titile'  data-aos="fade-down" data-aos-duration="2000">Our  <span>Partners </span></h3>
+        <p className='logo-text-home' data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">We believe that collaboration fuels innovation, 
           allowing us to deliver the ultimate value to our customers. 
           By working alongside our esteemed partners,
           we delve into new possibilities, 

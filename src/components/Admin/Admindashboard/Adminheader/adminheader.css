@@ -179,9 +179,9 @@
     }
 
     .profile-container .image-container {
-        width: 45px;
-        height: 45px;
-        border-radius:50%;
+        width: 50px !important;
+        height: 50px !important;
+        border-radius:20px 5px 20px 5px;
     }
 }
 

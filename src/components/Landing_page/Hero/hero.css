@@ -499,8 +499,12 @@
   .hero-item {
     margin: 2rem 0;
     margin-top:2rem;
-  }
+    padding: 0 !important;
 
+  }
+  .search-box .search .outer .search-button{
+    margin: 1.5px 11px !important;
+  }
   .hero-item h5 {
     font-size: 12px;
     line-height: 22px;
@@ -649,6 +653,7 @@
   .hero-item {
     margin: 2rem 0;
     margin-top:2rem;
+
   }
 
   .hero-item h5 {

@@ -1,25 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './navbar.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./navbar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+
 import { SlBell } from "react-icons/sl";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import profilePlaceholder from '../Assets/profileimg.png';
-import SignupCard from '../signup/signup';
-import LoginCard from '../login/login';
-import logobrand from '../Assets/logobrand.png';
-import Provider from './Provider';
-import axios from 'axios';
-import BlogPopup from '../patientBlog/BlogPopup';
+import profilePlaceholder from "../Assets/profileimg.png";
+import SignupCard from "../signup/signup";
+import LoginCard from "../login/login";
+import logobrand from "../Assets/logobrand.png";
+import Provider from "./Provider";
+import axios from "axios";
+import BlogPopup from "../patientBlog/BlogPopup";
 
 const Navbar = () => {
+
+
+  // Initialize state for navbar open/close
+  const [navbarOpen, setNavbarOpen] = useState(true);
+
   const [isSignInClicked, setIsSignInClicked] = useState(false);
   const [isRegisterClicked, setIsRegisterClicked] = useState(false);
-  const [isCorporateDropdownOpen, setCorporateDropdownOpen] = useState(false);
-  const [isProvidersDropdownOpen, setProvidersDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState('');
+  const [userRole, setUserRole] = useState("");
   const [profileImage, setProfileImage] = useState(profilePlaceholder);
   const [verified, setVerified] = useState(false);
   const [trialCountdown, setTrialCountdown] = useState(null);
@@ -28,11 +32,7 @@ const Navbar = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showBlogPopup, setShowBlogPopup] = useState(false); // Add state for Blog Popup
   const navigate = useNavigate();
-  const corporateDropdownRef = useRef(null);
-  const providersDropdownRef = useRef(null);
 
-  const toggleCorporateDropdown = () => setCorporateDropdownOpen(!isCorporateDropdownOpen);
-  const toggleProvidersDropdown = () => setProvidersDropdownOpen(!isProvidersDropdownOpen);
 
   const handleShowLoginPopup = () => setShowLoginPopup(true);
   const handleCloseLoginPopup = () => setShowLoginPopup(false);
@@ -42,14 +42,52 @@ const Navbar = () => {
   const handleShowBlogPopup = () => setShowBlogPopup(true); // Handler to show Blog Popup
   const handleCloseBlogPopup = () => setShowBlogPopup(false); // Handler to close Blog Popup
 
+  /*dropdown-start*/
+  const [isWhoWeDropdownOpen, setWhoWeDropdownOpen] = useState(false);
+  const [isWhoWeDropdownOpenMobile, setWhoWeDropdownOpenMobile] = useState(false);
+
+  const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const [isAboutDropdownOpenMobile, setAboutDropdownOpenMobile] = useState(false);
+
+  const [isServiceDropdownOpen, setServiceDropdownOpen] = useState(false);
+  const [isServiceDropdownOpenMobile, setServiceDropdownOpenMobile] = useState(false);
+
+  const WhoWeDropdownRef = useRef(null);
+  const WhoWeDropdownRefMobile = useRef(null);
+
+  const AboutDropdownRef = useRef(null);
+  const AboutDropdownRefMobile = useRef(null);
+
+  const ServiceDropdownRef = useRef(null);
+  const ServiceDropdownRefMobile = useRef(null);
+
+  const toggleWhoWeDropdown = () => setWhoWeDropdownOpen(!isWhoWeDropdownOpen);
+  const toggleWhoWeDropdownMobile = () => setWhoWeDropdownOpenMobile(!isWhoWeDropdownOpenMobile);
+
+  const toggleAboutDropdown = () => setAboutDropdownOpen(!isAboutDropdownOpen);
+  const toggleAboutDropdownMobile = () => setAboutDropdownOpenMobile(!isAboutDropdownOpenMobile);
+
+  const toggleServiceDropdown = () => setServiceDropdownOpen(!isServiceDropdownOpen);
+  const toggleServiceDropdownMobile = () => setServiceDropdownOpenMobile(!isServiceDropdownOpenMobile);
+
+
   const handleClickOutside = (event) => {
-    if (corporateDropdownRef.current && !corporateDropdownRef.current.contains(event.target)) {
-      setCorporateDropdownOpen(false);
+    if (WhoWeDropdownRef.current && !WhoWeDropdownRef.current.contains(event.target)) {
+      setWhoWeDropdownOpen(false);
     }
-    if (providersDropdownRef.current && !providersDropdownRef.current.contains(event.target)) {
-      setProvidersDropdownOpen(false);
+    if (AboutDropdownRef.current && !AboutDropdownRef.current.contains(event.target)) {
+      setAboutDropdownOpen(false);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  /*dropdown-end*/
 
   const [showProviderModal, setShowProviderModal] = useState(false);
 
@@ -74,24 +112,24 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('loggedIn');
-    sessionStorage.removeItem('userId');
-    sessionStorage.removeItem('userEmail');
-    sessionStorage.removeItem('role');
-    sessionStorage.removeItem('subscriptionVerification');
-    sessionStorage.removeItem('subscriptionType');
+    sessionStorage.removeItem("loggedIn");
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("userEmail");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("subscriptionVerification");
+    sessionStorage.removeItem("subscriptionType");
 
     setIsLoggedIn(false);
-    setUserRole('');
+    setUserRole("");
     setProfileImage(profilePlaceholder);
-    navigate('/');
+    navigate("/");
 
     window.location.reload();
   };
 
   const handleLogin = (role) => {
-    sessionStorage.setItem('loggedIn', 'true');
-    sessionStorage.setItem('role', role);
+    sessionStorage.setItem("loggedIn", "true");
+    sessionStorage.setItem("role", role);
 
     setIsLoggedIn(true);
     setUserRole(role);
@@ -120,17 +158,18 @@ const Navbar = () => {
   useEffect(() => {
     const fetchProfileDetails = async () => {
       try {
-        const role = sessionStorage.getItem('role');
-        const apiUrl = role === 'doctor'
-          ? `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`
-          : `${process.env.REACT_APP_BASE_URL}/patient/profile`;
+        const role = sessionStorage.getItem("role");
+        const apiUrl =
+          role === "doctor"
+            ? `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`
+            : `${process.env.REACT_APP_BASE_URL}/patient/profile`;
 
         const response = await axios.get(apiUrl, { withCredentials: true });
         const userData = response.data;
 
         if (userData) {
-          if (role === 'doctor') {
-            setVerified(userData.doctor.verified === 'Verified');
+          if (role === "doctor") {
+            setVerified(userData.doctor.verified === "Verified");
 
             if (userData.doctor.profilePicture) {
               const profileImageData = `data:${userData.doctor.profilePicture.contentType};base64,${userData.doctor.profilePicture.data}`;
@@ -139,7 +178,7 @@ const Navbar = () => {
               setProfileImage(profilePlaceholder);
             }
 
-            if (userData.doctor.subscriptionType === 'Free') {
+            if (userData.doctor.subscriptionType === "Free") {
               const parsedTrialEndDate = new Date(userData.doctor.trialEndDate);
               setTrialEndDate(parsedTrialEndDate);
 
@@ -147,10 +186,18 @@ const Navbar = () => {
                 const now = new Date();
                 if (parsedTrialEndDate > now) {
                   const timeDifference = parsedTrialEndDate - now;
-                  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-                  const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-                  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                  const days = Math.floor(
+                    timeDifference / (1000 * 60 * 60 * 24)
+                  );
+                  const hours = Math.floor(
+                    (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                  );
+                  const minutes = Math.floor(
+                    (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+                  );
+                  const seconds = Math.floor(
+                    (timeDifference % (1000 * 60)) / 1000
+                  );
                   setTrialCountdown({ days, hours, minutes, seconds });
                 } else {
                   setTrialCountdown(null);
@@ -180,9 +227,9 @@ const Navbar = () => {
 
     fetchProfileDetails();
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
   const handleLinkClick = () => {
@@ -190,67 +237,282 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const loggedIn = sessionStorage.getItem('loggedIn') === 'true';
-    const role = sessionStorage.getItem('role');
+    const loggedIn = sessionStorage.getItem("loggedIn") === "true";
+    const role = sessionStorage.getItem("role");
     setIsLoggedIn(loggedIn);
     setUserRole(role);
   }, []);
 
-  const navbarClass = userRole === 'doctor' ? 'navbar navbar-expand-lg navbar-light navbar-doctor' : 'navbar navbar-expand-lg navbar-light navbar-default';
+  const [isOffcanvasOpen, setOffcanvasOpen] = useState(false);
 
+  const toggleOffcanvas = () => {
+    setOffcanvasOpen(!isOffcanvasOpen);
+  };
   return (
     <>
       <header>
-        <nav className={navbarClass}>
-          <a className="navbar-brand" href="/"><img src={logobrand} alt="Brand Logo" className='brand-img' /></a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav className={`navbar navbar-expand-lg navbar-light navbar-head-style ${isLoggedIn ? "logged-in-background" : ""}`}
+          style={isLoggedIn ? { backgroundColor: "white" } : {}}
+        >
+          <a className="navbar-brand" href="/">
+            <img src={logobrand} alt="Brand Logo" className='brand-img' />
+          </a>
+
+          {/* Offcanvas toggler button only visible on mobile */}
+          <button className="navbar-toggler" type="button" onClick={toggleOffcanvas}>
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ml-auto">
-              {userRole !== 'doctor' && (
-                <li className="nav-item active ml-md-4">
-                  <Link className="find-doctor nav-link nav-link-style" to="/Filters">Find Provider</Link>
+
+          {/* Offcanvas for mobile view */}
+          <div className={`offcanvas-custom ${isOffcanvasOpen ? 'open' : ''}`}>
+            <div className="offcanvas-header">
+              <a className="navbar-brand" href="/">
+                <img src={logobrand} alt="Brand Logo" className='brand-img' />
+              </a>
+              <button type="button" className="offcanvas-close" onClick={toggleOffcanvas}>
+                &times;
+              </button>
+            </div>
+            <div className="offcanvas-body">
+            
+              <ul className="navbar-nav ml-auto">
+              {userRole === "doctor" && (
+                      <li className="nav-item active ml-md-3">
+                        <div className="profile-container">
+                          <Link to="/doc-profile">
+                            <div className='image-container'>
+                              <img src={profileImage} alt="Profile" />
+                            </div>
+                          </Link>
+                        </div>
+                      </li>
+                    )}
+                    <div className="d-flex flex-row mb-3">
+                    {/* user-side */}
+                    {isLoggedIn && userRole !== "doctor" && (
+                      <li className="nav-item ml-md-3 mr-3">
+                        <div className="profile-container">
+                          <Link to="/profile/userprofile/">
+                            <div className='image-container'>
+                              <img src={profileImage} alt="Profile" />
+                            </div>
+                          </Link>
+                        </div>
+                      </li>
+
+                    )}
+                    {isLoggedIn && userRole !== "doctor" && (
+                      <li className="nav-item ml-md-3">
+                        <Link to="/profile/userprofile/notification">
+                          <div className="dashboard-setting-bell">
+                            <button
+                              type="button"
+                              className="nav-notification-button"
+                            >
+                              <SlBell className="notification-icon" />
+                            </button>
+                          </div>
+                        </Link>
+                      </li>
+                    )}
+
+                    
+                    </div>
+
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    className="find-doctor nav-link nav-link-style"
+                    to="/Filters"
+                  >
+                    Find Provider
+                  </Link>
                 </li>
-              )}
+                <li className="nav-item dropdown  active  ml-md-3" ref={WhoWeDropdownRefMobile}>
+                  <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleWhoWeDropdownMobile}>
+                    Who We Serve
+                    <FontAwesomeIcon icon={isWhoWeDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
+                  </Link>
+                  <div className={`dropdown-menu ${isWhoWeDropdownOpenMobile ? 'show' : ''}`}>
+                    <Link className="dropdown-item" to="/doctor/physician">Dr/Physician</Link>
+                    <Link className="dropdown-item" to="/patients">Patients</Link>
+                    <Link className="dropdown-item" to="/enterprise"> Enterprise</Link>
+                  </div>
+                </li>
 
-              <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
+                <li className="nav-item dropdown  active  ml-md-4" ref={ServiceDropdownRefMobile}>
+                  <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleServiceDropdownMobile}>
+                    Services
+                    <FontAwesomeIcon icon={isServiceDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
+                  </Link>
+                  <div className={`dropdown-menu ${isServiceDropdownOpenMobile ? 'show' : ''}`}>
+                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Hospitals/Clinics</Link>
+                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Labs</Link>
+                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Surgery</Link>
+                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Aesthetic</Link>
+                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link>
+                  </div>
+                </li>
+
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    to="https://www.medxbay.org/medxai/"
+                    target="_blank" rel="noopener noreferrer"
+                    className="about-nav nav-link nav-link-style"
+                  >
+                    Medx AI
+                  </Link>
+                </li>
+
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    className="for-corporates nav-link nav-link-style"
+                    to="/condition-libraries-menu"
+                    role="button"
+                    onClick={handleLinkClick}
+                  >
+                    Condition Libraries
+                  </Link>
+                </li>
+
+                <li className="nav-item dropdown  active  ml-md-3 pb-3" ref={AboutDropdownRefMobile}>
+                  <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleAboutDropdownMobile}>
+                    About
+                    <FontAwesomeIcon icon={isAboutDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
+                  </Link>
+                  <div className={`dropdown-menu ${isAboutDropdownOpenMobile ? 'show' : ''}`}>
+                    <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
+                  </div>
+                </li>
+
+              </ul>
+
+              {!isLoggedIn ?
+                (
+                  <ul className="navbar-nav d-flex flex-row ml-auto ">
+                    <li className="nav-item ml-md-3 pr-3">
+                      <button
+                        type="button"
+                        className="nav-signin-button"
+                        onClick={handleShowLoginPopup}
+                      >
+                        Sign In
+                      </button>
+                    </li>
+                    <li className="nav-item ml-md-3">
+                      <button
+                        type="button"
+                        className="nav-register-button"
+                        onClick={handleShowPopup}
+                      >
+                        Register
+                      </button>
+                    </li>
+                  </ul>
+                )
+                : (
+                  <ul className="navbar-nav ml-auto mr-md-2">
+                    {/* doctor-side */}
+                    {userRole === "doctor" && (
+                      <li className="nav-item active ml-md-3">
+                        <Link
+                          className="nav-link nav-link-style"
+                          to="/doctorprofile/dashboardpage/"
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                    )}
+
+                    {userRole === "doctor" && verified && (
+                      <li className="nav-item active ml-md-3">
+                        <Link
+                          className="nav-link nav-link-style"
+                          to="/SubscriptionPlans"
+                        >
+                          Upgrade
+                        </Link>
+                      </li>
+                    )}
+
+                    {trialCountdown && (
+                      <li className="nav-item active ml-md-3">
+                        <div className="trial-count-head d-flex align-items-start mb-3">
+                          <p className="free-trial-doctor"> Free Trial period</p>
+                          <div className="trial-countdown">
+                            {trialCountdown.days}d: {trialCountdown.hours}h:{" "}
+                            {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                          </div>
+                        </div>
+                      </li>
+                    )}
+
+                    
+                    
+
+                    <li className="nav-item ml-md-3">
+                      <div className="logout-container-button">
+                        <button className="logout-button" onClick={handleLogout}>
+                          <RiLogoutCircleRLine size="1.1rem" />
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                )
+              }
+            </div>
+          </div>
+          {/* Normal Navbar */}
+          <div className=" navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ml-auto">
+
+              <li className="nav-item active ml-md-3">
                 <Link
-                  className="for-corporates nav-link nav-link-style dropdown-toggle"
-                  to="/doctor/physician"
-                  role="button"
-                  onClick={handleLinkClick}
+                  className="find-doctor nav-link nav-link-style"
+                  to="/Filters"
                 >
-                  Dr/Physician
+                  Find Provider
                 </Link>
               </li>
-              <li className="nav-item dropdown active ml-md-4" ref={corporateDropdownRef}>
+              <li className="nav-item dropdown  active  ml-md-4" ref={WhoWeDropdownRef}>
+                <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleWhoWeDropdown}>
+                  Who We Serve
+                  <FontAwesomeIcon icon={isWhoWeDropdownOpen ? faChevronUp : faChevronDown} className="ml-2" />
+                </Link>
+                <div className={`dropdown-menu ${isWhoWeDropdownOpen ? 'show' : ''}`}>
+                  <Link className="dropdown-item" to="/doctor/physician">Dr/Physician</Link>
+                  <Link className="dropdown-item" to="/patients">Patients</Link>
+                  <Link className="dropdown-item" to="/enterprise"> Enterprise</Link>
+                </div>
+              </li>
+
+              <li className="nav-item dropdown  active  ml-md-4" ref={ServiceDropdownRef}>
+                <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleServiceDropdown}>
+                  Services
+                  <FontAwesomeIcon icon={isServiceDropdownOpen ? faChevronUp : faChevronDown} className="ml-2" />
+                </Link>
+                <div className={`dropdown-menu ${isServiceDropdownOpen ? 'show' : ''}`}>
+                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Hospitals/Clinics</Link>
+                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Labs</Link>
+                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Surgery</Link>
+                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Aesthetic</Link>
+                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link>
+                </div>
+              </li>
+
+
+              <li className="nav-item active ml-md-3">
                 <Link
-                  className="for-corporates nav-link nav-link-style dropdown-toggle"
-                  to="/enterprise"
-                  role="button"
-                  onClick={handleLinkClick}
+                  to="https://www.medxbay.org/medxai/"
+                  target="_blank" rel="noopener noreferrer"
+                  className="about-nav nav-link nav-link-style"
                 >
-                  Enterprise
+                  Medx AI
                 </Link>
               </li>
 
-              <li className="nav-item dropdown active ml-md-3 mr-3" ref={corporateDropdownRef}>
+              <li className="nav-item active ml-md-3">
                 <Link
-                  className="for-corporates nav-link nav-link-style dropdown-toggle"
-                  to="/patients"
-                  role="button"
-                  onClick={handleLinkClick}
-                >
-                  Patients
-                  {/* <FontAwesomeIcon icon={faChevronDown} className="ml-2" /> */}
-                </Link>
-              </li>
-
-              <li className="nav-item active ml-md-1">
-
-                <Link
-                  className="for-corporates nav-link nav-link-style dropdown-toggle"
+                  className="for-corporates nav-link nav-link-style"
                   to="/condition-libraries-menu"
                   role="button"
                   onClick={handleLinkClick}
@@ -259,97 +521,128 @@ const Navbar = () => {
                 </Link>
               </li>
 
-              <li className="nav-item active ml-md-4">
-                <Link className="about-nav nav-link nav-link-style" to="/About/Section">About</Link>
+              <li className="nav-item dropdown  active  ml-md-4" ref={AboutDropdownRef}>
+                <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleAboutDropdown}>
+                  About
+                  <FontAwesomeIcon icon={isAboutDropdownOpen ? faChevronUp : faChevronDown} className="ml-2" />
+                </Link>
+                <div className={`dropdown-menu ${isAboutDropdownOpen ? 'show' : ''}`}>
+                  <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
+                </div>
               </li>
-              <li className="nav-item active ml-md-4">
-                <Link className="about-nav nav-link nav-link-style" to="/Spotlights">NewsRoom</Link>
-              </li>
-              {/* <li className="nav-item active ml-md-4">
-                <Link className="about-nav nav-link nav-link-style" onClick={handleShowBlogPopup}>AI</Link>
-              </li> */}
+
             </ul>
 
-            {!isLoggedIn ? (
-              <ul className="navbar-nav ml-auto mr-md-2">
-                <li className="nav-item ml-md-4">
-                  <button type="button" className="nav-signin-button" onClick={handleShowLoginPopup}>Sign In</button>
-                </li>
-                <li className="nav-item ml-md-3">
-                  <button type="button" className="nav-register-button" onClick={handleShowPopup}>Register</button>
-                </li>
-              </ul>
-            ) : (
-              <ul className="navbar-nav ml-auto mr-md-2">
-                {userRole === 'doctor' && (
-                  <li className="nav-item active ml-md-4">
-                    <Link className="nav-link dashboard-text-button" to="/doctorprofile/dashboardpage/">Dashboard</Link>
+            {!isLoggedIn ?
+              (
+                <ul className="navbar-nav ml-auto ">
+                  <li className="nav-item ml-md-3">
+                    <button
+                      type="button"
+                      className="nav-signin-button"
+                      onClick={handleShowLoginPopup}
+                    >
+                      Sign In
+                    </button>
                   </li>
-                )}
-
-                {userRole === 'doctor' && verified && (
-                  <li className="nav-item active ml-md-4">
-                    <Link className="nav-link dashboard-text-button" to="/SubscriptionPlans">Upgrade</Link>
+                  <li className="nav-item ml-md-3">
+                    <button
+                      type="button"
+                      className="nav-register-button"
+                      onClick={handleShowPopup}
+                    >
+                      Register
+                    </button>
                   </li>
-                )}
+                </ul>
+              )
+              : (
+                <ul className="navbar-nav ml-auto mr-md-2">
+                  {/* doctor-side */}
+                  {userRole === "doctor" && (
+                    <li className="nav-item active ml-md-3">
+                      <Link
+                        className="nav-link nav-link-style"
+                        to="/doctorprofile/dashboardpage/"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                  )}
 
-                {trialCountdown && (
-                  <li className="nav-item active ml-md-4">
-                    <div className='row'>
-                      <p className='free-trial-doctor'> Free Trial period: </p>
-                      <div className="trial-countdown">
+                  {userRole === "doctor" && verified && (
+                    <li className="nav-item active ml-md-3">
+                      <Link
+                        className="nav-link nav-link-style"
+                        to="/SubscriptionPlans"
+                      >
+                        Upgrade
+                      </Link>
+                    </li>
+                  )}
 
-                        {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                  {trialCountdown && (
+                    <li className="nav-item active ml-md-3">
+                      <div className="trial-count-head">
+                        <p className="free-trial-doctor"> Free Trial period</p>
+                        <div className="trial-countdown">
+                          {trialCountdown.days}d: {trialCountdown.hours}h:{" "}
+                          {trialCountdown.minutes}m: {trialCountdown.seconds}s
+                        </div>
                       </div>
-                      {/* {trialCountdown.days}d: {trialCountdown.hours}h: {trialCountdown.minutes}m: {trialCountdown.seconds}s */}
+                    </li>
+                  )}
+
+                  {userRole === "doctor" && (
+                    <li className="nav-item active ml-md-3">
+                      <div className="profile-container">
+                        <Link to="/doc-profile">
+                          <div className='image-container'>
+                            <img src={profileImage} alt="Profile" />
+                          </div>
+                        </Link>
+                      </div>
+                    </li>
+                  )}
+                  {/* user-side */}
+                  {isLoggedIn && userRole !== "doctor" && (
+                    <li className="nav-item ml-md-3">
+                      <Link to="/profile/userprofile/notification">
+                        <div className="dashboard-setting-bell">
+                          <button
+                            type="button"
+                            className="nav-notification-button"
+                          >
+                            <SlBell className="notification-icon" />
+                          </button>
+                        </div>
+                      </Link>
+                    </li>
+                  )}
+
+                  {isLoggedIn && userRole !== "doctor" && (
+                    <li className="nav-item ml-md-3">
+                      <div className="profile-container">
+                        <Link to="/profile/userprofile/">
+                          <div className='image-container'>
+                            <img src={profileImage} alt="Profile" />
+                          </div>
+                        </Link>
+                      </div>
+                    </li>
+
+                  )}
+
+                  <li className="nav-item ml-md-3">
+                    <div className="logout-container-button">
+                      <button className="logout-button" onClick={handleLogout}>
+                        <RiLogoutCircleRLine size="1.1rem" />
+                      </button>
                     </div>
                   </li>
-                )}
-
-                {userRole === 'doctor' && (
-                  <li className="nav-item active ml-md-4">
-                    <Link to='/doc-profile'>
-                      <div className='image-container'>
-                        <button type="button" className="nav-notification-button">
-                          <img src={profileImage} alt="Profile" />
-                        </button>
-                      </div>
-                    </Link>
-                  </li>
-                )}
-
-                {isLoggedIn && userRole !== 'doctor' && (
-                  <li className="nav-item ml-md-4">
-                    <Link to='/profile/userprofile/notification'>
-                      <div className='dashboard-setting-bell'>
-                        <button type="button" className="nav-notification-button">
-                          <SlBell className='notification-icon' />
-                        </button>
-                      </div>
-                    </Link>
-                  </li>
-                )}
-
-                {isLoggedIn && userRole !== 'doctor' && (
-                  <li className="nav-item ml-md-4">
-                    <Link to='/profile/userprofile/'>
-                      <div className='image-container'>
-                        <button type="button" className="nav-notification-button">
-                          <img src={profileImage} alt="Profile" />
-                        </button>
-                      </div>
-                    </Link>
-                  </li>
-                )}
-
-                <li className="nav-item ml-md-4">
-                  <div className='logout-container-button'>
-                    <button className='logout-button' onClick={handleLogout}><RiLogoutCircleRLine size='1.1rem' /></button>
-                  </div>
-                </li>
-
-              </ul>
-            )}
+                </ul>
+              )
+            }
           </div>
         </nav>
         {isSignInClicked && (
@@ -371,21 +664,26 @@ const Navbar = () => {
             />
           </div>
         )}
-        <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
+        <SignupCard
+          show={showPopup}
+          handleClose={handleClosePopup}
+          openLoginModal={handleShowLogin}
+        />
         <LoginCard
           show={showLoginPopup}
           handleClose={handleCloseLoginPopup}
           openRegisterModal={handleShowRegister}
           handleLogin={handleLogin}
         />
-        <Provider show={showProviderModal} handleClose={() => setShowProviderModal(false)} />
-        <BlogPopup show={showBlogPopup} handleClose={handleCloseBlogPopup} /> {/* Add BlogPopup component */}
+        <Provider
+          show={showProviderModal}
+          handleClose={() => setShowProviderModal(false)}
+        />
+        <BlogPopup show={showBlogPopup} handleClose={handleCloseBlogPopup} />{" "}
+        {/* Add BlogPopup component */}
       </header>
     </>
   );
 };
 
 export default Navbar;
-
-
-

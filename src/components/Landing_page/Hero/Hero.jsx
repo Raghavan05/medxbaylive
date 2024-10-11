@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './hero.css'; 
 
+import Aos from "aos";
+import "aos/dist/aos.css";
+
 import doctorImage from '../../Assets/doctorImage.png';
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoMdSearch } from "react-icons/io";
@@ -191,6 +194,10 @@ const Hero = () => {
     );
   };
 
+  useEffect(() => {
+    Aos.init();
+  }, []);
+
     return (
         <>  
            <div className='hero-head '>
@@ -198,8 +205,8 @@ const Hero = () => {
               <div className='container-fluid'>
                 <div className='hero-content d-flex row  align-items-center'>
                     <div className="col-md-6 col-12 hero-item">
-                        <h5>Be Your Own Health Advocate</h5>
-                        <h1 className="hero-title">Find the<span>  Best Providers</span> <br /> Based On Your Condition</h1>
+                        <h5 data-aos="fade-right"data-aos-duration="2000">Be Your Own Health Advocate</h5>
+                        <h1 data-aos="fade-left" data-aos-duration="2000" className="hero-title">Find the<span>  Best Providers</span> <br /> Based On Your Condition</h1>
                         <div className='search-box'>
                             <div className="custom-select-wrapper">
                                 <HiOutlineLocationMarker className="icon-loc-src"/>
@@ -216,30 +223,30 @@ const Hero = () => {
                             </div>
                             <div className='simple-line'></div>
                             <div className="search">
-                <IoMdSearch className="icon-loc-src" />
-                <input
-                type="text"
-                className="search-input"
-                id="what"
-                value={what}
-                onChange={handleWhatInput}
-                placeholder="Search Providers"
-                onFocus={handleFocusWhat}
-                onBlur={() => setTimeout(() => setShowWhatOptions(false), 200)}
-                autoComplete="off"
-                />
-                {showWhatOptions && renderDropdownItems()}
-                <div className='simple-line-small'></div>
-                <div className="outer">
-                  <button className="search-button" onClick={handleSubmit}>
-                    Find My Provider
-                  </button>
-                </div>
-              </div>
+                            <IoMdSearch className="icon-loc-src" />
+                            <input
+                              type="text"
+                              className="search-input"
+                              id="what"
+                              value={what}
+                              onChange={handleWhatInput}
+                              placeholder="Search Providers"
+                              onFocus={handleFocusWhat}
+                              onBlur={() => setTimeout(() => setShowWhatOptions(false), 200)}
+                              autoComplete="off"
+                            />
+                            {showWhatOptions && renderDropdownItems()}
+                            <div className='simple-line-small'></div>
+                            <div className="outer">
+                              <button className="search-button" onClick={handleSubmit}>
+                                Find My Provider
+                              </button>
+                            </div>
+                          </div>
                         </div>
                     </div>
 
-                    <div className="col-md-6 col-12 text-center">
+                    <div className="col-md-6 col-12 text-center" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="2000">
                         <div className='image-division'>
                             <div className="ecg-container">
                                 <svg viewBox="0 0 100 50" className="ecg-line">

@@ -8,7 +8,7 @@ import Nestednavbar from '../Nestednavbar/Nestednavbar';
 import Hero from '../Hero/Hero';
 import LogoSlider from '../LogoSlider/LogoSlider';
 import Lookingfor from '../Lookingfor/Lookingfor';
-import Afya from '../Afya/Afya';
+import Medx from '../Medx/Medx';
 import Bmsupport from '../Bmsupport/Bmsupport';
 
 function LandingAll() {
@@ -25,7 +25,7 @@ function LandingAll() {
       <FindBy />
       <Patientscaring />
       <Redefine />
-      <Afya/>
+      <Medx/>
       <Bmsupport/>
       <LogoSlider />
       <Insights />

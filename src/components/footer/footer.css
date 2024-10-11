@@ -1,185 +1,257 @@
 /* Base Styles */
-.footer-container {
-  width: 100%;
-  height: auto; /* Adjusted height to auto to accommodate content */
-  padding: 60px 20px; /* Adjusted padding for responsive design */
-  gap: 0px;
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
-  text-align: center; /* Center text within the container */
-  background-color: #DBE8FF;
-  font-family: 'matter', sans-serif;
-  border-radius: 8px;
-}
-
-body {
-  font-family: 'matter', sans-serif;
-}
-
-.footer-containers {
+.custom-footer {
   background-color: #F4F7FC;
+  padding: 40px 20px;
+}
+
+.custom-footer-container {
   display: flex;
-  justify-content: center; /* Center the entire footer horizontally */
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  font-family: Matter, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.text-container {
-  margin-bottom: 20px; /* Space below the text */
-}
-
-.parawe {
-  color: #0E0E0E;
-}
-
-.header {
-  color: #0167FF;
-  font-size: 24px;
-  margin-bottom: 10px; /* Adjust spacing below header */
-}
-
-.footer-container p {
-  width: 100%;
-  max-width: 433.29px;
-  height: 35px;
-  gap: 0px;
-  opacity: 1;
-
-  font-family: 'matter', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 24px;
+.custom-footer-logo {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-.email-text {
-  font-size: 14px;
-  color: #0E0E0E;
-  margin-bottom: 20px; /* Space below the text */
-  white-space: nowrap; /* Prevent text from wrapping */
+.custom-footer-logo h2 {
+  font-size: 24px;
+  line-height: 1.2;
 }
-
-/* Email Container */
-.email-container {
+.custom-footer-socials {
   display: flex;
-  align-items: center; /* Center items vertically */
-  justify-content: center; /* Center items horizontally */
-  position: relative; /* Required for positioning the button within the input */
+  gap: 20px;
+  margin-top:10px;
+  margin-left: -18px;
+}
+
+.custom-social-icon {
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  background-color: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-social-icon a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Ensures icon color is white */
+  font-size: 20px; /* Adjust font size as needed */
   width: 100%;
-  max-width: 450px;
-  margin-top: 20px; /* Added space on top of the email input */
+  height: 100%;
+}
+
+.gwaimage {
+  width: 150px;
+  height: 35px;
+}
+
+.custom-footer-links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.custom-footer-column {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.custom-footer-column h4 {
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
-.email-box {
-  padding: 10px;
+.custom-footer-column ul {
+  color: #0E0E0E;
+  list-style: none;
+  padding: 0;
+  font-family: 'Matter', sans-serif;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  width: calc(100% - 56px); /* Adjust width to account for the button */
-  height: 56px;
+  font-weight: 500;
+  line-height: 25px;
+  text-align: left;
 }
 
-.email-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 56px;
-  height: 56px;
-  font-size: 16px;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
+.custom-footer-column li {
+
+  color: #535353 !important;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: 'Matter', sans-serif;
+  font-weight: 400;
+  line-height: 15px;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.submit {
+  width: 30px;
+}
+
+.custom-footer-column p {
+  color: #535353;
+  font-size: 13px;
+}
+
+.custom-subscribe-form {
   display: flex;
-  align-items: center;
   justify-content: center;
+
 }
 
-.email-button .fa-envelope {
-  font-size: 16px;
+.custom-subscribe-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  flex: 1;
+  margin-right: 0;
 }
 
-/* Media Queries */
-@media (max-width: 991px) {
-  .footer-container {
-    padding: 15px; /* Adjust padding for smaller screens */
-  }
-
-  .email-container {
-    width: 100%; /* Ensure container is full width */
-  }
-
-  .email-box {
-    width: calc(100% - 56px); /* Make email input full width on smaller screens */
-    margin-right: 0; /* Remove right margin */
-  }
-
-  .email-button {
-    position: absolute; /* Keep the button inside the input */
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 56px; /* Fixed width */
-    border-radius: 0 4px 4px 0; /* Adjust border-radius */
-    margin-bottom: 0; /* Remove margin-bottom to keep input and button aligned */
-  }
-
-  .email-container {
-    flex-direction: row; /* Ensure email input and button are in the same line */
-    align-items: center; /* Center items horizontally */
-  }
+.custom-subscribe-form button {
+  width: 40px;
+  height: auto;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  margin-left: -1px;
 }
 
-@media (max-width: 575px) {
-  .header {
-    font-size: 20px; /* Decrease font size for header on smaller screens */
+.custom-footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  color: #666;
+}
+
+.rights-reserved {
+  font-family: 'Matter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25px;
+  text-align: center;
+  color: #535353;
+  opacity: 50%;
+}
+
+.para {
+  margin-top: 20px;
+}
+
+/* Medium screens (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .custom-footer-container {
+    flex-direction: row;
+    align-items: flex-start;
   }
 
-  .footer-container p {
-    font-size: 14px; /* Decrease font size for paragraph on smaller screens */
+  .custom-footer-logo {
+    text-align: left;
+    flex: 1;
+    margin-bottom: 0;
   }
 
-  .email-text {
-    font-size: 12px; /* Smaller font size for text */
-    margin-bottom: 15px; /* Adjust space below the text */
+  .custom-footer-links {
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+    flex: 3;
+    margin-top: 0;
   }
 
-  .email-container {
-    width: 100%; /* Ensure container is full width */
-  }
-
-  .email-box {
-    width: calc(100% - 56px); /* Adjust width to account for the button */
-  }
-
-  .email-button {
-    position: absolute; /* Keep the button inside the input */
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 56px; /* Fixed width */
-    border-radius: 0 4px 4px 0; /* Adjust border-radius for button */
-    margin-bottom: 0; /* Remove margin-bottom to keep input and button aligned */
-  }
-
-  .email-container {
-    flex-direction: row; /* Ensure email input and button are in the same line */
-    align-items: center; /* Center items horizontally */
+  .custom-footer-column {
+    text-align: left;
+    margin: 0 10px;
   }
 }
 
-@media (min-width: 2560px) {
-  .footer-container {
-    max-width: 100%;
+/* Large screens (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .custom-footer-container {
+    flex-wrap: nowrap;
+  }
+
+  .custom-footer-column {
+    margin: 0 20px;
+    flex: 0 0 30%;
+    margin-left: 15px;
+  }
+
+  .custom-footer-links {
+    flex: 0 0 68%;
+    display: flex;
+    justify-content: space-between;
+    gap: -10px;
   }
 }
 
-@media (min-width: 3840px) {
-  .footer-container {
-    max-width: 100%;
+/* Small screens (less than 768px) */
+@media (max-width: 767px) {
+  .custom-footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .custom-footer-logo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .custom-footer-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .custom-footer-column {
+    text-align: center;
+    margin: 0 10px 20px;
+  }
+
+  .custom-footer-column ul {
+    text-align: center;
+  }
+
+  .custom-footer-column li {
+    text-align: center;
+  }
+
+  .custom-footer-socials {
+    justify-content: center;
+    margin-top: 20px;
+  }
+}
+
+/* Extra small screens (less than 400px) */
+@media (max-width: 400px) {
+  .custom-footer-container {
+    text-align: center;
+  }
+
+  .custom-footer-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .custom-footer-column {
+    text-align: center;
+    justify-content: center;
+    margin-left: -10px;
+  }
+
+  .custom-footer-socials {
+    margin-left: 10px;
   }
 }

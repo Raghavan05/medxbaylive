@@ -1,65 +1,75 @@
-.navbar{
-  font-family: 'Matter' ;
-
+.navbar-head-style{
+  padding: 2rem  2rem;
 }
-.navbar-brand {
-  margin-left: 60px;
+
+.logged-in-background {
+  background-color: white !important;
 }
 
 .brand-img {
-  width: 150px;
-  height: 35px;
+  margin-left: 1rem;
+  max-width: 135.48px;
+  max-height: 31px; 
+}
+
+.nav-link-style{
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 25px;
+  text-align: left;
+  color: rgba(39, 40, 72, 1);
+}
+
+.trial-count-head{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.trial-count-head .free-trial-doctor{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 25px;
+  text-align: left;
+  color: rgba(39, 40, 72, 1);
+  margin: 0;
 }
 
 .trial-countdown {
-  min-width: 150px; 
-  padding: 5px 10px; 
-  background-color: #ffffff; 
-  color: #333; 
-  border-radius: 5px; 
-  color:#FF7F50 ;
-  /* border: 1px solid #FF7F50; */
-  font-size: 16px;
+  min-width: 150px;
+  height: fit-content; 
   text-align: center; 
-  font-weight: bold; 
-  font-size: 14px; 
-  font-weight: 400px;
+  color: #333; 
+  border-radius:2px; 
+  color:#FF7F50 ;
+  border: 1px solid #FF7F50;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 25px;
   white-space: nowrap; 
-  position: relative; 
-  top: 20px;
-  left: -52px;
 }
+
+
+
+
 .nav-item.active {
   position: relative; 
 }
 
-.navbar-head-style {
-  padding: 2rem 3rem;
-  z-index: 1000;
-}
 
 /* Background color for doctors page only */
-.navbar-doctor {
+/* .navbar-doctor {
   background-color: #ffffff ; 
-}
+} */
 
-.nav-link-style {
-  color: #272848;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 25px;
-}
 
-.find-doctor {
-  margin-left: 30px;
-}
+
 
 /* Dropdown styles */
 .dropdown-menu {
-  background-color: #272848;
+  border-radius: 12px !important;
 }
-
-
 
 .dropdown-item {
   color: #fff;
@@ -67,7 +77,8 @@
 }
 
 .dropdown-item:hover {
-  background-color: #FFFFFF;
+  background-color: #0167FF;
+  color: #fff;
 }
 
 .nav-link.dropdown-toggle::after {
@@ -93,7 +104,7 @@
   padding: 7px 20px;
   font-size: 16px;
   font-weight: 600;
-  margin-right: 50px;
+  margin-right:1rem;
 }
 
 /* Blur background for modals */
@@ -111,12 +122,7 @@
   align-items: center;
 }
 
-.dashboard-text-button{
-  color: #272848;
-  margin-top:4.5px;
-  font-size: 16px;
-  font-weight: 500;
-}
+
 
 .logout-container-button{
   cursor: pointer;
@@ -159,7 +165,7 @@
   position: relative;
 }
 
-/* .nav-notification-button::after {
+.nav-notification-button::after {
   position: absolute;
   content: '';
   top: -22px;
@@ -169,7 +175,7 @@
   border-radius:50%;
   background: #42427D;
   border: 5px solid #FFFFFF;
-} */
+}
 
 .notification-icon{
   color: #42427D;
@@ -180,18 +186,7 @@
   height: 18px;
 }
 
-.image-container {
-  width: 50px;
-  height: 50px;
-  border-radius: 20px 5px 20px 5px;
-  overflow: hidden;
-}
 
-.image-container img {
-  width: 46px;
-  height: 46px;
-  object-fit: cover;
-}
 
 
 
@@ -205,10 +200,131 @@
 .find-doctor.nav-link.nav-link-style:hover {
   color: #007bff; /* Optionally, add a hover effect */
 }
-.free-trial-doctor{
-  position: relative;
-  left: 80px;
 
-  font-size: 16px;
-  font-weight: 400px;
+
+/* Show the navbar-toggler at 1024px or below */
+@media (max-width: 1440px) {
+  .nav-link-style{
+    font-size: 14px;
+  }
+}
+/* Show the navbar-toggler at 1024px or below */
+@media (max-width: 1200px) {
+  .nav-link-style{
+    font-size: 14px;
+    /* text-wrap: nowrap; */
+  }
+}
+@media (max-width: 1100px) {
+  .nav-signin-button{
+    font-size: 14px;
+  padding: 7px 20px;
+  /* text-wrap: nowrap; */
+  }
+  .nav-register-button{
+    font-size: 14px;
+  padding: 7px 20px;
+  /* text-wrap: nowrap; */
+  }
+}
+@media (max-width: 1023px) {
+  .navbar-brand {
+    margin-left: 0.5rem;
+  }
+}
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .nav-link {
+      padding-right: .1rem;
+      padding-left: .1rem;
+  }
+  .brand-img {
+    padding-left: 0rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    margin-left: 0rem;
+  }
+}
+
+/* Show offcanvas only in mobile view (max-width 768px) */
+/* Hide offcanvas on large screens */
+@media (min-width: 992px) {
+  .offcanvas-custom {
+    display: none !important;
+  }
+  
+}
+
+/* Show offcanvas only on mobile */
+@media (max-width: 991px) {
+  .offcanvas-custom {
+    display: block !important;
+  }
+
+  .navbar-collapse{
+    display: none !important;
+  }
+}
+
+/* Custom offcanvas container */
+.offcanvas-custom {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Start hidden on the left */
+  width: 300px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Left shadow */
+  transition: left 0.3s ease; /* Animate from left */
+  z-index: 1050;
+}
+
+/* Open state for the offcanvas */
+.offcanvas-custom.open {
+  left: 0; /* Slide in from the left */
+}
+
+
+/* Offcanvas header */
+.offcanvas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Offcanvas close button */
+.offcanvas-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Offcanvas body */
+.offcanvas-body {
+  padding: 1rem;
+}
+
+/* Navbar toggler for mobile */
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+}
+.offcanvas-btn-div{
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.offcanvas-btn{
+  background-color: #FF7F50 !important;
+  color: #fff !important;
+  padding: 10px;
+}
+.offcanvas-body .navbar-nav{
+  padding:0px 20px;
 }

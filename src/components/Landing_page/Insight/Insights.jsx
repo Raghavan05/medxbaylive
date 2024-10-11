@@ -1,14 +1,13 @@
-import {useState } from 'react';
+import {useState,useEffect } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import '../Insight/Insights.css';
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-
+import Aos from "aos";
+import "aos/dist/aos.css";
 function Insights() {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const totalCards = 4;
-
-    
 
     const handleLeftClick = () => {
         setCurrentCardIndex(prevIndex => (prevIndex - 1 + cardData.length) % cardData.length);
@@ -72,12 +71,16 @@ function Insights() {
         trackMouse: true
     });
 
+    useEffect(() => {
+        Aos.init();
+      }, []);
+
     return (
         <div className="insight-background" {...handlers}>
             <div className="frame">
-                <h4 className="blog">Condition Libraries</h4>
-                <h2 className="explore-insight">Explore Insights</h2>
-                <p className="insight-content">Stay one step ahead with our dedicated latest news update blogs.</p>
+                <h4 className="blog" data-aos="fade-down" data-aos-duration="2000">Condition Libraries</h4>
+                <h2 className="explore-insight" data-aos="fade-down" data-aos-duration="2000">Explore Insights</h2>
+                <p className="insight-content" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Stay one step ahead with our dedicated latest news update blogs.</p>
                 <div className="navigation">
                     <div 
                         className="left-round active" 
@@ -93,7 +96,10 @@ function Insights() {
                     </div>
                 </div>
             </div>
-            <div className="insight-card">
+            <div className="insight-card" data-aos="fade-left"
+     data-aos-anchor="#example-anchor"
+     data-aos-offset="500"
+     data-aos-duration="500">
                 {cardData.slice(currentCardIndex, currentCardIndex + 4).map((card, index) => {
                     return (
                         <div 

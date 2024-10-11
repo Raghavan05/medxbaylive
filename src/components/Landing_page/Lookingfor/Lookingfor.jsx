@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './lookingfor.css';
 import AestheticIcon from '../Assets/lookingaesthetic.png'; 
 import HospitalIcon from '../Assets/lookingclinic.png';
@@ -6,6 +6,8 @@ import ProviderIcon from '../Assets/lookingdoc.png';
 import LabsIcon from '../Assets/lookinglab.png'; 
 import MedicalStoreIcon from '../Assets/lookingmedical.png';
 import SurgeryIcon from '../Assets/lookingsurgery.png';
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Lookingfor = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -18,12 +20,17 @@ const Lookingfor = () => {
     { name: 'Surgery', icon: SurgeryIcon },
   ];
 
+  useEffect(() => {
+    Aos.init();
+  }, []);
+
   return (
     <div className="looking-container">
-      <h2>You may be <span className="looking-highlight">looking for</span></h2>
-      <div className="looking-card-container">
+      <h2  data-aos="fade-down" data-aos-duration="2000">You may be <span className="looking-highlight">looking for</span></h2>
+      <div className="looking-card-container" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
         {items.map((item, index) => (
           <div
+          
             key={index}
             className="looking-card"
             onMouseEnter={() => setHoveredIndex(index)}

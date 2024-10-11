@@ -1,7 +1,7 @@
 
 //defult Fatching Navbar and Footer with dynmaic
 import Navbar from './components/Navbar/Navbar'
-import Footer from './components/footer/footerrs';
+import Footer from './components/Footer/Footer';
 
 //imported bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -67,7 +67,7 @@ function App() {
           <Route path="/doctor/:id" element={[<Nestednavbar/>,<DoctorProfile />,<Footer/>]}/>
           <Route path="/profile/*" element={<ProfileRoutes />} />
           <Route path="/doctorprofile/dashboardpage/*" element={<ConnectedRoutes />} />
-          <Route path="/Filters" element={<FilterPage />} />
+          <Route path="/Filters" element={[<Nestednavbar/>,<FilterPage />,<Footer/>]} />
           <Route path="/Spotlights" element={[<Navbar/>,<NewsRoom />,<Footer/>]} />
           <Route path="/verify/login" element={<VerifyLogin />} />
           <Route path="/verify" element={<Verification />} />

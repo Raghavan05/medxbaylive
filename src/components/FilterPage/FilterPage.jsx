@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import DoctorMainCard from './DoctorMainCard';
 import Filter from './Filter';
 import './FilterPage.css';
-import Footer from '../footer/footerrs';
 import MapContainer from './Mapcontainer';
 import { fetchFromPatient } from '../../actions/api';
-import Nestednavbar from '../Nestednavbar2/Nestednavbar2';
 import { useSearch } from '../context/context';
 
 const FilterPage = () => {
@@ -187,7 +185,6 @@ const FilterPage = () => {
 
   return (
     <>
-      <Nestednavbar />
       <div className='container-fluid mt-5'>
         <div className='filterpage-parent'>
           <button onClick={toggleFilterCanvas} className="btn btn-primary my-3 d-lg-none">
@@ -216,7 +213,6 @@ const FilterPage = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );

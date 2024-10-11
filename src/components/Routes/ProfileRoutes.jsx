@@ -8,7 +8,7 @@ import Prescriptions from '../ProfileItem/Prescriptions/Prescriptions';
 import Notification from '../ProfileItem/Notification/Notification';
 import ProfileLayout from '../Layout/ProfileLayout';
 import Nestednavbar from '../Nestednavbar2/Nestednavbar';
-import Footer from '../footer/footerrs';
+import Footer from '../Footer/Footer';
 
 const ProfileRoutes = () => {
   return (
