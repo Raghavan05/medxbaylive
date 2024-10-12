@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const AddNewBlog = ({loadBlogs}) => {
   const [showAddNewBlog, setShowAddNewBlog] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   
   const [newBlog, setNewBlog] = useState({
     title: "",
@@ -65,9 +66,11 @@ const AddNewBlog = ({loadBlogs}) => {
 
   };
 
-  const categories = ["Technology", "Health", "Travel", "Food", "Lifestyle"];
+  const categories = ["Technology", "Health","Signs & Symptoms", "Causes & Risks","Testing & Diagnosis","Treatment", "Travel", "Food", "Lifestyle"];
 
   const handlePublish = async () => {
+    setIsSaving(true);  // Set saving state to true
+
     try {
       const formData = new FormData();
       formData.append("title", newBlog.title);
@@ -86,15 +89,23 @@ const AddNewBlog = ({loadBlogs}) => {
       );
 
       if (res.data) {
-         toast.info("Blog Published");
+         toast.info("Blog requested wait for confirmation");
         loadBlogs();
         handleCancel();
+ // Reload the page after 3 seconds
+ setTimeout(() => {
+  setIsSaving(false);  // Reset saving state after the process is done
+  window.location.reload();
+}, 3000);  // 3000 milliseconds = 3 seconds
       } else {
         toast.info("Failed to publish blog");
+        setIsSaving(false);  // Reset saving state on error
       }
     } catch (error) {
       console.error("Error publishing blog:", error);
       toast.info("Server error occurred");
+      setIsSaving(false);  // Reset saving state on error
+
     }
   };
 
@@ -211,7 +222,7 @@ Conditions
 
             <div className="publish-blog-header">
               <p className="publish-blog-placeholder-status">
-               priority
+               Priority
                 <span style={{ color: "red" }}> *</span>
               </p>
               <div className="publish-blog-check-aina">
@@ -284,7 +295,7 @@ Conditions
                 <span>Choose File</span>
               </div>
               <p className="publish-blog-placeholder">
-                Image
+              Image size less than 2MB
                 <span style={{ color: "red" }}> *</span>
               </p>
             </div>
@@ -338,8 +349,11 @@ Conditions
 
 
           <div className="publish-button">
-            <div className="publish-button-inside" onClick={handlePublish}>
-              <span>Request Publish</span>
+            <div className="publish-button-inside" onClick={handlePublish} disabled={isSaving}>
+              <span className="publish-savebutton-text">Request Publish</span>
+              {isSaving && <div className="spinner-overlay">
+        <div className="small-spinner"></div>
+      </div>}
             </div>
             <div className="publish-button-inside" onClick={handleAddClick} 
             style={{ background: "#3334480D", color: "black" }} >

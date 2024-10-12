@@ -288,7 +288,7 @@ const Blognew = () => {
               </p>
 
 
-              <p style={{ color: '#787887' }}>{authorData?.author?.experience + " years experience overall" || "xy years experience overall"}</p>
+              <p style={{ color: '#787887' }}>{authorData?.author?.experience  ? authorData?.author?.experience + " years experience overall" : ""}</p>
               <p style={{ color: '#272848', marginTop: '10px' }}>
                 <b>{authorData?.author?.state}, {authorData?.author?.country}</b>
               </p>

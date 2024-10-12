@@ -6,12 +6,15 @@ import tee from '../../assests/tee.svg'
 import 'react-toastify/dist/ReactToastify.css';
 import { SubTitle } from "chart.js";
 import SubscriptionContact from "./SubscriptionContact";
+import { useNavigate } from "react-router-dom";
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleSubscriptionModal = () => setShowSubscriptionModal(!showSubscriptionModal);
+  // const toggleSubscriptionModal = () => setShowSubscriptionModal(!showSubscriptionModal);
+  const toggleSubscriptionModal = () => navigate('/contact-us');
 
   const monthlyPlans = [
     {
@@ -168,8 +171,13 @@ const SubscriptionPlans = () => {
   const currentPlans = selectedPeriod === "Monthly" ? monthlyPlans : yearlyPlans;
 
   const handleSubscribe = async (planName) => {
+
     if (!selectedPlan && !planName) {
       toast.info("Please select a subscription plan");
+      return;
+    }
+    if (planName == "Free") {
+      toast.info("You're already in Free Trial");
       return;
     }
   

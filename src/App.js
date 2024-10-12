@@ -58,7 +58,7 @@ function App() {
     <SearchProvider>
       <Router>
         <Routes>
-        <Route path="/" element={[<LandingAll/>,<PopupModal/>,<Footer/>]} />          
+        <Route path="/" element={[<LandingAll/>,<Footer/>]} />          
         <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
           <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     

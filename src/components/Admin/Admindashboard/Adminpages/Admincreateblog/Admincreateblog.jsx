@@ -117,7 +117,7 @@ const AdminBlogUploadForm = () => {
     }
   };
 
-  const categories = ["Technology", "Health", "Travel", "Food", "Lifestyle"];
+  const categories = ["Technology", "Health","Signs & Symptoms", "Causes & Risks","Testing & Diagnosis","Treatment", "Travel", "Food", "Lifestyle"];
 
   return (
     <>
@@ -281,8 +281,7 @@ const AdminBlogUploadForm = () => {
                   ref={quillRef}
                   defaultText="Description"
                   onTextChange={(content) => {
-                    const plainText = content.replace(/<[^>]*>/g, ""); 
-                    setFormData({ ...formData, description: plainText });
+                    setFormData({ ...formData, description: content });
                   }}
                 />
               </div>

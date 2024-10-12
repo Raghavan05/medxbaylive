@@ -27,6 +27,7 @@ const Lookingfor = () => {
   return (
     <div className="looking-container">
       <h2  data-aos="fade-down" data-aos-duration="2000">You may be <span className="looking-highlight">looking for</span></h2>
+      <p  className="looking-content" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Discover, compare, and book healthcare services, wellness treatments, or buy products <br/>from a wide range of providers (hospitals, spas, clinics) worldwide.<br/>COMING Q1 2025</p>
       <div className="looking-card-container" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
         {items.map((item, index) => (
           <div

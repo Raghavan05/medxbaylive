@@ -114,8 +114,6 @@ const Editdoctorprofile = () => {
       }
       console.log(base64String);
       
-  
-      
       setDoctorData((prevData) => ({
         ...prevData,
         documents: {

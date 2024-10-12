@@ -254,7 +254,7 @@ const BlogCarousel = () => {
 
         {/* Pagination new  */}
         {totalPages > 1 && (
-  <section className="New-rooms-pagination">
+  <section className="New-rooms-pagination pb-3">
     <button className="New-rooms-prev" onClick={() => handleClick(currentPage - 1)} disabled={currentPage === 1}>
       Prev
     </button>

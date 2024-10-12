@@ -470,8 +470,8 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
 <div className='account-sign-up'>Have an account?</div>
 
 <Link className='login-link-signup' to="#" onClick={() => {
-              handleClose(); // Close the login modal
-              openLoginModal(); // Open the registration modal
+              handleClose(); 
+              openLoginModal(); 
             }}>
                 Sign In
                 </Link>

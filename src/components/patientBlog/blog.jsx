@@ -271,7 +271,7 @@ const Blog = () => {
   });
   if (loading) {
     return (
-      <Loader/>
+      <Loader />
     );
   }
   return (
@@ -486,7 +486,7 @@ const Blog = () => {
           </div>
         </div>
         <BlogDoctorCard
-          title="Top high blood pressure specialists"
+          title={`Top ${condition} specialists`}
           data={topRatedDoctors}
         />
         {filteredCategories.slice(-2, -1).map(([index, count], i) => {
@@ -668,7 +668,9 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
           data.slice(0, 4).map((x, index) => (
             <div className="blogPageDoctorCard " key={index}>
               <div className="blogPageDoctorCardImgBox">
-                <img src={getProfileImage(x.profilePicture)} alt={x.name} />
+                <Link to={`/book-appointment-profile/${x._id}`}>
+                  <img src={getProfileImage(x.profilePicture)} alt={x.name} />
+                </Link>
                 <VerifiedTick />
               </div>
               <div className="blogPageDoctorCardHeader">
@@ -679,8 +681,10 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
                 </div>
               </div>
               <div className="blogPageDoctorCardSpecialist">
-                <DoctorSymbol />
-                {x.title}
+                <Link to={`/book-appointment-profile/${x._id}`}>
+                  <DoctorSymbol />
+                  {x.title}
+                </Link>
               </div>
               <div className="blogPageDoctorCardExp">
                 <DoctorExp />
@@ -691,7 +695,9 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
                   ? `${x.conditions.join(" ").substring(0, 140)}...`
                   : x.conditions.join(" ")}
               </div>
-              <button className="blogPageDoctorCardBtn">Book appointment</button>
+              <Link className="blogPageDoctorCardBtn" to={`/book-appointment-profile/${x._id}`}>
+                Book appointment
+              </Link>
             </div>
           ))
         ) : (

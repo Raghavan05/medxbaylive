@@ -1,7 +1,6 @@
 import React from 'react';
 import Insights from '../Insight/Insights';
 import Global from '../Globalaccess/Globalaccess';
-import Patientscaring from '../Patientscaring/Patientscaring';
 import FindBy from '../Findby/Findby';
 import Redefine from '../Redefine/Redefine';
 import Nestednavbar from '../Nestednavbar/Nestednavbar';
@@ -10,6 +9,7 @@ import LogoSlider from '../LogoSlider/LogoSlider';
 import Lookingfor from '../Lookingfor/Lookingfor';
 import Medx from '../Medx/Medx';
 import Bmsupport from '../Bmsupport/Bmsupport';
+import WhoWe from '../WhoWe/WhoWe';
 
 function LandingAll() {
   return (
@@ -23,7 +23,7 @@ function LandingAll() {
       <Lookingfor/>
       <Global />
       <FindBy />
-      <Patientscaring />
+      <WhoWe/>
       <Redefine />
       <Medx/>
       <Bmsupport/>

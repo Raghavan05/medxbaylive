@@ -315,8 +315,6 @@ const Navbar = () => {
                         </Link>
                       </li>
                     )}
-
-                    
                     </div>
 
                 <li className="nav-item active ml-md-3">
@@ -339,7 +337,7 @@ const Navbar = () => {
                   </div>
                 </li>
 
-                <li className="nav-item dropdown  active  ml-md-4" ref={ServiceDropdownRefMobile}>
+                <li className="nav-item dropdown  active  ml-md-3" ref={ServiceDropdownRefMobile}>
                   <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleServiceDropdownMobile}>
                     Services
                     <FontAwesomeIcon icon={isServiceDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
@@ -380,6 +378,7 @@ const Navbar = () => {
                     <FontAwesomeIcon icon={isAboutDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
                   </Link>
                   <div className={`dropdown-menu ${isAboutDropdownOpenMobile ? 'show' : ''}`}>
+                  <Link className="dropdown-item" to="/about/section">About us</Link>
                     <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
                   </div>
                 </li>
@@ -389,7 +388,7 @@ const Navbar = () => {
               {!isLoggedIn ?
                 (
                   <ul className="navbar-nav d-flex flex-row ml-auto ">
-                    <li className="nav-item ml-md-3 pr-3">
+                    <li className="nav-item ml-md-3 pr-1">
                       <button
                         type="button"
                         className="nav-signin-button"
@@ -465,14 +464,17 @@ const Navbar = () => {
           <div className=" navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
 
-              <li className="nav-item active ml-md-3">
-                <Link
-                  className="find-doctor nav-link nav-link-style"
-                  to="/Filters"
-                >
-                  Find Provider
-                </Link>
-              </li>
+             
+              {userRole !== "doctor" && (
+                       <li className="nav-item active ml-md-3">
+                       <Link
+                         className="find-doctor nav-link nav-link-style"
+                         to="/Filters"
+                       >
+                         Find Provider
+                       </Link>
+                     </li>
+                    )}
               <li className="nav-item dropdown  active  ml-md-4" ref={WhoWeDropdownRef}>
                 <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleWhoWeDropdown}>
                   Who We Serve
@@ -527,6 +529,7 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={isAboutDropdownOpen ? faChevronUp : faChevronDown} className="ml-2" />
                 </Link>
                 <div className={`dropdown-menu ${isAboutDropdownOpen ? 'show' : ''}`}>
+                <Link className="dropdown-item" to="/about/section">About us</Link>
                   <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
                 </div>
               </li>

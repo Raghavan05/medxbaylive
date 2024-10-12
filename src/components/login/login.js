@@ -320,7 +320,7 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
       <Modal.Body>
         <div className="smile-emoji">
    
-          <img src={logobrand} alt="logo" className="brand-image-logo" />
+          <img src={logobrand} alt="logo" className="brand-image-logo " />
           <div className="emoji-ring">😇</div>
           <div className="calender-emoji-container">
             <img src={schedule} alt="meds" className="calender-emoji" />

@@ -21,7 +21,7 @@ import React, { useEffect } from "react";
               data-aos="zoom-in" data-aos-duration="2000"
             />
             <div className="home-awareness-content">
-              <h2 className="home-awareness-title" data-aos="fade-down" data-aos-duration="2000">BREAST CANCER AWARENESS</h2>
+              <h2 className="home-awareness-title" data-aos="fade-down" data-aos-duration="2000">BREAST CANCER <span>AWARENESS</span> </h2>
               <p className="home-awareness-text-left"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
                 Whether you're seeking information about breast cancer, exploring screening options, 
                 or understanding treatment paths, Clara is here to guide you every step of the way. 
@@ -29,14 +29,14 @@ import React, { useEffect } from "react";
                 in one comforting, easy-to-use platform. Clara is here to empower you with the knowledge you 
                 need to make informed decisions about your health.
               </p>
-              <h3 className="home-awareness-special">Special for month of October</h3>
-              <Link to='https://breast-cancer-ai-assistant.vercel.app/' target="_blank" rel="noopener noreferrer" ><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
+              <h3 className="home-awareness-special"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Special for month of October</h3>
+              <Link to='https://brainzdemoevi.vercel.app/' target="_blank" rel="noopener noreferrer" ><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
             </div>
           </div>
           <div className="home-awareness-right">
             <div className="home-awareness-content-right">
 
-              <h2 className="home-awareness-title-right" data-aos="fade-down" data-aos-duration="2000">MENTAL HEALTH SUPPORT</h2>
+              <h2 className="home-awareness-title-right" data-aos="fade-down" data-aos-duration="2000">MENTAL HEALTH <span>SUPPORT</span> </h2>
               <p className="home-awareness-text-right"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
                 Designed for those moments when speaking to someone feels too overwhelming. Our bot listens 
                 to the tone of your voice, offering instant support tailored to your needs, helping you manage 
@@ -47,7 +47,7 @@ import React, { useEffect } from "react";
                 you process your emotions in real time. It's like having a supportive friend who understands you, 
                 always ready when you're not ready for a conversation with a person.
               </p>
-              <Link to='https://brainzdemoevi.vercel.app/' target="_blank" rel="noopener noreferrer"><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
+              <Link to='https://breast-cancer-ai-assistant.vercel.app/' target="_blank" rel="noopener noreferrer"><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
             </div>  
             <img 
               src={healthwoman} 

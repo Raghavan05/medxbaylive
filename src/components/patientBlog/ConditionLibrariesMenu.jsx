@@ -6,8 +6,8 @@ import asthma from '../../assests/img/asthma-condition.jpg'
 import Diabetes from '../../assests/img/diabetes-conditions.jpg'
 import viral_Infections from '../../assests/img/virusInfectionConditions.jpg'
 import Womens_Health from '../../assests/img/WomensHealthCondition.jpg'
-import Mens_Health from '../../assests/img/mensHealth-condition.jpg'
-import brain from '../../assests/img/brain-condition.jpg'
+import Hypothyroidism from '../Assets/Hypothyroidism.jpg'
+import Anemia from '../Assets/Anemia.jpg'
 import './ConditionLibrariesMenu.css'
 
 const Conditions = () => {
@@ -109,18 +109,18 @@ const Conditions = () => {
                             </div>
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
-                            <div className=" h-100" onClick={() => handleConditionClick("Men's Health")}>
-                                <img src={Mens_Health} className="card-img-top" alt={"Men's Health"} />
+                            <div className=" h-100" onClick={() => handleConditionClick("Hypothyroidism")}>
+                                <img src={Hypothyroidism} className="card-img-top" alt={"Hypothyroidism"} />
                                 <div className="popular-condition">
-                                    <h5 className="popular-condition-name my-4 mx-1">{"Men's Health"}</h5>
+                                    <h5 className="popular-condition-name my-4 mx-1">{"Hypothyroidism"}</h5>
                                 </div>
                             </div>
                         </div>
                         <div className="col-12 col-md-6 col-lg-4">
-                            <div className=" h-100" onClick={() => handleConditionClick('Brain and Nerves')}>
-                                <img src={brain} className="card-img-top" alt={'Brain and Nerves'} />
+                            <div className=" h-100" onClick={() => handleConditionClick('Anemia')}>
+                                <img src={Anemia} className="card-img-top" alt={'Anemia'} />
                                 <div className="popular-condition">
-                                    <h5 className="popular-condition-name my-4 mx-1">{'Brain and Nerves'}</h5>
+                                    <h5 className="popular-condition-name my-4 mx-1">{'Anemia'}</h5>
                                 </div>
                             </div>
                         </div>

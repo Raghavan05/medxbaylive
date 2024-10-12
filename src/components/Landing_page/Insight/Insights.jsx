@@ -5,6 +5,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { Link } from 'react-router-dom';
 function Insights() {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const totalCards = 4;
@@ -27,7 +28,8 @@ function Insights() {
             author: "Dr. David Clarke",
             imageClass: "insight-image-one",
             personImageClass: "text-box-person-one-image",
-            personClass: "text-box-person-one"
+            personClass: "text-box-person-one",
+            link : `/blogPost/6700344a217cb210f57483a1`
         },
         {
             category: "Women's Health",
@@ -38,7 +40,9 @@ function Insights() {
             author: "By Dr. David Clarke",
             imageClass: "insight-image-two",
             personImageClass: "text-box-person-one-image",
-            personClass: "text-box-person-two"
+            personClass: "text-box-person-two",
+            link : `/blogPost/67001d54217cb210f57478fe`
+
         },
         {
             category: "Diabetes",
@@ -49,7 +53,8 @@ function Insights() {
             author: "By Dr. Samuel Harris",
             imageClass: "insight-image-three",
             personImageClass: "text-box-person-two-image",
-            personClass: "text-box-person-two"
+            personClass: "text-box-person-two",
+            link : `/blogPost/67002f5b217cb210f5748207`
         },
         {
             category: "Asthma",
@@ -60,7 +65,8 @@ function Insights() {
             author: "By Dr. Samuel Harris",
             imageClass: "insight-image-four",
             personImageClass: "text-box-person-two-image",
-            personClass: "text-box-person-two"
+            personClass: "text-box-person-two",
+            link : `/blogPost/670033bc217cb210f5748358`
         }
     ];
 
@@ -120,10 +126,11 @@ function Insights() {
                                             <div className="text-box-inner-ellipse"></div>  
                                             <div className="text-box-inner-time">{card.readTime}</div>
                                         </div>
-                                        <div className="text-box-content">
+                                        <div className="text-box-content mb-3">
                                             <div className="text-box-content-title" dangerouslySetInnerHTML={{ __html: card.title }}></div>
                                             <div className="text-box-content-sub-content">{card.content}</div>
                                         </div>
+                                        <Link to={card.link}>Read more...</Link>
                                         <div className={card.personClass}>
                                             <div className={card.personImageClass}>
                                                 <div className={`${card.personImageClass}-back`}></div>

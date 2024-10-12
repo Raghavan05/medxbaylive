@@ -93,6 +93,7 @@
   padding: 7px 20px;
   font-size: 16px;
   font-weight: 600;
+  text-wrap: nowrap;
 
 }
 
