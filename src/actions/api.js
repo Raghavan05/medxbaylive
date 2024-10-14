@@ -29,7 +29,7 @@ export const fetchFromPatient = async (endpoint, data = {}, method = 'GET') => {
     }
 
     // Log the response to inspect it
-    console.log('Response:', response);
+    // console.log('Response:', response);
 
     // Return the response data
     return response.data;

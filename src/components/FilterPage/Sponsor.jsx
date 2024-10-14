@@ -402,8 +402,8 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                             <Link to={`/book-appointment-profile/${doctor._id}`}>
                                 <h2>{doctor.name}</h2>
                             </Link>
-                            <p className="speciality">{doctor.speciality}</p>
-                            <p className="experience">{doctor.experience || "16 years experience overall"}</p>
+                            <p className="speciality">{doctor.speciality +" "}</p>
+                            <p className="experience">{doctor.experience ? doctor.experience : " "}</p>
                             <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{hospitalCity || "Hospital City"}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                                 <div className="row mt-2">

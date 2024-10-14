@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // To navigate on condition clic
 import axios from 'axios';
 import condtionLibImage from './ConditionLibImage.png';
 import asthma from '../../assests/img/asthma-condition.jpg'
-import Diabetes from '../../assests/img/diabetes-conditions.jpg'
+import Diabetes from '../../assests/img/diabetes-conditions.png'
 import viral_Infections from '../../assests/img/virusInfectionConditions.jpg'
 import Womens_Health from '../../assests/img/WomensHealthCondition.jpg'
 import Hypothyroidism from '../Assets/Hypothyroidism.jpg'
