@@ -18,9 +18,7 @@ const logos = [
   { id: 6, src: Alliance, alt: 'Logo 2' },
 
   { id: 7, src: healthwallet, alt: 'Logo 3' },
-  { id: 8, src: carer, alt: 'Logo 4' },
-
-  { id: 9, src: wockhardt, alt: 'Logo 1' },
+  { id: 8, src: wockhardt, alt: 'Logo 4' },
 
 ];
 
