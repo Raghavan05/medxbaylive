@@ -12,7 +12,6 @@ const logos = [
   { id: 2, src: Alliance, alt: 'Logo 2' },
 
   { id: 3, src: healthwallet, alt: 'Logo 3' },
-  { id: 4, src: carer, alt: 'Logo 4' },
 
   { id: 5, src: staque, alt: 'Logo 1' },
   { id: 6, src: Alliance, alt: 'Logo 2' },
