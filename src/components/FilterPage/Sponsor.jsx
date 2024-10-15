@@ -74,22 +74,25 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
             }
         );
     }, []);
-    const currencyDataApi = async () => {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctor._id}/slots`, {
-                withCredentials: true
-            });
-            const { feesInAllCurrencies, totalFee } = response.data;
-            setCurrencies(feesInAllCurrencies);
-            setTotalFees(totalFee);
-            console.log(currencies);
-            console.log(totalFees);
-            
-        } catch (error) {
-            console.error("Error fetching doctor's fees:", error);
-            toast.error("Unable to fetch fees. Please try again.");
-        }
-    };
+    useEffect(()=>{
+        const currencyDataApi = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctor._id}/slots`, {
+                    withCredentials: true
+                });
+                const { feesInAllCurrencies, totalFee } = response.data;
+                setCurrencies(feesInAllCurrencies);
+                setTotalFees(totalFee);
+                console.log(currencies);
+                console.log(totalFees);
+                
+            } catch (error) {
+                console.error("Error fetching doctor's fees:", error);
+                toast.error("Unable to fetch fees. Please try again.");
+            }
+        };
+        currencyDataApi();
+    },[])
     // Calculate distance when hospital or user location changes
     useEffect(() => {
         if (selectedHospital && doctor.hospitals) {
@@ -318,7 +321,6 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                                 type="checkbox"
                                 id="videoCallCheck"
                                 checked={consultationType === 'Video call'}
-                                onClick={currencyDataApi}
                                 onChange={() => {
                                     if (consultationType === 'Video call') {
                                         setConsultationType('');

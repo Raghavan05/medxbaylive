@@ -194,6 +194,17 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
+          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-CommisionFee' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-CommisionFee')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
+          onClick={() => handleItemClick('/admin/dashboardpage/admin-CommisionFee')}
+        >
+          <Link to="/admin/dashboardpage/admin-CommisionFee" className="menu-link">
+            <div className="sidebar-icon"><RiMoneyDollarCircleLine /></div>
+            <span>Manage Commision</span>
+          </Link>
+        </li>
+        <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-insurance' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-insurance')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}

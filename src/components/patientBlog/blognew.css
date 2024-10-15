@@ -35,6 +35,47 @@ background-color: #FF7F50;
     flex-direction: column;
     align-items: flex-start;
   }
+  .similar-articles-section .articles {
+    display: flex;
+    flex-direction: column !important;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 0;
+  }
+  
+  .similar-articles-section .articles .article-card {
+    width: 100% !important;
+   
+    border-radius: 8px;
+    padding: 15px;
+   
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .similar-articles-section .articles .article-card .article-image {
+    width: 100%;
+    height:200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+@media (min-width: 1000px) and (max-width : 1500px){
+  .nutrition-tips-image-container {
+    width: 100%;
+    height: 60vh; /* You can adjust this value if needed */
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensures that the image doesn't overflow */
+    border-radius: 20px;
+    margin-left: 0px;
+    margin-top: -130px !important;
+  
+  }
+  
+
 }
 .nutrition-container1{
   padding-top: 40px;
@@ -67,7 +108,7 @@ background-color: #FF7F50;
   overflow: hidden; /* Ensures that the image doesn't overflow */
   border-radius: 20px;
   margin-left: 0px;
-  margin-top: -180px !important;
+  margin-top: -180px;
 
 }
 
@@ -376,8 +417,8 @@ padding: 20px;
 
 .social-media-container {
   display: flex;
-  justify-content:  'space-between';
-  gap: 850px;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: 30px;
 
   /* flex-direction: space-; */

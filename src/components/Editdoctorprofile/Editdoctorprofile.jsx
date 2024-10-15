@@ -947,7 +947,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                       className="fees-input"
                       placeholder="Enter fee amount"
                     />
-                    <span>Please note that a 3% charge will be incurred for each call so we recommend adding that on top of your normal fee.</span>
+                    <span>Please note that {doctorData.adminCommissionFee}% charge will be incurred for each call so we recommend adding that on top of your normal fee.</span>
                   </div>
                 </div>
 

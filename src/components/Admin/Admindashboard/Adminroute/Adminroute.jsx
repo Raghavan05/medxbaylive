@@ -31,6 +31,7 @@ import Adminviewpatients from '../Adminpages/Adminviewpatients/Adminviewpatients
 import Editviewpatient from '../Adminpages/Adminviewpatients/Editviewpatient/Editviewpatient';
 
 import Adminappointments from '../Adminpages/Adminappointments/Adminappointments';
+import CommissionFeeUpdate from '../Adminpages/AdminCommisionFee';
 
 
 const Adminroute = () => {
@@ -49,6 +50,7 @@ const Adminroute = () => {
         <Route path="/admin-doctorprofile/admin-doctorprofile-verification/:id" element={<Doctorprofileverification/>} />
         
         <Route path="/admin-doctorsubscription" element={<Admindoctorsubscription/>} />
+        <Route path="/admin-CommisionFee" element={<CommissionFeeUpdate/>} />
          
         <Route path="/admin-managebookings" element={<Adminmanagebookings/>} />
         <Route path="/admin-managebookings/admin-viewbookings/:id" element={<Bookingdetails/>} />
