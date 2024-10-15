@@ -17,27 +17,27 @@ const SubscriptionPlans = () => {
   const toggleSubscriptionModal = () => navigate('/contact-us');
 
   const monthlyPlans = [
-    {
-      name: "Free",
-      price: "$0",
-      features: {
-        "Basic Profile": true,
-        "Premium Profile": false,
-        "Accept Telehealth calls": true,
-        "Access to Knowledge base": false,
-        "Patients can book appointment": false,
-        "Chat with patients with our integrated messaging app": false,
-        "Access to email customer support": false,
-        "1 free article in our condition library": false,
-      },
-    },
+    // {
+    //   name: "Standard",
+    //   price: "$0",
+    //   features: {
+    //     "Basic Profile": true,
+    //     "Premium Profile": false,
+    //     "Accept Telehealth calls": true,
+    //     "Access to Knowledge base": false,
+    //     "Patients can book appointment": false,
+    //     "Chat with patients with our integrated messaging app": false,
+    //     "Access to email customer support": false,
+    //     "1 free article in our condition library": false,
+    //   },
+    // },
     {
       name: "Standard",
-      price: "$765",
+      price: "$0",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
-        "Accept Telehealth calls": "3% service charge",
+        "Accept Telehealth calls": "10% service charge",
         "Access to Knowledge base": false,
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
@@ -47,7 +47,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Premium",
-      price: "$1,020",
+      price: "$150",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
@@ -70,33 +70,47 @@ const SubscriptionPlans = () => {
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
         "Access to email customer support": true,
+        "1 free article in our condition library": "When paid each providers <br/> get 2 free articles",
+      },
+    },
+    {
+      name: "Suppliers",
+      price: "--",
+      features: {
+        "Basic Profile": false,
+        "Premium Profile": true,
+        "Accept Telehealth calls": true,
+        "Access to Knowledge base": true,
+        "Patients can book appointment": true,
+        "Chat with patients with our integrated messaging app": true,
+        "Access to email customer support": true,
         "1 free article in our condition library": true,
       },
     },
   ];
 
   const yearlyPlans = [
-    {
-      name: "Free",
-      price: "$0",
-      features: {
-        "Basic Profile": true,
-        "Premium Profile": false,
-        "Accept Telehealth calls": false,
-        "Access to Knowledge base": false,
-        "Patients can book appointment": false,
-        "Chat with patients with our integrated messaging app": false,
-        "Access to email customer support": false,
-        "1 free article in our condition library": false,
-      },
-    },
+    // {
+    //   name: "Standard",
+    //   price: "$0",
+    //   features: {
+    //     "Basic Profile": true,
+    //     "Premium Profile": false,
+    //     "Accept Telehealth calls": false,
+    //     "Access to Knowledge base": false,
+    //     "Patients can book appointment": false,
+    //     "Chat with patients with our integrated messaging app": false,
+    //     "Access to email customer support": false,
+    //     "1 free article in our condition library": false,
+    //   },
+    // },
     {
       name: "Standard",
-      price: "$7,500",
+      price: "$0",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
-        "Accept Telehealth calls": "3% service charge",
+        "Accept Telehealth calls": "10% service charge",
         "Access to Knowledge base": false,
         "Patients can book appointment": true,
         "Chat with patients with our integrated messaging app": true,
@@ -106,7 +120,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Premium",
-      price: "$9,600",
+      price: "$1530",
       features: {
         "Basic Profile": false,
         "Premium Profile": true,
@@ -120,6 +134,20 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Enterprise",
+      price: "--",
+      features: {
+        "Basic Profile": false,
+        "Premium Profile": true,
+        "Accept Telehealth calls": true,
+        "Access to Knowledge base": true,
+        "Patients can book appointment": true,
+        "Chat with patients with our integrated messaging app": true,
+        "Access to email customer support": true,
+        "1 free article in our condition library": "When paid each providers <br/> get 2 free articles",
+      },
+    },
+    {
+      name: "Suppliers",
       price: "--",
       features: {
         "Basic Profile": false,
@@ -139,10 +167,10 @@ const SubscriptionPlans = () => {
   const handlePlanClick = (planName) => setSelectedPlan(planName);
 
   const features = [
-    {
-      title: "Basic Profile",
-      subtitle: "Name, photo, specialty, conditions, location, URL",
-    },
+    // {
+    //   title: "Basic Profile",
+    //   subtitle: "Name, photo, specialty, conditions, location, URL",
+    // },
     {
       title: "Premium Profile",
       subtitle:
@@ -176,8 +204,8 @@ const SubscriptionPlans = () => {
       toast.info("Please select a subscription plan");
       return;
     }
-    if (planName == "Free") {
-      toast.info("You're already in Free Trial");
+    if (planName === "Standard") {
+      toast.info("You're already in Standard Trial");
       return;
     }
   
@@ -188,7 +216,7 @@ const SubscriptionPlans = () => {
       setSelectedPlan(planName);
     }
   
-    if (planName === "Enterprise") {
+    if (planName === "Enterprise" || planName === "Suppliers" ) {
       window.location.href = `${process.env.REACT_APP_BASE_URL}/doctor/subscribe`;
       return;
     }
@@ -263,7 +291,7 @@ const SubscriptionPlans = () => {
                 >
                   <div className="plan-name">{plan.name}</div>
                   <div className="plan-price">{plan.price}</div>
-                  {plan.name === "Enterprise" ? (
+                  {plan.name === "Enterprise" || plan.name === "Suppliers" ? (
   <button
     className={`add-contact-btn ${selectedPlan === plan.name ? "active" : ""}`}
     onClick={toggleSubscriptionModal}
@@ -312,8 +340,13 @@ const SubscriptionPlans = () => {
                     {plan.features[feature.title] === true && (
                         <img src={tee} alt="Team of Doctors" style={{ width: '30px' ,height:"30px",marginBottom:"20px",marginTop:"20px"}} />
                       )}
-                    {plan.features[feature.title] === false ? "" : (typeof plan.features[feature.title] === "string" && plan.features[feature.title])}
-                  </td>
+                     {plan.features[feature.title] === false ? "" : (
+    typeof plan.features[feature.title] === "string" ? (
+      <div dangerouslySetInnerHTML={{ __html: plan.features[feature.title] }} />
+    ) : (
+      plan.features[feature.title]
+    )
+  )}</td>
                 ))}
               </tr>
             ))}

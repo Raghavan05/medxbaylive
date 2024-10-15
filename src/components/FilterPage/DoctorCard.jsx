@@ -237,7 +237,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
             const result = await response.json();
             // console.log(result.url);
             if (response.ok) {
-                if(consultationType == "Video call" && result.url){
+                if(consultationType === "Video call" && result.url){
                     window.open(result.url)
                 }else{
                     navigate('/profile/userprofile/manage/appointments')
@@ -411,7 +411,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                                 <h2>{doctor.name}</h2>
                             </Link>
                             <p className="speciality">{doctor.speciality +" "}</p>
-                            <p className="experience">{doctor.experience ? doctor.experience : " "}</p>
+                            <p className="experience">{doctor.experience ? doctor.experience +" years experience overall" : " "}</p>
                             <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{hospitalCity || "Hospital City"}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                             <div className="row mt-2">

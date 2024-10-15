@@ -126,7 +126,7 @@ const DoctorInfo = () => {
       <div className="about-section" style={{ backgroundColor: "white", marginTop: "40px", padding: "2.25rem 2.5rem", borderRadius: "0.75rem" }}>
         <h2 style={{ fontSize: '24px', fontWeight: 500 }}>About</h2>
         <div>
-        <p className="about-text" >{isReadMore ? `${doctor.aboutMe}` : `${doctor.aboutMe}`}</p>
+        <p className="about-text" >{isReadMore ? `${doctor?.aboutMe ? doctor?.aboutMe : ""}` : `${doctor?.aboutMe ? doctor?.aboutMe : ""}`}</p>
         {/* <div onClick={toggleReadMore} className="button"  style={{color:"blue", cursor:"pointer", paddingLeft:"10px", paddingBottom:"20px"}}>
           {isReadMore ? "Read More" : "Read Less"}
         </div> */}
@@ -160,7 +160,7 @@ const DoctorInfo = () => {
         </div>
         <div className="flex-row mt-2">
           <img loading="lazy" src="/DoctorProfile/videoConsultamnt.png" alt="" className="icon" />
-          <span>Video consult |</span>
+          <span>Video consult | </span>
           <span>{doctor?.consultation}</span>
         </div>
 

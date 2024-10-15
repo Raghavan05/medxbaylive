@@ -4,6 +4,7 @@ import staque from '../Assets/staque.png';
 import Alliance from '../Assets/Alliance.png'; 
 import healthwallet from '../Assets/healthwallet.png'; 
 import carer from '../Assets/carer.png'; 
+import wockhardt from '../Assets/wockhardt.png';
 import Aos from "aos";
 import "aos/dist/aos.css";
 const logos = [
@@ -18,6 +19,8 @@ const logos = [
 
   { id: 7, src: healthwallet, alt: 'Logo 3' },
   { id: 8, src: carer, alt: 'Logo 4' },
+
+  { id: 9, src: wockhardt, alt: 'Logo 1' },
 
 ];
 
