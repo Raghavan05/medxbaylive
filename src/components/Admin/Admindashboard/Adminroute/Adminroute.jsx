@@ -47,7 +47,7 @@ const Adminroute = () => {
         <Route path="/admin-createblog" element={<Admincreateblog/>} />
 
         <Route path="/admin-doctorprofile" element={<AdmindoctorProfile/>} />
-        <Route path="/admin-doctorprofile/admin-doctorprofile-verification/:id" element={<Doctorprofileverification/>} />
+        <Route path="/admin-doctorprofile/admin-doctorprofile-verification/:doctorID" element={<Doctorprofileverification/>} />
         
         <Route path="/admin-doctorsubscription" element={<Admindoctorsubscription/>} />
         <Route path="/admin-CommisionFee" element={<CommissionFeeUpdate/>} />

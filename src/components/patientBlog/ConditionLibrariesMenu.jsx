@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // To navigate on condition click
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import condtionLibImage from './ConditionLibImage.png';
 import asthma from '../../assests/img/asthma-condition.jpg'
 import Diabetes from '../../assests/img/diabetes-conditions.png'
 import viral_Infections from '../../assests/img/virusInfectionConditions.jpg'
@@ -10,11 +9,11 @@ import Hypothyroidism from '../Assets/Hypothyroidism.jpg'
 import Anemia from '../Assets/Anemia.jpg'
 import './ConditionLibrariesMenu.css'
 
-const Conditions = () => {
-    const [popularConditions, setPopularConditions] = useState([]);
+const ConditionLibrariesMenu = () => {
+    // const [popularConditions, setPopularConditions] = useState([]);
     const [allConditions, setAllConditions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate(); // To handle navigation
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const controller = new AbortController();
@@ -40,43 +39,40 @@ const Conditions = () => {
         fetchConditions();
 
         return () => {
-            controller.abort(); // Clean up the request if component unmounts
+            controller.abort(); 
         };
     }, []);
 
 
-    useEffect(() => {
-        const popular = allConditions.slice(0, 6);
-        setPopularConditions(popular);
-    }, [allConditions]);
+    // useEffect(() => {
+    //     const popular = allConditions.slice(0, 6);
+    //     setPopularConditions(popular);
+    // }, [allConditions]);
 
     const filteredConditions = allConditions.filter(condition =>
         condition?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || '')
     );
     
-
-
     // Handle condition click
     const handleConditionClick = (conditionName) => {
         if (conditionName) {
-            navigate(`/condition-libraries/${conditionName}`); // Safely navigate if the condition name is defined
+            navigate(`/condition-libraries/${conditionName}`); 
         }
     };
     
 
     return (
-        <div className="container mt-5">
-            <div className='row'>
-                <div className='col-8'>
-                    {/* <img src={condtionLibImage} alt="Condition Library" /> */}
-                    <div className="mb-5">
-                        <h2 className="condition-lib-head1">Conditions <span>Libraries</span></h2>
-                        <p className="condition-lib-info">Find information on symptoms, diagnosis, and treatment options to discuss with your doctor.</p>
-                    </div>
-
+        <div className="color-back-condition">
+            <div className='container pt-5'>
+            
+                <div className="mb-5">
+                    <h2 className="condition-lib-head1">Conditions <span>Libraries</span></h2>
+                    <p className="condition-lib-info">Find information on symptoms, diagnosis, and treatment options to discuss with your doctor.</p>
+                </div>
+                <div className='col-12  col-lg-8'>
                     <h2 className="popular-conditions-heading">Popular Conditions</h2>
                     <div className="row g-4 mb-5">
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-10 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Asthma')}>
                                 <img src={asthma} className="card-img-top" alt={'asthma'} />
                                 <div className="popular-condition">
@@ -84,7 +80,7 @@ const Conditions = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-10 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Diabetes')}>
                                 <img src={Diabetes} className="card-img-top" alt={'Diabetes'} />
                                 <div className="popular-condition">
@@ -92,7 +88,7 @@ const Conditions = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-10 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Viral Infections')}>
                                 <img src={viral_Infections} className="card-img-top" alt={'Viral Infections'} />
                                 <div className="popular-condition">
@@ -100,7 +96,7 @@ const Conditions = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-10 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick("Women's Health")}>
                                 <img src={Womens_Health} className="card-img-top" alt={"Women's Health"} />
                                 <div className="popular-condition">
@@ -108,7 +104,7 @@ const Conditions = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-10 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick("Hypothyroidism")}>
                                 <img src={Hypothyroidism} className="card-img-top" alt={"Hypothyroidism"} />
                                 <div className="popular-condition">
@@ -116,7 +112,7 @@ const Conditions = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-10 col-md-6 col-lg-4">
                             <div className=" h-100" onClick={() => handleConditionClick('Anemia')}>
                                 <img src={Anemia} className="card-img-top" alt={'Anemia'} />
                                 <div className="popular-condition">
@@ -124,19 +120,9 @@ const Conditions = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* {popularConditions.map((condition, index) => (
-                            <div key={index} className="col-12 col-md-6 col-lg-4">
-                                <div className=" h-100" onClick={() => handleConditionClick(condition.name)}>
-                                    <img src={condition.img || asthma} className="card-img-top" alt={condition.name} />
-                                    <div className="popular-condition">
-                                        <h5 className="popular-condition-name my-4 mx-1">{condition.name}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        ))} */}
                     </div>
 
-                    <div className=" pt-4">
+                    <div>
                         <div className='allConditionsConditionLibraries'>
                             <h1 className="allConditions-Conlib mb-4">See All</h1>
                         </div>
@@ -184,4 +170,4 @@ const Conditions = () => {
     );
 };
 
-export default Conditions;
+export default ConditionLibrariesMenu;

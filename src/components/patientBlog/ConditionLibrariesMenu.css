@@ -1,142 +1,128 @@
-@font-face {
-  font-family: 'Matter';
+.color-back-condition {
+  background: linear-gradient(180deg, #edf3ff 0%, #ffffff 100%);
+}
 
-  src: url('/src/assests/matter-font/Matter-Regular.ttf') format('truetype');
+.condition-lib-head1 {
+  font-size: 36px;
+  font-weight: 600;
+  padding-bottom: 10px;
+}
+.condition-lib-head1 span {
+  color: #0067ff;
+}
+
+.condition-lib-info{
+  font-size: 16px;
   font-weight: 400;
-  font-style: normal;
+  line-height: 24px;
+  color: #52525b;
 }
-@font-face {
-  font-family: 'Matter';
 
-  src: url('/src/assests/matter-font/Matter-Bold.ttf') format('truetype');
-
-  font-weight: 700;
-  font-style: normal;
+.popular-conditions-heading {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000;
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
-@font-face {
-  font-family: 'Matter';
-  src: url('/src/assests/matter-font/Matter-SemiBold.ttf') format('truetype');
 
+.popular-conditions-heading::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #FF7F50;
+  border-radius: 10px;
+}
+.popular-condition-name {
+  cursor: pointer;
   font-weight: 600;
 }
-@font-face {
-  font-family: 'Matter';
 
-  src: url('/src/assests/matter-font/Matter-Medium.ttf') format('truetype');
-  font-weight: 500;
+.popular-condition-name:hover {
+  color: #0067ff;
 }
 
-.conditions-container {
-  font-family: 'Matter' ;
-    padding: 20px;
-    text-align: start;
-  }
-  
-  .condition-lib-head1 {
-    font-size: 2.0rem;  
-    margin-bottom: 10px;
-    font-weight: 600;
-  font-family: 'Matter' ;
+.allConditionsConditionLibraries {
+  width: 100%;
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000;
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
 
-  }
-  .condition-lib-head1 span{
-    color: #0067FF;
-    font-weight: 600;
+.allConditionsConditionLibraries::after {
+  content: "";
+  position: absolute;
+  width: 100%; 
+  height: 4px; 
+  background-color: #ff7f50; 
+  bottom: 0;
+  left: 0;
+  border-radius: 10px;
+}
+.allConditionsLib ul li {
+  font-weight: 600;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
 
-  }
-  .condition-lib-info{
-    font-family: 'Matter' ;
+.allConditionsLib ul li:hover {
+  color: #0067ff;
+}
 
-  }
-  
+.FindConditionsConLib {
+  padding: 20px 40px;
+  background-color: #deebff;
+}
+
+.conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.condition-card {
+  text-align: center;
+}
+
+.condition-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.condition-card p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
   .popular-conditions-heading {
-  font-family: 'Matter' ;
-
-    display: inline-block;
-    font-weight: bold;
-    color: #000; /* Text color */
-    position: relative;
-    padding-bottom: 10px; /* Adjust the space between text and underline */
-    margin-bottom: 20px;
+    font-size: 1.7rem;
   }
-  
-  .popular-conditions-heading::after {
-    content: '';
-    position: absolute;
-    width: 100%; /* Adjust the underline width */
-    height: 4px; /* Adjust the thickness of the underline */
-    background-color: #FF7F50; /* The color of the underline */
-    bottom: 0;
-    left: 0;
-    border-radius: 10px;
-  }
-  .popular-condition-name{
-  font-family: 'Matter' ;
-
-    cursor: pointer;
+  .popular-condition-name {
     font-weight: 600;
+    font-size: 1.5rem;
   }
-  .popular-condition-name:hover{
-    color: #0067FF;
-  }
-
-  .allConditionsConditionLibraries {
-    display: inline-block;
-    font-weight: bold;
-    width: 100%;
-    color: #000; /* Text color */
-    position: relative;
-    padding-bottom: 10px; /* Adjust the space between text and underline */
-    margin-bottom: 20px;
-  font-family: 'Matter' ;
-
-  }
-  .allConditionsConditionLibraries::after{
-    content: '';
-    position: absolute;
-    width: 100%; /* Adjust the underline width */
-    height: 4px; /* Adjust the thickness of the underline */
-    background-color: #FF7F50; /* The color of the underline */
-    bottom: 0;
-    left: 0;
-    border-radius: 10px;
-  }
-  .allConditionsLib ul li{
-    font-family: 'Matter' ;
-
+  .allConditionsLib ul li {
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
-  .allConditionsLib ul li:hover{
-    color: #0067FF;
-  }
-  .FindConditionsConLib{
-    padding: 20px 40px;
+  .FindConditionsConLib {
+    padding: 10px;
     background-color: #deebff;
   }
-  .conditions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    justify-items: center;
-  }
-  
-  .condition-card {
-    text-align: center;
-  }
-  
-  .condition-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .condition-card p {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
- 
+}
