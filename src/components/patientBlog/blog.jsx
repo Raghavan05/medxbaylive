@@ -6,6 +6,7 @@ import moment from "moment";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import Loader from "../Loader/Loader";
+import profileImgAlt from '../Assets/samuel harris.jpg'
 
 const VerifiedTick = () => (
   <div className="blogPageVerifiedTick">
@@ -178,7 +179,7 @@ const getProfileImage = (formData) => {
   } else if (typeof formData?.data === "string") {
     return `data:image/jpeg;base64,${formData.data}`;
   } else {
-    return "Loading Image";
+    return profileImgAlt;
   }
 };
 
@@ -209,6 +210,8 @@ const Blog = () => {
       if (response.data) {
         setLoading(false);
         const data = response.data;
+        console.log(data);
+        
 
         // Set various state variables with the received data
         setHastags(data.hashtags);
@@ -226,11 +229,14 @@ const Blog = () => {
         setTempBlog(response.data);
         setCategories(data.blogsByCategory);
         // Sort topPriorityBlogs by updated date
-        const sortedBlogs = data.topPriorityBlogs.sort(
+        const sortedBlogs = data.featuredBlogs.sort(
           (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
         );
 
-        setFeaturedBlog(sortedBlogs[0]);
+        // setFeaturedBlog(sortedBlogs[sortedBlogs.length - 1]);
+        const reversedBlogs = [...sortedBlogs].reverse(); // creates a reversed copy of the array
+        setFeaturedBlog(reversedBlogs[0]); // now the first element of the reversed array is the last one from the original array
+
         setSideFeatureBlog(sortedBlogs);
       } else {
         setLoading(false);
@@ -665,7 +671,7 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
 
       <div className="blogPageDoctorCardBox ">
         {data.length > 0 ? (
-          data.slice(0, 4).map((x, index) => (
+          data.slice(0, 8).map((x, index) => (
             <div className="blogPageDoctorCard " key={index}>
               <div className="blogPageDoctorCardImgBox">
                 <Link to={`/book-appointment-profile/${x._id}`}>
@@ -711,7 +717,7 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
 const BlogMiniCard = ({ data }) => {
   return (
     <>
-      {data.slice(1).map((x, index) => {
+      {data.slice(0,4).map((x, index) => {
         return (
           <div className="blogPageFeaturedRHSCard" key={index + 1}>
             <img src={getProfileImage(x.image)} alt={x.title} />

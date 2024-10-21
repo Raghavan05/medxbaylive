@@ -203,7 +203,7 @@ export default function ReactBigCalendar({ onScheduleChange }) {
     }
 
   
-    if (subscriptionType === 'Free' && maxTimeSlots <= 0) {
+    if (subscriptionType === 'Standard' && maxTimeSlots <= 0) {
       Swal.fire({
         icon: 'warning',
         title: 'Upgrade Required',
@@ -235,11 +235,24 @@ export default function ReactBigCalendar({ onScheduleChange }) {
                 <label for="single">Single</label>
               </div>
               <div>
-                <input type="radio" id="multiple" name="slotType" value="Multiple">
+                <input type="radio" id="multiple" name="slotType" value="multiple">
                 <label for="multiple">Multiple</label>
               </div>
             </div>
           </div>
+          <div class="inputgroup">
+        <label>Consultation Type</label>
+        <div class="input-radio-button">
+          <div>
+            <input type="radio" id="inperson" name="consultationType" value="In-person" checked>
+            <label for="inperson">In-person</label>
+          </div>
+          <div>
+            <input type="radio" id="video" name="consultationType" value="Video call">
+            <label for="video">Video</label>
+          </div>
+        </div>
+      </div>
           <div id="dategroup">
             <div class="inputgroup">
               <label htmlFor="date">Date</label>
@@ -256,30 +269,45 @@ export default function ReactBigCalendar({ onScheduleChange }) {
               <input type="time" id="endtime" />
             </div>
           </div>
-          <div class="inputgroup">
-            <label htmlFor="hospital">Select Hospital</label>
-            <select id="hospital" name="hospital" class="form-control">
-              <option value=""></option>
-              ${
-                doctor?.doctor?.hospitals
-                  ? doctor.doctor.hospitals
-                      .map(
-                        (hospital) =>
-                          `<option value="${hospital.name}">${hospital.name} - ${hospital.street}, ${hospital.city}, ${hospital.state}</option>`
-                      )
-                      .join("")
-                  : ""
-              }
-            </select>
-          </div>
+          <div id="hospitalDropdown" class="inputgroup">
+        <label htmlFor="hospital">Select Hospital</label>
+        <select id="hospital" name="hospital" class="form-control">
+          <option value=""></option>
+          ${
+            doctor?.doctor?.hospitals
+              ? doctor.doctor.hospitals
+                  .map(
+                    (hospital) =>
+                      `<option value="${hospital.name}">${hospital.name} - ${hospital.street}, ${hospital.city}, ${hospital.state}</option>`
+                  )
+                  .join("")
+              : ""
+          }
+        </select>
+      </div>
         </form>
       `,
       confirmButtonText: "Add Time Slot",
       showCancelButton: true,
       didOpen: () => {
+        const hospitalDropdown = document.getElementById('hospitalDropdown');
+        const inpersonRadio = document.getElementById('inperson');
+        const videoRadio = document.getElementById('video');
         const singleRadio = document.getElementById('single');
         const multipleRadio = document.getElementById('multiple');
-  
+          // Initially, hospital dropdown is visible for In-person
+    hospitalDropdown.style.display = 'block';
+         // Add event listeners to toggle hospital dropdown based on consultation type
+    inpersonRadio.addEventListener('change', () => {
+      if (inpersonRadio.checked) {
+        hospitalDropdown.style.display = 'block';
+      }
+    });
+    videoRadio.addEventListener('change', () => {
+      if (videoRadio.checked) {
+        hospitalDropdown.style.display = 'none';
+      }
+    });
         singleRadio.addEventListener('change', () => {
           if (singleRadio.checked) {
             document.getElementById('dategroup').innerHTML = `
@@ -309,14 +337,16 @@ export default function ReactBigCalendar({ onScheduleChange }) {
         });
       },
       preConfirm: () => {
+        const consultationType = document.querySelector('input[name="consultationType"]:checked').value;
         const slotType = document.querySelector('input[name="slotType"]:checked').value;
         const date = document.getElementById("date") ? document.getElementById("date").value : null;
         const startdate = document.getElementById("startdate") ? document.getElementById("startdate").value : null;
         const enddate = document.getElementById("enddate") ? document.getElementById("enddate").value : null;
         const starttime = document.getElementById("starttime").value;
         const endtime = document.getElementById("endtime").value;
-        const hospital = document.getElementById("hospital").value;
         
+        let hospital = document.getElementById("hospital").value; // Changed const to let
+      
         const now = moment();
         const isPastDate = (selectedDate) => moment(selectedDate).isBefore(now, 'day');
         const isPastTime = (selectedDate, selectedTime) => moment(`${selectedDate}T${selectedTime}`).isBefore(now);
@@ -327,8 +357,12 @@ export default function ReactBigCalendar({ onScheduleChange }) {
             Swal.showValidationMessage("You cannot add time slots for past dates or times.");
             return null;
           }
-          if (!starttime || !endtime || !hospital || !date) {
-            Swal.showValidationMessage("Please fill all details before proceeding!");
+          if (consultationType === 'In-person' && !hospital) {
+            Swal.showValidationMessage("Please select a hospital for In-person consultation.");
+            return null;
+          }
+          if (!starttime || !endtime || !date) {
+            Swal.showValidationMessage("Please fill in all details before proceeding!");
             return null;
           }
         }
@@ -339,8 +373,12 @@ export default function ReactBigCalendar({ onScheduleChange }) {
             Swal.showValidationMessage("You cannot add time slots for past dates or times.");
             return null;
           }
-          if (!startdate || !enddate || !starttime || !endtime || !hospital) {
-            Swal.showValidationMessage("Please fill all details before proceeding!");
+          if (!startdate || !enddate || !starttime || !endtime) {
+            Swal.showValidationMessage("Please fill in all details before proceeding!");
+            return null;
+          }
+          if (consultationType === 'In-person' && !hospital) {
+            Swal.showValidationMessage("Please select a hospital for In-person consultation.");
             return null;
           }
           if (subscriptionType === 'Free' && startdate !== enddate) {
@@ -349,16 +387,18 @@ export default function ReactBigCalendar({ onScheduleChange }) {
           }
         }
       
-        return { slotType, date, startdate, enddate, starttime, endtime, hospital };
+        return { consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital };
       },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const { slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;
-        
+        const {consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;
+        console.log({ consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital });
+
         const newEvent = {
-          title: hospital,
+          title: consultationType === 'In-person' ? hospital : 'Video Consultation',
           start: new Date(`${slotType === 'Single' ? date : startdate}T${starttime}:00`),
           end: new Date(`${slotType === 'Single' ? date : enddate}T${endtime}:00`),
+          consultationType,
           slotType,
           status: 'free', // Assuming all new slots are free
         };
@@ -367,12 +407,13 @@ export default function ReactBigCalendar({ onScheduleChange }) {
   
         axios.post(`${process.env.REACT_APP_BASE_URL}/doctor/add-time-slot`, {
           date: slotType === 'Single' ? date : startdate,
-          endDate: enddate,
+          ...(slotType === 'Multiple' && { endDate: enddate }), // Conditionally include endDate
           startTime: starttime,
           endTime: endtime,
+          consultationType,
           hospital,
           slotType,
-        }, { withCredentials: true })
+      }, { withCredentials: true })
         .then(() => {
           Swal.fire("Time Slot Added!", "", "success");
         })
