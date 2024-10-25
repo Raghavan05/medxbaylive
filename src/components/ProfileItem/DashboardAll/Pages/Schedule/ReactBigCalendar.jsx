@@ -84,7 +84,6 @@ export default function ReactBigCalendar({ onScheduleChange }) {
         setDoctor(doctorData);
         console.log(doctor);
         
-
         const parseDateTime = (dateStr, timeStr) => {
           try {
             const date = new Date(dateStr);

@@ -120,45 +120,6 @@ const DoctorSymbol = () => (
   </div>
 );
 
-const SearchIcon = () => (
-  <div className="blogPageSearchIcon">
-    <svg
-      width="23"
-      height="23"
-      viewBox="0 0 23 23"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M8.875 0.75C11.0299 0.75 13.0965 1.60602 14.6202 3.12976C16.144 4.65349 17 6.72012 17 8.875C17 10.8875 16.2625 12.7375 15.05 14.1625L15.3875 14.5H16.375L22.625 20.75L20.75 22.625L14.5 16.375V15.3875L14.1625 15.05C12.688 16.3081 10.8133 16.9994 8.875 17C6.72012 17 4.65349 16.144 3.12976 14.6202C1.60602 13.0965 0.75 11.0299 0.75 8.875C0.75 6.72012 1.60602 4.65349 3.12976 3.12976C4.65349 1.60602 6.72012 0.75 8.875 0.75ZM8.875 3.25C5.75 3.25 3.25 5.75 3.25 8.875C3.25 12 5.75 14.5 8.875 14.5C12 14.5 14.5 12 14.5 8.875C14.5 5.75 12 3.25 8.875 3.25Z"
-        fill="#545454"
-      />
-    </svg>
-  </div>
-);
-
-const TagIcon = () => (
-  <div className="blogPageTagIcon">
-    <svg
-      width="20"
-      height="21"
-      viewBox="0 0 20 21"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        opacity="0.4"
-        d="M3.47532 13.4698L7.25032 17.2448C8.80032 18.7948 11.317 18.7948 12.8753 17.2448L16.5337 13.5865C18.0837 12.0365 18.0837 9.51989 16.5337 7.96156L12.7503 4.19489C11.9587 3.40322 10.867 2.97822 9.75032 3.03656L5.58365 3.23656C3.91699 3.31156 2.59199 4.63656 2.50865 6.29489L2.30865 10.4616C2.25865 11.5865 2.68365 12.6782 3.47532 13.4698Z"
-        fill="#333448"
-      />
-      <path
-        d="M7.91563 11.0344C9.24111 11.0344 10.3156 9.95986 10.3156 8.63438C10.3156 7.30889 9.24111 6.23438 7.91563 6.23438C6.59015 6.23438 5.51562 7.30889 5.51562 8.63438C5.51562 9.95986 6.59015 11.0344 7.91563 11.0344Z"
-        fill="#333448"
-      />
-    </svg>
-  </div>
-);
-
 const bufferToBase64 = (buffer) => {
   if (buffer?.type === "Buffer" && Array.isArray(buffer?.data)) {
     const bytes = new Uint8Array(buffer.data);
@@ -303,11 +264,11 @@ const Blog = () => {
           <a href="/Filters">Find a Doctor</a>
         </div>
       </div>
+
       <div className="blogPageOuterBox">
         <div className="blogPageBox">
           <div className="blogPageLHS">
-            <div className="blogPageFeaturedBoxOuter">
-              <div className="blogPageFeaturedHeading">Featured</div>
+              <h2 className="blogPageFeaturedHeading">Featured</h2>
               <div className="blogPageFeaturedBox">
                 <div className="blogPageFeaturedLHS">
                   <Link to={`/blogPost/${featuredBlog._id}`} >
@@ -317,16 +278,17 @@ const Blog = () => {
                     />
                   </Link>
                   <div>
-                    <div >
-                      <Link to={`/blogPost/${featuredBlog._id}`} className="text-decoration-none " style={{ color: "#000" }}>
+                    <Link to={`/blogPost/${featuredBlog._id}`} >
+                      <h2 className="Featuredblog-title">
                         {featuredBlog?.title
                           ? featuredBlog.title.length > 85
-                            ? featuredBlog.title.substring(0, 85) + "..."
-                            : featuredBlog.title
-                          : "No Title Available"}
-                      </Link>
-                    </div>
-                    <div
+                          ? featuredBlog.title.substring(0, 85) + "..."
+                          : featuredBlog.title
+                          : "No Title Available"
+                        }
+                      </h2>
+                    </Link>
+                    <div className="Featuredblog-description"
                       dangerouslySetInnerHTML={{
                         __html: featuredBlog?.description
                           ? featuredBlog.description.length > 140
@@ -340,37 +302,8 @@ const Blog = () => {
                 <div className="blogPageFeaturedRHS">
                   <BlogMiniCard data={sideFeatureBlog} />
                 </div>
-              </div>
             </div>
 
-            {/* {filteredCategories.slice(0, 1)
-              .map(([index, count], i) => {
-                const categoryName = count._id[0]; // Assuming _id holds the category name
-                const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
-                const showAllLink = `/blogs/showAll/${condition}/${categoryName}`
-                const blogCount = count.blogs.length;
-
-                return (
-                  <>
-                    <div className="blogPageDefaultCardHeader">
-                      <div className="blogPageDefaultCardHeading">{count._id}</div>
-                      {blogCount > 4 && ( // Only show the link if there are more than 2 blogs
-          <Link to={showAllLink} alt="Showall link">
-            Show All
-          </Link>
-        )}
-                    </div>
-                  <BlogBiggerCard
-                    id={sanitizedCategoryName}
-                    key={index}
-                    conditionParams = {condition}
-                    title={count._id}
-                    shorter={true}
-                    data={Array.isArray(count.blogs) ? count.blogs.slice(0, 2) : []}  // Ensure value.blogs is an array
-                  />
-                  </>
-                );
-              })} */}
             {filteredCategories.slice(0, 2)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
@@ -381,7 +314,7 @@ const Blog = () => {
                 return (
                   <>
                     <div className="blogPageDefaultCardHeader">
-                      <div className="blogPageDefaultCardHeading">{count._id}</div>
+                      <h2 className="blogPageDefaultCardHeading">{count._id}</h2>
                       {blogCount > 3 && ( // Only show the link if there are more than 2 blogs
                         <Link to={showAllLink} alt="Showall link">
                           Show All
@@ -397,7 +330,8 @@ const Blog = () => {
                     />
                   </>
                 );
-              })}
+            })}
+
             {filteredCategories.slice(3, 4)
               .map(([index, count], i) => {
                 const categoryName = count._id[0]; // Assuming _id holds the category name
@@ -408,7 +342,7 @@ const Blog = () => {
                 return (
                   <>
                     <div className="blogPageDefaultCardHeader">
-                      <div className="blogPageDefaultCardHeading">{count._id}</div>
+                      <h2 className="blogPageDefaultCardHeading">{count._id}</h2>
                       {blogCount > 3 && ( // Only show the link if there are more than 2 blogs
                         <Link to={showAllLink} alt="Showall link">
                           Show All
@@ -424,37 +358,11 @@ const Blog = () => {
                     />
                   </>
                 );
-              })}
+            })}
           </div>
-          <div className="blogPageRHS sticky-sidebar">
-            {/* Search bar */}
-            {/* <div className="blogPageSearchBox">
-              <input
-                type="text"
-                placeholder="Search here..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} 
-              />
-              <SearchIcon />
-            </div> */}
+          
+          <div className="blogPageRHS">
             <div className="blogPageRHSContent">
-              {/* <div className="blogPageTagBoxOuter">
-                <div className="blogPageTagHeading">Categories</div>
-                {filteredCategories.sort(() => 0.5 - Math.random())
-                  .slice(0, 5)
-                  .map(([_, count], i) => {
-                    const categoryName = count._id[0] || "Unknown Category"; // Assuming _id holds the category name
-                    const blogCount = count.blogs.length || 0; // Count the number of blogs
-                    return (
-                      <div className="blogPageTag" key={i}>
-                        <TagIcon />
-                        <div>
-                          {categoryName} ({blogCount})
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div> */}
               <BlogSmallCard
                 title={"Recent Blog"}
                 data={recentBlog.slice(0, 4)}
@@ -475,15 +383,11 @@ const Blog = () => {
               <div className="blogPageRHS-defaultCardBox">
                 <div className="blogPageRHS-defaultCardBoxHeader">
                   <div className="blogPageRHS-defaultCardBoxTitle">Tags</div>
-                  {/* <a href="http://google.com" alt="#">
-                    Show All
-                  </a> */}
                 </div>
                 <div className="blogPagetags-chips">
                   {hashtags.slice(0, 10).map((tag, index) => (
                     <div key={index} className="blogPagetags-chip">
                       <div className="blogPagetags-chip-text"> {tag._id}</div>
-                      {/* <FaTimes className="blogPagetags-chip-close" /> */}
                     </div>
                   ))}
                 </div>
@@ -491,10 +395,10 @@ const Blog = () => {
             </div>
           </div>
         </div>
-        <BlogDoctorCard
-          title={`Top ${condition} specialists`}
-          data={topRatedDoctors}
-        />
+
+
+        
+
         {filteredCategories.slice(-2, -1).map(([index, count], i) => {
           const categoryName = count._id[0]; // Assuming _id holds the category name
           const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
@@ -504,33 +408,41 @@ const Blog = () => {
 
           return (
             <>
-              <div className="blogPageDefaultCardHeader">
-                <div className="blogPageDefaultCardHeading">{count._id}</div>
-                {blogCount > 5 && ( // Only show the link if there are more than 6 blogs
-                  <Link to={showAllLink} alt="Showall link">
-                    Show All
-                  </Link>
-                )}
-              </div>
-              <div key={index} id={sanitizedCategoryName} className="blog-alternate-container">
-                {blogs.map((blog, idx) => {
-                  // Alternate between left and right based on the blog index
-                  const isEven = idx % 2 === 0;
-                  return (
-                    <div key={idx} className={isEven ? "blog-left" : "blog-right"}>
-                      <BlogBiggerCard
-                        key={idx}
-                        title={count._id}
-                        shorter={true}
-                        data={[blog]}  // Wrap in an array since you're passing a single blog
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+              <div className="Blog-six-card-hold-container">
+                <div className="Blog-six-card-container">
+                  <h2>{count._id}</h2>
+                  {blogCount > 5 && ( // Only show the link if there are more than 6 blogs
+                    <Link to={showAllLink} alt="Showall link">
+                      Show All
+                    </Link>
+                  )}
+                </div>
+                <div key={index} id={sanitizedCategoryName} className="Blog-six-card-style-flex">
+                  {blogs.map((blog, idx) => {
+                    // Alternate between left and right based on the blog index
+                    const isEven = idx % 2 === 0;
+                    return (
+                      <div key={idx} className={isEven ? "blog-left" : "blog-right"}>
+                        <BlogBiggerCard
+                          key={idx}
+                          title={count._id}
+                          shorter={true}
+                          data={[blog]}  // Wrap in an array since you're passing a single blog
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>  
             </>
           );
         })}
+
+        <BlogDoctorCard
+          title={`Top ${condition} specialists`}
+          data={topRatedDoctors}
+        />
+
         {filteredCategories.slice(-1).map(([index, count], i) => {
           const categoryName = count._id[0]; // Assuming _id holds the category name
           const sanitizedCategoryName = categoryName.replace(/\s+/g, '-').toLowerCase(); // Sanitize for valid ID
@@ -540,34 +452,36 @@ const Blog = () => {
 
           return (
             <>
-              <div className="blogPageDefaultCardHeader">
-                <div className="blogPageDefaultCardHeading">{count._id}</div>
-                {blogCount > 5 && ( // Only show the link if there are more than 6 blogs
-                  <Link to={showAllLink} alt="Showall link">
-                    Show All
-                  </Link>
-                )}
-              </div>
-              <div key={index} id={sanitizedCategoryName} className="blog-alternate-container">
-                {blogs.map((blog, idx) => {
-                  // Alternate between left and right based on the blog index
-                  const isEven = idx % 2 === 0;
-                  return (
-                    <div key={idx} className={isEven ? "blog-left" : "blog-right"}>
-                      <BlogBiggerCard
-                        key={idx}
-                        title={count._id}
-                        shorter={true}
-                        data={[blog]}  // Wrap in an array since you're passing a single blog
-                      />
-                    </div>
-                  );
-                })}
+              <div className="Blog-six-card-hold-container">
+                <div className="Blog-six-card-container">
+                  <h2>{count._id}</h2>
+                  {blogCount > 5 && ( // Only show the link if there are more than 6 blogs
+                    <Link to={showAllLink} alt="Showall link">
+                      Show All
+                    </Link>
+                  )}
+                </div>
+                <div key={index} id={sanitizedCategoryName} className="Blog-six-card-style-flex">
+                  {blogs.map((blog, idx) => {
+                    // First three cards (0, 1, 2) should go on the left, next three (3, 4, 5) on the right
+                    const isLeft = idx < 3;
+                    return (
+                      <div key={idx} className={isLeft ? "blog-left" : "blog-right"}>
+                        <BlogBiggerCard
+                          key={idx}
+                          title={count._id}
+                          shorter={true}
+                          data={[blog]} // Wrap in an array since you're passing a single blog
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </>
           );
         })}
-
+     
         {filteredCategories.slice(-2, -1)
           .map(([index, count], i) => {
             const categoryName = count._id[0]; // Assuming _id holds the category name
@@ -585,11 +499,73 @@ const Blog = () => {
                 data={Array.isArray(count.blogs) ? count.blogs.slice(0, 3) : []}  // Ensure value.blogs is an array
               />
             );
-          })}
+          })
+        }
       </div>
     </>
   );
 };
+
+const BlogBiggerCard = ({
+  id,
+  title,
+  data,
+  conditionParams,
+  showAllLink = `/blogs/showAll/${conditionParams}/${title}`,
+  shorter = false,
+}) => {
+  return (
+    <div className="BlogBiggerCard-container">
+      <div className="blogPageDefaultCardBox">
+        {data.map((x, index) => (
+          <div className="BlogBiggerCard-image-content" key={index} id={id}>
+            <div className="BlogBiggerCard-image">
+              {/* Wrap the image with a Link */}
+              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
+                <img src={getProfileImage(x.image)} alt={x.title} />
+              </Link>
+              <div className="BlogBiggerCardAuthor">By {x.author}</div>
+              <div className="BlogBiggerCardDate">
+                {moment(x.date).format("MMMM DD, YYYY")}
+              </div>
+            </div>
+            <div className="BlogBiggerCard-title-desc-container">
+              {/* Wrap the title with a Link */}
+              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
+                <div>
+                  {x?.title
+                    ? x.title.length > 65
+                      ? `${x.title.substring(0, 50)}...`
+                      : x.title
+                    : "No Title Available"}
+                </div>
+              </Link>
+
+              <div className="BlogBiggerCard-description">
+                {x?.description ? (
+                  x.description.replace(/<\/?p>/g, "").replace(/<[^>]+>/g, "").length > 220 ? (
+                    x.description.replace(/<\/?p>/g, "").replace(/<[^>]+>/g, "").substring(0, 160) + "..."
+                  ) : (
+                    x.description.replace(/<\/?p>/g, "").replace(/<[^>]+>/g, "")
+                  )
+                ) : (
+                  "No Description Available"
+                )}
+              </div>
+
+
+              {/* Read more link */}
+              <Link to={`/blogPost/${x._id}`} alt={x?.title} className="BlogBiggerCard-read-more">
+                Read more in 10 Minutes ⟶
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const BlogLargerCard = ({ id, title, condition, data, blogCount }) => {
   // State to control the number of visible blogs
   const [visibleBlogs, setVisibleBlogs] = useState(1);
@@ -607,66 +583,62 @@ const BlogLargerCard = ({ id, title, condition, data, blogCount }) => {
     }
   };
   return (
-    <div className="blogPageDefaultCardOuter" id={id}>
-      <div className="blogPageDefaultCardHeader">
-        <div className="blogPageDefaultCardHeading">{title}</div>
-      </div>
-      <div className="blogPageLargerCardBox">
+    <div className="BlogLargerCard-Container" id={id}>
+      <h2 className="blogPageDefaultCardHeading">{title}</h2>
+      <div className="BlogLargerCard-content-center">
         {data.slice(0, visibleBlogs).map((x, index) => (
-          <div className="blogPageLargerCard" key={index}>
-            <div className="blogPageLargerCardLHS">
+          <div className="BlogLargerCard-inside" key={index}>
+            <div className="BlogLargerCard-img">
               <img src={getProfileImage(x.image)} alt={x.title} />
             </div>
-            <div className="blogPageLargerCardRHS">
-              <div className="blogPageLargerCardTitle">
-                {x?.title
+            <div className="BlogLargerCard-title-body">
+              <div className="BlogLargerCard-main-title">
+                {
+                  x?.title
                   ? x.title.length > 70
-                    ? `${x.title.substring(0, 70)}...`
-                    : x.title
-                  : "No Title Available"}
+                  ? `${x.title.substring(0, 70)}...`
+                  : x.title
+                  : "No Title Available"
+                }
               </div>
-              <div
-                className="blogPageLargerCardDesc"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(x?.description)
-                    ? x.description.length > 195
-                      ? x.description.substring(0, 190) + "..."
-                      : DOMPurify.sanitize(x.description)
-                    : "No Description Available",
-                }}
-              />
-              <div className="blogPageLargerCardAuthor">By {x.author}</div>
-              <div className="blogPageLargerCardDate">
+              <div className="BlogLargerCard-description">
+                {x?.description ? (
+                  x.description.replace(/<\/?p>/g, "").length > 195 ? (
+                  x.description.replace(/<\/?p>/g, "").substring(0, 190) + "..."
+                  ) : (
+                    x.description.replace(/<\/?p>/g, "")
+                  )
+                  ) : (
+                  "No Description Available"
+                  )
+                }
+              </div>
+              <h3 className="BlogLargerCard-author-name">By {x.author}</h3>
+              <div className="BlogLargerCard-Date-year">
                 {moment(x.date).format("MMMM DD, YYYY")}
               </div>
-              <Link
-                to={`/blogPost/${x._id}`}
-                className="blogPageLargerCardRead"
-              >
+              <Link to={`/blogPost/${x._id}`} className="BlogLargerCard-read-more">
                 Read more in 10 Minutes ⟶
               </Link>
             </div>
-          </div>
-        ))}
+            </div>
+          ))}
+        {/* Load More/Show All button */}
+        {visibleBlogs && blogCount > 2 && (
+          <button className="BlogLargerCard-btn" onClick={handleLoadMore}>
+            {loadMoreClicked ? "Show All" : "Load more..."}
+          </button>
+        )}
       </div>
-      {/* Load More/Show All button */}
-      {visibleBlogs && blogCount > 2 && (
-        <button className="blogPageLoadMoreBtn" onClick={handleLoadMore}>
-          {loadMoreClicked ? "Show All" : "Load more..."}
-        </button>
-      )}
     </div>
   );
 };
 
 const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" }) => {
   return (
-    <div className="blogPageDefaultCardOuter section" id="Top-doctors">
-      <div className="blogPageDefaultCardHeader">
-        <div className="blogPageDefaultCardHeading">{title}</div>
-        {/* <a href={showAllLink} alt="ggle">
-          Show All
-        </a> */}
+    <div className=" blogPage-Doctors-container" id="Top-doctors">
+      <div className="blogPage-Doctors-title-head">
+        <h2>{title}</h2>
       </div>
 
       <div className="blogPageDoctorCardBox ">
@@ -679,31 +651,34 @@ const BlogDoctorCard = ({ title, data = [], showAllLink = "http://google.com" })
                 </Link>
                 <VerifiedTick />
               </div>
-              <div className="blogPageDoctorCardHeader">
-                <div className="blogPageDoctorCardName"> {x.name}</div>
-                <div className="blogPageDoctorCardRating">
-                  <FaStar />
-                  {x.rating}
+
+              <div className="blogPageDoctorCard-content">
+                <div className="blogPageDoctorCardHeader">
+                  <h3 className="blogPageDoctorCardName"> {x.name}</h3>
+                  <div className="blogPageDoctorCardRating">
+                    <FaStar />
+                    {x.rating}
+                  </div>
                 </div>
-              </div>
-              <div className="blogPageDoctorCardSpecialist">
                 <Link to={`/book-appointment-profile/${x._id}`}>
-                  <DoctorSymbol />
-                  {x.title}
+                  <div className="blogPageDoctorCardSpecialist">
+                      <DoctorSymbol />
+                      <p>{x.title}</p>
+                  </div>
+                </Link>
+                <div className="blogPageDoctorCardExp">
+                  <DoctorExp />
+                  <p>"NO DATA" years experience</p>
+                </div>
+                <div className="blogPageDoctorCardDesc">
+                  {x.conditions.join(" ").length > 140
+                    ? `${x.conditions.join(" ").substring(0, 140)}...`
+                    : x.conditions.join(" ")}
+                </div>
+                <Link  to={`/book-appointment-profile/${x._id}`}>
+                  <button className="blogPageDoctorCardBtn">Book appointment</button>
                 </Link>
               </div>
-              <div className="blogPageDoctorCardExp">
-                <DoctorExp />
-                "NO DATA" years experience
-              </div>
-              <div className="blogPageDoctorCardDesc">
-                {x.conditions.join(" ").length > 140
-                  ? `${x.conditions.join(" ").substring(0, 140)}...`
-                  : x.conditions.join(" ")}
-              </div>
-              <Link className="blogPageDoctorCardBtn" to={`/book-appointment-profile/${x._id}`}>
-                Book appointment
-              </Link>
             </div>
           ))
         ) : (
@@ -740,66 +715,6 @@ const BlogMiniCard = ({ data }) => {
   );
 };
 
-const BlogBiggerCard = ({
-  id,
-  title,
-  data,
-  conditionParams,
-  showAllLink = `/blogs/showAll/${conditionParams}/${title}`,
-  shorter = false,
-}) => {
-  return (
-    <div
-      className="blogPageDefaultCardOuter section"
-      style={{ width: shorter ? "84%" : "100%" }}
-    >
-
-      <div className="blogPageDefaultCardBox">
-        {data.map((x, index) => (
-          <div className="blogPageDefaultCard" key={index} id={id}>
-            <div className="blogPageDefaultCardLHS">
-              {/* Wrap the image with a Link */}
-              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
-                <img src={getProfileImage(x.image)} alt={x.title} />
-              </Link>
-              <div className="blogPageDefaultCardAuthor">By {x.author}</div>
-              <div className="blogPageDefaultCardDate">
-                {moment(x.date).format("MMMM DD, YYYY")}
-              </div>
-            </div>
-            <div className="blogPageDefaultCardRHS">
-              {/* Wrap the title with a Link */}
-              <Link to={`/blogPost/${x._id}`} alt={x?.title}>
-                <div>
-                  {x?.title
-                    ? x.title.length > 65
-                      ? `${x.title.substring(0, 50)}...`
-                      : x.title
-                    : "No Title Available"}
-                </div>
-              </Link>
-
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(x?.description)
-                    ? x.description.length > 220
-                      ? x.description.substring(0, 160) + "..."
-                      : DOMPurify.sanitize(x.description)
-                    : "No Description Available",
-                }}
-              ></div>
-
-              {/* Read more link */}
-              <Link to={`/blogPost/${x._id}`} alt={x?.title} className="read-more-link">
-                Read more in 10 Minutes ⟶
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 const BlogSmallCard = ({ title, data, showAllLink, blogCount }) => {
   return (
     <div className="blogPageRHS-defaultCardBox">

@@ -374,21 +374,28 @@ color:  #718096;
 
 
 
-.view-all {
+.blognew-view-all {
+  border: none;
+  outline: none;
   display: block;
   margin: 20px auto 0;
-  padding: 10px 20px;
-  background-color: #007bff;
+  padding: 5px 30px;  
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: #0167ff;
+  text-align: center;
+  line-height: 37px;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.view-all:hover {
-  background-color: #0056b3;
+.blognew-view-all:hover {
+  background-color: #edf3ff;
+  border: 0.4px solid #0167ff;
+  color: #0167ff;
+  transform: scale(1.05);
 }
-
 .author-infos{
   font-size: 20px;
   color: #007bff;

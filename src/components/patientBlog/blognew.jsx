@@ -364,7 +364,7 @@ const Blognew = () => {
       </div>
     ))}
   </div>
-  <button className="view-all" onClick={handleShowall}>
+  <button className="blognew-view-all" onClick={handleShowall}>
     view all
   </button>
 </div>

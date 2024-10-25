@@ -1,23 +1,14 @@
-import {useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import '../Insight/Insights.css';
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { Link } from 'react-router-dom';
+
 function Insights() {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
-    const totalCards = 4;
-
-    const handleLeftClick = () => {
-        setCurrentCardIndex(prevIndex => (prevIndex - 1 + cardData.length) % cardData.length);
-    };
-    
-    const handleRightClick = () => {
-        setCurrentCardIndex(prevIndex => (prevIndex + 1) % cardData.length);
-    };
-
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const cardData = [
         {
             category: "Viral Infections",
@@ -42,7 +33,6 @@ function Insights() {
             personImageClass: "text-box-person-one-image",
             personClass: "text-box-person-two",
             link : `/blogPost/67001d54217cb210f57478fe`
-
         },
         {
             category: "Diabetes",
@@ -70,16 +60,30 @@ function Insights() {
         }
     ];
 
+    const updateScreenWidth = () => setScreenWidth(window.innerWidth);
+    
+    useEffect(() => {
+        window.addEventListener("resize", updateScreenWidth);
+        Aos.init();
+        return () => window.removeEventListener("resize", updateScreenWidth);
+    }, []);
+    
+    const visibleCards = screenWidth > 768 ? 2 : 1;
+
+    const handleLeftClick = () => {
+        setCurrentCardIndex(prevIndex => (prevIndex - visibleCards + cardData.length) % cardData.length);
+    };
+
+    const handleRightClick = () => {
+        setCurrentCardIndex(prevIndex => (prevIndex + visibleCards) % cardData.length);
+    };
+
     const handlers = useSwipeable({
         onSwipedLeft: handleRightClick,
         onSwipedRight: handleLeftClick,
         preventDefaultTouchmoveEvent: true,
         trackMouse: true
     });
-
-    useEffect(() => {
-        Aos.init();
-      }, []);
 
     return (
         <div className="insight-background" {...handlers}>
@@ -103,46 +107,44 @@ function Insights() {
                 </div>
             </div>
             <div className="insight-card" data-aos="fade-left"
-     data-aos-anchor="#example-anchor"
-     data-aos-offset="500"
-     data-aos-duration="500">
-                {cardData.slice(currentCardIndex, currentCardIndex + 4).map((card, index) => {
-                    return (
-                        <div 
-                            key={index} 
-                            className={`insight-card-${index % 2 === 0 ? 'one' : 'two'} active`}
-                        >
-                            <div className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}-background`}>
-                                <div className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}-inner`}>
-                                    <div className="image-one">
-                                        <div className={card.imageClass}></div>
+                data-aos-anchor="#example-anchor"
+                data-aos-offset="500"
+                data-aos-duration="500">
+                {cardData.slice(currentCardIndex, currentCardIndex + visibleCards).map((card, index) => (
+                    <div 
+                        key={index} 
+                        className={`insight-card-${index % 2 === 0 ? 'one' : 'two'} active`}
+                    >
+                        <div className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}-background`}>
+                            <div className={`insight-card-${index % 2 === 0 ? 'one' : 'two'}-inner`}>
+                                <div className="image-one">
+                                    <div className={card.imageClass}></div>
+                                </div>
+                                <div className="text-box-outter">
+                                    <div className="text-box-inner-head"> 
+                                        <p className="head-text">{card.category}</p> 
                                     </div>
-                                    <div className="text-box-outter">
-                                        <div className="text-box-inner-head"> 
-                                            <p className="head-text">{card.category}</p> 
+                                    <div className="text-box-inner-date">
+                                        <div className="text-box-inner-year">{card.date}</div>
+                                        <div className="text-box-inner-ellipse"></div>  
+                                        <div className="text-box-inner-time">{card.readTime}</div>
+                                    </div>
+                                    <div className="text-box-content mb-3">
+                                        <div className="text-box-content-title" dangerouslySetInnerHTML={{ __html: card.title }}></div>
+                                        <div className="text-box-content-sub-content">{card.content}</div>
+                                    </div>
+                                    <Link to={card.link}>Read more...</Link>
+                                    <div className={card.personClass}>
+                                        <div className={card.personImageClass}>
+                                            <div className={`${card.personImageClass}-back`}></div>
                                         </div>
-                                        <div className="text-box-inner-date">
-                                            <div className="text-box-inner-year">{card.date}</div>
-                                            <div className="text-box-inner-ellipse"></div>  
-                                            <div className="text-box-inner-time">{card.readTime}</div>
-                                        </div>
-                                        <div className="text-box-content mb-3">
-                                            <div className="text-box-content-title" dangerouslySetInnerHTML={{ __html: card.title }}></div>
-                                            <div className="text-box-content-sub-content">{card.content}</div>
-                                        </div>
-                                        <Link to={card.link}>Read more...</Link>
-                                        <div className={card.personClass}>
-                                            <div className={card.personImageClass}>
-                                                <div className={`${card.personImageClass}-back`}></div>
-                                            </div>
-                                            <div className={`${card.personClass}-name`}>{card.author}</div>
-                                        </div>
+                                        <div className={`${card.personClass}-name`}>{card.author}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
         </div>
     );

@@ -36,7 +36,7 @@ const HealthcareSection = () => {
           </p>
         </div>
         <div className="enp-image-content">
-          <img src="../group.png" alt="Healthcare Team" />
+          <img src="group.png" alt="Healthcare Team" />
         </div>
       </div>
 

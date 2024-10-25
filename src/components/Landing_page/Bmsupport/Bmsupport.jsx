@@ -30,7 +30,7 @@ import React, { useEffect } from "react";
                 need to make informed decisions about your health.
               </p>
               <h3 className="home-awareness-special"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Special for month of October</h3>
-              <Link to='https://brainzdemoevi.vercel.app/' target="_blank" rel="noopener noreferrer" ><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
+              <Link to='https://breast-cancer-ai-assistant.vercel.app/' target="_blank" rel="noopener noreferrer" ><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
             </div>
           </div>
           <div className="home-awareness-right">
@@ -47,7 +47,7 @@ import React, { useEffect } from "react";
                 you process your emotions in real time. It's like having a supportive friend who understands you, 
                 always ready when you're not ready for a conversation with a person.
               </p>
-              <Link to='https://breast-cancer-ai-assistant.vercel.app/' target="_blank" rel="noopener noreferrer"><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
+              <Link to='https://brainzdemoevi.vercel.app/' target="_blank" rel="noopener noreferrer"><button className="home-awareness-button"  data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">Try it now</button></Link>
             </div>  
             <img 
               src={healthwoman} 

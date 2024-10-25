@@ -75,7 +75,7 @@ const AddNewBlog = ({loadBlogs}) => {
       const formData = new FormData();
       formData.append("title", newBlog.title);
       formData.append("author", newBlog.author);
-      formData.append("category", newBlog.category);
+      formData.append("categories", newBlog.category);
       formData.append("hashtags", newBlog.hashtags);
       formData.append("priority", newBlog.priority);
       formData.append("description", newBlog.description);

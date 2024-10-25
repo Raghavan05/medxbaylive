@@ -735,7 +735,7 @@ top: 75px;
 gap: 0px;
  opacity: 1;
 font-family: 'Matter', sans-serif;
-font-size: 20px;
+font-size: 18px;
 font-weight: 500;
 line-height: 20px;
 text-align: left;
@@ -864,7 +864,7 @@ margin-top: 25px;
         gap: 12px;
          opacity: 1;
         display: flex;
-        margin-top: 75px;
+        margin-top: 25px;
         
         }  
 

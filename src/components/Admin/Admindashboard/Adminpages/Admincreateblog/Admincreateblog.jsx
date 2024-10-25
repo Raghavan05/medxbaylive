@@ -277,12 +277,9 @@ const AdminBlogUploadForm = () => {
 
             <div className="admin-create-blog-editor-and-file-container">
               <div className="admin-create-blog-editor-box">
-                <Admineditor
-                  ref={quillRef}
+              <Admineditor
                   defaultText="Description"
-                  onTextChange={(content) => {
-                    setFormData({ ...formData, description: content });
-                  }}
+                  onTextChange={(content) => setFormData({ ...formData, description: content })}
                 />
               </div>
 

@@ -39,7 +39,7 @@ import DoctorEditPatient from './components/PatientProfile/doctorEdit';
 import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
 import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
 import PopupModal from './components/PopupModal';
-import HealthcareSection from './components/Footerpage/HealthcareSection';
+import Enterprise from './components/Footerpage/Enterprise/Enterprise';
 import ContactUs from './components/Footerpage/ContactUs/ContactUs';
 import Patients from './components/Footerpage/Patients/Patients';
 import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysician';
@@ -49,6 +49,7 @@ import BlogDetails from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/B
 import  Blognew from './components/patientBlog/blognew';
 import  Showall from './components/patientBlog/newestblog';
 import NewsRoom from './components/NewsRoom/NewsRoom'
+
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
@@ -84,7 +85,7 @@ function App() {
           <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
-          <Route path="/enterprise" element={[<Navbar/>,<HealthcareSection />,<Footer/>]} />
+          <Route path="/enterprise" element={[<Navbar/>,<Enterprise />,<Footer/>]} />
           <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
