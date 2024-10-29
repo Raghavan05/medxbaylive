@@ -76,12 +76,12 @@ const About = () => {
           location: "UAE",
           image: RaeesTonse
         },
-        {
-          name: "Dr. Sarah Muna K.",
-          title: "Chief Operations Officer",
-          location: "USA, Turkey & UAE",
-          image: SarahMuna
-        },
+        // {
+        //   name: "Dr. Sarah Muna K.",
+        //   title: "Chief Operations Officer",
+        //   location: "USA, Turkey & UAE",
+        //   image: SarahMuna
+        // },
         {
            name: "Dr. Magda Snowden",
            title: "Mentally Agile Leadership Expert",

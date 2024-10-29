@@ -1,21 +1,24 @@
 /* General Styles */
-.subscription-background{
+.subscription-background {
     background-color: white;
-
+    padding: 70px;
+    display: flex;
+    justify-content: center;
 }
+
 .subscription-plans {
- 
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
     margin-bottom: 20px;
 }
 
 .title {
-    font-size: 2rem;font-weight: 600;
+    font-size: 2rem;
+    font-weight: 600;
     margin-bottom: 10px;
     color: #272848;
-    padding-top:10px ;
+    padding-top: 10px;
 }
 
 .subtitle {
@@ -46,6 +49,10 @@
     cursor: pointer;
     border-radius: 20px;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 25px;
+
 }
 
 .toggle-btn.selected {
@@ -64,11 +71,14 @@
     display: flex;
     justify-content: center;
     background-color: #ff7a59;
+    width: 300px;
     color: white;
-    padding: 10px 10px;
+    padding: 10px 20px;
     border-radius: 5px;
     margin-bottom: 20px;
-    font-size: 1.0rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
@@ -77,15 +87,16 @@
 
 /* Enterprise Notice */
 .enterprise-notice {
-    font-size: 1rem;
-    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    /* margin-bottom: 20px; */
     color: #1F2937;
 }
 
 /* Plans Table */
 .plans-table {
-    width: 120%;
-    margin-top: 20px;
+    width: 100%;
+    margin-top: -20px;
     border-collapse: collapse;
 }
 
@@ -93,11 +104,11 @@
 .plans-table td {
     padding: 15px;
     text-align: center;
-    border: 2px solid #DDE9FF;
+    border: 1px solid #DDE9FF;
 }
 
 .plans-table thead th {
-    padding: 30px 15px !important; 
+    padding: 30px 15px !important;
     background-color: white;
     font-weight: bold;
 }
@@ -107,13 +118,12 @@
     font-size: 1rem;
     font-weight: bold;
     position: relative;
-    transition: border-color 0.3s ease;
 }
-
 
 /* Overlay Effect for Selected Column */
 .plan-column-selected {
     position: relative;
+    background-color: white;
 }
 
 .plan-column-selected::before {
@@ -124,11 +134,23 @@
     right: 0;
     bottom: 0;
     border-left: 3px solid #c5cbd3;
-    border-right:3px solid #c5cbd3 ;
-   
-    /* border-radius: 10px; */
-    pointer-events: none; /* Ensures clicks pass through to the content */
+    border-right: 3px solid #c5cbd3;
+    pointer-events: none;
 }
+
+/* border for bottom when selected */
+
+.plans-table td.feature-1-free-article.plan-column-selected {
+    border-bottom: 3px solid #c5cbd3; 
+  }
+
+  /* border for top when selected */
+
+  .plan-header.plan-column-selected {
+    border-top: 3px solid #c5cbd3; 
+border-top-left-radius: 4px !important;
+}
+
 
 /* Adjusting Features Column */
 .features-column {
@@ -136,14 +158,11 @@
 }
 
 .feature-space {
-    /* background-color: #DDE9FF; */
     padding: 30px 10px;
     position: relative;
     background: #F7FAFF !important;
     left: -13px;
     border-radius: 8px !important;
-
-
 }
 
 .plan-name {
@@ -151,29 +170,28 @@
     font-weight: bold;
     margin-bottom: 10px;
     color: hsl(215, 28%, 17%);
-    width: 170px;
-}
+text-align: center;}
 
 .plan-price {
-/* margin-left: 20px; */
     font-size: 1.3rem;
     margin-bottom: 10px;
     color: #1F2937;
-    width: 170px;
-
-}
+text-align: center;}
 
 /* Buttons */
 .add-contact-btn {
     background-color: transparent;
     color: #007bff;
-    padding: 10px;
+    padding: 5px 5px;
     border: 2px solid #007bff;
     border-radius: 5px;
     cursor: pointer;
     width: 150px;
     margin-bottom: 10px;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 25px;
 }
 
 .add-contact-btn.active {
@@ -189,23 +207,19 @@
 
 /* Feature Titles */
 .feature-title {
-    max-width: 200px;
+    /* max-width: 200px; */
     font-size: 16px;
-    font-weight: 600 ;
-    margin-left: 80px;
-    /* background-color: #DDE9FF ; */
-
-    text-align: left;
-    vertical-align: top;
+    font-weight: 600;
+    /* margin-left: 80px; */
+    text-align: center;
+    /* vertical-align: top; */
 }
 
-/* Feature Titles */
 .feature-titlee {
     max-width: 200px;
     font-size: 14px;
     font-weight: 400;
     margin-left: 10px;
-    /* background-color:  #DDE9FF; */
     text-align: left;
     vertical-align: top;
 }
@@ -215,18 +229,14 @@
     font-size: 12px;
     font-weight: 300;
     padding-left: 25px !important;
-    /* background-color: #DDE9FF ; */
     background: #F1F6FF;
-
     text-align: left !important;
     vertical-align: top;
     border: 1px solid white !important;
-    
-
 }
 
 .special-note {
-    width: 219px;
+    /* width: 219px; */
     font-size: 12px;
     font-weight: 400;
     margin-top: 15px;
@@ -239,6 +249,7 @@
     font-size: 20px;
     margin-top: 10px;
 }
+
 
 /* Table Header Styling */
 .plans-table thead {
@@ -264,9 +275,7 @@
 
 .feature-subtitle {
     font-size: 12px;
-    /* color: #656565; */
     color: #5A6675;
-
     margin-top: 5px;
     text-align: left;
     margin-left: 10px;
@@ -277,114 +286,310 @@
     padding: 20px;
     background-color: white;
 }
-/* Discount Banner */
-.discount-banner {
-    display: flex;
-    justify-content: center;
-    background-color: #ff7a59;
-    width: 300px;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 1.0rem;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-    animation: bannerAnimation 2s infinite;
-}
-
-/* Enterprise Notice */
-.enterprise-notice {
-    font-size: 18px;
-    font-weight:500;
-    margin-bottom: 20px;
-    color: #1F2937;
-}
-
-
-.plan-column-selected {
-    position: relative;
-
-    border: 2px solid #ff7a59; /* Adjust the color and width as needed */
-   background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
-    transition: all 0.3s ease; /* Smooth transition */
-}
-
-/* Optional: Adjust the table cell padding to prevent overlap with the border */
-.plans-table th, .plans-table td {
-    padding: 15px;
-    text-align: center;
-    border: 2px solid #DDE9FF;
-    vertical-align: top; /* Ensures content aligns at the top */
-}
 
 .plans-wrapper {
-    overflow-x: auto; /* Adds horizontal scroll if needed */
-    padding: 20px; /* Adjust padding as needed */
-  }
-  
-  .plans-table {
+    padding: 40px;
+    margin-bottom: 20px;
+}
+
+/* mobile responsive layout started here */
+
+.subscription-mobile-responsive-container {
     width: 100%;
+    padding: 30px;
+  }
+  
+  .mobile-suscription-button-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+  }
+  
+  .mobile-suscription-button {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 2px solid #007bff;
+    color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 25px;
 
   }
-  
-  /* Add border to the table columns */
-  .plans-table th,
-  .plans-table td {
-    border: 1px solid #DDE9FF; /* Border color and style */
+  .mobile-suscription-button:hover {
+
+  background:#007bff;
+  color: #fff;
   }
   
-  .plans-table th {
-    background-color: #f4f4f4; /* Optional: Background color for header */
-  }
+  .currentplan {
+
+    background:#007bff;
+    color: #fff;
+    }
+
   
-  .plans-table td {
-    text-align: center; /* Optional: Center align text in cells */
+  .mobile-suscription-content-section {
+    padding: 20px;
   }
-  
-  /* Optional: Add border to selected plan column */
-  .plan-header.plan-column-selected {
-    border-top: 3px solid #c5cbd3; /* Highlighted border color */
-border-top-left-radius: 4px !important;
-/* height: 50px;  } */}
   
 
   
-
-  .plans-wrapper {
-    overflow-x: auto; /* Adds horizontal scroll if needed */
-    padding: 20px; /* Adjust padding as needed */
+  .mobile-suscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    background: rgba(242, 246, 255, 1);
+    border: 0.5px solid rgba(1, 103, 255, 0.5);
+    border-radius: 10px;
+    margin-bottom: 5px;
+    color: rgba(31, 41, 55, 1);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
   }
   
-  .plans-table {
-    width: 100%;
-    border-collapse: collapse; /* Ensures borders between cells are merged */
-  }
-  
-  
- 
-  /* Optional: Border for the selected column */
-  
-  .plans-table td.feature-1-free-article.plan-column-selected {
-    border-bottom: 3px solid #c5cbd3; /* Border color and style for this column */
-
-    background-color: white;
-
-
-  }
-  
-  .plans-table td {
-    text-align: center; /* Optional: Center align text in cells */
+  .mobile-suscription-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 10px;
+    background: rgba(248, 250, 255, 0.5);
     
+
+
+}
+  .mobile-suscription-details-value{
+    display: flex;
+    justify-content: space-between;
+    color: rgba(31, 41, 55, 1);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+
   }
-  .plan-feature{
-    background-color: white;
+  .mobile-suscription-details-button{
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 2px solid #007bff;
+    color: #007bff;
+  }
+
+ .mobile-suscription-details-button:hover {
+    background:#007bff;
+    color: #fff;
+
+ }
+  
+  /* Arrow styling */
+  .arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #000;
+    transition: transform 0.3s ease;
   }
   
+  .arrow.down {
+    transform: rotate(-90deg);
+  }
+  
+  .arrow.right {
+    transform: rotate(0);
+  }
+  
+  .mobile-subscription-tick{
+    height: 25px;
+    width: 25px;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .title {
+        font-size: 1.6rem; 
+    }
+
+    .subtitle {
+        font-size: 1rem; 
+    }
+
+    .toggle-buttons {
+        width: 90%; 
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .toggle-btn {
+        padding: 5px 20px; 
+        margin: 0 3px; 
+    }
+
+    .discount-banner {
+        width: auto; 
+        padding: 8px 15px; 
+        font-size: 0.9rem; 
+    }
+
+    .enterprise-notice {
+        font-size: 0.9rem; 
+    }
+
+    .plans-table th,
+    .plans-table td {
+        padding: 10px; 
+    }
+
+    .feature-title,
+    .feature-titlee,
+    .feature-titles {
+        font-size: 0.8rem; 
+        margin-left: 0; 
+        text-align: center;
+    }
+
+    .plan-name,
+    .plan-price {
+        font-size: 1rem; 
+        width: 100%; 
+    }
+
+    .plans-wrapper {
+        padding: 10px; 
+    }
+
+    .special-note {
+        width: 100%;
+        font-size: 0.8rem; 
+    }
+
+    .add-contact-btn {
+        width: 100%; 
+        padding: 10px 5px;
+        font-size: 10px; 
+    }
+}
+
+/* Medium Screen Responsive Adjustments */
+@media only screen and (max-width: 1200px) {
+ 
+    .title {
+        font-size: 1.8rem; 
+    }
+
+    .subtitle {
+        font-size: 1.1rem; 
+    }
+
+    .toggle-buttons {
+        width: 90%; 
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .toggle-btn {
+        padding: 5px 25px; 
+        margin: 0 5px; 
+    }
+
+    .discount-banner {
+        width: auto; 
+        padding: 10px 15px; 
+        font-size: 0.95rem; 
+    }
+
+    .enterprise-notice {
+        font-size: 1rem; 
+    }
+
+    .plans-table th,
+    .plans-table td {
+        padding: 12px; 
+    }
+
+    .feature-title,
+    .feature-titlee,
+    .feature-titles {
+        font-size: 0.9rem; 
+        margin-left: 0; 
+        text-align: center;
+    }
+
+    .plan-name,
+    .plan-price {
+        font-size: 1.1rem; 
+        width: 100%; 
+    }
+
+    .plans-wrapper {
+        padding: 15px; 
+    }
+
+    .special-note {
+        width: 100%;
+        font-size: 0.9rem; 
+    }
+
+}
+
+  /* Hide the mobile view on larger screens */
+@media (min-width: 1024px) {
+    .subscription-mobile-responsive-container {
+      display: none;
+    }
+  }
+  
+  /* Hide the desktop view on smaller screens */
+  @media (max-width: 1023px) {
+    .plans-wrapper {
+      display: none;
+    }
+    .subscription-background {
+    display: none;
+}
+  }
+  
+  
+@media (max-width: 480px) {
+    .enterprise-notice{
+        margin-bottom: 0px;
+    }
+    .subscription-plans{
+        padding: 20px;
+        margin-bottom: 0px;
+    }
+    .subscription-mobile-responsive-container {
+        width: 100%;
+        padding: 10px;
+      }
+    .mobile-suscription-button-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px;
+      }
+    .mobile-suscription-button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .mobile-suscription-header {
+        font-size: 12px;
+    }
+
+    .mobile-suscription-details-value {
+        font-size: 11px;
+    }
+
+    .mobile-suscription-details-button {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+}
 
 
 

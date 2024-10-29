@@ -1,5 +1,4 @@
 import React, { useEffect,useRef,useState} from 'react';
-
 import './doctorphysician.css';
 import GlobalPartner from './DoctorPhysician-assets/image 259.png';
 import differentdoctorimage from './DoctorPhysician-assets/Image123.png';
@@ -145,115 +144,116 @@ const DoctorPhysician = () => {
                     </div>
                 </div>
             </section>
-            
-            <section className='timeline-container'>
-                <h1>How MedxBay Helps<span>You Connect,<br/>Earn, and Grow Globally</span></h1> 
-                <div className="timeline-container-sub">
-                    {/* Timeline Item 1 */}
-                    <div className="timeline-item timeline-left">
-                        <div className="timeline-number">01</div>
-                        <div className="timeline-image">
-                            <img src={Frameone} alt="Connect" />
+
+        <section className='physician-timeline-container'>
+    <h1>How MedxBay Helps<span>You Connect,<br/>Earn, and Grow Globally</span></h1> 
+    <div className="physician-timeline-container-sub">
+        {/* Timeline Item 1 */}
+        <div className="physician-timeline-item physician-timeline-left">
+            <div className="physician-timeline-number">01</div>
+            <div className="physician-timeline-image">
+                <img src={Frameone} alt="Connect" />
+            </div>
+            <div className="physician-timeline-content">
+                <h2>CONNECT</h2>
+                <div className="physician-timeline-points">
+                    
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>With Patients</h4>
                         </div>
-                        <div className="timeline-content">
-                            <h2>CONNECT</h2>
-                            <div className="timeline-points">
-                                
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>With Patients</h4>
-                                    </div>
-                                    <p>Enhance your visibility globally through comprehensive online profiles, telehealth services, and easy-to-use communication tools that build patient trust and confidence.</p>  
-                                </div>
-                                
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>With Colleagues</h4>
-                                    </div>
-                                    <p>Collaborate with providers from around the world, share best practices, and stay informed on the latest medical advancements through a global network of peers.</p>
-                                </div>
-                                
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>With Industry Leaders</h4>
-                                    </div>
-                                    <p>Engage with medical suppliers and access the latest global technologies and innovations to elevate your practice.</p>  
-                                </div>
-                            </div>
-                        </div>
+                        <p>Enhance your visibility globally through comprehensive online profiles, telehealth services, and easy-to-use communication tools that build patient trust and confidence.</p>  
                     </div>
-
-                    {/* Timeline Item 2 */}
-                    <div className="timeline-item timeline-right">
-                        <div className="timeline-number">02</div>
-                        <div className="timeline-image left-image">
-                            <img src={Frametwo} alt="Earn" />
+                    
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>With Colleagues</h4>
                         </div>
-                        <div className="timeline-content">
-                            <h2>EARN</h2>
-                            <div className="timeline-points">
-                                
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>Expand Your Global Reach</h4>
-                                    </div>
-                                    <p>Our platform helps you reach patients worldwide through detailed profiles and targeted global outreach, increasing bookings and revenue opportunities across regions.</p>
-                                </div>
-
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>Automate Operations</h4>
-                                    </div> 
-                                    <p>Free yourself from administrative burdens with tools that automate scheduling, billing, and patient management, reducing operational costs and increasing efficiency.</p>
-                                </div>
-                        
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>Embrace Global Technologies</h4>
-                                    </div>   
-                                    <p>MedXBay connects you with cutting-edge medical devices, pharmaceuticals, and systems that enhance your capabilities and streamline international procurement.</p> 
-                                </div>
-                            </div>
-                        </div>
+                        <p>Collaborate with providers from around the world, share best practices, and stay informed on the latest medical advancements through a global network of peers.</p>
                     </div>
-
-                    {/* Timeline Item 3 */}
-                    <div className="timeline-item timeline-left">
-                        <div className="timeline-number">03</div>
-                        <div className="timeline-image right-image">
-                            <img src={Framethree} alt="Grow" />
+                    
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>With Industry Leaders</h4>
                         </div>
-                        <div className="timeline-content">
-                            <h2>GROW</h2>
-                            <div className="timeline-points">
-                                
-                                <div className="timeline-point">
-                                    <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>Improve Patient Engagement</h4>
-                                    </div>  
-                                    <p>Our AI-powered insights and feedback tools allow you to connect meaningfully with patients worldwide, enhancing care without overextending your team.</p>   
-                                </div>
-                                
-                                <div className="timeline-point">
-                                <div className='timeline-ponint-title-icon'>
-                                        <img src={check} alt="check orange color" />
-                                        <h4>Expand Your Expertise</h4>
-                                    </div>  
-                                    <p>Share your knowledge with a global audience through our condition library, international forums, and stay up-to-date with global medical advancements.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <p>Engage with medical suppliers and access the latest global technologies and innovations to elevate your practice.</p>  
                     </div>
                 </div>
-            </section>
-        </div> 
+            </div>
+        </div>
+
+        {/* Timeline Item 2 */}
+        <div className="physician-timeline-item physician-timeline-right">
+            <div className="physician-timeline-number">02</div>
+            <div className="physician-timeline-image physician-left-image">
+                <img src={Frametwo} alt="Earn" />
+            </div>
+            <div className="physician-timeline-content">
+                <h2>EARN</h2>
+                <div className="physician-timeline-points">
+                    
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>Expand Your Global Reach</h4>
+                        </div>
+                        <p>Our platform helps you reach patients worldwide through detailed profiles and targeted global outreach, increasing bookings and revenue opportunities across regions.</p>
+                    </div>
+
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>Automate Operations</h4>
+                        </div> 
+                        <p>Free yourself from administrative burdens with tools that automate scheduling, billing, and patient management, reducing operational costs and increasing efficiency.</p>
+                    </div>
+            
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>Embrace Global Technologies</h4>
+                        </div>   
+                        <p>MedXBay connects you with cutting-edge medical devices, pharmaceuticals, and systems that enhance your capabilities and streamline international procurement.</p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {/* Timeline Item 3 */}
+        <div className="physician-timeline-item physician-timeline-left">
+            <div className="physician-timeline-number">03</div>
+            <div className="physician-timeline-image physician-right-image">
+                <img src={Framethree} alt="Grow" />
+            </div>
+            <div className="physician-timeline-content">
+                <h2>GROW</h2>
+                <div className="physician-timeline-points">
+                    
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>Improve Patient Engagement</h4>
+                        </div>  
+                        <p>Our AI-powered insights and feedback tools allow you to connect meaningfully with patients worldwide, enhancing care without overextending your team.</p>   
+                    </div>
+                    
+                    <div className="physician-timeline-point">
+                        <div className='physician-timeline-point-title-icon'>
+                            <img src={check} alt="check orange color" />
+                            <h4>Expand Your Expertise</h4>
+                        </div>  
+                        <p>Share your knowledge with a global audience through our condition library, international forums, and stay up-to-date with global medical advancements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
         <div>
             <section className="provider-community-section">
                 <div className="provider-community-header">
@@ -366,7 +366,6 @@ const DoctorPhysician = () => {
 
             <section className="plans-section">
                 <div className="plans-head">
-
                     <div className='plans-sub-head'>
                         <div className="plans-header">
                             <h2>Our Future <span className="highlight">Plans <br/> Include </span></h2>

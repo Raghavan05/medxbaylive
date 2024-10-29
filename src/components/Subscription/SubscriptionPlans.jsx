@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { SubTitle } from "chart.js";
 import SubscriptionContact from "./SubscriptionContact";
 import { useNavigate } from "react-router-dom";
+import MobileSubscriptionPlans from "./Mobilesubscription";
 const SubscriptionPlans = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -17,20 +18,7 @@ const SubscriptionPlans = () => {
   const toggleSubscriptionModal = () => navigate('/contact-us');
 
   const monthlyPlans = [
-    // {
-    //   name: "Standard",
-    //   price: "$0",
-    //   features: {
-    //     "Basic Profile": true,
-    //     "Premium Profile": false,
-    //     "Accept Telehealth calls": true,
-    //     "Access to Knowledge base": false,
-    //     "Patients can book appointment": false,
-    //     "Chat with patients with our integrated messaging app": false,
-    //     "Access to email customer support": false,
-    //     "1 free article in our condition library": false,
-    //   },
-    // },
+
     {
       name: "Standard",
       price: "$0",
@@ -97,20 +85,7 @@ const SubscriptionPlans = () => {
   ];
 
   const yearlyPlans = [
-    // {
-    //   name: "Standard",
-    //   price: "$0",
-    //   features: {
-    //     "Basic Profile": true,
-    //     "Premium Profile": false,
-    //     "Accept Telehealth calls": false,
-    //     "Access to Knowledge base": false,
-    //     "Patients can book appointment": false,
-    //     "Chat with patients with our integrated messaging app": false,
-    //     "Access to email customer support": false,
-    //     "1 free article in our condition library": false,
-    //   },
-    // },
+
     {
       name: "Standard",
       price: "$0",
@@ -181,10 +156,7 @@ const SubscriptionPlans = () => {
   const handlePlanClick = (planName) => setSelectedPlan(planName);
 
   const features = [
-    // {
-    //   title: "Basic Profile",
-    //   subtitle: "Name, photo, specialty, conditions, location, URL",
-    // },
+
     {
       title: "Premium Profile",
       subtitle:
@@ -377,6 +349,7 @@ const SubscriptionPlans = () => {
     
     </div>
     <SubscriptionContact  show={showSubscriptionModal} handleClose={() => setShowSubscriptionModal(false)}/>
+      <MobileSubscriptionPlans/>
     </>
   );
 };

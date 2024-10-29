@@ -343,52 +343,56 @@ export default function ReactBigCalendar({ onScheduleChange }) {
         const enddate = document.getElementById("enddate") ? document.getElementById("enddate").value : null;
         const starttime = document.getElementById("starttime").value;
         const endtime = document.getElementById("endtime").value;
-        
-        let hospital = document.getElementById("hospital").value; // Changed const to let
-      
+        let hospital = document.getElementById("hospital").value;
+    
         const now = moment();
-        const isPastDate = (selectedDate) => moment(selectedDate).isBefore(now, 'day');
-        const isPastTime = (selectedDate, selectedTime) => moment(`${selectedDate}T${selectedTime}`).isBefore(now);
-      
-        // Validate Single slotType
-        if (slotType === 'Single') {
-          if (isPastDate(date) || isPastTime(date, starttime)) {
-            Swal.showValidationMessage("You cannot add time slots for past dates or times.");
-            return null;
-          }
-          if (consultationType === 'In-person' && !hospital) {
-            Swal.showValidationMessage("Please select a hospital for In-person consultation.");
-            return null;
-          }
-          if (!starttime || !endtime || !date) {
-            Swal.showValidationMessage("Please fill in all details before proceeding!");
-            return null;
-          }
-        }
-      
-        // Validate Multiple slotType
+        
         if (slotType === 'Multiple') {
-          if (isPastDate(startdate) || isPastTime(startdate, starttime)) {
-            Swal.showValidationMessage("You cannot add time slots for past dates or times.");
-            return null;
-          }
+          // Validate the date range and time
           if (!startdate || !enddate || !starttime || !endtime) {
-            Swal.showValidationMessage("Please fill in all details before proceeding!");
+            Swal.showValidationMessage("Please complete all required fields.");
             return null;
           }
-          if (consultationType === 'In-person' && !hospital) {
-            Swal.showValidationMessage("Please select a hospital for In-person consultation.");
+          
+          const start = moment(startdate);
+          const end = moment(enddate);
+          const date = moment(date);
+          if (start.isBefore(now, 'day') || end.isBefore(now, 'day') || start.isAfter(end)) {
+            Swal.showValidationMessage("Invalid date range. Please select a future range.");
             return null;
           }
-          if (subscriptionType === 'Free' && startdate !== enddate) {
-            Swal.showValidationMessage("Free users cannot add time slots for multiple days.");
-            return null;
+          
+          const slots = [];
+          let currentDate = start.clone();
+          while (currentDate.isSameOrBefore(end, 'day')) {
+            slots.push({
+              consultationType,
+              date: currentDate.format("YYYY-MM-DD"),
+              starttime,
+              endtime,
+              hospital,
+              slotType: 'Multiple'
+            });
+            currentDate.add(1, 'day');
           }
+          
+          return slots;  // Returning multiple slots
         }
-      
-        return { consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital };
-      },
-    }).then((result) => {
+    
+        // For Single slot
+        if (slotType === 'Single') {
+          return [{
+            consultationType,
+            date: document.getElementById("date").value,
+            starttime,
+            endtime,
+            hospital,
+            slotType: 'Single'
+          }];
+        }
+    },
+    })
+    .then((result) => {
       if (result.isConfirmed && result.value) {
         const {consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;
         console.log({ consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital });
