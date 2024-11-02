@@ -60,6 +60,14 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
     const [totalFees,setTotalFees]= useState();
     const [currencytoBookingData,setCurrencytoBookingData] = useState('usd');
     const navigate = useNavigate();
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+
+useEffect(() => {
+  const handleResize = () => setIsMobileView(window.innerWidth <= 768);
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -384,7 +392,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
         <>
             <ToastContainer />
             <div className={`row doctor-card ${isMapExpanded ? 'mapExpanded-doctor-card' : ''}`}>
-                <div className={`col-7 ${isMapExpanded ? 'col-12' : ''}`}>
+                <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
                             <Link to={`/book-appointment-profile/${doctor._id}`}>
@@ -427,7 +435,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                         </div>
                     </div>
                 </div>
-                <div className={`col-5 appointment d-flex flex-column ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
+                <div className={`col-12 col-lg-5 appointment d-flex flex-column align-items-center ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
                     <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
                         {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
                     </div>
@@ -460,10 +468,10 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                 {showDoctorCard && (
                     <div className="container doctor-card-date">
                         <div className="date-nav">
-                            <button className="arrow" onClick={showPrev} disabled={startIndex === 0}>‹</button>
+                            <button className="slots-arrow " onClick={showPrev} disabled={startIndex === 0}>‹</button>
                             <div className="date-carousel">
                                 {dates.length > 0 ? (
-                                    dates.slice(startIndex, startIndex + (isMapExpanded ? 2 : 3)).map((date, index) => (
+                                    dates.slice(startIndex, startIndex + (isMapExpanded || isMobileView ? 1 : 3)).map((date, index) => (
                                         <div
                                             key={index}
                                             className={`date-item ${index + startIndex === selectedDate ? 'active' : ''}`}
@@ -482,14 +490,14 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                                     <p>No slots are available</p>
                                 )}
                             </div>
-                            <button className="arrow" onClick={showNext} disabled={startIndex + 3 >= dates.length}>›</button>
+                            <button className="slots-arrow " onClick={showNext} disabled={startIndex + 3 >= dates.length}>›</button>
                         </div>
                         <div className="underline">
                             <div
                                 className="underline-active"
                                 style={{
-                                    left: `calc(100% / ${isMapExpanded ? 2 : 3} * ${selectedDate - startIndex})`,
-                                    width: `calc(100% / ${isMapExpanded ? 2 : 3})`
+                                    left: `calc(100% / ${isMapExpanded || isMobileView  ? 1 : 3} * ${selectedDate - startIndex})`,
+                                    width: `calc(100% / ${isMapExpanded || isMobileView  ? 1 : 3})`
                                 }}
                             ></div>
                         </div>

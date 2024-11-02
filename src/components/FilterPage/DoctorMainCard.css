@@ -39,7 +39,7 @@
     color: #272848;
   }
   .doc-card-header p{
-    text-wrap: nowrap;
+    text-wrap: wrap;
     margin-left: 3px;
     color: #999ba8;
     font-size: 14.5px;
@@ -193,7 +193,7 @@
   }
   .doctor-details1 {
     transition: font-size 0.5s ease-in-out, margin-left 0.5s ease-in-out;
-    width: 400px;
+    width: 100%;
     /* margin-left: ; */
   }
   
@@ -319,7 +319,7 @@
 }
 
 /* Arrow button styles */
-.arrow {
+.slots-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -639,6 +639,25 @@
   .doc-card-header {
       flex-direction: column;
   }
+  .doc-card-header h4{
+    font-size: 25px;
+  }
+  .doc-card-header p{
+    font-size: 9.5px;
+  }
+  .no-results-message{
+    font-size: 12px !important;
+  }
+  .sort-by .form-group label {
+    font-size: 11px;
+  }
+  .sort-by .form-group select,
+.sort-by .form-group input{
+  font-size: 10px;
+}
+.sponsored-text p{
+  font-size: 10px;
+}
   .sort-by {
       width: 100%;
       margin-top: 10px;
@@ -648,7 +667,7 @@
   }
   .doctor-info, .appointment {
       width: 100%;
-      text-align: center;
+      text-align: start;
   }
   .doctor-details1 {
       margin-top: 10px;
@@ -688,8 +707,39 @@
   .book-button {
       font-size: 14px;
   }
+  .consultation-type {
+    font-size: 12px;
+  }
+  .percentage-data span {
+    font-size: 10px;
+  }
+  .percentage-data{
+    margin-top: 11px;
+  }
+  .availability{  
+    margin: 10px 0px 0px 0px;
+    font-size: 12px;
+  }
+  .rating-stars{
+    display: none;
+  }
+  .book-button{
+    font-size: 12px;
+  }
 }
-
+@media (max-width: 360px) {
+  .appointment{
+    padding-left: 65px !important;
+  }
+  .date-item h3 {
+    text-wrap: nowrap;
+    font-size: 12px;
+  }
+  .slots-available{
+    text-wrap: nowrap;
+    font-size: 10px;
+  }
+}
 .failed-response {
   color: #ff4d4d; /* Red color to indicate an error */
   font-weight: bold; /* Make the text bold */

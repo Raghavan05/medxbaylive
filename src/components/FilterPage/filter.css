@@ -1,6 +1,6 @@
 .sidebar-filter {
-    width: 280px;
-    height: auto;
+    max-width: 280px;
+    height: fit-content;
     background: #FFFFFF;
     border: 1px solid #0000001A;
     padding:20px;
@@ -262,40 +262,8 @@ input[type="date"]::-ms-expand {
     flex-direction: column;
 }
 
-
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .sidebar-filter {
-        max-width: 250px;
-        height: 550px;
-    }
-}
-
-@media (max-width: 992px) {
-    .sidebar-filter {
-        max-width: 170px;
-        height: 500px;
-    }
-}
-
-@media (max-width: 768px) {
-    .sidebar-filter {
-        max-width: 150px;
-        height: 450px;
-    }
-}
-
-@media (max-width: 576px) {
-    .sidebar-filter {
-        max-width: 120px;
-        height: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    .sidebar-filter {
-        max-width: 100px;
-        height: 350px;
+@media (max-width : 998px) {
+    .sidebar-filter{
+        margin: 20px;
     }
 }

@@ -5,6 +5,9 @@ import './FilterPage.css';
 import MapContainer from './Mapcontainer';
 import { fetchFromPatient } from '../../actions/api';
 import { useSearch } from '../context/context';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IoClose } from "react-icons/io5";
 
 const FilterPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -180,17 +183,27 @@ const FilterPage = () => {
   };
 
   // const filteredDoctors = filterDoctors(doctors);
-    const filteredDoctors = doctors.length == 0 ? filterDoctors(doc) : filterDoctors(doctors);
+    const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors);
 
 
   return (
     <>
-      <div className='container-fluid mt-5'>
-        <div className='filterpage-parent'>
-          <button onClick={toggleFilterCanvas} className="btn btn-primary my-3 d-lg-none">
-            Open Filters
-          </button>
+      <div className='container-fluid mt-lg-5'>
+        <div className='filterpage-container'>
+      <button onClick={toggleFilterCanvas} className="filterpage-hamburger btn btn-primary my-3 d-lg-none">
+      <FontAwesomeIcon icon={faFilter} />
+      </button>
 
+      <div className={`filterpage-offcanvas ${isFilterOpen ? 'filterpage-offcanvas-show' : ''}`}>
+        <button className="filterpage-offcanvas-close btn-close" onClick={toggleFilterCanvas}><IoClose /></button>
+        <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
+        <div className='d-flex justify-content-center '>
+        <button className="btn btn-primary" onClick={toggleFilterCanvas}>Apply filters</button>
+        </div>
+      </div>
+        </div>
+
+        <div className='filterpage-parent'>
           <div className='row'>
             <div className="filter-edit col-3 d-none d-lg-block">
               <Filter onFilterChange={handleFilterChange} initialFilters={filters} />

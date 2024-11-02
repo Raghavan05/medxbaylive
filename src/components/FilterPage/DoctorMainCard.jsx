@@ -94,20 +94,21 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
     return (
         <div className="container px-3">
             <div className="row doctor-main-card">
-                <div className={`col-7 ${isMapExpanded ? 'mapExpanded-doc-card-header' : 'doc-card-header'}`}>
+                <div className={`col-12 ${isMapExpanded ? 'mapExpanded-doc-card-header' : 'doc-card-header'}`}>
                     <h4>{nonSponsoredDoctors.length + sponsoredDoctors.length} Provider{nonSponsoredDoctors.length + sponsoredDoctors.length !== 1 ? 's' : ''} available</h4>
                     <div className='d-flex'>
                         <img src={VerifiedImg} alt="Verified" style={{ width: "26px", height: "26px" }} />
                         <p>Book appointments with minimum wait-time & verified providers details</p>
                     </div>
                 </div>
-                <div className={`${isMapExpanded ? 'd-none' : 'col-1'}`}></div>
             </div>
             <div className={`doctor-card-container sponsor-card ${isMapExpanded ? 'mapExpanded-sponsor-card' : ''}`}>
-                <div className='sponsored-text d-flex'>
+                <div className='row sponsored-text '>
+                    <div className="col-6 d-flex">
                     <BsInfoCircle />
                     <p>Sponsored</p>
-                    <div className={`sort-by ${isMapExpanded ? 'col-5 mapExpanded-sort-by' : 'col-4'}`}>
+                    </div>
+                    <div className={`sort-by ${isMapExpanded ? 'col-5 mapExpanded-sort-by' : 'col-6'}`}>
                         <div className="form-group">
                             <label htmlFor="sortOptions">Sort by:</label>
                             <select id="sortOptions" onChange={handleSortChange}>
