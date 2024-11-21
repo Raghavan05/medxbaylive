@@ -7,7 +7,7 @@ const TermsAndConditions = () => {
       <header className="terms-header">
         <div className="header-content">
           <div>
-            <h1 className='t&q'>Terms and Conditions</h1>
+            <h1 className="terms-heading">Terms and Conditions</h1>
             <div className="last-updated">
               <span>Last updated: August 2, 2024</span>
             </div>

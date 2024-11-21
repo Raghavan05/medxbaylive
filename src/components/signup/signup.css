@@ -2,6 +2,49 @@
 /* .toast-sign {
 
 } */
+.role-selection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.role-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.role-button img.role-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.role-button span {
+  font-size: 14px;
+  color: #333;
+}
+
+.role-button.active {
+  border-color: #0167FF;
+  background-color: #e6f2ff;
+  transform: scale(1.1);
+}
+
+.role-button:hover {
+  background-color: #e6e6e6;
+}
+
+
+
 .toast-center .Toastify__close-button {
   color: #0067FF; 
 }
@@ -656,6 +699,7 @@ color: #27272766;
 }
 
 @media (max-width: 412px) {
+  
   .brand-image-logo {
     display: none;
   }
@@ -708,7 +752,7 @@ color: #27272766;
 
   .form-overall-container {
     position: relative;
-    top: -30px;
+    top: 0px;
     width: 100%;
     padding: 0 10px;
     box-sizing: border-box;
@@ -889,6 +933,10 @@ color: #27272766;
 
 
 @media (min-width:413px) and (max-width: 600px) {
+  .role-button {
+    width: 100%; /* Stack buttons full-width on smaller screens */
+    font-size: 0.9rem;
+  }
   .brand-image-logo {
     /* width: 150px;
     height: 50px;
@@ -948,7 +996,7 @@ align-items: center;
   }
   .form-overall-container {
     position: relative;
-    top: -40px;
+    top: 0px;
     width: 100%;
     padding: 0 10px;
     box-sizing: border-box;
@@ -1117,6 +1165,9 @@ align-items: center;
 }
 
 @media (min-width:601px) and (max-width: 767px) {
+  .role-button {
+    width: 45%; /* Two buttons per row on medium screens */
+  }
   .brand-image-logo {
     width: 150px;
     height: 50px;
@@ -1348,6 +1399,9 @@ height: auto;
 
 
 @media (min-width:768px) and (max-width: 1023px) {
+  .role-button {
+    width: 45%; /* Two buttons per row on medium screens */
+  }
   .brand-image-logo {
     width: 200px;
     height: 50px;

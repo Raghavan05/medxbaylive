@@ -1,37 +1,39 @@
 .terms-container {
-    width: 95%;
-    padding: 30px !important;
-    margin: 0 auto; /* Center the container */
-    background: linear-gradient(to bottom, #F2F6FF 12%, #FFFFFF ); /* Gradient background with a sharp transition */
-    text-align: justify; /* Justify text within the container */
+    width: 100%;
+    padding: 30px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 1);
+    text-align: justify;
+    max-width: 1440px;
 }
 
 .terms-header {
     padding: 60px;
     border-radius: 10px;
-    display: flex; /* Use flexbox to align items horizontally */
-    align-items: flex-start; /* Align items to the start of the cross-axis */
-    justify-content: space-between; /* Space between content and image */
-    text-align: left; /* Align text in the header content to the left */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .header-content {
-    max-width: 60%; /* Adjust width as needed */
+    max-width: 45%;
 }
 
 .header-content h1 {
     font-size: 32px;
     color: #272848;
-    margin: 0;
+    margin-bottom: 25px;
 }
 
 .terms-image {
-    max-width: 40%; /* Adjust width as needed */
+    max-width: 55%;
 }
 
 .terms-image img {
-    width: 80%; /* Ensure the image fills its container */
-    border-radius: 10px;
+    width: 427px;
+    height: 284px;
+    object-fit: cover;
+    border-radius: 15px;
 }
 
 .last-updated {
@@ -41,32 +43,32 @@
     border-radius: 5px;
     display: inline-block;
     margin: 20px 0;
-    text-align: left; /* Align text in the last updated section to the left */
+    text-align: left;
 }
 
 .terms-header p {
     font-size: 18px;
     color: #545454;
-    margin-top: 20px; /* Adjust spacing as needed */
-    text-align: justify; /* Justify text in the header paragraph */
+    margin-top: 20px;
+    text-align: justify;
 }
 
 .terms-content {
     padding: 60px;
     margin-top: -40px;
-    text-align: justify; /* Justify text within the content section */
+    text-align: justify;
 }
 
 .terms-left {
     width: 100%;
-    text-align: justify; /* Justify text in the left section */
+    text-align: justify;
 }
 
 .terms-section h2 {
     font-size: 20px;
     color: #272848;
     margin-bottom: 10px;
-    text-align: left; /* Align section headings to the left */
+    text-align: left;
     padding-bottom: 20px;
 }
 
@@ -75,11 +77,72 @@
     color: #272848;
     line-height: 1.6;
     margin-bottom: 20px;
-    text-align: justify; /* Justify text in section paragraphs */
+    text-align: justify;
     padding-bottom: 20px;
 }
 
 .last-updatedpara {
     max-width: 600px;
-    text-align: justify; /* Justify text in the last updated paragraph */
+    text-align: justify;
+}
+
+@media (max-width: 998px) {
+    .terms-header {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-content, .terms-image {
+        max-width: 100%;
+    }
+    .terms-image {
+        order: 1;
+        margin-bottom: 20px;
+    }
+
+    .header-content{
+        order: 2;
+    }
+    .header-content h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .terms-header p {
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    .terms-image img {
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+
+    .terms-content {
+        padding: 20px;
+    }
+
+    .last-updated {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+
+ 
+    .terms-section p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .terms-section h2 {
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terms-container {
+        padding: 15px;
+    }
 }

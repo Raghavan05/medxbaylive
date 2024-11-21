@@ -30,11 +30,7 @@ const CustomEvent = ({ event }) => (
   <div className={`${event.status === 'booked' ? 'rbc-event booked' : 'rbc-event free'}`}>
     <strong>{moment(event.start).format("HH:mm")}</strong> -{" "}
     <strong>{moment(event.end).format("HH:mm")}</strong>{" "}
-    {event?.title ? (
-      `(${event.title})`
-    ) : (
-      event.consultationType ? ` (${event.consultationType})` : ''
-    )}
+    {event?.title}
   </div>
 );
 
@@ -123,13 +119,15 @@ export default function ReactBigCalendar({ onScheduleChange }) {
           const timeSlots = doctorData.timeSlots.map((slot) => {
             const start = parseDateTime(slot.date, slot.startTime);
             const end = parseDateTime(slot.date, slot.endTime);
+            
 
             return {
               id: slot._id,
               title: slot.hospital,
               start: start,
               end: end,
-              status : slot.status
+              status : slot.status,
+              consultationType: slot.consultation
             };
           });
           
@@ -137,19 +135,22 @@ export default function ReactBigCalendar({ onScheduleChange }) {
             const start = parseDateTime(booking.date, booking.time);
             const end = new Date(start);
             end.setMinutes(end.getMinutes() + 30); // Assuming each booking is 30 minutes
+            console.log(booking);
 
             return {
               id: booking._id,
               start: start,
               end: end,
-              consultationType: booking.consultationType || 'N/A',
+              consultationType: booking.consultation || 'N/A',
             };
           });
           setEvents([...timeSlots, ...bookings]);
+          console.log(bookings);
+          
           const statuses = events.map((event,index)=>{ 
             return event.status
           });
-          console.log(statuses);
+          // console.log(statuses);
           
         }
       } catch (error) {
@@ -343,64 +344,62 @@ export default function ReactBigCalendar({ onScheduleChange }) {
         const enddate = document.getElementById("enddate") ? document.getElementById("enddate").value : null;
         const starttime = document.getElementById("starttime").value;
         const endtime = document.getElementById("endtime").value;
-        let hospital = document.getElementById("hospital").value;
-    
-        const now = moment();
         
-        if (slotType === 'Multiple') {
-          // Validate the date range and time
-          if (!startdate || !enddate || !starttime || !endtime) {
-            Swal.showValidationMessage("Please complete all required fields.");
-            return null;
-          }
-          
-          const start = moment(startdate);
-          const end = moment(enddate);
-          const date = moment(date);
-          if (start.isBefore(now, 'day') || end.isBefore(now, 'day') || start.isAfter(end)) {
-            Swal.showValidationMessage("Invalid date range. Please select a future range.");
-            return null;
-          }
-          
-          const slots = [];
-          let currentDate = start.clone();
-          while (currentDate.isSameOrBefore(end, 'day')) {
-            slots.push({
-              consultationType,
-              date: currentDate.format("YYYY-MM-DD"),
-              starttime,
-              endtime,
-              hospital,
-              slotType: 'Multiple'
-            });
-            currentDate.add(1, 'day');
-          }
-          
-          return slots;  // Returning multiple slots
-        }
-    
-        // For Single slot
+        let hospital = document.getElementById("hospital").value; 
+      
+        const now = moment();
+        const isPastDate = (selectedDate) => moment(selectedDate).isBefore(now, 'day');
+        const isPastTime = (selectedDate, selectedTime) => moment(`${selectedDate}T${selectedTime}`).isBefore(now);
+      
+        // Validate Single slotType
         if (slotType === 'Single') {
-          return [{
-            consultationType,
-            date: document.getElementById("date").value,
-            starttime,
-            endtime,
-            hospital,
-            slotType: 'Single'
-          }];
+          if (isPastDate(date) || isPastTime(date, starttime)) {
+            Swal.showValidationMessage("You cannot add time slots for past dates or times.");
+            return null;
+          }
+          if (consultationType === 'In-person' && !hospital) {
+            Swal.showValidationMessage("Please select a hospital for In-person consultation.");
+            return null;
+          }
+          if (!starttime || !endtime || !date) {
+            Swal.showValidationMessage("Please fill in all details before proceeding!");
+            return null;
+          }
         }
-    },
-    })
-    .then((result) => {
+      
+        // Validate Multiple slotType
+        if (slotType === 'Multiple') {
+          if (isPastDate(startdate) || isPastTime(startdate, starttime)) {
+            Swal.showValidationMessage("You cannot add time slots for past dates or times.");
+            return null;
+          }
+          if (!startdate || !enddate || !starttime || !endtime) {
+            Swal.showValidationMessage("Please fill in all details before proceeding!");
+            return null;
+          }
+          if (consultationType === 'In-person' && !hospital) {
+            Swal.showValidationMessage("Please select a hospital for In-person consultation.");
+            return null;
+          }
+          // Ensure endDate is not null or empty
+          if (!enddate) {
+            Swal.showValidationMessage("Please specify an end date for multiple time slots.");
+            return null;
+          }
+        }
+      
+        // Return data if all validations pass
+        return { consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital };
+      },      
+    }).then((result) => {
       if (result.isConfirmed && result.value) {
         const {consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;
         console.log({ consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital });
-
+        
         const newEvent = {
           title: consultationType === 'In-person' ? hospital : 'Video Consultation',
           start: new Date(`${slotType === 'Single' ? date : startdate}T${starttime}:00`),
-          end: new Date(`${slotType === 'Single' ? date : enddate}T${endtime}:00`),
+          end: new Date(`${slotType === 'multiple' ? enddate : date }T${endtime}:00`),
           consultationType,
           slotType,
           status: 'free', // Assuming all new slots are free
@@ -410,13 +409,14 @@ export default function ReactBigCalendar({ onScheduleChange }) {
   
         axios.post(`${process.env.REACT_APP_BASE_URL}/doctor/add-time-slot`, {
           date: slotType === 'Single' ? date : startdate,
-          ...(slotType === 'Multiple' && { endDate: enddate }), // Conditionally include endDate
+          endDate: slotType === 'multiple' ? enddate : null, // Ensure endDate is included as null if not needed
           startTime: starttime,
           endTime: endtime,
           consultationType,
           hospital,
           slotType,
-      }, { withCredentials: true })
+        },
+        { withCredentials: true })
         .then(() => {
           Swal.fire("Time Slot Added!", "", "success");
         })

@@ -79,6 +79,12 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
               case 'patient':
                 navigate('/profile/userprofile/');
                 break;
+              case 'supplier':
+                navigate('/profile/userprofile/');
+                break;
+              case 'corporate':
+                navigate('/OurProviders');
+                break;
               case 'admin':
                 navigate('/admin/dashboardpage/');
                 break;

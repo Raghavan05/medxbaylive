@@ -13,18 +13,22 @@ import curvedesign from '../../assests/img/curvedesign.svg'
 import curvedsigntwo from '../../assests/img/curvedsigntwo.svg';
 import google from '../../assests/img/google.png'
 import apple from '../../assests/img/apple.png'
+import patientRole from '../Assets/patient_role.png'
+import doctorRole from '../Assets/doctor_role.png'
+import corporateRole from '../Assets/corporate_role.png'
+import supplierRole from '../Assets/supplier_role.png'
 import Typed from 'typed.js';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css'; 
-const SignupCard = ({ show, handleClose,openLoginModal }) => {
+import 'react-phone-input-2/lib/style.css';
+const SignupCard = ({ show, handleClose, openLoginModal }) => {
   useEffect(() => {
     import('./signup.css');
   }, []);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   const typedElement = useRef(null);
   const typedElementTwo = useRef(null);
@@ -33,11 +37,13 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [mobileError, setMobileError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const [selectedRole, setSelectedRole] = useState('Patient'); // New state for selected role
 
   useEffect(() => {
     if (typedElement.current && show) {
@@ -47,16 +53,16 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
         backSpeed: 50,
         showCursor: false,
       };
-  
+
       const typed = new Typed(typedElement.current, options);
-  
+
       return () => {
         typed.destroy();
       };
     }
   }, [show]);
-  
-  
+
+
   useEffect(() => {
     if (typedElementTwo.current && show) {
       const optionsTwo = {
@@ -65,24 +71,23 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
         backSpeed: 50,
         showCursor: false,
       };
-  
+
       const typedTwo = new Typed(typedElementTwo.current, optionsTwo);
-  
+
       return () => {
         typedTwo.destroy();
       };
     }
   }, [show]);
-  
+
 
   const handleGoogleSignIn = (role) => {
     setIsLoading(true);
-    const url = role === 'patient'
-      ? `${process.env.REACT_APP_BASE_URL}/auth/google/patient?state=${JSON.stringify({ role })}`
-      : `${process.env.REACT_APP_BASE_URL}/auth/google/doctor?state=${JSON.stringify({ role })}`;
-  
+    const rolePath = role.toLowerCase();
+    const url = `${process.env.REACT_APP_BASE_URL}/auth/google/${rolePath}?state=${JSON.stringify({ role })}`;
     window.location.href = url;
   };
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -92,14 +97,14 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
     const email = urlParams.get('email');
     const userSubscriptionType = urlParams.get('userSubscriptionType');
     const userSubscriptionVerification = urlParams.get('userSubscriptionVerification');
-  
+
     console.log('Role:', role);
     console.log('Name:', name);
     console.log('ID:', id);
     console.log('Email:', email);
     console.log('Subscription Type:', userSubscriptionType);
     console.log('Subscription Verification:', userSubscriptionVerification);
-  
+
     if (role && name && id) {
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('userEmail', email);
@@ -108,40 +113,57 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
       sessionStorage.setItem('loggedIn', 'true');
       sessionStorage.setItem('subscriptionType', userSubscriptionType);
       sessionStorage.setItem('subscriptionVerification', userSubscriptionVerification);
-      
+
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
-  
+
 
 
   const register = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); 
-    const user = { name, email, phoneNumber, password };
-    const endpoint = isProvider 
-      ? `${process.env.REACT_APP_BASE_URL}/auth/signup/doctor`
-      : `${process.env.REACT_APP_BASE_URL}/auth/signup/patient`;
+    setIsSubmitting(true);
+    let user;
+    let endpoint;
   
+    // Define the endpoint and request body based on the selected role
+    if (selectedRole === 'Provider') {
+      endpoint = `${process.env.REACT_APP_BASE_URL}/auth/signup/doctor`;
+      user = { name, email, phoneNumber, password };
+    } else if (selectedRole === 'Patient') {
+      endpoint = `${process.env.REACT_APP_BASE_URL}/auth/signup/patient`;
+      user = { name, email, phoneNumber, password };
+    } else if (selectedRole === 'Supplier') {
+      endpoint = `${process.env.REACT_APP_BASE_URL}/supplier/register`;
+      user = { name, email, phoneNumber, password };
+    } else if (selectedRole === 'Corporate') {
+      endpoint = `${process.env.REACT_APP_BASE_URL}/corporate/signup`;
+      user = { corporateName: name, email, phoneNumber, password };
+    } else {
+      console.error("Invalid user type");
+      setIsSubmitting(false);
+      return;
+    }
+
     if (validateForm()) {
       try {
         const res = await axios.post(endpoint, user);
         console.log(res.data);
         toast.info("Registration successful! Please check your email and verify.", {
-           position: "top-center" ,
+          position: "top-center",
           closeButton: true,
           progressBar: true,
           className: 'toast-sign toast-success',
-          autoClose: 5000 ,
+          autoClose: 5000,
 
         });
-        
+
 
         setName('');
         setEmail('');
         setPhoneNumber('');
         setPassword('');
-        handleClose(); 
+        handleClose();
       } catch (err) {
         console.error("Error during registration:", err);
         if (err.response) {
@@ -151,8 +173,6 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
                 closeButton: true,
                 progressBar: true,
                 className: 'toast-center toast-success',
-            
-
               });
             } else {
               toast.info(err.response.data.error, {
@@ -179,15 +199,18 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
           });
         }
       } finally {
-        setIsSubmitting(false);  
+        setIsSubmitting(false);
       }
     } else {
-      setIsSubmitting(false);  
+      setIsSubmitting(false);
     }
   };
-  
-  
+
+
   const [isProvider, setIsProvider] = useState(false);
+  const [isPatient, setIsPatient] = useState(false);
+  const [isCorporate, setIsCorporate] = useState(false);
+  const [isSupplier, setIsSupplier] = useState(false);
 
   const validateForm = () => {
     return validateName(name) && validateEmail(email) && validateMobile(phoneNumber) && validatePassword(password);
@@ -198,13 +221,29 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
     setTimeout(() => {
       setIsProvider(true);
       setIsLoading(false);
-    }, 500); 
+    }, 500);
   };
 
   const handlePatientClick = () => {
     setIsLoading(true);
     setTimeout(() => {
-      setIsProvider(false);
+      setIsPatient(true);
+      setIsLoading(false);
+    }, 500);
+  };
+
+  const handleCorporateClick = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsCorporate(true);
+      setIsLoading(false);
+    }, 500);
+  };
+
+  const handleSupplierClick = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsSupplier(true);
       setIsLoading(false);
     }, 500);
   };
@@ -312,7 +351,7 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
   };
   const handlePhoneChange = (value) => {
     setPhoneNumber(value);
- 
+
   };
 
 
@@ -322,106 +361,146 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
     validatePassword(value);
   };
 
-  
+  const handleRoleClick = (role) => {
+    setSelectedRole(role);
+  };
+
 
   return (
     <>
-   
-    <Modal show={show} onHide={handleClose} centered className="custom-modal">
-    <ToastContainer 
-   />
-      <Modal.Title>
-        <span className="model-header">Sign up</span>{' '}
-        <span className="model-header-sub">
-  Sign up as {  ' '}
-  <span style={{ color: '#0167FF', marginLeft: '8px' }}>
-  {isProvider ? 'Provider' : 'Patient'}
-</span>
-</span>
-      </Modal.Title>
-      <button type="button" className="btn-close-custom" aria-label="Close" onClick={handleClose}>
-        x
-      </button>
-      <Modal.Body>
-        <div className="smile-emoji">
-   
-          <img src={logobrand} alt="logo" className="brand-image-logo" />
-          <div className="emoji-ring">😇</div>
-          <div className="calender-emoji-container">
-            <img src={schedule} alt="meds" className="calender-emoji" />
+
+      <Modal show={show} onHide={handleClose} centered className="custom-modal">
+        <ToastContainer
+        />
+        <Modal.Title>
+          <span className="model-header">Sign up</span>{' '}
+          <span className="model-header-sub">
+            Sign up as{' '}
+            <span style={{ color: '#0167FF', marginLeft: '8px' }}>{selectedRole}</span>
+          </span>
+        </Modal.Title>
+        <button type="button" className="btn-close-custom" aria-label="Close" onClick={handleClose}>
+          x
+        </button>
+
+        <Modal.Body>
+
+          <div className="smile-emoji">
+
+            <img src={logobrand} alt="logo" className="brand-image-logo" />
+            <div className="emoji-ring">😇</div>
+            <div className="calender-emoji-container">
+              <img src={schedule} alt="meds" className="calender-emoji" />
+            </div>
+            <img src={meds} alt="meds" className="band-aid-emoji" />
+            <img src={stethoscope} alt="meds" className="stethoscope-emoji" />
+            <img src={scheduletwo} alt="meds" className="scheduletwo-emoji" />
+            <img src={doctorconsultation} alt="meds" className="consultation-emoji" />
+            <img src={medicalexamsvg} alt="meds" className="medicalexam-emoji" />
+            <div className="hand-emoji">👋</div>
+            <img src={heartbeat} alt="meds" className="heartbeat-emoji" />
+            <div className='running-container-two'>
+
+              <img src={curvedsigntwo} alt="meds" className="curvedsigntwo" />
+              <p className="running-text-two">
+                <span ref={typedElement}></span>
+              </p>
+            </div>
+            <div className='running-container'>
+              <img src={curvedesign} alt="meds" className="curvedesign" />
+              <div className="running-text">
+                <span ref={typedElementTwo}></span>
+              </div>
+            </div>
+
           </div>
-          <img src={meds} alt="meds" className="band-aid-emoji" />
-          <img src={stethoscope} alt="meds" className="stethoscope-emoji" />
-          <img src={scheduletwo} alt="meds" className="scheduletwo-emoji" />
-          <img src={doctorconsultation} alt="meds" className="consultation-emoji" />
-          <img src={medicalexamsvg} alt="meds" className="medicalexam-emoji" />
-          <div className="hand-emoji">👋</div>
-          <img src={heartbeat} alt="meds" className="heartbeat-emoji" />
-          <div className='running-container-two'>
-            
-            <img src={curvedsigntwo} alt="meds" className="curvedsigntwo" />
-            <p className="running-text-two">
-              <span ref={typedElement}></span>
-            </p>
-          </div>
-          <div className='running-container'>
-          <img src={curvedesign} alt="meds" className="curvedesign" />
-          <div className="running-text">
-            <span ref={typedElementTwo}></span>
-          </div>
-          </div>
-      
-        </div>
-        {isLoading ? (
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p className="loading-text">Loading...</p>
-        </div>
-      ) : (
-        <>
-     
+
+          {isLoading ? (
+            <div className="loading-container">
+              <div className="spinner"></div>
+              <p className="loading-text">Loading...</p>
+            </div>
+          ) : (
+            <>
 
 
-     <div className='sign-up-button-container'></div>
-        <Form onSubmit={register} className="form-overall-container">
-        <Form.Group className={`form-container ${!isProvider ? 'form-container-visible' : 'form-container-hidden'}`}>
-        <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your Name"
-              className="form-control-custom"
-              value={name}
-              onChange={handleNameChange}
-              isInvalid={!!nameError}
-            />
-            <Form.Control.Feedback type="invalid">{nameError}</Form.Control.Feedback>
-          </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter your Email"
-              className="form-control-custom"
-              value={email}
-              onChange={handleEmailChange}
-              isInvalid={!!emailError}
-            />
-            <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
-          </Form.Group>
-          
+              <div className='sign-up-button-container'></div>
+              <div className="role-selection">
+                <button
+                  className={`role-button ${selectedRole === 'Patient' ? 'active' : ''}`}
+                  onClick={() => handleRoleClick('Patient')}
+                >
+                  <img src={patientRole} alt="Patient Icon" className="role-icon" />
+                  <span>Patient</span>
+                </button>
 
-          <Form.Group className="mb-3" controlId="formMobile">
-            <Form.Label>Mobile</Form.Label>
-            <PhoneInput
-  country={'us'}             
-  value={phoneNumber}          
-  onChange={handlePhoneChange}  
-  containerClass="form-control-custom-phone"  
-  className="form-control-custom-phone"      
-  placeholder="Enter your Mobile Number"
-/>
-            {/* <Form.Control
+                <button
+                  className={`role-button ${selectedRole === 'Provider' ? 'active' : ''}`}
+                  onClick={() => handleRoleClick('Provider')}
+                >
+                  <img src={doctorRole} alt="Provider Icon" className="role-icon" />
+                  <span>Provider</span>
+                </button>
+
+                <button
+                  className={`role-button ${selectedRole === 'Corporate' ? 'active' : ''}`}
+                  onClick={() => handleRoleClick('Corporate')}
+                >
+                  <img src={corporateRole} alt="Corporate Icon" className="role-icon" />
+                  <span>Corporate</span>
+                </button>
+                {/* 
+  <button
+    className={`role-button ${selectedRole === 'Supplier' ? 'active' : ''}`}
+    onClick={() => handleRoleClick('Supplier')}
+  >
+    <img src={supplierRole} alt="Supplier Icon" className="role-icon" />
+    <span>Supplier</span>
+  </button> */}
+              </div>
+
+              <Form onSubmit={register} className="form-overall-container mt-5">
+
+                <Form.Group className={`form-container ${!isProvider ? 'form-container-visible' : 'form-container-hidden'}`}>
+                    <Form.Label>
+                      {selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}
+                    </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder={`Enter your ${selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}`}                    className="form-control-custom"
+                    value={name}
+                    onChange={handleNameChange}
+                    isInvalid={!!nameError}
+                  />
+                  <Form.Control.Feedback type="invalid">{nameError}</Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter your Email"
+                    className="form-control-custom"
+                    value={email}
+                    onChange={handleEmailChange}
+                    isInvalid={!!emailError}
+                  />
+                  <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
+                </Form.Group>
+
+
+                <Form.Group className="mb-3" controlId="formMobile">
+                  <Form.Label>Mobile</Form.Label>
+                  <PhoneInput
+                    country={'us'}
+                    value={phoneNumber}
+                    onChange={handlePhoneChange}
+                    containerClass="form-control-custom-phone"
+                    className="form-control-custom-phone"
+                    placeholder="Enter your Mobile Number"
+                  />
+                  {/* <Form.Control
               type="text"
               placeholder="Enter your Mobile Number"
               className="form-control-custom"
@@ -429,72 +508,96 @@ const SignupCard = ({ show, handleClose,openLoginModal }) => {
               onChange={handleMobileChange}
               isInvalid={!!mobileError}
             /> */}
-            <Form.Control.Feedback type="invalid">{mobileError}</Form.Control.Feedback>
-          </Form.Group>
+                  <Form.Control.Feedback type="invalid">{mobileError}</Form.Control.Feedback>
+                </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your Password"
-              className="form-control-custom"
-              value={password}
-              onChange={handlePasswordChange}
-              isInvalid={!!passwordError}
-            />
-            <Form.Control.Feedback type="invalid">{passwordError}</Form.Control.Feedback>
-          </Form.Group>
+                <Form.Group className="mb-3" controlId="formPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter your Password"
+                    className="form-control-custom"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    isInvalid={!!passwordError}
+                  />
+                  <Form.Control.Feedback type="invalid">{passwordError}</Form.Control.Feedback>
+                </Form.Group>
 
-          <Button
-              variant="primary"
-              type="submit"
-              className="btn-custom" 
-              disabled={isSubmitting}  
-            >
-              {isSubmitting ? 'Signing Up...' : 'Sign Up'}
-            </Button>
-            <div className='or-sign-up-container'>
-       
-       <div className='or-sign-up'>OR</div>
-          <div className='end-line-sign-up'></div>
-          <div className='end-line-sign-up-two'>
-            <div className='button-sign-up-container'>
-            {/* <button className='google-button-sign-up'>                 
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="btn-custom"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+                </Button>
+                <div className='or-sign-up-container'>
+
+                  <div className='or-sign-up'>OR</div>
+                  <div className='end-line-sign-up'></div>
+                  <div className='end-line-sign-up-two'>
+                    <div className='button-sign-up-container'>
+                      {/* <button className='google-button-sign-up'>                 
                <img src={google} alt="Google" onClick={() => handleGoogleSignIn(isProvider ? 'doctor' : 'patient')} className="social-sign-up" />
             </button> */}
-            {/* <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button> */}
-            </div>
+                      {/* <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button> */}
+                    </div>
 
-          </div>
-          <div className='login-option-container'>
-<div className='account-sign-up'>Have an account?</div>
+                  </div>
+                  <div className='login-option-container'>
+                    <div className='account-sign-up'>Have an account?</div>
 
-<Link className='login-link-signup' to="#" onClick={() => {
-              handleClose(); 
-              openLoginModal(); 
-            }}>
-                Sign In
-                </Link>
+                    <Link className='login-link-signup' to="#" onClick={() => {
+                      handleClose();
+                      openLoginModal();
+                    }}>
+                      Sign In
+                    </Link>
 
-            </div>
-            <div className='provider-option-container'>
-              
-              <div className="account-sign-up-provider">
-                {isProvider ? 'Are you a patient?' : 'Are you a provider?'}
-              </div>
-              <button
-                className="provider-link-signup"
-                onClick={isProvider ? handlePatientClick : handleProviderClick}
-              >
-                {isProvider ? 'Sign Up Here' : 'Sign Up here'}
-              </button>
-            </div>
-          </div>
-          </Form>
-        </>
-      )}
-      </Modal.Body>
-    </Modal>
+                  </div>
+                  <div className='provider-option-container'>
+
+                    <div className="account-sign-up-provider">
+                      {isProvider ? 'Are you a patient?' : 'Are you a provider?'}
+                    </div>
+                    <button
+                      className="provider-link-signup"
+                      onClick={() => {
+                        if (isProvider) {
+                          handleProviderClick(); // Logic for provider
+                        } else if (isPatient) {
+                          handlePatientClick(); // Logic for patient
+                        } else if (isSupplier) {
+                          handleSupplierClick(); // Logic for supplier
+                        } else if (isCorporate) {
+                          handleCorporateClick(); // Logic for corporate
+                        }
+                      }}
+                    >
+                      {
+                        isProvider
+                          ? 'Sign Up as a Provider'
+                          : isPatient
+                            ? 'Sign Up as a Patient'
+                            : isSupplier
+                              ? 'Sign Up as a Supplier'
+                              : isCorporate
+                                ? 'Sign Up as a Corporate'
+                                : 'Sign Up' // Default text for any unknown state
+                      }
+                    </button>
+
+                  </div>
+                </div>
+              </Form>
+
+            </>
+          )}
+
+        </Modal.Body>
+
+      </Modal>
     </>
   );
 };
