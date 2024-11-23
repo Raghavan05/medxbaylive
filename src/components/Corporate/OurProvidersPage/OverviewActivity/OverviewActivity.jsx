@@ -24,7 +24,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const OverviewActivity = ({overviewData}) => {
-  console.log(overviewData);
   
   // Initial Data
   const initialSpecialties = [

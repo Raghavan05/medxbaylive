@@ -50,6 +50,7 @@ import  Blognew from './components/patientBlog/blognew';
 import  Showall from './components/patientBlog/newestblog';
 import NewsRoom from './components/NewsRoom/NewsRoom'
 import OurProvidersPage from './components/Corporate/OurProvidersPage/OurProvidersPage';
+import OurProductsPage from './components/Supplier/OurProductsPage/OurProductsPage';
 
 function App() {
   useEffect(() => {
@@ -91,6 +92,7 @@ function App() {
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
           <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
+          <Route path="/OurProducts" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
 
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
 

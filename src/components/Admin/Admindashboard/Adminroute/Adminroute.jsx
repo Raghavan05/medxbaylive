@@ -10,6 +10,7 @@ import Adminviewblogs from '../Adminpages/Adminviewblogs/Adminviewblogs';
 import Viewblogsdetails from '../Adminpages/Adminviewblogs/Viewblogsdetails';
 
 import Admincreateblog from '../Adminpages/Admincreateblog/Admincreateblog';
+import AdmincreateblogSupplier from '../Adminpages/Admincreateblog/Admincreateblogforsuppliers';
 
 import AdmindoctorProfile from '../Adminpages/AdmindoctorProfile/AdmindoctorProfile';
 import Doctorprofileverification from '../Adminpages/AdmindoctorProfile/Doctorprofileverification/Doctorprofileverification';
@@ -45,6 +46,7 @@ const Adminroute = () => {
         <Route path="/view-detailsblog/:id" element={<Viewblogsdetails />} />
       
         <Route path="/admin-createblog" element={<Admincreateblog/>} />
+        <Route path="/admin-createblog-supplier" element={<AdmincreateblogSupplier/>} />
 
         <Route path="/admin-doctorprofile" element={<AdmindoctorProfile/>} />
         <Route path="/admin-doctorprofile/admin-doctorprofile-verification/:doctorID" element={<Doctorprofileverification/>} />

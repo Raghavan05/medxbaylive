@@ -150,6 +150,17 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
+          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-createblog-supplier' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-createblog')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
+          onClick={() => handleItemClick('/admin/dashboardpage/admin-createblog')}
+        >
+          <Link to="/admin/dashboardpage/admin-createblog-supplier" className="menu-link">
+            <div className="sidebar-icon"><RiInboxLine /></div>
+            <span>Create Blog for Supplier</span>
+          </Link>
+        </li>
+        <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-doctorprofile' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-doctorprofile')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}

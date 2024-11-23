@@ -125,7 +125,7 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
     setIsSubmitting(true);
     let user;
     let endpoint;
-  
+
     // Define the endpoint and request body based on the selected role
     if (selectedRole === 'Provider') {
       endpoint = `${process.env.REACT_APP_BASE_URL}/auth/signup/doctor`;
@@ -135,10 +135,10 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
       user = { name, email, phoneNumber, password };
     } else if (selectedRole === 'Supplier') {
       endpoint = `${process.env.REACT_APP_BASE_URL}/supplier/register`;
-      user = { name, email, phoneNumber, password };
+      user = { name, contactEmail : email, phone : phoneNumber, password };
     } else if (selectedRole === 'Corporate') {
       endpoint = `${process.env.REACT_APP_BASE_URL}/corporate/signup`;
-      user = { corporateName: name, email, phoneNumber, password };
+      user = { corporateName: name, email, mobileNumber : phoneNumber, password };
     } else {
       console.error("Invalid user type");
       setIsSubmitting(false);
@@ -426,49 +426,49 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
 
 
               <div className='sign-up-button-container'></div>
-              <div className="role-selection">
-                <button
-                  className={`role-button ${selectedRole === 'Patient' ? 'active' : ''}`}
-                  onClick={() => handleRoleClick('Patient')}
-                >
-                  <img src={patientRole} alt="Patient Icon" className="role-icon" />
-                  <span>Patient</span>
-                </button>
-
-                <button
-                  className={`role-button ${selectedRole === 'Provider' ? 'active' : ''}`}
-                  onClick={() => handleRoleClick('Provider')}
-                >
-                  <img src={doctorRole} alt="Provider Icon" className="role-icon" />
-                  <span>Provider</span>
-                </button>
-
-                <button
-                  className={`role-button ${selectedRole === 'Corporate' ? 'active' : ''}`}
-                  onClick={() => handleRoleClick('Corporate')}
-                >
-                  <img src={corporateRole} alt="Corporate Icon" className="role-icon" />
-                  <span>Corporate</span>
-                </button>
-                {/* 
-  <button
-    className={`role-button ${selectedRole === 'Supplier' ? 'active' : ''}`}
-    onClick={() => handleRoleClick('Supplier')}
-  >
-    <img src={supplierRole} alt="Supplier Icon" className="role-icon" />
-    <span>Supplier</span>
-  </button> */}
+              <div className="role-selection-container">
+                <div className="role-selection-grid">
+                  <div
+                    className={`role-card ${selectedRole === 'Patient' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Patient')}
+                  >
+                    <img src={patientRole} alt="Patient" className="role-icon" />
+                    <span className="role-label">Patient</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Provider' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Provider')}
+                  >
+                    <img src={doctorRole} alt="Provider" className="role-icon" />
+                    <span className="role-label">Provider</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Supplier' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Supplier')}
+                  >
+                    <img src={supplierRole} alt="Supplier" className="role-icon" />
+                    <span className="role-label">Supplier</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Corporate' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Corporate')}
+                  >
+                    <img src={corporateRole} alt="Corporate" className="role-icon" />
+                    <span className="role-label">Corporate</span>
+                  </div>
+                </div>
               </div>
 
-              <Form onSubmit={register} className="form-overall-container mt-5">
+
+              <Form onSubmit={register} className="form-overall-container">
 
                 <Form.Group className={`form-container ${!isProvider ? 'form-container-visible' : 'form-container-hidden'}`}>
-                    <Form.Label>
-                      {selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}
-                    </Form.Label>
+                  <Form.Label>
+                    {selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}
+                  </Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder={`Enter your ${selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}`}                    className="form-control-custom"
+                    placeholder={`Enter your ${selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}`} className="form-control-custom"
                     value={name}
                     onChange={handleNameChange}
                     isInvalid={!!nameError}
@@ -556,7 +556,7 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
                     </Link>
 
                   </div>
-                  <div className='provider-option-container'>
+                  <div className='provider-option-container d-none'>
 
                     <div className="account-sign-up-provider">
                       {isProvider ? 'Are you a patient?' : 'Are you a provider?'}

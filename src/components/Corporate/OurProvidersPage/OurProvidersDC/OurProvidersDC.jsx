@@ -165,10 +165,10 @@ const DoctorExp = () => (
         <div className="OurProvidersDC-blogPageDoctorCardBox">
           {doctors.map((doctor) => (
             <div key={doctor.id} className="OurProvidersDC-blogPageDoctorCard">
-              <div className="OurProvidersDC-blogPageDoctorCardImgBox">
-                <a href={`/book-appointment-profile/${doctor.id}`}>
+              <div className={`OurProvidersDC-blogPageDoctorCardImgBox ${doctor.subscriptionType === 'Standard' ? 'OurProvidersDC-sponsorColor' : ''}`}>
+                <Link to={`/book-appointment-profile/${doctor.id}`}>
                   <img src={getProfileImage(doctor.profilePicture.data)} alt={doctor.name} />
-                </a>
+                </Link>
                 <span className="OurProvidersDC-verifiedTick">
                   <VerifiedTick />
                 </span>

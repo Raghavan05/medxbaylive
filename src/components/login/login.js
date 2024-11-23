@@ -80,7 +80,7 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
                 navigate('/profile/userprofile/');
                 break;
               case 'supplier':
-                navigate('/profile/userprofile/');
+                navigate('/OurProducts');
                 break;
               case 'corporate':
                 navigate('/OurProviders');
