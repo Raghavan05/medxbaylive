@@ -153,10 +153,6 @@
 height: auto;
 
 }
-.smile-emoji{
-  position: relative;
-  top: -40px;
-}
 
 .custom-modal .modal-content {
   border-radius: 10px;
@@ -370,6 +366,8 @@ position: relative;
 
 .smile-emoji{
   display: flex;
+  position: relative;
+  top: -40px;
 }
 .brand-image-logo{
   width: 150px;
@@ -736,7 +734,9 @@ color: #27272766;
 }
 
 @media (max-width: 412px) {
-  
+  .role-selection-container{
+    margin: 20px 0px ;
+  }
   .brand-image-logo {
     display: none;
   }
@@ -970,7 +970,9 @@ color: #27272766;
 
 
 @media (min-width:413px) and (max-width: 600px) {
-
+  .role-selection-container{
+    margin: 20px 0px ;
+  }
   .brand-image-logo {
     /* width: 150px;
     height: 50px;
@@ -1199,7 +1201,9 @@ align-items: center;
 }
 
 @media (min-width:601px) and (max-width: 767px) {
-
+  .role-selection-container{
+    margin: 50px 0px ;
+  }
   .brand-image-logo {
     width: 150px;
     height: 50px;
@@ -1431,7 +1435,9 @@ height: auto;
 
 
 @media (min-width:768px) and (max-width: 1023px) {
-
+  .role-selection-container{
+    margin: 50px 0px ;
+  }
   .brand-image-logo {
     width: 200px;
     height: 50px;
@@ -1730,11 +1736,11 @@ height: auto;
     display: flex;
     position: relative;
     top: -4vh;
+    width: 0px !important;
     left: 2%;
   }
 
   .brand-image-logo {
-
     position: relative;
     top: -6vh;
     left: 0vw;
@@ -1948,7 +1954,16 @@ margin-right: auto;
  
 }
 
-  @media (min-width: 1500px) {
+@media (min-width: 1440px) and (max-width: 1499px) {
+  .role-selection-container{
+    margin-top: 40px;
+  }
+
+}
+@media (min-width: 1500px) {
+  .role-selection-container{
+    margin-top: 50px;
+  }
     .emoji-ring,
 .calender-emoji,
 .band-aid-emoji,

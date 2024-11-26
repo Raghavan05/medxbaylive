@@ -368,10 +368,8 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
 
   return (
     <>
-
+        <ToastContainer/>
       <Modal show={show} onHide={handleClose} centered className="custom-modal">
-        <ToastContainer
-        />
         <Modal.Title>
           <span className="model-header">Sign up</span>{' '}
           <span className="model-header-sub">
@@ -384,10 +382,42 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
         </button>
 
         <Modal.Body>
+        <div className="role-selection-container">
+                <div className="role-selection-grid">
+                  <div
+                    className={`role-card ${selectedRole === 'Patient' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Patient')}
+                  >
+                    <img src={patientRole} alt="Patient" className="role-icon" />
+                    <span className="role-label">Patient</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Provider' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Provider')}
+                  >
+                    <img src={doctorRole} alt="Provider" className="role-icon" />
+                    <span className="role-label">Provider</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Supplier' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Supplier')}
+                  >
+                    <img src={supplierRole} alt="Supplier" className="role-icon" />
+                    <span className="role-label">Supplier</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Corporate' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Corporate')}
+                  >
+                    <img src={corporateRole} alt="Corporate" className="role-icon" />
+                    <span className="role-label">Corporate</span>
+                  </div>
+                </div>
+              </div>
 
           <div className="smile-emoji">
+            <img src={logobrand} alt="logo" className="brand-image-logo d-none d-xl-block " />
 
-            <img src={logobrand} alt="logo" className="brand-image-logo" />
             <div className="emoji-ring">😇</div>
             <div className="calender-emoji-container">
               <img src={schedule} alt="meds" className="calender-emoji" />
@@ -422,46 +452,8 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
             </div>
           ) : (
             <>
-
-
-
               <div className='sign-up-button-container'></div>
-              <div className="role-selection-container">
-                <div className="role-selection-grid">
-                  <div
-                    className={`role-card ${selectedRole === 'Patient' ? 'active-role' : ''}`}
-                    onClick={() => handleRoleClick('Patient')}
-                  >
-                    <img src={patientRole} alt="Patient" className="role-icon" />
-                    <span className="role-label">Patient</span>
-                  </div>
-                  <div
-                    className={`role-card ${selectedRole === 'Provider' ? 'active-role' : ''}`}
-                    onClick={() => handleRoleClick('Provider')}
-                  >
-                    <img src={doctorRole} alt="Provider" className="role-icon" />
-                    <span className="role-label">Provider</span>
-                  </div>
-                  <div
-                    className={`role-card ${selectedRole === 'Supplier' ? 'active-role' : ''}`}
-                    onClick={() => handleRoleClick('Supplier')}
-                  >
-                    <img src={supplierRole} alt="Supplier" className="role-icon" />
-                    <span className="role-label">Supplier</span>
-                  </div>
-                  <div
-                    className={`role-card ${selectedRole === 'Corporate' ? 'active-role' : ''}`}
-                    onClick={() => handleRoleClick('Corporate')}
-                  >
-                    <img src={corporateRole} alt="Corporate" className="role-icon" />
-                    <span className="role-label">Corporate</span>
-                  </div>
-                </div>
-              </div>
-
-
               <Form onSubmit={register} className="form-overall-container">
-
                 <Form.Group className={`form-container ${!isProvider ? 'form-container-visible' : 'form-container-hidden'}`}>
                   <Form.Label>
                     {selectedRole === 'Corporate' ? 'Corporate Name' : 'Name'}
@@ -489,7 +481,6 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
                   <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
                 </Form.Group>
 
-
                 <Form.Group className="mb-3" controlId="formMobile">
                   <Form.Label>Mobile</Form.Label>
                   <PhoneInput
@@ -500,14 +491,14 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
                     className="form-control-custom-phone"
                     placeholder="Enter your Mobile Number"
                   />
-                  {/* <Form.Control
-              type="text"
-              placeholder="Enter your Mobile Number"
-              className="form-control-custom"
-              value={mobile}
-              onChange={handleMobileChange}
-              isInvalid={!!mobileError}
-            /> */}
+                        {/* <Form.Control
+                    type="text"
+                    placeholder="Enter your Mobile Number"
+                    className="form-control-custom"
+                    value={mobile}
+                    onChange={handleMobileChange}
+                    isInvalid={!!mobileError}
+                  /> */}
                   <Form.Control.Feedback type="invalid">{mobileError}</Form.Control.Feedback>
                 </Form.Group>
 
@@ -557,7 +548,6 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
 
                   </div>
                   <div className='provider-option-container d-none'>
-
                     <div className="account-sign-up-provider">
                       {isProvider ? 'Are you a patient?' : 'Are you a provider?'}
                     </div>
@@ -587,7 +577,6 @@ const SignupCard = ({ show, handleClose, openLoginModal }) => {
                                 : 'Sign Up' // Default text for any unknown state
                       }
                     </button>
-
                   </div>
                 </div>
               </Form>

@@ -364,7 +364,7 @@ const Navbar = () => {
                 <li className="nav-item active ml-md-3">
                   <Link
                     className="for-corporates nav-link nav-link-style"
-                    to="/condition-libraries-menu"
+                    to={'https://conditions.medxbay.com/'}
                     role="button"
                     onClick={handleLinkClick}
                   >
@@ -515,7 +515,7 @@ const Navbar = () => {
               <li className="nav-item active ml-md-3">
                 <Link
                   className="for-corporates nav-link nav-link-style"
-                  to="/condition-libraries-menu"
+                  to={'https://conditions.medxbay.com/'}
                   role="button"
                   onClick={handleLinkClick}
                 >

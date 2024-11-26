@@ -190,7 +190,8 @@ const DoctorExp = () => (
 
 
                 <div className="OurProvidersDC-blogPageDoctorCardExp">
-                <DoctorExp /><p>
+                {doctor.experience ? (<DoctorExp />) : (<br/>)}
+                <p>
                     {doctor.experience ? (
                       <>
                         <span>{doctor.experience} years experience overall</span>
