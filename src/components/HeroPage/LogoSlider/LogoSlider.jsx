@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import './logoslider.css'; 
-import staque from '../Assets/staque.png'; 
+// import staque from '../Assets/staque.png'; 
 import Alliance from '../Assets/Alliance.png'; 
 import healthwallet from '../Assets/healthwallet.png'; 
-import carer from '../Assets/carer.png'; 
+// import carer from '../Assets/carer.png'; 
 import wockhardt from '../Assets/wockhardt.png';
+import viihealth from '../Assets/viihealth.png';
+import traverze from '../Assets/traverze.png';
+import weHoldaHand from '../Assets/weHoldaHand.png';
+
 import Aos from "aos";
 import "aos/dist/aos.css";
 const logos = [
-  { id: 1, src: staque, alt: 'Logo 1' },
+  // { id: 1, src: staque, alt: 'Logo 1' },
   { id: 2, src: Alliance, alt: 'Logo 2' },
 
   { id: 3, src: healthwallet, alt: 'Logo 3' },
 
-  { id: 5, src: staque, alt: 'Logo 1' },
+  // { id: 5, src: staque, alt: 'Logo 1' },
   { id: 6, src: Alliance, alt: 'Logo 2' },
 
   { id: 7, src: healthwallet, alt: 'Logo 3' },
   { id: 8, src: wockhardt, alt: 'Logo 4' },
+
+  { id: 9, src: viihealth, alt: 'Logo 1' },
+  { id: 10, src: traverze, alt: 'Logo 2' },
+
+  { id: 11, src: weHoldaHand, alt: 'Logo 3' },
 
 ];
 

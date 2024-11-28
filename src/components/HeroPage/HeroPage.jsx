@@ -7,14 +7,15 @@ import medium from './Assets/medium.png';
 import Medx from './Medx/Medx';
 import LogoSlider from './LogoSlider/LogoSlider';
 import Insights from './Insight/Insights';
+import { Link } from 'react-router-dom';
 
 
 const HeroPage = () => {
   const cardData = [
-    { title: "Patient", description: "Manage and access all healthcare information efficiently." },
-    { title: "Doctor", description: "Seamlessly interact with patients and manage schedules." },
-    { title: "Pharmacy", description: "Track prescriptions and streamline medicine delivery." },
-    { title: "Hospital", description: "Ensure smooth operations with integrated systems." },
+    { title: "Patient", description: "Manage and access all healthcare information efficiently." ,url : "/patients"},
+    { title: "Provider", description: "Seamlessly interact with patients and manage schedules." ,url:"/doctor/physician"},
+    { title: "Supplier", description: "Track prescriptions and streamline medicine delivery." ,url:"/doctor/physician"},
+    { title: "Corporate", description: "Ensure smooth operations with integrated systems." ,url:"/enterprise"},
   ];
 
   return (
@@ -37,7 +38,9 @@ const HeroPage = () => {
                 <div className="heropagenew-four-card-content">
                   <h3>{card.title}</h3>
                   <p>{card.description}</p>
+                  <Link to={card.url}>
                   <button>Explore More</button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -78,24 +81,30 @@ const HeroPage = () => {
         <div className="heropage-large-card-content">
           <h3>For Patients:</h3>
           <p>
-            Get access to trusted providers worldwide, book telehealth visits, and tap into
-            a library of verified health info—all from your phone or computer.
+          Get access to trusted providers worldwide, book telehealth visits, and tap into a library of verified health info—all from your phone or computer.
           </p>
         </div>
       </div>
       {/* Two Smaller Cards */}
       <div className="heropage-small-cards">
-        {[1, 2].map((_, index) => (
-          <div key={index} className="heropage-small-card">
+        {/* {[1, 2].map((_, index) => ( */}
+          <div className="heropage-small-card">
             <div className="heropage-small-card-content">
-              <h3>For Patients:</h3>
+              <h3>For Providers:</h3>
               <p>
-                Get access to trusted providers worldwide, book telehealth visits, and tap
-                into a library of verified health info—all from your phone or computer.
+              Say goodbye to endless paperwork with automated scheduling, billing, and secure patient messaging, so you can focus on what matters most.
               </p>
             </div>
           </div>
-        ))}
+          <div className="heropage-small-card">
+            <div className="heropage-small-card-content">
+              <h3>For Suppliers:</h3>
+              <p>
+              Connect with healthcare providers and showcase your products through our platform, where you'll have direct access to those who need you most.
+              </p>
+            </div>
+          </div>
+        {/* ))} */}
       </div>
     </div>
   </div>
