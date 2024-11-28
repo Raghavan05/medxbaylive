@@ -120,15 +120,15 @@ const OurBlogDc = ({blogs}) => {
     };
     return (
     <div className="OurBlogDc-blog-list-container">
-        <h2>Our Condition</h2>
+        <h2>Our Condition Libraries</h2>
         {blogs.length === 0 ? (
                 <div className="noDoctorsMessage">
                     <p>No doctors available at the moment.</p>
                 </div>
             ) : (
                 <div className="OurBlogDc-blog-cards">
-                    {blogs.map((blog) => (
-                        <div key={blog.id} className="OurBlogDc-blog-card">
+                    {blogs.map((blog,index) => (
+                        <div key={blog.id || index} className="OurBlogDc-blog-card">
                             <img src={getProfileImage(blog.image)} alt="Blog" className='OurBlogDc-blog-image' />
                             <div className="OurBlogDc-blog-content">
                                 <p className="OurBlogDc-blog-category">{blog.conditions[0]}</p>

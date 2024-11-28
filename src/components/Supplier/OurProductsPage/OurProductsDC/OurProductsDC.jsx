@@ -173,7 +173,15 @@ const OurProductsDC = ({ products }) => {
 
 
               <div className="OurProductsDC-blogPageDoctorCardExp">
-                <DoctorExp /> <p>{product.experience}  years Warranty</p>
+              {product.experience ? (<DoctorExp />) : ''}
+                <p>
+                    {product.experience ? (
+                      <>
+                        <span>{product.experience} years warranty</span>
+                      </>
+                    ) : ""}
+                  </p>
+
               </div>
 
               <div className="OurProductsDC-blogPageDoctorCardDesc">
@@ -181,9 +189,11 @@ const OurProductsDC = ({ products }) => {
               </div>
 
               <Link to={'/contact-us'}>
+                  <Link to={'/contact-us'}>
                 <button className="OurProductsDC-blogPageDoctorCardBtn">
-                  Book appointment
+                  Buy a product
                 </button>
+                  </Link>
               </Link>
 
             </div>

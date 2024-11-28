@@ -26,6 +26,7 @@ import axios from 'axios';
 import BlogPopup from '../../patientBlog/BlogPopup';
 import OurProductsSharePopup from './OurProductsSharePopup/OurProductsSharePopup'
 import { Link } from 'react-router-dom';
+import { toast,ToastContainer } from 'react-toastify';
 
 
 
@@ -123,7 +124,7 @@ const OurProductsPage = () => {
         );
         if (response.status === 200) {
           console.log("Cover photo updated successfully");
-          alert("Cover photo updated successfully")
+          toast.success("Cover photo updated successfully")
         }
       } catch (error) {
         console.error("Error uploading cover photo:", error);
@@ -211,6 +212,8 @@ const OurProductsPage = () => {
   };
 
   return (
+    <>
+    <ToastContainer/>
     <div className="our-products-profile-container">
       <div className="our-products-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
@@ -298,6 +301,7 @@ const OurProductsPage = () => {
       <OurProductsSharePopup name={supplier.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
 
     </div>
+    </>
   );
 };
 

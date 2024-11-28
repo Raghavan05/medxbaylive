@@ -54,31 +54,46 @@ const OurProvidersPage = () => {
           `${process.env.REACT_APP_BASE_URL}/corporate/profile`,
           { withCredentials: true }
         );
-        const { corporate,doctors,blogs,doctorReviews,patientReviews } = response.data.data;
-        setCorporate(corporate);
-        setDoctorReviews(doctorReviews);
-        setPatientReviews(patientReviews);
-        setDoctors(doctors);
-        setBlogs(blogs);
-        console.log(response.data.data);
-        
+  
+        // // Log response for debugging
+        // console.log("API Response:", response);
+  
+        const data = response.data?.data; // Ensure data exists
+        if (!data) {
+          throw new Error("Data property is undefined in the response");
+        }
+  
+        setCorporate(data.corporate || {});
+        setDoctorReviews(data.doctorReviews || []);
+        setPatientReviews(data.patientReviews || []);
+        setDoctors(data.doctors || []);
+        setBlogs(data.blogs || []);
+  
         setProfileData({
-          corporateName: corporate.corporateName || "Corporate Name",
-          rating: corporate.rating || 0,
-          tagline: corporate.tagline || "Your Vision | Our Innovation",
-          location: corporate.address || "IT Services and Consulting",
-          followers: corporate.followers?.length || 24,
-          employees: corporate.employees || "11-50",
-          profileImage: corporate.profilePicture ? bufferToBase64(corporate.profilePicture.data) : providersprofile,
+          corporateName: data.corporate?.corporateName || "Corporate Name",
+          rating: data.corporate?.rating || 0,
+          tagline: data.corporate?.tagline || "Your Vision | Our Innovation",
+          location: data.corporate?.address || "IT Services and Consulting",
+          followers: data.corporate?.followers?.length || 24,
+          employees: data.corporate?.employees || "11-50",
+          profileImage: data.corporate?.profilePicture
+            ? bufferToBase64(data.corporate.profilePicture.data)
+            : providersprofile,
         });
-        setBackgroundImage(bufferToBase64(corporate.coverPhoto.data) || providers);
+  
+        setBackgroundImage(
+          data.corporate?.coverPhoto
+            ? bufferToBase64(data.corporate.coverPhoto.data)
+            : providers
+        );
       } catch (error) {
-        console.error("Error fetching corporate details:", error);
+        console.error("Error fetching corporate details:", error.message, error);
       }
     };
+  
     fetchCorporateDetails();
   }, []);
-
+  
   // Convert buffer data to Base64
   const bufferToBase64 = (buffer) => {
     if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
@@ -245,7 +260,7 @@ const OurProvidersPage = () => {
       )}
 
 
-      <OverviewActivity overviewData = {corporate.overview}/>
+      <OverviewActivity overviewData = {corporate?.overview}/>
       <OurProvidersDC doctors ={doctors}/>
       <OurReviewsDc doctorReviews={doctorReviews} patientReviews ={patientReviews}/>
       <OurBlogDc blogs={blogs}/>

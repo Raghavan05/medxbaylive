@@ -11,7 +11,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import DoctorPopUp from './components/DoctorEdit/DoctorPopUp';
 //Landing page imported
-import LandingAll from './components/Landing_page/LandingAll/LandingAll'
+// import LandingAll from './components/Landing_page/LandingAll/LandingAll'
+import HeroPage from './components/HeroPage/HeroPage'
 
 //all components imported
 import ChangePassword from './components/login/changepassword';
@@ -50,6 +51,7 @@ import  Blognew from './components/patientBlog/blognew';
 import  Showall from './components/patientBlog/newestblog';
 import NewsRoom from './components/NewsRoom/NewsRoom'
 import OurProvidersPage from './components/Corporate/OurProvidersPage/OurProvidersPage';
+import Corporateroute from './components/Corporate/Corporatedashboard/Corporateroute/Corporateroute';
 import OurProductsPage from './components/Supplier/OurProductsPage/OurProductsPage';
 
 function App() {
@@ -61,7 +63,7 @@ function App() {
     <SearchProvider>
       <Router>
         <Routes>
-        <Route path="/" element={[<LandingAll/>,<Footer/>]} />          
+        <Route path="/" element={[<Navbar/>,<HeroPage/>,<Footer/>]} />          
         <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
           <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     
@@ -97,6 +99,9 @@ function App() {
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
 
           <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
+
+          <Route path="/corporate/dashboardpage/*" element={<Corporateroute/>} />
+
           <Route path="/contact-us" element={[<Nestednavbar/>,<ContactUs />,<Footer/>]}/>
           <Route path="/patients" element={[<Nestednavbar/>,<Patients />,<Footer/>]}/>
           <Route path="/doctor/physician" element={[<Nestednavbar/>,<DoctorPhysician />,<Footer/>]}/>

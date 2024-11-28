@@ -1,0 +1,446 @@
+:root {
+  --primary-color: rgba(0, 103, 255, 1);
+  --secondary-color: rgba(57, 57, 57, 1);
+  --button-bg: rgba(247, 249, 254, 1);
+  --button-border: rgba(232, 232, 232, 1);
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --gap: 20px;
+}
+
+.heropage-container-section {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width:100%; 
+}
+
+.heropage-first-container-section {
+  background-image: url('./Assets/home page.png');
+  background-size: cover;
+  object-fit: cover;
+  background-position: center;
+  background-repeat: no-repeat; 
+  height: 100vh;
+   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heropage-content {
+  padding: 2rem 5rem;
+  color: white;
+  text-align: start;
+}
+
+.heropage-content h1 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.heropage-content h2 {
+  font-size: 4.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+/* .heropage-second-container-section{
+
+} */
+.heropagenew-card-flex {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  background: linear-gradient(180deg, rgba(0, 11, 28, 0) 0%, #000B1C 25.77%);
+  margin-top: -8rem;
+}
+
+.heropagenew-card-flex-head-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 60px;
+  padding: 3rem;
+}
+
+.heropagenew-orginal-card {
+  width: 17rem;
+  height: 24rem;
+  background: linear-gradient(180deg, #0067FF -85.34%, #FFFFFF 100%);
+  border-radius: 30px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heropagenew-orginal-card img {
+  clip-path: ellipse(100% 70% at 50% 30%);
+  width: 100%;
+  height: 12.25rem;
+  object-fit: cover;
+}
+
+.heropagenew-orginal-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.heropagenew-four-card-content {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heropagenew-four-card-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.heropagenew-four-card-content p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--secondary-color);
+  text-align: center;
+}
+
+.heropagenew-four-card-content button {
+  width: 9.375rem;
+  height: 2.5rem;
+  border-radius: 6px;
+  background: var(--button-bg);
+  border: 0.6px solid var(--button-border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(49, 49, 49, 1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heropagenew-four-card-content button:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.heropage-third-container-section {
+  border: none;
+  background: rgba(0, 11, 28, 1);
+  padding: 200px 0px 180px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-bottom: 80px; */
+}
+
+.heropage-third-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 50px;
+  position: relative; 
+  margin: 0 auto;
+  max-width: 1440px;
+  margin-bottom: 50px;
+}
+
+.heropage-third-section-content {
+  flex: 1;
+  color: rgba(255, 255, 255, 1);
+}
+
+.heropage-third-section-content h2 {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 58.22px;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+  margin-bottom: 20px;
+}
+
+.heropage-third-section-content span {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 58.22px;
+
+}
+
+.heropage-third-section-content p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  margin-bottom: 30px;
+}
+
+/* .heropage-third-section-image{
+
+} */
+.heropage-third-image {
+     position: absolute; 
+  right:0;
+  top: -70px;
+  width: 700px;
+  height: 480px; /* Maintain aspect ratio */
+  object-fit: cover;
+ 
+}
+
+.heropage-third-container-button-one {
+  padding: 10px 50px;
+  border-radius: 10px;
+  background: rgba(46, 130, 255, 1);
+  border: 1px solid #FFFFFF;
+  color: #FFFFFF;
+}
+
+/* Fourth Section Styles */
+.heropage-fourth-container-section {
+  background: linear-gradient(
+    180deg,
+    #000b1c 0%,
+    #000b1c 40%,
+    rgba(0, 11, 28, 0.64) 70%,
+    #ffffff 100%
+  );
+  padding: 50px 20px;
+}
+
+.heropage-fourth-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heropage-fourth-container h2 {
+  color: #ffffff;
+  font-family: Matter, sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 56px;
+  text-align: left;
+  margin-bottom: 60px;
+}
+
+.heropage-fourth-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.heropage-large-card {
+  position: relative;
+  width: 591px;
+  height: 598px;
+  opacity: 0px;
+  
+  background: linear-gradient(
+      180deg,
+      rgba(1, 11, 28, 0) 0%,
+      rgba(1, 11, 28, 0.2) 60%,
+      rgba(1, 11, 28, 1) 70%,
+      rgba(1, 11, 28, 1) 100%
+    ),
+    url('./Assets/big.png') ;
+  background-size: contain; /* Ensures the image covers the card fully */
+  background-position: center top; /* Moves the image to align with the top */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.heropage-large-card-content {
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  color: white;
+  padding: 20px;
+  text-align: left;
+}
+
+.heropage-large-card-content h3 {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 10px;
+}
+
+.heropage-large-card-content p {
+  font-family: Matter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.2px;
+}
+
+/* Small Cards */
+.heropage-small-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heropage-small-card {
+  position: relative;
+  width: 591px;
+  height: 287px; 
+  background: linear-gradient(
+      90deg,
+      rgba(1, 11, 28, 0) 0%,
+      rgba(1, 11, 28, 0.9) 35%,
+      rgba(1, 11, 28, 1) 45%,
+      rgba(1, 11, 28, 1) 100%
+    ),
+    url('./Assets/medium.png') no-repeat ; /* Update with correct small card image */
+  background-size: contain;
+  background-position: left;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.heropage-small-card-content {
+  position: absolute;
+  bottom: 50px;
+  left: 280px;
+  color: white;
+  padding: 15px;
+  text-align: left;
+}
+
+.heropage-small-card-content h3,
+.heropage-small-card-content p {
+  color: white;
+}
+
+.heropage-small-card-content h3 {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 10px;
+}
+
+.heropage-small-card-content p {
+  font-family: Matter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.2px;
+
+  
+}
+
+/* Fifth Section */
+.heropage-fifth-container-section {
+  background-color: #ffffff;
+  padding: 50px 20px;
+}
+
+.heropage-fifth-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heropage-fifth-container h2 {
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 48px;
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.heropage-fifth-content {
+  text-align: left;
+}
+
+.heropage-fifth-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.heropage-fifth-item h3 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38.4px;
+  text-align: left;
+  color: rgba(0, 0, 0, 1);
+  width: 40%;
+}
+
+.heropage-fifth-item span {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 38.4px;
+  text-align: left;  
+  color: rgba(206, 205, 211, 1);
+  margin-right: 15px;
+}
+
+.heropage-fifth-item p {
+  color: rgba(0, 0, 0, 1);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  line-height: 1.6;
+  margin-top: 10px;
+  width: 50%;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 20px 0;
+}
+
+
+
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .heropage-fourth-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .heropage-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .heropage-content h2 {
+    font-size: 2.5rem;
+  }
+
+  .heropagenew-orginal-card {
+    width: 12.5rem;
+    height: 20rem;
+  }
+
+  .heropagenew-four-card-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .heropagenew-four-card-content p {
+    font-size: 0.875rem;
+  }
+
+  .heropagenew-four-card-content button {
+    width: 7.5rem;
+    height: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heropage-content h2 {
+    font-size: 2rem;
+  }
+
+  .heropagenew-card-flex {
+    flex-direction: column;
+  }
+}

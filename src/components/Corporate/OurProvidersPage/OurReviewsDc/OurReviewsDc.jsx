@@ -22,8 +22,8 @@ const OurReviewsDc = ({ patientReviews, doctorReviews }) => {
     <div className="OurReviewsDc-review-container">
       <h2>Our Reviews</h2>
       <div className="OurReviewsDc-review-card-box">
-        {patientReviews.map((review) => (
-          <div key={review.id} className="OurReviewsDc-review-card">
+        {patientReviews.map((review,index) => (
+          <div key={review.id || index} className="OurReviewsDc-review-card">
             <div className="OurReviewsDc-review-avatar">
               <img
                 src={bufferToBase64(review.patientId.profilePicture.data)}
@@ -55,8 +55,8 @@ const OurReviewsDc = ({ patientReviews, doctorReviews }) => {
             </div>
           </div>
         ))}
-        {doctorReviews.map((review) => (
-          <div key={review.id} className="OurReviewsDc-review-card">
+        {doctorReviews.map((review,index) => (
+          <div key={review.id || index} className="OurReviewsDc-review-card">
             <div className="OurReviewsDc-review-avatar">
               <img
                 src={bufferToBase64(review.doctorId.profilePicture.data)}

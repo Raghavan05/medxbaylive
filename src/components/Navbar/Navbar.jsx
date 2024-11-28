@@ -154,30 +154,71 @@ const Navbar = () => {
   const handleShowRegister = () => {
     setShowPopup(true);
   };
+  const bufferToBase64 = (buffer) => {
+    if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+      const bytes = new Uint8Array(buffer.data);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return `data:image/jpeg;base64,${btoa(binary)}`;
+    } else {
+      console.error('Unexpected buffer type:', typeof buffer);
+      return '';
+    }
+  };
+
+  const getProfileImage = (formData) => {
+    if (formData?.data?.type === "Buffer") {
+      return bufferToBase64(formData.data);
+    } else if (typeof formData?.data === "string") {
+      return `data:image/jpeg;base64,${formData.data}`;
+    } else {
+      return profilePlaceholder;
+    }
+  };
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
       try {
         const role = sessionStorage.getItem("role");
-        const apiUrl =
-          role === "doctor"
-            ? `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`
-            : `${process.env.REACT_APP_BASE_URL}/patient/profile`;
+        const baseUrl = process.env.REACT_APP_BASE_URL;
+        let apiUrl;
+
+        // Determine API URL based on role
+        switch (role) {
+          case "doctor":
+            apiUrl = `${baseUrl}/doctor/profile/update`;
+            break;
+          case "patient":
+            apiUrl = `${baseUrl}/patient/profile`;
+            break;
+          case "corporate":
+            apiUrl = `${baseUrl}/corporate/profile`;
+            break;
+          case "supplier":
+            apiUrl = `${baseUrl}/supplier/profile`;
+            break;
+          default:
+            apiUrl = `${baseUrl}/default/profile`;
+        }
 
         const response = await axios.get(apiUrl, { withCredentials: true });
         const userData = response.data;
 
         if (userData) {
+          // Handle role-specific logic
           if (role === "doctor") {
             setVerified(userData.doctor.verified === "Verified");
 
             if (userData.doctor.profilePicture) {
-              const profileImageData = `data:${userData.doctor.profilePicture.contentType};base64,${userData.doctor.profilePicture.data}`;
+              const profileImageData = getProfileImage(userData.doctor.profilePicture);
               setProfileImage(profileImageData);
             } else {
               setProfileImage(profilePlaceholder);
             }
 
+            // Handle subscription logic
             if (userData.doctor.subscriptionType === "Free") {
               const parsedTrialEndDate = new Date(userData.doctor.trialEndDate);
               setTrialEndDate(parsedTrialEndDate);
@@ -186,9 +227,7 @@ const Navbar = () => {
                 const now = new Date();
                 if (parsedTrialEndDate > now) {
                   const timeDifference = parsedTrialEndDate - now;
-                  const days = Math.floor(
-                    timeDifference / (1000 * 60 * 60 * 24)
-                  );
+                  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
                   const hours = Math.floor(
                     (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
                   );
@@ -208,13 +247,35 @@ const Navbar = () => {
               const intervalId = setInterval(calculateCountdown, 1000);
               return () => clearInterval(intervalId);
             }
-          } else {
-            if (userData.patient.profilePicture) {
-              const profileImageData = `data:${userData.patient.profilePicture.contentType};base64,${userData.patient.profilePicture.data}`;
-              setProfileImage(profileImageData);
+          } else if (role === "patient" || role === "corporate" || role === "supplier") {
+            if (role === "patient") {
+              console.log(userData.patient);
+              const profileData = userData.patient.profilePicture;
+              if (profileData) {
+                const profileImageData = getProfileImage(userData.patient.profilePicture);
+                setProfileImage(profileImageData);
+              } else {
+                setProfileImage(profilePlaceholder);
+              }
+            } else if (role === "corporate") {
+              const profileData = userData.data[role].profilePicture.data;
+              if (profileData) {
+                const profileImageData = bufferToBase64(profileData);
+                setProfileImage(profileImageData);
+              } else {
+                setProfileImage(profilePlaceholder);
+              }
             } else {
-              setProfileImage(profilePlaceholder);
+              const profileData = userData[role].profilePicture.data;
+              if (profileData) {
+                const profileImageData = bufferToBase64(profileData)
+                setProfileImage(profileImageData);
+              } else {
+                setProfileImage(profilePlaceholder);
+              }
             }
+            // console.log(userData.data[role]);
+
           }
         } else {
           setProfileImage(profilePlaceholder);
@@ -232,6 +293,8 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+
   const handleLinkClick = () => {
     window.scrollTo(0, 0);
   };
@@ -274,48 +337,60 @@ const Navbar = () => {
               </button>
             </div>
             <div className="offcanvas-body">
-            
-              <ul className="navbar-nav ml-auto">
-              {userRole === "doctor" && (
-                      <li className="nav-item active ml-md-3">
-                        <div className="profile-container">
-                          <Link to="/doc-profile">
-                            <div className='image-container'>
-                              <img src={profileImage} alt="Profile" />
-                            </div>
-                          </Link>
-                        </div>
-                      </li>
-                    )}
-                    <div className="d-flex flex-row mb-3">
-                    {/* user-side */}
-                    {isLoggedIn && userRole !== "doctor" && (
-                      <li className="nav-item ml-md-3 mr-3">
-                        <div className="profile-container">
-                          <Link to="/profile/userprofile/">
-                            <div className='image-container'>
-                              <img src={profileImage} alt="Profile" />
-                            </div>
-                          </Link>
-                        </div>
-                      </li>
 
-                    )}
-                    {isLoggedIn && userRole !== "doctor" && (
-                      <li className="nav-item ml-md-3">
-                        <Link to="/profile/userprofile/notification">
-                          <div className="dashboard-setting-bell">
-                            <button
-                              type="button"
-                              className="nav-notification-button"
-                            >
-                              <SlBell className="notification-icon" />
-                            </button>
+              <ul className="navbar-nav ml-auto">
+                <div className="d-flex flex-row mb-3">
+                  {/* Profile Link */}
+                  {isLoggedIn && (
+                    <li className="nav-item active ml-md-3">
+                      <div className="profile-container">
+                        <Link
+                          to={
+                            userRole === "patient"
+                              ? "/profile/userprofile/edit/profile"
+                              : userRole === "doctor"
+                                ? "/doc-profile"
+                                : userRole === "corporate"
+                                  ? "/OurProviders"
+                                  : userRole === "suppliers"
+                                    ? "/OurProducts"
+                                    : "/"
+                          }
+                        >
+                          <div className="image-container">
+                            <img src={profileImage} alt="Profile" />
                           </div>
                         </Link>
-                      </li>
-                    )}
-                    </div>
+                      </div>
+                    </li>
+                  )}
+
+                  {/* Notifications */}
+                  {isLoggedIn && (
+                    <li className="nav-item ml-md-3">
+                      <Link
+                        to={
+                          userRole === "patient"
+                            ? "/profile/userprofile/edit/profile/notification"
+                            : userRole === "doctor"
+                              ? "/doc-profile/notification"
+                              : userRole === "corporate"
+                                ? "/OurProviders/notification"
+                                : userRole === "suppliers"
+                                  ? "/OurProducts/notification"
+                                  : "/"
+                        }
+                      >
+                        <div className="dashboard-setting-bell">
+                          <button type="button" className="nav-notification-button">
+                            <SlBell className="notification-icon" />
+                          </button>
+                        </div>
+                      </Link>
+                    </li>
+                  )}
+                </div>
+
 
                 <li className="nav-item active ml-md-3">
                   <Link
@@ -378,7 +453,7 @@ const Navbar = () => {
                     <FontAwesomeIcon icon={isAboutDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
                   </Link>
                   <div className={`dropdown-menu ${isAboutDropdownOpenMobile ? 'show' : ''}`}>
-                  <Link className="dropdown-item" to="/about/section">About us</Link>
+                    <Link className="dropdown-item" to="/about/section">About us</Link>
                     <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
                   </div>
                 </li>
@@ -445,8 +520,8 @@ const Navbar = () => {
                       </li>
                     )}
 
-                    
-                    
+
+
 
                     <li className="nav-item ml-md-3">
                       <div className="logout-container-button">
@@ -464,17 +539,17 @@ const Navbar = () => {
           <div className=" navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
 
-             
+
               {userRole !== "doctor" && (
-                       <li className="nav-item active ml-md-3">
-                       <Link
-                         className="find-doctor nav-link nav-link-style"
-                         to="/Filters"
-                       >
-                         Find Provider
-                       </Link>
-                     </li>
-                    )}
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    className="find-doctor nav-link nav-link-style"
+                    to="/Filters"
+                  >
+                    Find Provider
+                  </Link>
+                </li>
+              )}
               <li className="nav-item dropdown  active  ml-md-4" ref={WhoWeDropdownRef}>
                 <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleWhoWeDropdown}>
                   Who We Serve
@@ -529,7 +604,7 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={isAboutDropdownOpen ? faChevronUp : faChevronDown} className="ml-2" />
                 </Link>
                 <div className={`dropdown-menu ${isAboutDropdownOpen ? 'show' : ''}`}>
-                <Link className="dropdown-item" to="/about/section">About us</Link>
+                  <Link className="dropdown-item" to="/about/section">About us</Link>
                   <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
                 </div>
               </li>
@@ -564,10 +639,20 @@ const Navbar = () => {
                   {/* doctor-side */}
                   {userRole === "doctor" && (
                     <li className="nav-item active ml-md-3">
-                      <Link
+                        <Link
                         className="nav-link nav-link-style"
-                        to="/doctorprofile/dashboardpage/"
-                      >
+                            to={
+                              userRole === "patient"
+                                ? "/profile/userprofile/edit/profile"
+                                : userRole === "doctor"
+                                  ? "/doctorprofile/dashboardpage/"
+                                  : userRole === "corporate"
+                                    ? "/corporate/dashboardpage/"
+                                    : userRole === "suppliers"
+                                      ? "/OurProducts"
+                                      : "/"
+                            }
+                          >
                         Dashboard
                       </Link>
                     </li>
@@ -595,46 +680,58 @@ const Navbar = () => {
                       </div>
                     </li>
                   )}
-
-                  {userRole === "doctor" && (
-                    <li className="nav-item active ml-md-3">
-                      <div className="profile-container">
-                        <Link to="/doc-profile">
-                          <div className='image-container'>
-                            <img src={profileImage} alt="Profile" />
-                          </div>
-                        </Link>
-                      </div>
-                    </li>
-                  )}
-                  {/* user-side */}
-                  {isLoggedIn && userRole !== "doctor" && (
-                    <li className="nav-item ml-md-3">
-                      <Link to="/profile/userprofile/notification">
-                        <div className="dashboard-setting-bell">
-                          <button
-                            type="button"
-                            className="nav-notification-button"
+                  <div className="d-flex flex-row mb-3">
+                    {/* Profile Link */}
+                    {isLoggedIn && (
+                      <li className="nav-item active ml-md-3">
+                        <div className="profile-container">
+                          <Link
+                            to={
+                              userRole === "patient"
+                                ? "/profile/userprofile/edit/profile"
+                                : userRole === "doctor"
+                                  ? "/doc-profile"
+                                  : userRole === "corporate"
+                                    ? "/OurProviders"
+                                    : userRole === "suppliers"
+                                      ? "/OurProducts"
+                                      : "/"
+                            }
                           >
-                            <SlBell className="notification-icon" />
-                          </button>
+                            <div className="image-container">
+                              <img src={profileImage} alt="Profile" />
+                            </div>
+                          </Link>
                         </div>
-                      </Link>
-                    </li>
-                  )}
+                      </li>
+                    )}
 
-                  {isLoggedIn && userRole !== "doctor" && (
-                    <li className="nav-item ml-md-3">
-                      <div className="profile-container">
-                        <Link to="/profile/userprofile/">
-                          <div className='image-container'>
-                            <img src={profileImage} alt="Profile" />
+                    {/* Notifications */}
+                    {isLoggedIn && (
+                      <li className="nav-item ml-md-3">
+                        <Link
+                          to={
+                            userRole === "patient"
+                              ? "/profile/userprofile/edit/profile/notification"
+                              : userRole === "doctor"
+                                ? "/doc-profile/notification"
+                                : userRole === "corporate"
+                                  ? "/OurProviders/notification"
+                                  : userRole === "suppliers"
+                                    ? "/OurProducts/notification"
+                                    : "/"
+                          }
+                        >
+                          <div className="dashboard-setting-bell">
+                            <button type="button" className="nav-notification-button">
+                              <SlBell className="notification-icon" />
+                            </button>
                           </div>
                         </Link>
-                      </div>
-                    </li>
+                      </li>
+                    )}
+                  </div>
 
-                  )}
 
                   <li className="nav-item ml-md-3">
                     <div className="logout-container-button">
