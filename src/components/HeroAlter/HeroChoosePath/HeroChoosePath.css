@@ -1,0 +1,150 @@
+/* Root Container */
+.hero-choose-path-container {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    padding: 2rem;
+    background: linear-gradient(180deg, #e4edff, #f4f6fd);
+    /* Gradient background */
+    color: #2c3e50;
+    /* Dark text color */
+}
+
+.hero-choose-path-container2 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hero-choose-path-subcontainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 70% !important;
+}
+
+/* Content Section */
+.hero-choose-path-content {
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 2rem;
+}
+
+.hero-choose-path-sideimg {
+    display: flex;
+    justify-content: center;
+}
+
+.hero-choose-path-sideimg img {
+    max-width: 40%;
+    height: 30%;
+}
+
+.hero-choose-path-sideimg h1 {
+    display: block;
+    /* Ensure full width */
+    line-height: 1.2;
+    /* Adjust line height for better spacing */
+    font-style: italic;
+    font-size: 3rem;
+    text-align: start;
+    /* Align the text to the start */
+    transform: scaleX(1);
+    /* Stretch the text horizontally */
+    font-weight: 100;
+    /* margin-bottom: 1rem; */
+}
+
+.hero-choose-path-highlight {
+    /* line-height: 1.2; Adjust line height for better spacing */
+    font-weight: 700;
+    color: #2c3e50;
+    /* Blue highlight */
+}
+
+.hero-choose-path-content p {
+    text-align: start;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #606f7b;
+}
+
+/* Options Section */
+.hero-choose-path-options {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    max-width: 1000px;
+}
+
+/* Individual Option */
+.hero-choose-path-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff;
+    /* White fallback background */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #dfe6e9;
+    /* Light gray border */
+    border-radius: 8px;
+    padding: 1rem;
+    width: 200px;
+    height: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.hero-choose-path-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    /* Stronger shadow on hover */
+}
+
+.hero-choose-path-option span {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    /* background-color: rgba(0, 0, 0, 0.6);  */
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+}
+
+/* Background Images */
+.hero-choose-path-option.patient {
+    background-image: url("../Assets/HeroAlterChoosePath-1.png");
+}
+
+.hero-choose-path-option.healthcare-provider {
+    background-image: url("../Assets/HeroAlterChoosePath-2.jpeg");
+}
+
+.hero-choose-path-option.enterprise {
+    background-image: url("../Assets/HeroAlterChoosePath-3.jpeg");
+}
+
+.hero-choose-path-option.medical-supplier {
+    background-image: url("../Assets/HeroAlterChoosePath-3.jpeg");
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-choose-path-options {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-choose-path-option {
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
+    }
+}

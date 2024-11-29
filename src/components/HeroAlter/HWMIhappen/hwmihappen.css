@@ -1,0 +1,35 @@
+.hwmihappenbackgroundimage{
+    background-image: url('../Assets/hwmibackgroundimage.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height:fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+.hwmihappen-content-container{
+    padding:50px 40px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+}
+
+.hwmihappen-content-container .hwmihappenen-title{
+    font-size: 45px;
+    line-height: 46px;
+    font-weight: 200;
+    text-align: center;
+}
+
+.hwmihappen-content-container .hwmihappenen-title span{
+    font-weight: 700;
+}
+.hwmihappenen-description{
+    max-width: 660px;
+    text-align: center;
+}

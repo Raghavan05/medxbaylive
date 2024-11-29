@@ -337,7 +337,6 @@ const Navbar = () => {
               </button>
             </div>
             <div className="offcanvas-body">
-
               <ul className="navbar-nav ml-auto">
                 <div className="d-flex flex-row mb-3">
                   {/* Profile Link */}
@@ -538,8 +537,6 @@ const Navbar = () => {
           {/* Normal Navbar */}
           <div className=" navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
-
-
               {userRole !== "doctor" && (
                 <li className="nav-item active ml-md-3">
                   <Link
@@ -561,7 +558,6 @@ const Navbar = () => {
                   <Link className="dropdown-item" to="/enterprise"> Enterprise</Link>
                 </div>
               </li>
-
               <li className="nav-item dropdown  active  ml-md-4" ref={ServiceDropdownRef}>
                 <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleServiceDropdown}>
                   Services
@@ -575,8 +571,6 @@ const Navbar = () => {
                   <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link>
                 </div>
               </li>
-
-
               <li className="nav-item active ml-md-3">
                 <Link
                   to="https://www.medxbay.org/medxai/"
@@ -586,7 +580,6 @@ const Navbar = () => {
                   Medx AI
                 </Link>
               </li>
-
               <li className="nav-item active ml-md-3">
                 <Link
                   className="for-corporates nav-link nav-link-style"
@@ -597,7 +590,6 @@ const Navbar = () => {
                   Condition Libraries
                 </Link>
               </li>
-
               <li className="nav-item dropdown  active  ml-md-4" ref={AboutDropdownRef}>
                 <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleAboutDropdown}>
                   About
@@ -608,7 +600,6 @@ const Navbar = () => {
                   <Link className="dropdown-item" to="/Spotlights">NewsRoom</Link>
                 </div>
               </li>
-
             </ul>
 
             {!isLoggedIn ?

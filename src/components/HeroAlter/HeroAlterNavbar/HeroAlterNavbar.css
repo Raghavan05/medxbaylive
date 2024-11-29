@@ -1,0 +1,288 @@
+/* General navbar styling */
+.heroalter-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 30px;
+    right: 30px;
+    z-index: 1000;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Branding & logo */
+.heroalter-navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.heroalter-navbar-logo {
+    width: 150px;
+    height: auto;
+}
+
+/* Navbar collapse */
+.heroalter-navbar-collapse {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Navbar links */
+.heroalter-navbar-links {
+    display: flex;
+    margin-left: auto;
+    list-style: none;
+    padding-left: 0;
+}
+
+.heroalter-nav-item {
+    margin-left: 1.5rem;
+}
+.heroalter-about-nav{
+    color: #fff;
+}
+.heroalter-about-nav:hover{
+    color: #fff;
+}
+/* Navbar link styles */
+.heroalter-nav-link {
+    background-color: transparent;
+    border: 0;
+    color: #fff !important;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+/* Active and hover states */
+/* .heroalter-nav-link:hover,
+.heroalter-nav-link.active {
+    background-color: #444;
+} */
+
+/* Dropdown menu */
+.heroalter-dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    margin-top: 0.5rem;
+    opacity: 0;
+    border-radius: 10px;
+    transform: translateY(-10px); /* Initial state for animation */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  .heroalter-nav-item.show .heroalter-dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(90px); /* Final state */
+  }
+  
+  .heroalter-nav-link {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .heroalter-dropdown-item {
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-decoration: none !important;
+    color: #333;
+    display: block;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .heroalter-dropdown-item:hover {
+    color: #fff;
+    background-color: #0066cc;
+
+  }
+  
+/* Sign-in / Register buttons */
+.heroalter-nav-signin-button,
+.heroalter-nav-register-button {
+    padding: 0.5rem 1.5rem;
+    background-color: #0066cc;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.heroalter-nav-signin-button:hover,
+.heroalter-nav-register-button:hover {
+    background-color: #005bb5;
+}
+
+/* Logout button */
+.heroalter-logout-container-button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:4px;
+    background: #F3F6FF;
+    color: #7979B2;
+    border-radius: 20px 5px 20px 5px;
+    width: 50px;
+    height: 50px;
+  }
+.heroalter-logout-button {
+    border: none;
+    background: none;
+    outline: none;
+    color: #7979B2;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.2px;    
+  }
+  .heroalter-navbar-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
+
+/* Profile & Notifications */
+.heroalter-profile-container {
+    display: flex;
+        align-items: center;
+        gap: 20px;
+}
+
+.heroalter-image-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px 5px 20px 5px;
+    overflow: hidden;
+}
+
+.heroalter-dashboard-setting-bell {
+    display: flex;
+    align-items: center;
+}
+
+.heroalter-notification-icon {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.heroalter-nav-item{
+    display: flex;
+    align-items: center;
+}
+
+/* Trial countdown styles */
+.heroalter-trial-count-head{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .heroalter-trial-count-head .heroalter-free-trial-doctor{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    color: rgba(39, 40, 72, 1);
+    margin: 0;
+  }
+  
+  .heroalter-trial-countdown {
+    min-width: 150px;
+    height: fit-content; 
+    text-align: center; 
+    color: #333; 
+    border-radius:2px; 
+    color:#FF7F50 ;
+    border: 1px solid #FF7F50;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 25px;
+    white-space: nowrap; 
+  }
+  
+.heroalter-dashboard-setting-bell{
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px 5px 20px 5px;
+    background: #F3F6FF;
+  }
+  .heroalter-nav-notification-button {
+    background: none;
+    border: none;
+    position: relative;
+  }
+  
+  .heroalter-nav-notification-button::after {
+    position: absolute;
+    content: '';
+    top: -22px;
+    left:22px;
+    width: 23.38px;
+    height: 23.38px;
+    border-radius:50%;
+    background: #42427D;
+    border: 5px solid #FFFFFF;
+  }
+  .heroalter-notification-icon{
+    color: #42427D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px;
+    height: 18px;
+  }
+/* For small screens (mobile responsiveness) */
+@media (max-width: 767px) {
+    .heroalter-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem; /* Adjust padding for mobile */
+    }
+
+    .heroalter-navbar-collapse {
+        width: 100%;
+    }
+
+    .heroalter-navbar-links {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .heroalter-nav-item {
+        margin-left: 0;
+        width: 100%;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Toggle button for mobile */
+    .heroalter-navbar-toggler {
+        display: block;
+        background-color: #0066cc;
+        border: none;
+        padding: 0.5rem 1rem;
+        color: #fff;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .heroalter-navbar-toggler:hover {
+        background-color: #005bb5;
+    }
+}

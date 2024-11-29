@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import DoctorPopUp from './components/DoctorEdit/DoctorPopUp';
 //Landing page imported
 // import LandingAll from './components/Landing_page/LandingAll/LandingAll'
-import HeroPage from './components/HeroPage/HeroPage'
+import HeroPage from './components/HeroAlter/HeroPage'
 
 //all components imported
 import ChangePassword from './components/login/changepassword';
@@ -63,7 +63,7 @@ function App() {
     <SearchProvider>
       <Router>
         <Routes>
-        <Route path="/" element={[<Navbar/>,<HeroPage/>,<Footer/>]} />          
+        <Route path="/" element={[<HeroPage/>,<Footer/>]} />          
         <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
           <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     
