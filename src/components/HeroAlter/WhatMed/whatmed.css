@@ -1,4 +1,4 @@
-.MedxBayInfo-container-section{
+.MedxBayInfo-container-section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,35 +14,32 @@
 }
 
 .MedxBayInfo-image {
-  width:100%;
-  height:100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
-  
+
 .MedxBayInfo-text-container {
   display: flex;
   flex-direction: column;
-  gap:30px;
+  gap: 30px;
 }
- 
 
-.MedxBayInfo-text-container h1{
+.MedxBayInfo-text-container h1 {
   font-size: 48px;
   font-weight: 600;
   line-height: 36px;
 }
 
-
-.MedxBayInfo-highlight-1{
+.MedxBayInfo-highlight-1 {
   color: #90e0ef;
 }
 
-.MedxBayInfo-highlight-2{
+.MedxBayInfo-highlight-2 {
   color: #ff7f50;
 }
 
-.MedxBayInfo-text-container p{
+.MedxBayInfo-text-container p {
   max-width: 624.81px;
   height: fit-content;
   font-weight: 400;
@@ -50,56 +47,80 @@
   line-height: 26px;
 }
 
-
 /* Tablet responsiveness (1024px and below) */
 @media (max-width: 1024px) {
-    .MedxBayInfo-container-section {
-      padding: 50px 40px;
-      gap: 50px;
-    }
-  
-    .MedxBayInfo-text-container h1 {
-      font-size: 36px;
-      line-height: 44px;
-    }
-  
-    .MedxBayInfo-text-container p {
-      font-size: 16px;
-      line-height: 24px;
-    }
-  
-    .MedxBayInfo-image {
-      max-width: 100%;
-      border-radius: 10px;
-
-    }
+  .MedxBayInfo-container-section {
+    padding: 50px 25px;
+    gap: 50px;
   }
-  
-  /* Mobile responsiveness (768px and below) */
-  @media (max-width: 768px) {
-    .MedxBayInfo-container-section {
-      flex-direction: column;
-      padding: 30px 20px;
-      gap: 20px;
-    }
-  
-    .MedxBayInfo-text-container h1 {
-      font-size: 32px;
-      line-height: 40px;
-    }
-  
-    .MedxBayInfo-text-container p {
-      font-size: 14px;
-      line-height: 22px;
-    }
-  
-    .MedxBayInfo-image-container {
-      text-align: center;
-    }
-  
-    .MedxBayInfo-image {
-      max-width: 90%;
-      border-radius: 10px;
 
-    }
+  .MedxBayInfo-text-container h1 {
+    font-size: 36px;
+    line-height: 44px;
   }
+
+  .MedxBayInfo-text-container p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+}
+
+@media (max-width: 998px) {
+  .MedxBayInfo-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .MedxBayInfo-text-container h1 {
+    font-size: 30px;
+    line-height: 44px;
+  }
+
+  .MedxBayInfo-text-container p {
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+/* Mobile responsiveness (768px and below) */
+@media (max-width: 768px) {
+  .MedxBayInfo-container-section {
+    flex-direction: column;
+    padding:70px 40px;
+    gap: 40px;
+  }
+
+  .MedxBayInfo-container-section h1 {
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .MedxBayInfo-text-container p {
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0;
+  }
+
+  .MedxBayInfo-image-container {
+    width: 270px;
+    height: 270px;
+  }
+}
+
+@media (max-width: 400px) {
+  .MedxBayInfo-container-section {
+    padding:40px 20px;
+  }
+
+  .MedxBayInfo-container-section h1 {
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  .MedxBayInfo-image-container {
+    width: 200px;
+    height: 200px;
+  }
+}

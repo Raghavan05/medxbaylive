@@ -1,18 +1,18 @@
 /* General navbar styling */
 .heroalter-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    position: fixed;
-    top: 0;
-    left: 30px;
-    right: 30px;
-    z-index: 1000;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 30px;
+  right: 30px;
+  z-index: 1000;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Branding & logo */
@@ -248,8 +248,10 @@
 /* For small screens (mobile responsiveness) */
 @media (max-width: 767px) {
     .heroalter-navbar {
-        flex-direction: column;
-        align-items: flex-start;
+      display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        /* align-items: flex-start; */
         padding: 1rem; /* Adjust padding for mobile */
     }
 
@@ -273,7 +275,7 @@
     /* Toggle button for mobile */
     .heroalter-navbar-toggler {
         display: block;
-        background-color: #0066cc;
+        /* background-color: #0066cc; */
         border: none;
         padding: 0.5rem 1rem;
         color: #fff;
@@ -282,7 +284,111 @@
         cursor: pointer;
     }
 
-    .heroalter-navbar-toggler:hover {
+    /* .heroalter-navbar-toggler:hover {
         background-color: #005bb5;
-    }
+    } */
+}
+
+
+/* Show offcanvas only in mobile view (max-width 768px) */
+/* Hide offcanvas on large screens */
+@media (min-width: 992px) {
+  .offcanvas-custom {
+    display: none !important;
+  }
+  .heroalter-navbar-toggler{
+    display: none !important;
+  }
+  
+}
+
+/* Show offcanvas only on mobile */
+@media (max-width: 991px) {
+  .offcanvas-custom {
+    display: block !important;
+  }
+
+  .heroalter-navbar-collapse {
+    display: none !important;
+  }
+  .heroalter-navbar{
+    left: 0;
+    right: 0;
+  }
+  /* .heroalter-navbar-brand{
+    display: none !important;
+  } */
+}
+
+/* Custom offcanvas container */
+.offcanvas-custom {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Start hidden on the left */
+  width: 300px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Left shadow */
+  transition: left 0.3s ease; /* Animate from left */
+  z-index: 1050;
+}
+
+/* Open state for the offcanvas */
+.offcanvas-custom.open {
+  left: 0; /* Slide in from the left */
+}
+
+
+/* Offcanvas header */
+.offcanvas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Offcanvas close button */
+.offcanvas-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Offcanvas body */
+.offcanvas-body {
+  padding: 1rem;
+}
+
+/* Navbar toggler for mobile */
+.heroalter-navbar-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.5rem; /* Adjust icon size */
+  transition: background-color 0.3s ease;
+}
+
+.offcanvas-btn-div{
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.offcanvas-btn{
+  background-color: #FF7F50 !important;
+  color: #fff !important;
+  padding: 10px;
+}
+.offcanvas-body .navbar-nav{
+  padding:0px 20px;
 }

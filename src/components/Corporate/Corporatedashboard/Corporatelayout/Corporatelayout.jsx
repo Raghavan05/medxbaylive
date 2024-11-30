@@ -7,9 +7,9 @@ import { Outlet } from 'react-router-dom';
 const Corporatelayout = () => {
   return (
     <div className="dashboard-container">
-      <Corporatesidebar/>
+      {/* <Corporatesidebar/> */}
       <div className="main-content">
-        <Corporateheader/>
+        {/* <Corporateheader/> */}
         <div className="content-area">
           <Outlet />
         </div>

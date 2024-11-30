@@ -1,23 +1,19 @@
 .heroalter-logo-slider-main{
-  background-color: #fff;
+  background-color: #fff; 
+}
+
+.heroalter-logo-slider-content{
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap:20px;
 }
 
 .heroalter-logo-slider {
-  width: 100%;
+  width: 75%;
   overflow: hidden;
   position: relative;
-}
-
-.heroalter-logo-text-home {
-  position: relative;
-  width: 780px;
-  top: 17%;
-  text-align: center;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 20px;
-  font-weight: 400;
 }
 
 .heroalter-logo-track {
@@ -40,88 +36,77 @@
   width: 100%;
   height: auto;
   filter: grayscale(100%);
+  object-fit: contain;
 }
 
-.heroalter-logo-titile {
-  text-align: start;
-  text-wrap: nowrap;
-  font-weight: 600;
-  position: relative;
-  top: 100px;
+.heroalter-logo-slider-main .heroalter-logo-titile {
   font-size: 35px;
-  font-weight: 100;
-  color: #272848;
-  margin: 0px 20px;
-}
-.heroalter-logo-titile span {
-  font-weight: 600;
+  font-weight: 50;
   color: #272848;
 }
 
-/* Mobile Responsive Styles */
+.heroalter-logo-slider-main .heroalter-logo-titile span {
+  font-weight: 600;
+  color: #272848;
+}
 
 @media (max-width: 1024px) {
+  .heroalter-logo-slide img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 998px) {
+
+  .heroalter-logo-slide {
+    min-width: 35%;
+    padding:10px 30px;
+  }
   .heroalter-logo-slider {
-    height: 500px;
+    width: 68%;
+    overflow: hidden;
+    position: relative;
   }
-
-  .heroalter-logo-text-home {
-    width: 90%;
-    top: 15%;
-    font-size: 18px;
-    line-height: 28px;
-    margin: 0 auto;
-  }
-
-  .heroalter-logo-titile {
-    font-size: 35px;
-    top: 50px;
-  }
-
-  .heroalter-logo-track {
-    top: 20%;
+  .heroalter-logo-slider-main .heroalter-logo-titile {
+    font-size: 30px;
   }
 }
 
 @media (max-width: 768px) {
-  .heroalter-logo-text-home {
+  .heroalter-logo-slider-content{
+    padding:30px 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .heroalter-logo-slider-main .heroalter-logo-titile {
+    margin: 0;
+    display: inline;
+  }
+  .heroalter-logo-slider {
     width: 90%;
-    font-size: 16px;
-    top: 10%;
-    line-height: 24px;
+    overflow: hidden;
+    position: relative;
   }
-
-  .heroalter-logo-track {
-    top: 20%;
-  }
-
+  
   .heroalter-logo-slide {
-    min-width: 50%;
-    padding: 5px;
+    padding: 0 30px;
   }
 
-  .heroalter-logo-titile {
-    font-size: 35px;
-    top: 50px;
-  }
 }
 
 @media (max-width: 480px) {
-  .heroalter-logo-slider {
-    height: 400px;
-  }
-
-  .heroalter-logo-text-home {
-    font-size: 14px;
-    top: 5%;
-  }
-
-  .heroalter-logo-track {
-    top: 15%;
+  .heroalter-logo-slider-content{
+    padding:20px 10px;
   }
 
   .heroalter-logo-titile {
     font-size: 28px;
-    top: 30px;
+  }
+  .heroalter-logo-slide {
+    width:100%;
+    padding: 10px;
   }
 }

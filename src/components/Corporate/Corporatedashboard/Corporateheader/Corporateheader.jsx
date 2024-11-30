@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Corporateheader.css'
 import { SlBell } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import profile from '../../Assets/profileimg.png';
+import profilePlaceholder from '../../Assets/profileimg.png';
 const Corporateheader = () => {
+  const [profileImage, setProfileImage] = useState(profilePlaceholder);
+
   return (
     <>
         <header className="header-head">
@@ -17,7 +19,7 @@ const Corporateheader = () => {
         </div>
         <div className="profile-container">
           <div className="image-container">
-            <img src={profile} alt="Profile"/>
+            <img src={profileImage} alt="Profile"/>
           </div>
         </div>
       </header>

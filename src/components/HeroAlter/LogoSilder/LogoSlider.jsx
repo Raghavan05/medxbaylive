@@ -49,20 +49,20 @@ const LogoSlider = () => {
 
   return (
     <>
-    <div className=' heroalter-logo-slider-main d-flex flex-row '>
-        <h3 className='heroalter-logo-titile' 
-        data-aos="fade-down" data-aos-duration="2000"
-        >Our  <span>Partners </span></h3>
-    <div className="heroalter-logo-slider">
-        <div className="heroalter-logo-track" style={{ transform: `translateX(${-currentIndex * (100 / 4)}%)` }}>
-          {logos.map((logo) => (
-            <div key={logo.id} className="heroalter-logo-slide">
-              <img src={logo.src} alt={logo.alt} />
+      <div className=' heroalter-logo-slider-main'>
+        <div className=' heroalter-logo-slider-content'>
+          <h2 className='heroalter-logo-titile'>Our <span>Partners</span></h2>
+          <div className="heroalter-logo-slider">
+            <div className="heroalter-logo-track" style={{ transform: `translateX(${-currentIndex * (100 / 4)}%)` }}>
+              {logos.map((logo) => (
+                <div key={logo.id} className="heroalter-logo-slide">
+                  <img src={logo.src} alt={logo.alt} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-    </div>
-              </div>
+      </div>
     </>
   );
 };

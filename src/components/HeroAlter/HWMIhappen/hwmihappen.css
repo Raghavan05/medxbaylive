@@ -9,8 +9,9 @@
     justify-content: center;
     align-items:center;
 }
+
 .hwmihappen-content-container{
-    padding:50px 40px;
+    padding:120px 40px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -30,6 +31,28 @@
     font-weight: 700;
 }
 .hwmihappenen-description{
-    max-width: 660px;
+    max-width: 700px;
     text-align: center;
+}
+
+@media (max-width: 1024px) {
+    .hwmihappen-content-container .hwmihappenen-title {
+        font-size: 36px;
+    }
+
+    .hwmihappenen-description{
+        max-width: 100%;
+    }
+}
+
+@media (max-width:480px) {
+
+    .hwmihappen-content-container {
+        padding:30px;
+    }
+
+    .hwmihappen-content-container .hwmihappenen-title {
+        font-size:7vw;
+        margin: 0;
+    } 
 }

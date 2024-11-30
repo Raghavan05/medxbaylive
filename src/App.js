@@ -52,7 +52,10 @@ import  Showall from './components/patientBlog/newestblog';
 import NewsRoom from './components/NewsRoom/NewsRoom'
 import OurProvidersPage from './components/Corporate/OurProvidersPage/OurProvidersPage';
 import Corporateroute from './components/Corporate/Corporatedashboard/Corporateroute/Corporateroute';
+import Supplierroute from './components/Supplier/Supplierdashboard/Supplierroute/Supplierroute';
 import OurProductsPage from './components/Supplier/OurProductsPage/OurProductsPage';
+import CorporateFilter from './components/Corporate/CorporateFilterPage/FilterPage';
+import SupplierFilter from './components/Supplier/SupplierFilterPage/FilterPage';
 
 function App() {
   useEffect(() => {
@@ -93,14 +96,20 @@ function App() {
           <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
-          <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
-          <Route path="/OurProducts" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
-
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
 
+          {/* Admin */}
           <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
+          
+          {/* Corporate */}
+          <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
+          <Route path="/corporate/dashboardpage/*" element={[<Navbar/>,<Corporateroute/>,<Footer/>]} />
+          <Route path="/corporate/Filters" element={[<Nestednavbar/>,<CorporateFilter />,<Footer/>]} />
 
-          <Route path="/corporate/dashboardpage/*" element={<Corporateroute/>} />
+          {/* Suppliers */}
+          <Route path="/OurProducts" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
+          <Route path="/supplier/dashboardpage/*" element={[<Navbar/>,<Supplierroute/>,<Footer/>]} />
+          <Route path="/supplier/Filters" element={[<Nestednavbar/>,<SupplierFilter/>,<Footer/>]} />
 
           <Route path="/contact-us" element={[<Nestednavbar/>,<ContactUs />,<Footer/>]}/>
           <Route path="/patients" element={[<Nestednavbar/>,<Patients />,<Footer/>]}/>

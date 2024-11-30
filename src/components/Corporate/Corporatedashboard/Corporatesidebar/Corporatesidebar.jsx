@@ -34,26 +34,26 @@ const Corporatesidebar = () => {
     const setActiveItemBasedOnRoute = () => {
       let routeKey = location.pathname;
       switch (routeKey) {
-        case '/admin/dashboardpage/admin-viewblog':
-        case '/admin/dashboardpage/view-detailsblog':
-          routeKey = '/admin/dashboardpage/admin-viewblog';
-          break;
-        case '/admin/dashboardpage/admin-viewdoctor':
-        case '/admin/dashboardpage/edit-viewdoctor':
-          routeKey = '/admin/dashboardpage/admin-viewdoctor';
-          break;
-        case '/admin/dashboardpage/admin-viewpatients':
-        case '/admin/dashboardpage/edit-viewpatients':
-          routeKey = '/admin/dashboardpage/admin-viewpatients';
-          break;
-        case '/admin/dashboardpage/admin-managebookings':
-        case '/admin/dashboardpage/admin-viewbookings':
-          routeKey = '/admin/dashboardpage/admin-managebookings';
-          break;
-        case '/admin/dashboardpage/admin-doctorprofile':
-        case '/admin/dashboardpage/admin-doctorprofile-verification':
-          routeKey = '/admin/dashboardpage/admin-doctorprofile';
-          break;
+        // case '/admin/dashboardpage/admin-viewblog':
+        // case '/admin/dashboardpage/view-detailsblog':
+        //   routeKey = '/admin/dashboardpage/admin-viewblog';
+        //   break;
+        // case '/admin/dashboardpage/admin-viewdoctor':
+        // case '/admin/dashboardpage/edit-viewdoctor':
+        //   routeKey = '/admin/dashboardpage/admin-viewdoctor';
+        //   break;
+        // case '/admin/dashboardpage/admin-viewpatients':
+        // case '/admin/dashboardpage/edit-viewpatients':
+        //   routeKey = '/admin/dashboardpage/admin-viewpatients';
+        //   break;
+        // case '/admin/dashboardpage/admin-managebookings':
+        // case '/admin/dashboardpage/admin-viewbookings':
+        //   routeKey = '/admin/dashboardpage/admin-managebookings';
+        //   break;
+        // case '/admin/dashboardpage/admin-doctorprofile':
+        // case '/admin/dashboardpage/admin-doctorprofile-verification':
+        //   routeKey = '/admin/dashboardpage/admin-doctorprofile';
+        //   break;
         default:
           routeKey = location.pathname;
       }
@@ -117,17 +117,17 @@ const Corporatesidebar = () => {
       </div>
       <ul className="sidebar-menu-admin">
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admindashboardpage' ? 'active' : ''}`} 
-          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admindashboardpage')}
-          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
-          onClick={() => handleItemClick('/admin/dashboardpage/admindashboardpage')}
+          className={`menu-item ${activeItem === '/corporate/dashboardpage/admindashboardpage' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/admindashboardpage')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/corporate/dashboardpage/admindashboardpage')}
+          onClick={() => handleItemClick('/corporate/dashboardpage/admindashboardpage')}
         >
-          <Link to="/admin/dashboardpage/admindashboardpage" className="menu-link">
+          <Link to="/corporate/dashboardpage/admindashboardpage" className="menu-link">
             <div className="sidebar-icon"><BiSolidDashboard /></div>
             <span>Dashboard Page</span>
           </Link>
         </li>
-        <li 
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-viewblog' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-viewblog')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -137,8 +137,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><MdWallpaper /></div>
             <span>Manage Library</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-createblog' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-createblog')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -148,7 +148,7 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><RiInboxLine /></div>
             <span>Create Blog</span>
           </Link>
-        </li>
+        </li> */}
         <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-createblog-supplier' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-createblog')}
@@ -160,7 +160,7 @@ const Corporatesidebar = () => {
             <span>Create Blog for Supplier</span>
           </Link>
         </li>
-        <li 
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-doctorprofile' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-doctorprofile')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -170,8 +170,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><FaRegUserCircle /></div>
             <span>Doctor Profile</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-managebookings' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-managebookings')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -181,8 +181,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><RiListView /></div>
             <span>Manage Bookings</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-doctorsubscription' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-doctorsubscription')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -192,8 +192,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><TbStar/></div>
             <span>Doctor Subscription</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-managepayments' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-managepayments')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -203,8 +203,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><RiMoneyDollarCircleLine /></div>
             <span>Manage Payments</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-CommisionFee' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-CommisionFee')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -214,8 +214,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><RiMoneyDollarCircleLine /></div>
             <span>Manage Commision</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-insurance' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-insurance')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -225,8 +225,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><SiCommerzbank /></div>
             <span>Manage Insurance</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-viewdoctor' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-viewdoctor')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -236,8 +236,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><TbUserHexagon /></div>
             <span>View Doctors</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/admin-viewpatients' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-viewpatients')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -247,8 +247,8 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><BiStreetView /></div>
             <span>View Patients</span>
           </Link>
-        </li>
-        <li 
+        </li> */}
+        {/* <li 
           className={`menu-item ${activeItem === '/admin/dashboardpage/adminappointments' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/adminappointments')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
@@ -258,7 +258,7 @@ const Corporatesidebar = () => {
             <div className="sidebar-icon"><AiOutlineNotification /></div>
             <span>Appointments</span>
           </Link>
-        </li>
+        </li> */}
         <li 
           className={`menu-item ${activeItem === '/login' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/login')}
