@@ -20,14 +20,18 @@ import plansfour from './DoctorPhysician-assets/Comprehensive Health Records.png
 import plansfive from './DoctorPhysician-assets/Health and Wellness Events.png';
 import LoginCard from '../../login/login';
 import SignupCard from '../../signup/signup';
+import { useNavigate } from 'react-router-dom';
 const DoctorPhysician = () => {
     const revealedCardsRef = useRef(new Set()); // To track revealed cards
     const handleClick = () =>{
       window.scrollTo(0,0);
     };
+    const navigate = useNavigate();
   
-    const handleShowPopup = () => setShowPopup(true);
-    const [showPopup, setShowPopup] = useState(false);
+    const handleShowPopup = () => {
+        navigate('/signup')
+        // setShowPopup(true);
+      };    const [showPopup, setShowPopup] = useState(false);
     const [isRegisterClicked, setIsRegisterClicked] = useState(false);
     const [isSignInClicked, setIsSignInClicked] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);

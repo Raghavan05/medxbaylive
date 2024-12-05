@@ -28,6 +28,7 @@ const Editdoctorprofile = () => {
     speciality: [],
     conditions: [],
     languages: [],
+    treatmentApproach : [],
     facebook: "",
     twitter: "",
     linkedin: "",
@@ -60,6 +61,7 @@ const Editdoctorprofile = () => {
   const navigate = useNavigate(); 
   const [allInsurances, setAllInsurances] = useState([]);
   const [allSpecialties, setAllSpecialties] = useState([]);
+  const [allTreatmentApproach, setAllTreatmentApproach] = useState([]);
   const [allConditions, setAllConditions] = useState([]);
   const [insurances, setInsurances] = useState([]);
   const [isOpenFaq, setIsOpenFaq] = useState(false);
@@ -154,7 +156,7 @@ const Editdoctorprofile = () => {
         });
         const { doctor, insurances, allInsurances, allSpecialties, allConditions } = response.data;
         setDoctorData(doctor);
-        console.log(doctor);
+        console.log( response.data);
         console.log(insurances);
 
         const profileImageData = doctor.profilePicture
@@ -164,6 +166,7 @@ const Editdoctorprofile = () => {
         setProfilePicturePreview(profileImageData);
         setAllInsurances(allInsurances);
         setAllSpecialties(allSpecialties);
+        // setAllTreatmentApproach(allSpecialties);
         setAllConditions(allConditions);
         setInsurances(insurances);
       } catch (error) {
@@ -226,7 +229,28 @@ const Editdoctorprofile = () => {
     }
   };
   
-
+  const handleTreatmentChange = (event) => {
+    const selectedTreatment = event.target.value;
+  
+    // Ensure treatmentApproach is an array
+    const currentApproach = doctorData?.treatmentApproach || [];
+  
+    if (!currentApproach.includes(selectedTreatment)) {
+      setDoctorData({
+        ...doctorData,
+        treatmentApproach: [...currentApproach, selectedTreatment], // Add the treatment name
+      });
+    }
+  };
+  
+  // Function to remove a selected speciality
+  const handleTreatmentRemove = (treatmentToRemove) => {
+    setDoctorData({
+      ...doctorData,
+      treatmentApproach: doctorData?.treatmentApproach.filter(treatmentApproach => treatmentApproach !== treatmentToRemove)
+    });
+  };
+  
 
 const handleSpecialitiesChange = (event) => {
   const selectedSpeciality = event.target.value;  
@@ -664,6 +688,36 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                           onChange={(e) => setNewLanguage(e.target.value)}
                           onKeyDown={handleLanguageKeyDown} // Add onKeyDown handler
                         />
+                      </div>
+                    </div>
+                  </div>
+                  {/* TreatmentApproach */}
+                  <div className="edop-form-row">
+                    <div className="edop-form-group edop-full-width">
+                      <label>Treatment Approach</label>
+                      <div className="tag-container">
+                        {/* Display selected specialities as tags */}
+                        {doctorData?.treatmentApproach?.map((treatmentApproach, index) => (
+                          <span key={index} className="tag-edit-doctor">
+                            {treatmentApproach} {/* Display the speciality name */}
+                            <button onClick={() => handleTreatmentRemove(treatmentApproach)}>x</button>
+                          </span>
+                        ))}
+
+                        {/* Dropdown for adding new specialities */}
+                          <select
+                            value=""
+                            onChange={handleTreatmentChange}
+                            className="edit-doctor-profile-dropdown"
+                          >
+                            <option value="" disabled>Select Treatment Approach</option>
+                            {['conventional', 'holistic', 'traditional', 'speciality'].map((approach) => (
+                              <option key={approach} value={approach} disabled={doctorData?.treatmentApproach?.includes(approach)}>
+                                {approach}
+                              </option>
+                            ))}
+                          </select>
+
                       </div>
                     </div>
                   </div>

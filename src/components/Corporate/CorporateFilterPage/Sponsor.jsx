@@ -180,8 +180,10 @@ useEffect(() => {
         setShowDoctorCard(prevState => !prevState);
     };
     const handleShowLogin = () => setShowLoginPopup(true);
-    const handleShowPopup = () => setShowPopup(true);
-    const handleClosePopup = () => setShowPopup(false);
+    const handleShowPopup = () => {
+        navigate('/signup')
+        // setShowPopup(true);
+      };    const handleClosePopup = () => setShowPopup(false);
     const handleTimeSlotClick = (slot) => {
         setSelectedTimeSlot(slot);
     };

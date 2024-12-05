@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './overviewactivityproducts.css';
 
 // Icons
@@ -8,14 +8,14 @@ import { IoClose } from "react-icons/io5";
 import { AiFillCamera } from "react-icons/ai";
 
 // Images
-import Dentist from "../Assets/teethimg.png";
-import Heart from "../Assets/heartbeatimg.png";
-import Care from "../Assets/doctorimg.png";
-import Cancer from "../Assets/puzzleimg.png";
-import DNA from "../Assets/testtubeimg.png";
-import Psychology from "../Assets/lookingclinic.png";
-import MRI from "../Assets/MRIimg.png";
-import XRay from "../Assets/xrayimg.png";
+import Ipod from "../Assets/ipod.png";
+import surgery from "../Assets/surgery.png";
+import controler from "../Assets/controler.png";
+import woodenLeg from "../Assets/wooden-leg.png";
+// import DNA from "../Assets/testtubeimg.png";
+// import Psychology from "../Assets/lookingclinic.png";
+// import MRI from "../Assets/MRIimg.png";
+// import XRay from "../Assets/xrayimg.png";
 import Ellipse from "../Assets/Ellipse 4153.png";
 
 // Default Image
@@ -23,17 +23,17 @@ import iconnotshowing from "../Assets/iconnotshowing.png";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const OverviewActivityProducts = ({overviewData}) => {
+const OverviewActivityProducts = ({overviewData,productCategories}) => {
   // Initial Data
   const initialSpecialties = [
-    { name: "Dentist", icon: Dentist },
-    { name: "Heart", icon: Heart },
-    { name: "Care", icon: Care },
-    { name: "Cancer", icon: Cancer },
-    { name: "DNA", icon: DNA },
-    { name: "Psychology", icon: Psychology },
-    { name: "MRI", icon: MRI },
-    { name: "X-Ray", icon: XRay },
+    { name: "Medical Equipment", icon: Ipod },
+    { name: "Surgical Instruments", icon: surgery },
+    { name: "Diagnostic Equipment", icon: controler },
+    { name: "Orthopedic Products", icon: woodenLeg },
+    // { name: "DNA", icon: DNA },
+    // { name: "Psychology", icon: Psychology },
+    // { name: "MRI", icon: MRI },
+    // { name: "X-Ray", icon: XRay },
   ];
 
   const posts = [
@@ -58,6 +58,35 @@ const OverviewActivityProducts = ({overviewData}) => {
   const [tempOverviewText2, setTempOverviewText2] = useState(overviewText2);
   const [tempSpecialties, setTempSpecialties] = useState([...initialSpecialties]); // Specialties for modal
   const [isSaving, setIsSaving] = useState(false);
+
+      // Convert buffer data to Base64
+      const bufferToBase64 = (buffer) => {
+        if (buffer?.type === "Buffer" && Array.isArray(buffer?.data)) {
+          const bytes = new Uint8Array(buffer.data);
+          let binary = "";
+          bytes.forEach((byte) => (binary += String.fromCharCode(byte)));
+          return `data:image/jpeg;base64,${btoa(binary)}`;
+        }
+        return "";
+    };
+    const getProfileImage = (formData) => {
+        if (formData?.data?.type === "Buffer") {
+            return bufferToBase64(formData.data);
+        } else if (typeof formData?.data === "string") {
+            return `data:image/jpeg;base64,${formData.data}`;
+        } else {
+            return iconnotshowing;
+        }
+    };
+      
+  useEffect(() => {
+    const storedSpecialties = localStorage.getItem("category");
+    if (storedSpecialties) {
+      setSpecialties(JSON.parse(storedSpecialties));
+    } else {
+      setSpecialties([]); // or fetch from the backend if needed
+    }
+  }, []);
 
   // Modal Functions
   const openModal = () => {
@@ -90,34 +119,45 @@ const OverviewActivityProducts = ({overviewData}) => {
     setTempSpecialties(updatedSpecialties);
   };
 
-  // Handle specialty image upload
-  const handleImageUpload = (e, index) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedSpecialties = [...tempSpecialties];
-        updatedSpecialties[index].icon = reader.result;
-        setTempSpecialties(updatedSpecialties);
+// Handle specialty image upload
+const handleImageUpload = (e, index) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const updatedSpecialties = [...tempSpecialties];
+      updatedSpecialties[index].image = {
+        contentType: file.type,
+        data: {
+          type: "Buffer",
+          data: Array.from(new Uint8Array(reader.result)),
+        },
       };
-      reader.readAsDataURL(file);
-    }
-  };
+      setTempSpecialties(updatedSpecialties);
+    };
+    reader.readAsArrayBuffer(file);
+  }
+};
 
-  // Remove specialty
-  const removeSpecialty = (index) => {
-    const updatedSpecialties = [...tempSpecialties];
-    updatedSpecialties.splice(index, 1);
-    setTempSpecialties(updatedSpecialties);
-  };
-
-  // Toggle specialty "added" state
   const toggleSpecialty = (index) => {
     const updatedSpecialties = [...tempSpecialties];
     updatedSpecialties[index].isAdded = !updatedSpecialties[index].isAdded;
     setTempSpecialties(updatedSpecialties);
+  
+    // Update localStorage
+    const persistentSpecialties = updatedSpecialties.filter((item) => item.isAdded);
+    localStorage.setItem("category", JSON.stringify(persistentSpecialties));
   };
-
+  
+  const removeSpecialty = (index) => {
+    const updatedSpecialties = [...tempSpecialties];
+    updatedSpecialties.splice(index, 1);
+    setTempSpecialties(updatedSpecialties);
+  
+    // Update localStorage
+    const persistentSpecialties = updatedSpecialties.filter((item) => item.isAdded);
+    localStorage.setItem("category", JSON.stringify(persistentSpecialties));
+  };
   const handleEditClick = (index) => {
     const fileInput = document.getElementById(`fileInput-${index}`);
     if (fileInput) fileInput.click();
@@ -127,21 +167,39 @@ const OverviewActivityProducts = ({overviewData}) => {
   const saveChanges = async () => {
     setIsSaving(true);
     try {
+      // Ensure no empty names exist
+      if (tempSpecialties.some((item) => !item.name.trim())) {
+        alert("Please fill in all specialty names.");
+        setIsSaving(false);
+        return;
+      }
+  
+      const updatedSpecialties = tempSpecialties.filter((item) => item.isAdded);
+      
+      // Store the updated specialties in localStorage
+      localStorage.setItem("category", JSON.stringify(updatedSpecialties));
+      window.location.reload();
+  
+      // Optionally save to the backend
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/supplier/update-profile`,
+        `${process.env.REACT_APP_BASE_URL}/corporate/update-profile`,
         {
-        overview: tempOverviewText1,
-        // specialties: tempSpecialties,
-        },{withCredentials:true}
-    );
-    if (tempSpecialties.some((item) => !item.name.trim())) {
-          alert("Please fill in all specialty names.");
-          setIsSaving(false);
-          return;
-        }
-      setSpecialties(tempSpecialties.filter((item) => item.isAdded));
+          overview: tempOverviewText1,
+        },
+        { withCredentials: true }
+      );
+      const specialtiesResponse = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/corporate/add-category`,
+        {
+          specialties: updatedSpecialties,
+        },
+        { withCredentials: true }
+      );
+      
+      setSpecialties(updatedSpecialties);
       console.log("Update successful:", response.data);
-      alert('overview update successfully')
+      console.log("Update successful:", specialtiesResponse.data);
+      alert("Overview updated successfully!");
       closeModal();
     } catch (error) {
       console.error("Error saving changes:", error);

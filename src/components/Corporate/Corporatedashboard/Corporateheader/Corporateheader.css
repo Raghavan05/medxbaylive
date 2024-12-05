@@ -71,7 +71,7 @@
     background: #F3F6FF;
 }
   
-.nav-notification-button {
+/* .nav-notification-button {
     background: none;
     border: none;
     position: relative;
@@ -96,7 +96,7 @@
     align-items: center;
     width: 16px;
     height: 18px;
-}
+} */
 
 .profile-container {
     display: flex;

@@ -38,9 +38,6 @@ const DoctorInfo = () => {
     const fetchDoctorDetails = async () => {
       try {
         const response = await fetchFromDoctor(`/doctors/${id}/slots`);
-  
-        
-  
         console.log(response);
         if (response.doctor.dateOfBirth) {
           const date = new Date(response.doctor.dateOfBirth);
@@ -65,14 +62,7 @@ const DoctorInfo = () => {
     };
         fetchDoctorDetails();
   }
-  
-  
-  
     }, []);
-
-
-    
-
   const getBaseImage = (logo) => {
     const base64String = bufferToBase64(logo);
     return base64String;
@@ -86,6 +76,8 @@ const DoctorInfo = () => {
       const doctorData = response.data;
 
       console.log(doctorData);
+      console.log(doctorData.doctor.treatmentApproach);
+
       if (doctorData.doctor.dateOfBirth) {
         const date = new Date(doctorData.doctor.dateOfBirth);
         const formattedDate = `${String(date.getDate()).padStart(
@@ -106,6 +98,7 @@ const DoctorInfo = () => {
       setInsurance(doctorData.insurances);
       setBlogs(doctorData.blogs);
       setVerificationStatus(doctorData.doctor.verified);
+      
     } catch (error) {
       console.error("Error fetching doctor details:", error);
     }
@@ -136,7 +129,7 @@ const DoctorInfo = () => {
           <img loading="lazy" src="/DoctorProfile/date.png" alt="" className="icon" />
           <span>{doctor?.dateOfBirth?.slice(0, 10)} |</span>
           <img loading="lazy" src="/DoctorProfile/loc.png" alt="" className="icon" />
-          <span>{doctor.city}</span>
+          <span>{doctor?.country}</span>
         </div>
         <div className="flex-row mt-2">
           <img loading="lazy" src="/DoctorProfile/heartSpecilist.png" alt="" className="icon" />
@@ -155,6 +148,15 @@ const DoctorInfo = () => {
             <span key={index}>
               {condition}
               {index < doctor.conditions.length - 1 ? ", " : ""}
+            </span>
+          ))}
+        </div>
+        <div className="flex-row mt-2">
+          <img loading="lazy" src="/DoctorProfile/checklist-1.png" alt="" className="icon" />
+          {doctor?.treatmentApproach?.map((treatmentApproach, index) => (
+            <span key={index}>
+              {treatmentApproach}
+              {index < doctor.treatmentApproach.length - 1 ? ", " : ""}
             </span>
           ))}
         </div>

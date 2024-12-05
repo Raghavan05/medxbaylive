@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import "./overviewactivity.css";
 
 // Icons
@@ -20,11 +20,12 @@ import Ellipse from "../Assets/Ellipse 4153.png";
 
 // Default Image
 import iconnotshowing from "../Assets/iconnotshowing.png";
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-const OverviewActivity = ({overviewData,corporateSpecialties}) => {
-  
+const OverviewActivity = ({ overviewData, corporateSpecialties }) => {
+  console.log(corporateSpecialties);
+
   // Initial Data
   const initialSpecialties = [
     { name: "Dentist", icon: Dentist },
@@ -57,37 +58,20 @@ const OverviewActivity = ({overviewData,corporateSpecialties}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempOverviewText1, setTempOverviewText1] = useState(overviewText1);
   const [tempOverviewText2, setTempOverviewText2] = useState(overviewText2);
-  const [tempSpecialties, setTempSpecialties] = useState([...initialSpecialties]); // Specialties for modal
+  const [tempSpecialties, setTempSpecialties] = useState([...corporateSpecialties || []]);
   const [isSaving, setIsSaving] = useState(false);
 
-    // Convert buffer data to Base64
-    const bufferToBase64 = (buffer) => {
-        if (buffer?.type === "Buffer" && Array.isArray(buffer?.data)) {
-          const bytes = new Uint8Array(buffer.data);
-          let binary = "";
-          bytes.forEach((byte) => (binary += String.fromCharCode(byte)));
-          return `data:image/jpeg;base64,${btoa(binary)}`;
-        }
-        return "";
-    };
-    const getProfileImage = (formData) => {
-        if (formData?.data?.type === "Buffer") {
-            return bufferToBase64(formData.data);
-        } else if (typeof formData?.data === "string") {
-            return `data:image/jpeg;base64,${formData.data}`;
-        } else {
-            return iconnotshowing;
-        }
-    };
-      
-  useEffect(() => {
-    const storedSpecialties = localStorage.getItem("specialties");
-    if (storedSpecialties) {
-      setSpecialties(JSON.parse(storedSpecialties));
-    } else {
-      setSpecialties([]); // or fetch from the backend if needed
+  // Convert buffer data to Base64
+  const bufferToBase64 = (buffer) => {
+    if (buffer?.type === "Buffer" && Array.isArray(buffer?.data)) {
+      const bytes = new Uint8Array(buffer.data);
+      let binary = "";
+      bytes.forEach((byte) => (binary += String.fromCharCode(byte)));
+      return `data:image/jpeg;base64,${btoa(binary)}`;
     }
-  }, []);
+    return "";
+  };
+
 
   // Modal Functions
   const openModal = () => {
@@ -102,26 +86,23 @@ const OverviewActivity = ({overviewData,corporateSpecialties}) => {
     document.body.classList.remove("scroll-lock");
   };
 
-  // Add a new specialty
   const addNewSpecialty = () => {
     const newSpecialty = {
       name: `Enter a Name ${tempSpecialties.length + 1}`,
-      image: iconnotshowing,
+      icon: iconnotshowing,
       isEditing: true,
       isAdded: false,
     };
     setTempSpecialties([...tempSpecialties, newSpecialty]);
   };
 
-  // Handle specialty name change
   const handleNameChange = (index, newName) => {
     const updatedSpecialties = [...tempSpecialties];
     updatedSpecialties[index].name = newName;
     setTempSpecialties(updatedSpecialties);
   };
 
-// Handle specialty image upload
-const handleImageUpload = (e, index) => {
+  const handleImageUpload = (e, index) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -139,78 +120,62 @@ const handleImageUpload = (e, index) => {
       reader.readAsArrayBuffer(file);
     }
   };
+  // Toggle specialty "added" state
+const toggleSpecialty = (index) => {
+  const updatedSpecialties = [...tempSpecialties];
+  updatedSpecialties[index].isAdded = !updatedSpecialties[index].isAdded;
+  setTempSpecialties(updatedSpecialties);
+};
 
-  const toggleSpecialty = (index) => {
-    const updatedSpecialties = [...tempSpecialties];
-    updatedSpecialties[index].isAdded = !updatedSpecialties[index].isAdded;
-    setTempSpecialties(updatedSpecialties);
-  
-    // Update localStorage
-    const persistentSpecialties = updatedSpecialties.filter((item) => item.isAdded);
-    localStorage.setItem("specialties", JSON.stringify(persistentSpecialties));
-  };
-  
+const handleEditClick = (index) => {
+  const fileInput = document.getElementById(`fileInput-${index}`);
+  if (fileInput) fileInput.click();
+};
+
+
   const removeSpecialty = (index) => {
     const updatedSpecialties = [...tempSpecialties];
     updatedSpecialties.splice(index, 1);
     setTempSpecialties(updatedSpecialties);
-  
-    // Update localStorage
-    const persistentSpecialties = updatedSpecialties.filter((item) => item.isAdded);
-    localStorage.setItem("specialties", JSON.stringify(persistentSpecialties));
-  };
-  
-  const handleEditClick = (index) => {
-    const fileInput = document.getElementById(`fileInput-${index}`);
-    if (fileInput) fileInput.click();
   };
 
-  // Save changes from modal
   const saveChanges = async () => {
     setIsSaving(true);
-    try {
-      // Ensure no empty names exist
-      if (tempSpecialties.some((item) => !item.name.trim())) {
-        alert("Please fill in all specialty names.");
-        setIsSaving(false);
-        return;
-      }
-  
-      const updatedSpecialties = tempSpecialties.filter((item) => item.isAdded);
-      
-      // Store the updated specialties in localStorage
-      localStorage.setItem("specialties", JSON.stringify(updatedSpecialties));
-      window.location.reload();
-  
-      // Optionally save to the backend
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/corporate/edit-profile`,
-        {
-          overview: tempOverviewText1,
-        },
-        { withCredentials: true }
-      );
-      const specialtiesResponse = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/corporate/add-specialty`,
-        {
-          specialties: updatedSpecialties,
-        },
-        { withCredentials: true }
-      );
-  
-      setSpecialties(updatedSpecialties);
-      console.log("Update successful:", response.data);
-      console.log("Update successful:", specialtiesResponse.data);
-      alert("Overview updated successfully!");
-      closeModal();
 
+    if (tempSpecialties.some((item) => !item.name.trim())) {
+      alert("Please fill in all specialty names.");
+      setIsSaving(false);
+      return;
+    }
+
+    const addedSpecialties = tempSpecialties.filter((item) => !item.isAdded);
+
+    try {
+      for (const specialty of addedSpecialties) {
+        const formData = new FormData();
+        formData.append("name", specialty.name);
+
+        if (specialty.icon instanceof File) {
+          formData.append("image", specialty.icon);
+        }
+
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/corporate/add-specialty`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true }
+        );
+      }
+
+      setSpecialties(tempSpecialties.filter((item) => item.isAdded || addedSpecialties.includes(item)));
+      alert("Specialties added successfully!");
+      closeModal();
     } catch (error) {
-      console.error("Error saving changes:", error);
+      console.error("Error saving specialties:", error);
+      alert("Failed to save specialties. Please try again.");
     } finally {
       setIsSaving(false);
     }
   };
-  
   // const saveChanges = () => {
   //   setIsSaving(true);
 
@@ -239,17 +204,17 @@ const handleImageUpload = (e, index) => {
         </div>
         <h2>Overview</h2>
         <p>
-  {overviewData && overviewData.length > 555 
-    ? `${overviewData.slice(0, 555)}...` 
-    : overviewData || 'No overview available'}
-</p>
+          {overviewData && overviewData.length > 555
+            ? `${overviewData.slice(0, 555)}...`
+            : overviewData || 'No overview available'}
+        </p>
 
         <h2>Our Specialties</h2>
         <div className="our-providers-our-specialties-icons-container">
           {specialties.length > 0 ? (
             specialties.map((item, index) => (
               <div key={index} className="our-specialties-icons-item">
-                <img src={item.icon} alt={item.name}   className="our-specialties-icons-image"/>
+                <img src={item.icon} alt={item.name} className="our-specialties-icons-image" />
                 <span>{item.name}</span>
               </div>
             ))
@@ -284,8 +249,8 @@ const handleImageUpload = (e, index) => {
               </div>
               <h2>
                 <Link to={'https://conditions.medxbay.com/'} target='_blank'>
-                Show all Conditions
-                <FaArrowRightLong size="1rem" className="show-all-conditions-icon" />
+                  Show all Conditions
+                  <FaArrowRightLong size="1rem" className="show-all-conditions-icon" />
                 </Link>
               </h2>
             </div>
@@ -322,14 +287,14 @@ const handleImageUpload = (e, index) => {
                   onChange={(e) => setTempOverviewText2(e.target.value)}
                 />
               </div>   */}
-            </div> 
+            </div>
 
             <h2>Our Specialties</h2>
             <div className="our-providers-specialty-edit-total-container">
               {tempSpecialties.map((item, index) => (
                 <div key={index} className="our-providers-specialty-edit-container fade-in">
                   <div className="our-providers-specialty-edit-image-name">
-                    <img src={item.icon} alt={item.name} className="our-providers-specialty-image-preview" />
+                    <img src={bufferToBase64(item.image.data)} alt={item.name} className="our-providers-specialty-image-preview" />
                     {item.isEditing ? (
                       <div className='our-providers-specialty-add-new-one'>
                         <input
@@ -355,15 +320,15 @@ const handleImageUpload = (e, index) => {
                     ) : (
                       <p className="m-0">{item.name}</p>
                     )}
-                    <button onClick={() => toggleSpecialty(index)}  className="our-providers-specialty-edit-popup-remove-button">
+                    <button onClick={() => toggleSpecialty(index)} className="our-providers-specialty-edit-popup-remove-button">
                       {item.isAdded ? "Remove" : "Add"}
                     </button>
-                    <button onClick={() => removeSpecialty(index)}  className="our-providers-specialty-edit-popup-remove-button">Delete</button>
+                    <button onClick={() => removeSpecialty(index)} className="our-providers-specialty-edit-popup-remove-button">Delete</button>
                   </div>
                 </div>
               ))}
-            </div> 
-            <div className="our-providers-specialty-edit-popup-button-container"> 
+            </div>
+            <div className="our-providers-specialty-edit-popup-button-container">
               <button onClick={addNewSpecialty} className="our-providers-specialty-edit-popup-add-new-changes-button fade-in">Add New Specialty</button>
               <button onClick={saveChanges} disabled={isSaving} className="our-providers-specialty-edit-popup-save-chnages-button fade-in">
                 {isSaving ? "Saving..." : "Save Changes"}

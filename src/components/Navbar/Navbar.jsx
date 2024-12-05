@@ -7,7 +7,7 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { SlBell } from "react-icons/sl";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import profilePlaceholder from "../Assets/profileimg.png";
-import SignupCard from "../signup/signup";
+import SignupCard from "../signup/signup-old";
 import LoginCard from "../login/login";
 import logobrand from "../Assets/logobrand.png";
 import Provider from "./Provider";
@@ -34,9 +34,15 @@ const Navbar = () => {
   const navigate = useNavigate();
 
 
-  const handleShowLoginPopup = () => setShowLoginPopup(true);
+  const handleShowLoginPopup = () => {
+    navigate('/login')
+    // setShowLoginPopup(true)
+  }
   const handleCloseLoginPopup = () => setShowLoginPopup(false);
-  const handleShowPopup = () => setShowPopup(true);
+  const handleShowPopup = () => {
+    navigate('/signup')
+    // setShowPopup(true);
+  }
   const handleClosePopup = () => setShowPopup(false);
 
   const handleShowBlogPopup = () => setShowBlogPopup(true); // Handler to show Blog Popup
@@ -86,6 +92,12 @@ const Navbar = () => {
     }
     if (AboutDropdownRef.current && !AboutDropdownRef.current.contains(event.target)) {
       setAboutDropdownOpen(false);
+    }
+    if (ServiceDropdownRef.current && !ServiceDropdownRef.current.contains(event.target)) {
+      setServiceDropdownOpen(false);
+    }
+    if (FindProviderDropdownRef.current && !FindProviderDropdownRef.current.contains(event.target)) {
+      setFindProviderDropdownOpen(false);
     }
   };
 
@@ -387,13 +399,13 @@ const Navbar = () => {
                       <Link
                         to={
                           userRole === "patient"
-                            ? "/profile/userprofile/edit/profile/notification"
+                            ? "/"
                             : userRole === "doctor"
-                              ? "/doc-profile/notification"
+                              ? "/"
                               : userRole === "corporate"
-                                ? "/OurProviders/notification"
+                                ? "/"
                                 : userRole === "suppliers"
-                                  ? "/OurProducts/notification"
+                                  ? "/"
                                   : "/"
                         }
                       >
@@ -409,34 +421,35 @@ const Navbar = () => {
 
 
                 {userRole !== "doctor" && (
-              <li className="nav-item dropdown  active  ml-md-3" ref={FindProviderDropdownRefMobile}>
-                   <Link
-        className="nav-link nav-link-style dropdown-toggle"
-        to="#"
-        role="button"
-        onClick={toggleFindProviderDropdownMobile}
-      >
-        {getDisplayedName()}
-        <FontAwesomeIcon
-          icon={isFindProviderDropdownOpenMobile ? faChevronUp : faChevronDown}
-          className="ml-2"
-        />
-      </Link>
-      <div className={`dropdown-menu ${isFindProviderDropdownOpenMobile ? "show" : ""}`}>
-      <Link className="dropdown-item" to="/Filters" >
-        Find Provider
-        </Link>
-        <Link className="dropdown-item" to="/corporate/Filters" >
-        Find Corporate
-        </Link>
-        {(userRole !== "Patient")&& (
-        <Link className="dropdown-item" to="/supplier/Filters">
-          Find Supplier
-        </Link>
-        )}
-      </div>
-                </li>
-              )}
+                  <li className="nav-item dropdown  active  ml-md-3" ref={FindProviderDropdownRefMobile}>
+                    <Link
+                      className="nav-link nav-link-style dropdown-toggle"
+                      to="#"
+                      role="button"
+                      onClick={toggleFindProviderDropdownMobile}
+                    >
+                      {/* {getDisplayedName()} */}
+                      Find My
+                      <FontAwesomeIcon
+                        icon={isFindProviderDropdownOpenMobile ? faChevronUp : faChevronDown}
+                        className="ml-2"
+                      />
+                    </Link>
+                    <div className={`dropdown-menu ${isFindProviderDropdownOpenMobile ? "show" : ""}`}>
+                      <Link className="dropdown-item" to="/Filters" >
+                        Provider
+                      </Link>
+                      <Link className="dropdown-item" to="/corporate/Filters" >
+                        Corporate
+                      </Link>
+                      {(userRole !== "Patient") && (
+                        <Link className="dropdown-item" to="/supplier/Filters">
+                          Supplier
+                        </Link>
+                      )}
+                    </div>
+                  </li>
+                )}
                 <li className="nav-item dropdown  active  ml-md-3" ref={WhoWeDropdownRefMobile}>
                   <Link className="nav-link nav-link-style dropdown-toggle " to="#" role="button" onClick={toggleWhoWeDropdownMobile}>
                     Who We Serve
@@ -525,20 +538,20 @@ const Navbar = () => {
                     {/* doctor-side */}
                     {(userRole === "doctor" || userRole === "corporate" || userRole === "supplier") && (
                       <li className="nav-item active ml-md-3">
-                       <Link
-                        className="nav-link nav-link-style"
-                            to={
-                              userRole === "patient"
-                                ? "/profile/userprofile/edit/profile"
-                                : userRole === "doctor"
-                                  ? "/doctorprofile/dashboardpage/"
-                                  : userRole === "corporate"
-                                    ? "/corporate/dashboardpage/"
-                                    : userRole === "supplier"
-                                      ? "/supplier/dashboardpage/"
-                                      : "/"
-                            }
-                          >
+                        <Link
+                          className="nav-link nav-link-style"
+                          to={
+                            userRole === "patient"
+                              ? "/profile/userprofile/edit/profile"
+                              : userRole === "doctor"
+                                ? "/doctorprofile/dashboardpage/"
+                                : userRole === "corporate"
+                                  ? "/corporate/dashboardpage/"
+                                  : userRole === "supplier"
+                                    ? "/supplier/dashboardpage/"
+                                    : "/"
+                          }
+                        >
                           Dashboard
                         </Link>
                       </li>
@@ -586,32 +599,33 @@ const Navbar = () => {
           <div className=" navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               {userRole !== "doctor" && (
-              <li className="nav-item dropdown  active  ml-md-3" ref={FindProviderDropdownRef}>
-                   <Link
-        className="nav-link nav-link-style dropdown-toggle"
-        to="#"
-        role="button"
-        onClick={toggleFindProviderDropdown}
-      >
-        {getDisplayedName()}
-        <FontAwesomeIcon
-          icon={isFindProviderDropdownOpen ? faChevronUp : faChevronDown}
-          className="ml-2"
-        />
-      </Link>
-      <div className={`dropdown-menu ${isFindProviderDropdownOpen ? "show" : ""}`}>
-      <Link className="dropdown-item" to="/Filters">
-        Find Provider
-        </Link>
-        <Link className="dropdown-item" to="/corporate/Filters">
-        Find Corporate
-        </Link>
-        {userRole !== "Patient" && (
-        <Link className="dropdown-item" to="/supplier/Filters">
-          Find Supplier
-        </Link>
-        )}
-      </div>
+                <li className="nav-item dropdown  active  ml-md-3" ref={FindProviderDropdownRef}>
+                  <Link
+                    className="nav-link nav-link-style dropdown-toggle"
+                    to="#"
+                    role="button"
+                    onClick={toggleFindProviderDropdown}
+                  >
+                    {/* {getDisplayedName()} */}
+                    Find My
+                    <FontAwesomeIcon
+                      icon={isFindProviderDropdownOpen ? faChevronUp : faChevronDown}
+                      className="ml-2"
+                    />
+                  </Link>
+                  <div className={`dropdown-menu ${isFindProviderDropdownOpen ? "show" : ""}`}>
+                    <Link className="dropdown-item" to="/Filters">
+                      Provider
+                    </Link>
+                    <Link className="dropdown-item" to="/corporate/Filters">
+                      Corporate
+                    </Link>
+                    {userRole !== "Patient" && (
+                      <Link className="dropdown-item" to="/supplier/Filters">
+                        Supplier
+                      </Link>
+                    )}
+                  </div>
                 </li>
               )}
               <li className="nav-item dropdown  active  ml-md-4" ref={WhoWeDropdownRef}>
@@ -697,27 +711,26 @@ const Navbar = () => {
                   {/* doctor-side */}
                   {(userRole === "doctor" || userRole === "corporate" || userRole === "supplier") && (
                     <li className="nav-item active ml-md-3 mt-2">
-                        <Link
+                      <Link
                         className="nav-link nav-link-style"
-                            to={
-                              userRole === "patient"
-                                ? "/profile/userprofile/edit/profile"
-                                : userRole === "doctor"
-                                  ? "/doctorprofile/dashboardpage/"
-                                  : userRole === "corporate"
-                                    ? "/corporate/dashboardpage/"
-                                    : userRole === "supplier"
-                                      ? "/supplier/dashboardpage"
-                                      : "/"
-                            }
-                          >
+                        to={
+                          userRole === "patient"
+                            ? "/profile/userprofile/edit/profile"
+                            : userRole === "doctor"
+                              ? "/doctorprofile/dashboardpage/"
+                              : userRole === "corporate"
+                                ? "/corporate/dashboardpage/"
+                                : userRole === "supplier"
+                                  ? "/supplier/dashboardpage"
+                                  : "/"
+                        }
+                      >
                         Dashboard
                       </Link>
                     </li>
                   )}
-
                   {userRole === "doctor" && verified && (
-                    <li className="nav-item active ml-md-3">
+                    <li className="nav-item active ml-md-3 mt-2">
                       <Link
                         className="nav-link nav-link-style"
                         to="/SubscriptionPlans"
@@ -726,7 +739,6 @@ const Navbar = () => {
                       </Link>
                     </li>
                   )}
-
                   {trialCountdown && (
                     <li className="nav-item active ml-md-3">
                       <div className="trial-count-head">
@@ -770,13 +782,13 @@ const Navbar = () => {
                         <Link
                           to={
                             userRole === "patient"
-                              ? "/profile/userprofile/edit/profile/notification"
+                              ? "/"
                               : userRole === "doctor"
-                                ? "/doc-profile/notification"
+                                ? "/"
                                 : userRole === "corporate"
-                                  ? "/OurProviders/notification"
+                                  ? "/"
                                   : userRole === "supplier"
-                                    ? "/OurProducts/notification"
+                                    ? "/"
                                     : "/"
                           }
                         >
@@ -789,8 +801,6 @@ const Navbar = () => {
                       </li>
                     )}
                   </div>
-
-
                   <li className="nav-item ml-md-3">
                     <div className="logout-container-button">
                       <button className="logout-button" onClick={handleLogout}>
@@ -822,17 +832,17 @@ const Navbar = () => {
             />
           </div>
         )}
-        <SignupCard
+        {/* <SignupCard
           show={showPopup}
           handleClose={handleClosePopup}
           openLoginModal={handleShowLogin}
-        />
-        <LoginCard
+        /> */}
+        {/* <LoginCard
           show={showLoginPopup}
           handleClose={handleCloseLoginPopup}
           openRegisterModal={handleShowRegister}
           handleLogin={handleLogin}
-        />
+        /> */}
         <Provider
           show={showProviderModal}
           handleClose={() => setShowProviderModal(false)}

@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import "./HeroPage.css";
 import brand from '../Assets/brand-logo copy.png'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoSlider from "./LogoSilder/LogoSlider";
 import HeroChoosePath from "./HeroChoosePath/HeroChoosePath";
-import HeroAlterNavbar from "./HeroAlterNavbar/HeroAlterNavbar";
+import HeroAlterNavbar from "./HeroAlterNavbar-old/HeroAlterNavbar";
 import Insights from "./Insight/Insights";
 import WhatMed from "./WhatMed/WhatMed";
 import HWMIhappen from "./HWMIhappen/HWMIhappen";
 import Companion from "./Companion/Companion";
 import Navbar from "../Navbar/Navbar";
-import SignupCard from "../signup/signup";
-import LoginCard from "../login/login";
+// import SignupCard from "../signup/signup";
+// import LoginCard from "../login/login";
 
 const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const navigate = useNavigate();
 
-  const handleShowPopup = () => setShowPopup(true);
+  const handleShowPopup = () => {
+    navigate('/signup')
+    // setShowPopup(true);
+  }
   const handleClosePopup = () => setShowPopup(false);
 
   const handleShowLoginPopup = () => setShowLoginPopup(true);
@@ -63,17 +67,6 @@ const Home = () => {
       <HWMIhappen />
       <Insights />
 
-      <SignupCard
-        show={showPopup}
-        handleClose={handleClosePopup}
-        openLoginModal={handleShowLogin}
-      />
-      <LoginCard
-        show={showLoginPopup}
-        handleClose={handleCloseLoginPopup}
-        openRegisterModal={handleShowRegister}
-        handleLogin={handleLogin}
-      />
     </>
   );
 };

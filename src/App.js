@@ -22,6 +22,7 @@ import ProfileRoutes from './components/Routes/ProfileRoutes';
 import ConnectedRoutes from './components/ProfileItem/DashboardAll/ConnectedRoutes/ConnectedRoutes';
 import FilterPage from './components/FilterPage/FilterPage';
 import VerifyLogin from './components/login/VerifyLogin';
+import Login from './components/login/login';
 import Verification from './components/login/Verification';
 import  Blog from './components/patientBlog/blog';
 
@@ -78,6 +79,7 @@ function App() {
           <Route path="/Filters" element={[<Nestednavbar/>,<FilterPage />,<Footer/>]} />
           <Route path="/Spotlights" element={[<Navbar/>,<NewsRoom />,<Footer/>]} />
           <Route path="/verify/login" element={<VerifyLogin />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/verify" element={<Verification />} />
           <Route path="/condition-libraries/:condition" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
           <Route path="/condition-libraries-menu" element={[<Nestednavbar/>,<Conditions />,<Footer/>]}/>
@@ -93,7 +95,7 @@ function App() {
           <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
           <Route path="/enterprise" element={[<Navbar/>,<Enterprise />,<Footer/>]} />
-          <Route path="/signup" element={[<Navbar/>,<SignupCard />,<Footer/>]} />
+          <Route path="/signup" element={<SignupCard />} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>

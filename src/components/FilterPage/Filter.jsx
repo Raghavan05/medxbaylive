@@ -307,6 +307,23 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 </div>
                 <div className="select-container-filter">
                     <div className="form-group">
+                        <label htmlFor="city">Treatment approach:</label>
+                        <select id="treatmentApproach" >
+                            <option value="">Select Treatment</option>
+                            <option value={'conventional'}>conventional</option>
+                            <option value={'holistic'}>holistic</option>
+                            <option value={'traditional'}>traditional </option>
+                            <option value={'speciality'}>speciality </option>
+                            {/* {dropdownData.cities.map(city => (
+                                <option key={city} value={city}>{city}</option>
+                            ))} */}
+                        </select>
+                        <RiArrowDownSLine className="arrow-icon-filter" />
+
+                    </div>
+                </div>
+                <div className="select-container-filter">
+                    <div className="form-group">
                         <label htmlFor="speciality">Speciality:</label>
                         <select id="speciality" onChange={handleInputChange} value={formData.speciality}>
                             <option value="">Select Speciality</option>

@@ -292,7 +292,7 @@ const OurProductsPage = () => {
           </Link>
           </div>
       </div>
-      <OverviewActivityProducts overviewData={supplier.overview} />
+      <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories}/>
       <OurProductsDC products={products} />
       <ReviewPageProducts review={supplier.reviews} />
       <Condition blogs={blogs} />

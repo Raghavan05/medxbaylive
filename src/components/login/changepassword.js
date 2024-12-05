@@ -1,32 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
-// import './login.css';
-import { Modal, Button, Form } from 'react-bootstrap';
-import schedule from '../Assets/schedule.svg'
-import meds from '../../assests/img/meds.svg';
-import stethoscope from '../../assests/img/stethoscope.svg';
-import scheduletwo from '../../assests/img/schedule-two.svg';
-import doctorconsultation from '../Assets/doctorconsultation .svg';
-import medicalexamsvg from '../Assets/medicalexamsvg.svg';
-import heartbeat from '../Assets/heartbeat.svg';
-import logobrand from '../Assets/logobrand.png'
-import curvedesign from '../../assests/img/curvedesign.svg'
-import curvedsigntwo from '../../assests/img/curvedsigntwo.svg';
+import React, { useState, useEffect,useRef } from 'react';
+import './changepassword.css';
 
-import Typed from 'typed.js';
-import {  useNavigate } from 'react-router-dom';
+import logobrand from '../Assets/logobrand.png';
+import { FaTimes } from "react-icons/fa";
+
+import schedule from './Assets/schedule.png';
+import stethoscope from './Assets/stethoscope.png';
+import meds from './Assets/meds.png';
+import firstaidkit from './Assets/first-aid-kit.png';
+import doctorconsultation from './Assets/doctor-consultation.png';
+import welocome from './Assets//welocome.gif';
+import video from './Assets/video.png';
+
+import google from '../../assests/img/google.png'
+import apple from '../../assests/img/apple.png'
+
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './changepassword.css'
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const ChangePassword = () => {
-  useEffect(() => {
-    import('./login.css');
-    import('../signup/signup.css');
-  }, []);
-  const navigate = useNavigate();
-  const typedElement = useRef(null);
-  const typedElementTwo = useRef(null);
 
+const ChangePassword = () => {
+  const navigate = useNavigate();
  
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -111,133 +107,105 @@ const ChangePassword = () => {
      });
     }
   };
-  
-
-  useEffect(() => {
-    if (typedElement.current) {
-      const options = {
-        strings: ['Greetings! 👋 Book your visit <br>today. 📅'],
-        typeSpeed: 50,
-        backSpeed: 50,
-        showCursor: false,
-      };
-      const typed = new Typed(typedElement.current, options);
-      return () => {
-        typed.destroy();
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typedElementTwo.current) {
-      const optionsTwo = {
-        strings: ['Hey! 😊 Hope you\'re well! 🌟'],
-        typeSpeed: 50,
-        backSpeed: 50,
-        showCursor: false,
-      };
-      const typedTwo = new Typed(typedElementTwo.current, optionsTwo);
-      return () => {
-        typedTwo.destroy();
-      };
-    }
-  }, []);
-
+    
   return (
     <>
-            <ToastContainer />
-    <div  centered className="custom-modal custom-modal-change">
-      <Modal.Title>
-        <span className="model-header-change-password">Reset Password</span>{' '}
-        <span className="model-header-sub-change-password"> Change password to your account.</span>
-      </Modal.Title>
-      <button type="button" className="btn-close-custom" aria-label="Close" >
-    
-      </button>
-      <Modal.Body>
-        <div className="smile-emoji">
-          <img src={logobrand} alt="logo" className="brand-image-logo" />
-          <div className="emoji-ring">😇</div>
-          <div className="calender-emoji-container">
-            <img src={schedule} alt="meds" className="calender-emoji" />
-          </div>
-          <img src={meds} alt="meds" className="band-aid-emoji" />
-          <img src={stethoscope} alt="meds" className="stethoscope-emoji" />
-          <img src={scheduletwo} alt="meds" className="scheduletwo-emoji" />
-          <img src={doctorconsultation} alt="meds" className="consultation-emoji" />
-          <img src={medicalexamsvg} alt="meds" className="medicalexam-emoji" />
-          <div className="hand-emoji">👋</div>
-          <img src={heartbeat} alt="meds" className="heartbeat-emoji" />
-          <div className='running-container-two'>
-            <img src={curvedsigntwo} alt="meds" className="curvedsigntwo" />
-            <p className="running-text-two">
-              <span ref={typedElement}></span>
-            </p>
-          </div>
-          <div className='running-container'>
+     <div className='login-new--total-container'>
+        <div className='login-new--close-custom-container'>
+          <button type="button" className="login-new--close-custom" aria-label="Close">
+            <FaTimes size='1rem'/>
+          </button>
+        </div>
+        <div className='login-new--container'>
+          <ToastContainer />
+         
+          <div className="login-smile-emoji">
+            <div className='login-smile-emoji-container-one'>
+              <img src={logobrand} alt="logo" className="login-brand-image-logo" />
+              <img src={schedule} alt="schedule" className="login-schedule-emoji" />
+              <div className="login-emoji-ring">😇</div>
+              <div className="login-speech-bubble-container">
+                <div className="login-speech-bubble">
+                  <span className="login-typing-animation">
+                    Hey! How you doing today🤔?
+                  </span>
+                </div>
+              </div>
+              <img src={stethoscope} alt="stethoscope-emoji" className="login-stethoscope-emoji" />
+              <img src={meds} alt="meds-emoji" className="login-meds-emoji" />
+              <img src={firstaidkit} alt="meds" className="login-firstaidkit-emoji" />
+            </div>
 
-          <img src={curvedesign} alt="meds" className="curvedesign" />
-          <p className="running-text">
-            <span ref={typedElementTwo}></span>
-          </p>
+
+            <div className='login-center-container'>
+              <div className='login-center-container-head'>
+                <span className="login-header-login mb-2">Reset Password</span>{' '}
+                <span className="login-header-sub-login"> Change password to your account.</span>
+              </div>
+
+              <form onSubmit={handleSubmit} className="form-overall-container-login">
+                {!isForgotPassword && (
+                  <>
+                    <div className="form-group cutom-form-group-login">
+                      <label>
+                        New Password
+                      </label>
+                      <input
+                        type="password"
+                        id="formPassword"
+                        placeholder="Enter your Password"
+                        className="form-control-custom"
+                        value={newPassword}
+                        onChange={handlePasswordChange}
+                        aria-invalid={!!passwordError}
+                      />
+                      {passwordError && <span className="text-danger">{passwordError}</span>}
+                    </div>
+
+                    <div className="form-group cutom-form-group-login">
+                      <label>
+                        Confirm Password
+                      </label>
+                      <input
+                        type="password"
+                        id="formConfirmPassword"
+                        placeholder="Confirm your Password"
+                        className="form-control-custom"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                        aria-invalid={!!passwordError}
+                      />
+                      {passwordError && <span className="text-danger">{passwordError}</span>}
+                    </div>
+                  </>
+                )}
+
+                <div className="d-grid gap-2">
+                  <button type="submit" className="btn-custom-first">
+                    Reset Password
+                  </button>
+                </div>
+              </form>
+
+            </div>  
+       
+            <div className='login-smile-emoji-container-one'>
+              <div className="login-speech-bubble-container-std">
+                <div className="login-speech-bubble-std">
+                  <span className="login-typing-animation-std">
+                    Greetings! 👋 Book your visit <br/>today. 📅
+                  </span>
+                </div>
+              </div>
+              <div className="login-handsucking">👋</div>
+              <img src={doctorconsultation} alt="meds" className="doctorconsultation-emoji" />
+              <img src={welocome} alt="meds" className="welocome-emoji" />
+              <img src={video} alt="meds" className="video-emoji" />
+            </div>
+
           </div>
         </div>
-
-        {/* <div className='or-sign-up-container-login'>
-          <div className='or-sign-up'>OR</div>
-          <div className='end-line-sign-up'></div>
-          <div className='end-line-sign-up-two'>
-            <div className='button-sign-up-container'>
-              <button className='google-button-sign-up'><img src={google} alt='Google' className='google-sign-up-image'></img></button>
-              <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button>
-            </div>
-          </div>
-          <div className='login-option-container'>
-            <div className='account-sign-up'>Don't have an account?</div>
-            <Link className='login-link-signup-login'>Sign Up</Link>
-          </div>
-        </div> */}
-
-        <div className="sign-up-button-container"></div>
-        <Form onSubmit={handleSubmit} className="form-overall-container-login">
-          {!isForgotPassword && (
-            <>
-              <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter your Password"
-                  className="form-control-custom"
-                  value={newPassword}
-                  onChange={handlePasswordChange}
-                  isInvalid={!!passwordError}
-                />
-                <Form.Control.Feedback type="invalid">{passwordError}</Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formConfirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm your Password"
-                  className="form-control-custom"
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                  isInvalid={!!passwordError}
-                />
-                <Form.Control.Feedback type="invalid">{passwordError}</Form.Control.Feedback>
-              </Form.Group>
-            </>
-          )}
-
-          <div className="d-grid gap-2">
-            <Button variant="primary" type="submit" className="btn-custom login-button-home">
-              Reset Password
-            </Button>
-          </div>
-        </Form>
-      </Modal.Body>
-    </div>
+      </div>  
     </>
   );
 };

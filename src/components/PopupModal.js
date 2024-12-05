@@ -10,7 +10,8 @@ const PopupModal = () => {
   const navigate = useNavigate();
 
   const handleShowPopup = () => {
-    setShowPopup(true);
+    navigate('/signup')
+    // setShowPopup(true);
   };
   
   const handleClosePopup = () => setShowPopup(false);

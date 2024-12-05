@@ -71,11 +71,11 @@
     background: #F3F6FF;
 }
   
-.nav-notification-button {
+/* .nav-notification-button {
     background: none;
     border: none;
     position: relative;
-}
+} */
   
 /* .nav-notification-button::after {
     position: absolute;
@@ -89,14 +89,14 @@
     border: 5px solid #FFFFFF;
 }
    */
-.notification-icon{
+/* .notification-icon{
     color: #42427D;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 16px;
     height: 18px;
-}
+} */
 
 .profile-container {
     display: flex;

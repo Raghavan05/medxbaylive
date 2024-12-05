@@ -166,7 +166,7 @@
   position: relative;
 }
 
-.nav-notification-button::after {
+/* .nav-notification-button::after {
   position: absolute;
   content: '';
   top: -22px;
@@ -176,7 +176,7 @@
   border-radius:50%;
   background: #42427D;
   border: 5px solid #FFFFFF;
-}
+} */
 
 .notification-icon{
   color: #42427D;

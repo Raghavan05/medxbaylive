@@ -14,7 +14,7 @@ const FilterPage = () => {
   const [isMapExpanded, setIsMapExpanded] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [doctors, setDoctors] = useState([]);
-    const [doc, setDoc] = useState([]);
+  const [doc, setDoc] = useState([]);
   const [locations, setLocations] = useState([]);
   const [responseStatus, setResponseStatus] = useState();
   const [filters, setFilters] = useState({
@@ -45,7 +45,7 @@ const FilterPage = () => {
       }));
     } else if (searchData.error) {
       console.error(searchData.error);
-    } 
+    }
   }, [searchData]);
 
   const fetchDoctors = async () => {
@@ -58,7 +58,7 @@ const FilterPage = () => {
         setDoctors(response.doctors);
         setDoc(response.doctors);
         setResponseStatus(response.status === 200 ? "Success" : "Failed");
-        
+
         const extractedLocations = response.uniqueLocations.map(location => ({
           lat: location.lat,
           lng: location.lng,
@@ -68,7 +68,7 @@ const FilterPage = () => {
           doctorTitle: location.doctorTitle,
           doctorImage: location.doctorImage || '/path/to/default/profile/pic.png',
           doctorId: location.doctorId,
-          subscriptionType : location.subscriptionType
+          subscriptionType: location.subscriptionType
         }));
 
         setLocations(extractedLocations);
@@ -76,15 +76,15 @@ const FilterPage = () => {
       } else {
         setLocations([]);
       }
-      if(response.status === 200){
-                setResponseStatus("Success");
-              }
-              else if(response.status === 500){
-                setResponseStatus("Failed");
-              }
-              else{
-                setResponseStatus("Pending");
-              }
+      if (response.status === 200) {
+        setResponseStatus("Success");
+      }
+      else if (response.status === 500) {
+        setResponseStatus("Failed");
+      }
+      else {
+        setResponseStatus("Pending");
+      }
     } catch (error) {
       console.error('Error fetching doctors:', error);
     }
@@ -115,10 +115,10 @@ const FilterPage = () => {
   };
 
   const handleResetClick = () => {
-        setIsMapExpanded(false);
-        setSearchInput('');
-    
-      };
+    setIsMapExpanded(false);
+    setSearchInput('');
+
+  };
 
   const handleMapClose = () => {
     setIsMapExpanded(false);
@@ -127,9 +127,9 @@ const FilterPage = () => {
   const handleLocationClick = (doctorId) => {
     if (doctorId) {
       const filtered = doctors.filter(doctor => doctor._id === doctorId);
-      setDoctors(filtered); 
+      setDoctors(filtered);
     } else {
-      fetchDoctors(); 
+      fetchDoctors();
     }
   };
 
@@ -151,7 +151,7 @@ const FilterPage = () => {
       const doctorConditions = (doctor.conditions || []).map(getStringValue);
       const doctorLanguages = (doctor.languages || []).map(getStringValue);
       const consultation = getStringValue(doctor.consultation || '');
-      const doctorDates = (doctor.timeSlots || []).map((slot) => new Date(slot.date).toISOString().split('T')[0]); 
+      const doctorDates = (doctor.timeSlots || []).map((slot) => new Date(slot.date).toISOString().split('T')[0]);
       const filterDate = filters.dateAvailability ? new Date(filters.dateAvailability).toISOString().split('T')[0] : null;
 
       const matchesCountry = !filters.country || country === getStringValue(filters.country);
@@ -183,24 +183,24 @@ const FilterPage = () => {
   };
 
   // const filteredDoctors = filterDoctors(doctors);
-    const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors);
+  const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors);
 
 
   return (
     <>
       <div className='container-fluid mt-lg-5'>
         <div className='filterpage-container'>
-      <button onClick={toggleFilterCanvas} className="filterpage-hamburger btn btn-primary my-3 d-lg-none">
-      <FontAwesomeIcon icon={faFilter} />
-      </button>
+          <button onClick={toggleFilterCanvas} className="filterpage-hamburger btn btn-primary my-3 d-lg-none">
+            <FontAwesomeIcon icon={faFilter} />
+          </button>
 
-      <div className={`filterpage-offcanvas ${isFilterOpen ? 'filterpage-offcanvas-show' : ''}`}>
-        <button className="filterpage-offcanvas-close btn-close" onClick={toggleFilterCanvas}><IoClose /></button>
-        <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
-        <div className='d-flex justify-content-center '>
-        <button className="btn btn-primary" onClick={toggleFilterCanvas}>Apply filters</button>
-        </div>
-      </div>
+          <div className={`filterpage-offcanvas ${isFilterOpen ? 'filterpage-offcanvas-show' : ''}`}>
+            <button className="filterpage-offcanvas-close btn-close" onClick={toggleFilterCanvas}><IoClose /></button>
+            <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
+            <div className='d-flex justify-content-center '>
+              <button className="btn btn-primary" onClick={toggleFilterCanvas}>Apply filters</button>
+            </div>
+          </div>
         </div>
 
         <div className='filterpage-parent'>
@@ -209,7 +209,7 @@ const FilterPage = () => {
               <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
             </div>
             <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
-              <DoctorMainCard isMapExpanded={isMapExpanded} doctors={filteredDoctors} location={locations} responseStatus={responseStatus}/>
+              <DoctorMainCard isMapExpanded={isMapExpanded} doctors={filteredDoctors} location={locations} responseStatus={responseStatus} />
             </div>
             <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
               <MapContainer
@@ -219,9 +219,9 @@ const FilterPage = () => {
                 onSearchInputChange={handleSearchInputChange}
                 onSearchButtonClick={handleSearchButtonClick}
                 onResetClick={handleResetClick}
-                uniqueLocations={locations}  
+                uniqueLocations={locations}
                 onClickOutside={handleMapClose}
-                onLocationClick={handleLocationClick} 
+                onLocationClick={handleLocationClick}
               />
             </div>
           </div>

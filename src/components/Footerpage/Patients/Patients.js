@@ -9,15 +9,19 @@ import Patientsthird3 from "../../../assests/img/Patientsthird3.png";
 import SignupCard from '../../signup/signup';
 import LoginCard from '../../login/login';
 import CheckIcon from "../../../assests/img/check-icon.png"; 
+import { useNavigate } from 'react-router-dom';
 
 const Patients = () => {
   const revealedCardsRef = useRef(new Set()); // To track revealed cards
   const handleClick = () =>{
     window.scrollTo(0,0);
   };
+  const navigate = useNavigate();
 
-  const handleShowPopup = () => setShowPopup(true);
-  const [showPopup, setShowPopup] = useState(false);
+  const handleShowPopup = () => {
+    navigate('/signup')
+    // setShowPopup(true);
+  };  const [showPopup, setShowPopup] = useState(false);
   const [isRegisterClicked, setIsRegisterClicked] = useState(false);
   const [isSignInClicked, setIsSignInClicked] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -212,7 +216,7 @@ const Patients = () => {
         <p className="fourth-section-description">Sign up now to become part of a global community dedicated to making healthcare simple, accessible, and effective. Your health journey matters, and MedxBay is here to support you every step of the way—anywhere in the world.</p>
         <button className="patients-fourth-signup-button" onClick={handleShowPopup}>Sign up</button>
         </div>
-        <SignupCard 
+        {/* <SignupCard 
                 show={showPopup} 
                 handleClose={handleClosePopup}
                  openLoginModal={handleShowLogin}/>
@@ -221,7 +225,7 @@ const Patients = () => {
           handleClose={handleCloseLoginPopup} 
           openRegisterModal={handleShowRegister} 
           handleLogin={handleLogin}
-        />
+        /> */}
 
       </div>
     );

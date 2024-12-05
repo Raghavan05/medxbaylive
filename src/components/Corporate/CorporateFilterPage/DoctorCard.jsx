@@ -183,8 +183,10 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
         }
     };
     const handleShowLogin = () => setShowLoginPopup(true);
-    const handleShowPopup = () => setShowPopup(true);
-    const handleClosePopup = () => setShowPopup(false);
+    const handleShowPopup = () => {
+        navigate('/signup')
+        // setShowPopup(true);
+      };    const handleClosePopup = () => setShowPopup(false);
     const handleShowCard = () => {
         setShowDoctorCard(prevState => !prevState);
     };

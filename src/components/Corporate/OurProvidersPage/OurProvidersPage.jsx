@@ -21,6 +21,7 @@ import OurReviewsDc from './OurReviewsDc/OurReviewsDc';
 import OurBlogDc from './OurBlogDc/OurBlogDc';
 import BlogPopup from '../../patientBlog/BlogPopup';
 import OurProvidersSharePopup from './OurProviderSharePopup/OurProvidersSharePopup'
+import { Link } from 'react-router-dom';
 
 
 const OurProvidersPage = () => {
@@ -45,6 +46,8 @@ const OurProvidersPage = () => {
   const [blogs,setBlogs] = useState([]);
   const [doctorReviews,setDoctorReviews] = useState([]);
   const [patientReviews,setPatientReviews] = useState([]);
+  const [corporateSpecialties,setCorporateSpecialities] = useState([]);
+  const [overview,setOverview] = useState([]);
 
   // Fetch profile data from the backend
   useEffect(() => {
@@ -56,7 +59,7 @@ const OurProvidersPage = () => {
         );
   
         // // Log response for debugging
-        // console.log("API Response:", response);
+        console.log("API Response:", response);
   
         const data = response.data?.data; // Ensure data exists
         if (!data) {
@@ -68,6 +71,9 @@ const OurProvidersPage = () => {
         setPatientReviews(data.patientReviews || []);
         setDoctors(data.doctors || []);
         setBlogs(data.blogs || []);
+        setOverview(data.corporate.overview)
+      console.log(data.corporate.corporateSpecialties);
+        setCorporateSpecialities(data.corporate.corporateSpecialties)
   
         setProfileData({
           corporateName: data.corporate?.corporateName || "Corporate Name",
@@ -184,8 +190,9 @@ const OurProvidersPage = () => {
     }).catch(err => {
       console.error('Failed to copy link: ', err); // Handle any errors
     });
-  };
+  };  
 
+  
   return (
     <div className="our-providers-profile-container">
       <div className="our-providers-cover-profile-image-head">
@@ -246,7 +253,11 @@ const OurProvidersPage = () => {
               </div>
             )}
           </div>
-          <button className="appointment-button"  onClick={handleShowPopup}>Book an Appointment</button>
+          <Link to={'/contact-us'}>
+            <button className="appointment-button" >
+              Book an Appointment
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -260,7 +271,7 @@ const OurProvidersPage = () => {
       )}
 
 
-      <OverviewActivity overviewData = {corporate?.overview}/>
+      <OverviewActivity overviewData = {overview} corporateSpecialties = {corporateSpecialties}/>
       <OurProvidersDC doctors ={doctors}/>
       <OurReviewsDc doctorReviews={doctorReviews} patientReviews ={patientReviews}/>
       <OurBlogDc blogs={blogs}/>

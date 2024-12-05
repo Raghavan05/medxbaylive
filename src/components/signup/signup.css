@@ -1,15 +1,494 @@
-/* In your signup.css or a relevant CSS file */
-/* .toast-sign {
+@keyframes upDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes disappear {
+  0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% {
+    opacity: 0.7;
+  }
+  5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% {
+    opacity: 0;
+  }
+}
+.signupnew--total-container{
+  background: rgba(244, 247, 252, 1);
+  margin:0 auto;
+  height:fit-content;
+  width: 100%;
+}
 
+.signupnew--close-custom-container{
+  display: flex;
+  justify-content: end;
+  padding: 30px 40px;
+}
+
+.signupnew--close-custom {
+  color: rgb(0, 0, 0);
+  outline: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.signupnew--container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.smile-emoji{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.brand-image-logo{
+  width: 150px;
+  height: 35px;
+  position: absolute;
+  top: 8%; /* 70px / 700px */
+  left: 5%; /* 120px / 800px */
+}  
+
+.emoji-ring {
+  width: 36px;
+  height: 18px;
+  position: absolute;
+  top: 25%; /* 180px / 700px */
+  left: 25.5%; /* 380px / 800px */
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 18px;
+  text-align: right;
+  animation: upDown 2s infinite, disappear 25s infinite;
+}
+
+.calender-emoji {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 40.4%; /* 290px / 700px */
+  left: 6.25%; /* 138px / 800px */
+  animation: upDown 2s infinite, disappear 22s infinite;
+}
+
+.speech-bubble-container {
+  background-image: url('../../assests/img/curvedesign.svg'); 
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-position: center; 
+  height: 120px;
+  position: absolute;
+  top: 47%; /* 350px / 700px */
+  left: 6.25%; /* 138px / 800px */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.speech-bubble {
+  position: relative;
+  padding: 5px 8px;
+  color: #272848; 
+  font-size: 16px; 
+  font-weight: 500; 
+}
+
+.typing-animation {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap; 
+  animation: typing 4s steps(30, end) infinite;
+}
+
+.speech-bubble-container-std {
+  background-image: url('../../assests/img/curvedesign.svg'); 
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-position: center; 
+  height: 120px;
+  position: absolute;
+  top: 19%; /* 150px / 700px */
+  left: 76.75%; /* 1150px / 800px */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.speech-bubble-std {
+  position: relative;
+  padding: 5px 8px;
+  color: #272848; 
+  font-size: 16px; 
+  font-weight: 500; 
+}
+
+.typing-animation-std {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap; 
+  animation: typing 4s steps(30, end) infinite;
+}
+
+.band-aid-emoji {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 65%; /* 490px / 700px */
+  left: 27.25%; /* 450px / 800px */
+  animation: upDown 2s infinite, disappear 25s infinite;
+}
+
+.stethoscope-emoji {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 75%; /* 668px / 700px */
+  left: 4.25%; /* 130px / 800px */
+  animation: upDown 2s infinite, disappear 28s infinite;
+}
+
+.scheduletwo-emoji {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 95%; /* 542px / 700px */
+  left: 12.75%; /* -70px / 800px */
+  animation: upDown 2s infinite, disappear 40s infinite; 
+}
+
+.handsucking {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 48%; /* 350px / 700px */
+  left: 67%; /* 1000px / 800px */
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 18px;
+  animation: upDown 2s infinite, disappear 35s infinite; 
+}
+
+.consultation-emoji {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 55.3%; /* 450px / 700px */
+  left: 87.5%; /* 1300px / 800px */
+  animation: upDown 2s infinite, disappear 33s infinite;
+}
+
+.heartbeat-emoji {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 74%; /* 550px / 700px */
+  left: 68%; /* 1014px / 800px */
+  animation: upDown 2s infinite, disappear 32s infinite;
+}
+
+.medicalexam-emoji {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 90.9%;
+  left: 79.75%;
+  animation: upDown 2s infinite, disappear 30s infinite;
+}
+
+@keyframes typing {
+  0% {
+    width: 0; /* Start with no visible text */
+  }
+  50% {
+    width: 100%; /* Fully typed out */
+  }
+  100% {
+    width: 0; /* Reset to no visible text */
+  }
+}
+
+
+/* form style .css */
+.form-overall-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:10px;
+}
+
+.form-overall-container label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 14.4px;
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: rgba(39, 40, 72, 1);
+}
+
+.form-overall-container .form-control-custom {
+  border-radius: 7px;
+  padding:10px 20px;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
+  background-color: #ffffff;
+  outline: none;
+  width: 307px;
+  border: 1px solid #272848;
+}
+
+.form-overall-container .form-control-custom:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.form-overall-container .form-control-custom-phone-container{
+  width: 307px;
+  border: 1px solid #272848;
+  transition: border-color 0.3s ease;
+  border-radius: 7px;
+  padding:7px 20px;
+  background-color: #ffffff;
+  box-shadow: none;
+}
+
+.form-overall-container .form-control-custom-phone-container:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.form-control-custom-phone  .selected-flag{
+  border: none !important;    
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.form-control-custom-phone input {
+  border: none !important;    
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.form-control-custom-phone .flag-dropdown {
+  border: none !important;    
+  box-shadow: none !important; 
+  background-color: transparent !important; 
+}
+
+.form-overall-container .btn-custom-first {
+  width: 306px;
+  height: 49px;
+  border: 1px solid rgba(86, 140, 176, 1);
+  border-radius:50px;
+  background: #0067FF;
+  padding: 0.5rem 2rem;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+
+.form-overall-container .btn-custom-first:hover {
+  border: 1px solid #0167ff;
+  background-color: #edf3ff;
+  color: #0167ff;
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+.signup-center-container{
+  display: flex;
+  flex-direction: column;
+  gap:30px;
+  margin-top:10%;
+}
+
+.signup-center-container-head{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+
+.signup-center-container-head .header-fisrt-title{
+  font-size:26px;
+  font-weight: 600;
+  line-height: 19.2px;
+  text-align: left;
+  color: #272848;
+  border-bottom: none;
+  display: flex;
+}
+
+.signup-center-container-head .header-std-sub-title{
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.2px;
+  text-align: left;
+  color: #272848;
+  border-bottom: none;
+}
+
+
+
+.or-sign-up-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap:10px;
+  margin-bottom: 30%;
+}
+
+.or-line-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:20px;
+}
+
+.or-sign-up{
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 12.6px;
+  text-align: left;
+  color: #272848;
+}
+
+.end-line-sign-up{
+  width: 116px;
+  height: 4px;
+  border-bottom: 2px solid #F0F0F5;
+}
+
+.end-line-sign-up-two{
+  width: 116px;
+  height: 4px;
+  border-bottom: 2px solid #F0F0F5;
+}
+
+/* 
+.button-sign-up-container{
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+
+.google-button-sign-up,
+.apple-button-sign-up{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 30px;
+  border-radius: 22px ;
+  background: rgba(254, 254, 254, 1);
+  border: 1px solid rgba(172, 172, 172, 1);   
+}
+
+.google-sign-up-image{
+  width: 15px;
+  height: 15px;
+}
+
+.apple-sign-up-image{
+  width: 15.17px;
+  height: 18px;
 } */
+
+
+.login-option-container{
+  display: flex;
+  align-items: center;
+  gap:7px;
+}
+
+.account-sign-up{
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 12.6px;
+  text-align: left;
+  color: #272848;
+}
+
+.login-link-signup{
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 11.4px;
+  text-align: left;
+  text-decoration: none;
+  color: #0067FF;
+}
+
+
+.provider-option-container{
+  display: flex;
+  align-items: center;
+  gap:13px;
+}
+
+.account-sign-up-provider{
+  width: 146px;
+  height: 35px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 35px;
+  text-align: center;
+  color: #000000; 
+}
+
+.provider-link-signup{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:95px;
+  height:29px;
+  padding-top:3px ;
+  border-radius: 5px;
+  border: 1px solid #FF7F50;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  color: #FF7F50;
+}
+.provider-link-signup:hover{
+  background: #FF7F50;
+  color: #ffffff;
+}
+
 /* Role Selection Container */
 .role-selection-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding: 10px; */
+  padding: 10px;
 }
 
+/* Role Selection Grid */
 .role-selection-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -62,6 +541,58 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .role-selection-grid {
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .role-card {
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .role-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .role-label {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .role-selection-container {
+    padding: 5px;
+  }
+
+  .role-selection-grid {
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+  }
+
+  .role-card {
+    padding: 8px;
+  }
+
+  .role-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .role-label {
+    font-size: 12px;
+  }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .smile-emoji-container-one{
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .role-selection-grid {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 
@@ -79,2153 +610,3 @@
   }
 }
 
-
-
-
-.toast-center .Toastify__close-button {
-  color: #0067FF; 
-}
-
-.toast-center .Toastify__progress-bar {
-  color:#0067FF !important;
-}
-.toast-center .Toastify__toast-icon {
-  color:#0067FF; 
-}
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100px; /* Adjust as needed */
-  position: relative;
-
-}
-
-.spinner {
-  top: 100%;
-  left: -5%;
-  border: 6px solid rgba(0, 0, 0, 0.1);
-  border-left: 6px solid #007bff;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1.2s linear infinite;
-  position: relative;
-  z-index: 1;
-}
-
-.spinner::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50px;
-  height: 50px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-}
-
-.loading-text {
-  position: relative;
-  top: 100%;
-  left: -5%;
-  margin-top: 10px;
-  font-size: 16px;
-  color: #007bff;
-  font-weight: bold;
-  text-align: center;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-
-.custom-modal .modal-dialog {
-  max-width: none;
-  width: 90%; 
-  margin: auto; 
-
-height: auto;
-
-}
-
-.custom-modal .modal-content {
-  border-radius: 10px;
-  border: none;
-  overflow-y: auto; 
-  overflow-x: hidden; 
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  height: 90vh; 
-  font-family: 'Matter', sans-serif;
-  background-color:  #F4F7FC;
-}
-.model-header{
-  width: 187px;
-  height: 22px;
-  top: 60px;
-  left: 39%;
-  font-family: 'Matter', sans-serif;
-  font-size:26px;
-  font-weight: 600;
-  line-height: 19.2px;
-  text-align: left;
-  
-  
-position: relative;
-
-color: #272848;
-
-  border-bottom: none;
-
-  display: flex;
-
-
-
-
-}
-.model-header-sub{
-width: 187px;
-height: 22px;
-top: 70px;
-left: 39%;
-font-family: 'Matter', sans-serif;
-font-size: 16px;
-font-weight: 600;
-line-height: 19.2px;
-text-align: left;
-color: #272848;
-  border-bottom: none;
-  display: flex;
-  position: relative;
-}
-.form-overall-container{
-  position: relative;
-  top: -140px;
-
-
-}
-.custom-modal .modal-title {
-  font-family: 'Matter', sans-serif;
-  font-weight: 600;
-  font-size: 22px;
-  width: 100%;
-  position: relative;
-  left: -10px;
-}
-
-.btn-close-custom {
-  color: rgb(0, 0, 0);
-  font-size: 1.0rem;
-  background: none;
-  border: none;
-  position: relative;
-left: 46%;
-  top: -2.0rem;
-  cursor: pointer;
-  z-index: 999;
-}
-
-.custom-modal .modal-body {
-  padding: 2rem;
-}
-
-.custom-modal .form-label {
-  font-weight: bold;
-  color: #333;
-  display: block;
-  margin-bottom: 0.5rem;
-  margin-left: 37.5%;
-  margin-top: 5px;
-}
-.radio-buttons{
-  margin-left: 37.5%;
-}
-.form-control-custom-phone  .selected-flag{
-  border: none !important;    
-  box-shadow: none !important;
-  background-color: transparent !important;
-
-}
-.form-control-custom-phone input {
-  border: none !important;    
-  box-shadow: none !important;
-  background-color: transparent !important;
- top:-15px !important;
-}
-
-.form-control-custom-phone .flag-dropdown {
-  border: none !important;    
-  box-shadow: none !important; 
-  background-color: transparent !important; 
-}
-
-.custom-modal  .form-control-custom-phone{
-
-
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: none;
-  transition: border-color 0.3s ease;
-  font-family: 'Matter', sans-serif;
-  width: 25% !important;
-height: 50px !important;
-  margin-left: 37.5%;
-  border: 1px solid #272848
-}
-.custom-modal .form-control-custom-phone:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  font-family: 'Matter', sans-serif;
-
-}
-.custom-modal .form-control-custom {
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: none;
-  transition: border-color 0.3s ease;
-  font-family: 'Matter', sans-serif;
-  width: 25%;
-  margin-left: 37.5%;
-  margin-top: 10px;
-  border: 1px solid #272848;
-z-index:9999 ;
-position: relative;
-  
-}
-
-.custom-modal .form-control-custom:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  font-family: 'Matter', sans-serif;
-
-}
-
-.custom-modal .btn-custom {
-  width: 306px;
-  height: 49px;
-  top: 20px;
-
-  border: 0.5px solid #FFFFFF;
-  border-radius: 22px;
-
-  background: #0067FF;
-  position: relative;
-
-
-  padding: 0.5rem 2rem;
-
-  border: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-
-  align-items: center;
-
-  font-family: 'Matter', sans-serif;
-  margin-left: 37.5%;
-}
-
-
-.custom-modal .btn-custom:hover {
-  background-color: #0056b3;
-}
-
-.custom-modal-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: none !important;
-  padding: 1.5rem;
-}
-
-.sign-up-now {
-  margin-top: 1rem;
-  text-align: center;
-  font-size: 0.875rem;
-}
-
-.sign-up-link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.sign-up-link:hover {
-  text-decoration: underline;
-}
-.invalid-feedback{
-  margin-left: 37.5%;
-}
-.radio-invalid{
-  margin-left: -0px;
-}
-
-
-
-.smile-emoji{
-  display: flex;
-  position: relative;
-  top: -40px;
-}
-.brand-image-logo{
-  width: 150px;
-height: 35px;
-top: -50px;
-left: 50px;
-position: relative;
-
-}
-.running-container{
-  position: relative;
-  top: 249px !important;
-left: -1159px !important;
-}
-.curvedesign{
-  position: relative;
-  width: 565px;
-height: 117px;
-
-
-
-}
-.running-text{
-  position: relative;
-  width: 205px;
-height: 22px;
-
-font-family: 'Matter', sans-serif;
-font-size: 16px;
-font-weight: 600;
-line-height: 19.2px;
-top: -42%;
-left: 32%;
-color: #272848;
-white-space: nowrap;
-
-}
-.running-container-two{
-  position: relative;
-  left: 310px;
-  top: 50px;
-}
-.curvedsigntwo{
-  position: relative;
-  width: 565px;
-height: 117px;
-
-}
-.running-text-two{
-  position: relative;
-  width: 205px;
-height: 37px;
-left: 190px;
-top: -45%;
-
-font-family: 'Matter', sans-serif;
-font-size: 13px;
-font-weight: 600;
-line-height: 15.6px;
-text-align: left;
-color: #272848;
-white-space: nowrap;
-animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-
-}
-@keyframes typing {
-  from { width: 0 }
-  to { width: 205px } 
-}
-
-
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #272848 }
-}
-
-
-.emoji-ring{
-  position: relative;
-  width: 36px;
-height: 18px;
-top: 100px;
-left: 100px;
-
-
-font-family: Font Awesome 5 Free;
-font-size: 36px;
-font-weight: 900;
-line-height: 18px;
-text-align: right;
-animation: upDown 2s infinite, disappear 30s infinite;
-
-}
-.calender-emoji{
-  width: 40px;
-height: 40px;
-top: 209px;
-left: -100px;
-position: relative;
-opacity: 0.7px;
-animation: upDown 2s infinite, disappear 26s infinite;
-
-}
-.band-aid-emoji{
-  position: relative;
-  width: 40px;
-height: 40px;
-top: 368px;
-left: 64px;
-gap: 0px;
-opacity: 0.7px;
-animation: upDown 2s infinite, disappear 36s infinite;
-
-}
-.stethoscope-emoji{
-  position: relative;
-  width: 40px;
-height: 40px;
-top: 468px;
-left: -240px;
-gap: 0px;
-opacity: 0.7px;
-animation: upDown 2s infinite, disappear 46s infinite;
-
-}
-.scheduletwo-emoji{
-  position: relative;
-  width: 40px;
-  height: 40px;
-  top: 542px;
-  left: -70px;
-  gap: 0px;
-  animation: upDown 2s infinite, disappear 50s infinite;
-  
-}
-.consultation-emoji{
-  position: relative;
-  width: 40px;
-height: 40px;
-top: 250px;
-left: 780px;
-gap: 0px;
-animation: upDown 2s infinite, disappear 60s infinite;
-
-
-}
-.medicalexam-emoji{
-  position: relative;
-  width: 40px;
-height: 40px;
-top: 450px;
-left: 795px;
-
-animation: upDown 2s infinite, disappear 70s infinite;
-}
-.hand-emoji{
-  width: 40px;
-height: 40px;
-top: 155px;
-left: 483px;
-position: relative;
-font-family: 'Matter', sans-serif;
-font-size: 32px;
-font-weight: 600;
-line-height: 38.4px;
-text-align: left;
-animation: upDown 2s infinite, disappear 90s infinite;
-
-}
-.heartbeat-emoji{
-  position: relative;
-  width: 40px;
-height: 40px;
-top: 398px;
-left:425px;
-animation: upDown 2s infinite, disappear 100s infinite;
-
-
-}
-.or-sign-up{
-  width: 16px;
-height: 19px;
-top: 365px;
-left: 610px;
-font-family: 'Matter', sans-serif;
-font-size: 10.5px;
-font-weight: 600;
-line-height: 12.6px;
-text-align: left;
-color: #272848;
-position: relative;
-
-}
-.or-sign-up-container{
-  display: flex;
-  position: relative;
-  top: -310px;
-z-index: 1;
-
-}
-.end-line-sign-up{
-width: 116px;
-height: 2px;
-top: 370px;
-left: 460px;
-position: relative;
-border-bottom: 2px solid #F0F0F5
-
-}
-.end-line-sign-up-two{
-  width: 116px;
-  height: 2px;
-  top: 370px;
-  left: 510px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5
-  
-  }
-
-  .button-sign-up-container{
-    display: flex;
-    position: relative;
-    top: 10px;
-  }
-  .google-button-sign-up{
-    width: 60px;
-    height: 30px;
-    top: 8px;
-    left: -55px;
-    border-radius: 22px ;
-position: relative;
-background: #FEFEFE;
-  border: 1px solid #ACACAC    
-  }
-  .google-sign-up-image{
-    width: 15px;
-height: 15px;
-top: -1px;
-position: relative;
-
-
-  }
-  .apple-button-sign-up{
-    width: 60px;
-    height: 30px;
-    top: 8px;
-    left: -80px;
-    border-radius: 22px ;
-position: relative;
-background: #FEFEFE;
-  border: 1px solid #ACACAC 
-  }
-  .apple-sign-up-image{
-    width: 15.17px;
-height: 18px;
-top: -1px;
-position: relative;
-  }
-
-  .login-option-container{
-    display: flex;
-    position: relative;
-    top: 405px;
-    left: 300px;
-
-  }
-  .account-sign-up{
-    width: 135px;
-height: 19px;
-top: 0px;
-left: 0px;
-position: relative;
-font-family: Matter;
-font-size: 10.5px;
-font-weight: 600;
-line-height: 12.6px;
-text-align: left;
-color: #272848;
-
-  }
-  .login-link-signup{
-    width: 40px;
-height: 15px;
-top: 1px;
-left: -43px;
-font-family: 'Matter', sans-serif;
-font-size: 9.5px;
-font-weight: 600;
-line-height: 11.4px;
-text-align: left;
-color: #0067FF;
-position: relative;
-
-  }
-.provider-option-container{
-  display: flex;
-  position: relative;
-  top: 430px;
-  left: 70px;
-}
-.account-sign-up-provider{
-  width: 146px;
-  height: 35px;
-  top: 939px;
-  left: 831px;
-  font-family: 'Matter', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 35px;
-  text-align: center;
-  color: #000000;
-    
-}
-.provider-link-signup{
-  width:95px;
-  height:29px;
-  top: 3px;
-  left: 10px;
-padding-top:3px ;
-position: relative;
-  border-radius: 5px;
-border: 1px solid #FF7F50;
-  background: #ffffff;
-  font-family: Matter;
-font-size: 12px;
-font-weight: 600;
-line-height: 24px;
-text-align: center;
-color: #FF7F50;
-
-
-  
-}
-.text-sign-up{
-  position: relative;
-  width: 474px;
-height: 67px;
-top: 345px;
-left: 909px;
-font-family: 'Matter', sans-serif;
-font-size: 25px;
-font-weight: 600;
-line-height: 30px;
-text-align: left;
-color: #27272766;
-
-}
-/* @keyframes upDown {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-} */
-
-@keyframes disappear {
-  0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% {
-    opacity: 0.7;
-  }
-  5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% {
-    opacity: 0;
-  }
-}
-
-@media (max-width: 412px) {
-  .role-selection-container{
-    margin: 20px 0px ;
-  }
-  .brand-image-logo {
-    display: none;
-  }
-
-  .custom-modal  .form-control-custom-phone{
-
-
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: none;
-    transition: border-color 0.3s ease;
-    font-family: 'Matter', sans-serif;
-    width: 90% !important;
-  height: 10px !important;
-    margin-left: 3.5%;
-    border: 1px solid #272848
-  }
-
-  .curvedesign,
-  .running-text,
-  .curvedsigntwo,
-  .running-text-two,
-  .emoji-ring,
-  .calender-emoji,
-  .band-aid-emoji,
-  .stethoscope-emoji,
-  .scheduletwo-emoji,
-  .consultation-emoji,
-  .medicalexam-emoji,
-  .hand-emoji,
-  .heartbeat-emoji {
-    display: none;
-  }
-
-  .custom-modal .modal-dialog {
-    max-width: none;
-    width: 90%;
-    height: auto;
-    margin: auto;
-  }
-  .custom-modal .modal-content {
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    height: auto;
-    font-family: 'Matter', sans-serif;
-    background-color:  #F4F7FC;
-  }
-
-  .form-overall-container {
-    position: relative;
-    top: 0px;
-    width: 100%;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-
-  .model-header {
-    width: 100%;
-    height: 39px;
-    top: 30px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 38.4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .model-header-sub {
-    position: relative;
-    width: 100%;
-    height: 22px;
-    top: 30px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 19.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .custom-modal .modal-title {
-    font-family: 'Matter', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-    position: relative;
-    left: 0;
-    text-align: center;
-  }
-
-  .btn-close-custom {
-    color: rgb(0, 0, 0);
-    font-size: 1rem;
-    background: none;
-    border: none;
-    position: relative;
-    left: 43%;
-    top: -3rem;
-    cursor: pointer;
-    z-index: 999;
-  }
-
-  .custom-modal .form-control-custom {
-    border-radius: 10px;
-    padding: 1rem;
-    font-family: 'Matter', sans-serif;
-    width: 90%;
-    margin-left: 5%;
-    box-sizing: border-box;
- 
-  }
-
-  .custom-modal .form-label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 0.5rem;
-    margin-left: 5%;
-
-  }
-
-  .radio-buttons {
-    margin-left: 5%;
-  }
-
-  .custom-modal .btn-custom {
-    width: 206px;
-    height: 49px;
-    border: 0.5px solid #FFFFFF;
-    border-radius: 22px;
-    background: #0067FF;
-    padding: 0.5rem 2rem;
-    align-items: center;
-    font-family: 'Matter', sans-serif;
-    margin: 20px auto;
-    display: block;
-    top: 0;
-  }
-
-  .invalid-feedback {
-    margin-left: 5%;
-  }
-
-
-
-  .or-sign-up-container {
-    display: flex;
-    width: 100%;
-    position: relative;
-    top: -380px;
-    flex-direction: column;
-    justify-content: center; 
-  }
-  .or-sign-up{
-    width: 16px;
-  height: 19px;
-  top: 386px;
-  left: 0px;
-  font-family: 'Matter', sans-serif;
-  font-size: 10.5px;
-  font-weight: 600;
-  line-height: 12.6px;
-  text-align: left;
-  color: #272848;
-  position: relative;
-  margin-left: auto; 
-  margin-right: auto;
-  }
-
-  .end-line-sign-up{
-  width: 116px;
-  height: 2px;
-  top: 372px;
-  left: -80px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5;
-
-  justify-content: center; 
-  margin-left: auto; 
-  margin-right: auto;
-  }
-  .end-line-sign-up-two{
-    width: 116px;
-    height: 2px;
-    top: 100px;
-    left: 80px;
-    position: relative;
-    border-bottom: 2px solid #F0F0F5;
-    margin-left: auto; 
-    margin-right: auto;
-    justify-content: center; 
-    }
-  
-    
-    .login-option-container{
-      display: flex;
-      position: relative;
-      top: 405px;
-      left: 0px;
-      justify-content: center; 
-  
-    }
-    
-  .provider-option-container{
-    display: flex;
-    position: relative;
-    top: 410px;
-    left: 0px;
-    justify-content: center; 
-  }
-
-  .account-sign-up-provider{
-    width: 146px;
-    height: 35px;
-    font-size: 14px;
-    font-weight: 600;
-
-      
-  }
-}
-
-
-
-@media (min-width:413px) and (max-width: 600px) {
-  .role-selection-container{
-    margin: 20px 0px ;
-  }
-  .brand-image-logo {
-    /* width: 150px;
-    height: 50px;
-    top: -75px;
-    left: 0px;
-    position: relative;
-align-items: center;
-    justify-content: center; */
-    display: none;
-
-  }
-
-  .custom-modal  .form-control-custom-phone{
-
-
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: none;
-    transition: border-color 0.3s ease;
-    font-family: 'Matter', sans-serif;
-    width: 90% !important;
-  height: 20px !important;
-    margin-left: 5.5%;
-    border: 1px solid #272848
-  }
-
-  .curvedesign,
-  .running-text,
-  .curvedsigntwo,
-  .running-text-two,
-  .emoji-ring,
-  .calender-emoji,
-  .band-aid-emoji,
-  .stethoscope-emoji,
-  .scheduletwo-emoji,
-  .consultation-emoji,
-  .medicalexam-emoji,
-  .hand-emoji,
-  .heartbeat-emoji {
-    display: none;
-  }
-
-  .custom-modal .modal-dialog {
-    max-width: none;
-    width: 90%;
-    height: auto;
-    margin: auto;
-  }
-  .custom-modal .modal-content {
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    height: auto;
-    font-family: 'Matter', sans-serif;
-    background-color:  #F4F7FC;
-  }
-  .form-overall-container {
-    position: relative;
-    top: 0px;
-    width: 100%;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-
-  .model-header {
-    width: 100%;
-    height: 39px;
-    top: 30px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 38.4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .model-header-sub {
-    position: relative;
-    width: 100%;
-    height: 22px;
-    top: 30px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 19.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .custom-modal .modal-title {
-    font-family: 'Matter', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-    position: relative;
-    left: 0;
-    text-align: center;
-  }
-
-  .btn-close-custom {
-    color: rgb(0, 0, 0);
-    font-size: 1rem;
-    background: none;
-    border: none;
-    position: relative;
-    left: 43%;
-    top: -3rem;
-    cursor: pointer;
-    z-index: 999;
-  }
-
-  .custom-modal .form-control-custom {
-    border-radius: 10px;
-    padding: 1rem;
-    font-family: 'Matter', sans-serif;
-    width: 90%;
-    margin-left: 5%;
-    box-sizing: border-box;
-  }
-
-  .custom-modal .form-label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 0.5rem;
-    margin-left: 5%;
-  }
-
-  .radio-buttons {
-    margin-left: 5%;
-  }
-
-  .custom-modal .btn-custom {
-    width: 206px;
-    height: 49px;
-    border: 0.5px solid #FFFFFF;
-    border-radius: 22px;
-    background: #0067FF;
-    padding: 0.5rem 2rem;
-    align-items: center;
-    font-family: 'Matter', sans-serif;
-    margin: 40px auto 10px auto;
-    display: block;
-    top: 0;
-  }
-
-  .invalid-feedback {
-    margin-left: 5%;
-  }
-  .or-sign-up-container {
-    display: flex;
-
-
-    width: 100%;
-    position: relative;
-    top: -380px;
-    flex-direction: column;
-    justify-content: center; 
-  }
-  .or-sign-up{
-    width: 16px;
-  height: 19px;
-  top: 386px;
-  left: 0px;
-  font-family: 'Matter', sans-serif;
-  font-size: 10.5px;
-  font-weight: 600;
-  line-height: 12.6px;
-  text-align: left;
-  color: #272848;
-  position: relative;
-  margin-left: auto; 
-  margin-right: auto;
-  }
-
-  .end-line-sign-up{
-  width: 116px;
-  height: 2px;
-  top: 372px;
-  left: -80px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5;
-
-  justify-content: center; 
-  margin-left: auto; 
-  margin-right: auto;
-  }
-  .end-line-sign-up-two{
-    width: 116px;
-    height: 2px;
-    top: 370px;
-    left: 80px;
-    position: relative;
-    border-bottom: 2px solid #F0F0F5;
-    margin-left: auto; 
-    margin-right: auto;
-
-    justify-content: center; 
-    }
-  
-    
-    .login-option-container{
-      display: flex;
-      position: relative;
-      top: 405px;
-      left: 0px;
-      justify-content: center; 
-  
-    }
-    
-  .provider-option-container{
-    display: flex;
-    position: relative;
-    top: 410px;
-    left: 0px;
-    justify-content: center; 
-  }
- 
-}
-
-@media (min-width:601px) and (max-width: 767px) {
-  .role-selection-container{
-    margin: 50px 0px ;
-  }
-  .brand-image-logo {
-    width: 150px;
-    height: 50px;
-    top: -75px;
-    left: 0px;
-    position: relative;
-align-items: center;
-    justify-content: center;
-
-  }
-
-  .curvedesign,
-  .running-text,
-  .curvedsigntwo,
-  .running-text-two,
-  .emoji-ring,
-  .calender-emoji,
-  .band-aid-emoji,
-  .stethoscope-emoji,
-  .scheduletwo-emoji,
-  .consultation-emoji,
-  .medicalexam-emoji,
-  .hand-emoji,
-  .heartbeat-emoji {
-    display: none;
-  }
-
-  .custom-modal .modal-dialog {
-    max-width: none;
-    width: 90%;
-height: auto;
-    margin: auto;
-  }
-  .custom-modal .modal-content {
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    height: auto;
-    font-family: 'Matter', sans-serif;
-    background-color:  #F4F7FC;
-  }
-
-  .form-overall-container {
-    position: relative;
-    top: -30px;
-    width: 100%;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-
-  .model-header {
-    width: 100%;
-    height: 39px;
-    top: 70px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 38.4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .model-header-sub {
-    position: relative;
-    width: 100%;
-    height: 22px;
-    top: 80px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 19.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .custom-modal .modal-title {
-    font-family: 'Matter', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-    position: relative;
-    left: 0;
-    text-align: center;
-  }
-
-  .btn-close-custom {
-    color: rgb(0, 0, 0);
-    font-size: 1rem;
-    background: none;
-    border: none;
-    position: relative;
-    left: 43%;
-    top: -3rem;
-    cursor: pointer;
-    z-index: 999;
-  }
-
-  .custom-modal .form-control-custom {
-    border-radius: 10px;
-    padding: 1rem;
-    font-family: 'Matter', sans-serif;
-    width: 90%;
-    margin-left: 5%;
-    box-sizing: border-box;
-  }
-
-  .custom-modal .form-label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 0.5rem;
-    margin-left: 5%;
-  }
-
-  .radio-buttons {
-    margin-left: 5%;
-  }
-
-  .custom-modal .btn-custom {
-    width: 206px;
-    height: 49px;
-    border: 0.5px solid #FFFFFF;
-    border-radius: 22px;
-    background: #0067FF;
-    padding: 0.5rem 2rem;
-    align-items: center;
-    font-family: 'Matter', sans-serif;
-    margin: 20px auto;
-    display: block;
-    top: 0;
-  }
-
-  .invalid-feedback {
-    margin-left: 5%;
-  }
-
-  .or-sign-up-container {
-    display: flex;
-
-
-    width: 100%;
-    position: relative;
-    top: -370px;
-    flex-direction: column;
-    justify-content: center; 
-  }
-  .or-sign-up{
-    width: 16px;
-  height: 19px;
-  top: 386px;
-  left: 0px;
-  font-family: 'Matter', sans-serif;
-  font-size: 10.5px;
-  font-weight: 600;
-  line-height: 12.6px;
-  text-align: left;
-  color: #272848;
-  position: relative;
-  margin-left: auto; 
-  margin-right: auto;
-  }
-
-  .end-line-sign-up{
-  width: 116px;
-  height: 2px;
-  top: 372px;
-  left: -80px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5;
-
-  justify-content: center; 
-  margin-left: auto; 
-  margin-right: auto;
-  }
-  .end-line-sign-up-two{
-    width: 116px;
-    height: 2px;
-    top: 370px;
-    left: 80px;
-    position: relative;
-    border-bottom: 2px solid #F0F0F5;
-    margin-left: auto; 
-    margin-right: auto;
-
-    justify-content: center; 
-    }
-  
-    
-    .login-option-container{
-      display: flex;
-      position: relative;
-      top: 405px;
-      left: 0px;
-      justify-content: center; 
-  
-    }
-    
-  .provider-option-container{
-    display: flex;
-    position: relative;
-    top: 430px;
-    left: 0px;
-    justify-content: center; 
-  }
-  .custom-modal  .form-control-custom-phone{
-
-
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: none;
-    transition: border-color 0.3s ease;
-    font-family: 'Matter', sans-serif;
-    width: 90% !important;
-  height: 50px !important;
-    margin-left: 5.5%;
-    border: 1px solid #272848
-  }
-
- 
-}
-
-
-
-@media (min-width:768px) and (max-width: 1023px) {
-  .role-selection-container{
-    margin: 50px 0px ;
-  }
-  .brand-image-logo {
-    width: 200px;
-    height: 50px;
-    top: -75px;
-    left: 210px;
-    position: relative;
-align-items: center;
-    justify-content: center;
-
-  }
-
-  
-  .custom-modal  .form-control-custom-phone{
-
-
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: none;
-    transition: border-color 0.3s ease;
-    font-family: 'Matter', sans-serif;
-    width: 70% !important;
-  height: 50px !important;
-    margin-left: 12.5%;
-    border: 1px solid #272848
-  }
-
-  .curvedesign,
-  .running-text,
-  .curvedsigntwo,
-  .running-text-two,
-  .emoji-ring,
-  .calender-emoji,
-  .band-aid-emoji,
-  .stethoscope-emoji,
-  .scheduletwo-emoji,
-  .consultation-emoji,
-  .medicalexam-emoji,
-  .hand-emoji,
-  .heartbeat-emoji {
-    display: none;
-  }
-
-  .custom-modal .modal-dialog {
-    max-width: none;
-    width: 90%;
-height: auto;
-    margin: auto;
-  }
-  .custom-modal .modal-content {
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    height: 100vh;
-    font-family: 'Matter', sans-serif;
-    background-color:  #F4F7FC;
-  }
-
-  .form-overall-container {
-    position: relative;
-    top: -10px;
-    width: 100%;
-
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-
-  .model-header {
-    width: 100%;
-    height: 39px;
-    top: 70px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 38.4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .model-header-sub {
-    position: relative;
-    width: 100%;
-    height: 22px;
-    top: 80px;
-    left: 0;
-    font-family: 'Matter', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 19.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .custom-modal .modal-title {
-    font-family: 'Matter', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-    position: relative;
-    left: 0;
-    text-align: center;
-  }
-
-  .btn-close-custom {
-    color: rgb(0, 0, 0);
-    font-size: 1rem;
-    background: none;
-    border: none;
-    position: relative;
-    left: 43%;
-    top: -3rem;
-    cursor: pointer;
-    z-index: 999;
-  }
-
-  .custom-modal .form-control-custom {
-    border-radius: 10px;
-    padding: 1rem;
-    font-family: 'Matter', sans-serif;
-    width: 70%;
-    margin-left: 13%;
-    box-sizing: border-box;
-    
-  }
-
-  .custom-modal .form-label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 0.5rem;
-    margin-left: 13%;
-  }
-
-  .radio-buttons {
-    margin-left: 5%;
-  }
-
-  .custom-modal .btn-custom {
-    width: 206px;
-    height: 49px;
-    border: 0.5px solid #FFFFFF;
-    border-radius: 22px;
-    background: #0067FF;
-    padding: 0.5rem 2rem;
-    align-items: center;
-    font-family: 'Matter', sans-serif;
-    margin: 20px auto;
-    display: block;
-  }
-
-  .invalid-feedback {
-    margin-left: 5%;
-
-  }
-  .or-sign-up-container {
-    display: flex;
-    width: 100%;
-    position: relative;
-    top: -350px;
-    flex-direction: column;
-    justify-content: center; 
-  }
-  .or-sign-up{
-    width: 16px;
-  height: 19px;
-  top: 386px;
-  left: 0px;
-  font-family: 'Matter', sans-serif;
-  font-size: 10.5px;
-  font-weight: 600;
-  line-height: 12.6px;
-  text-align: left;
-  color: #272848;
-  position: relative;
-  margin-left: auto; 
-  margin-right: auto;
-  }
-
-  .end-line-sign-up{
-  width: 116px;
-  height: 2px;
-  top: 372px;
-  left: -80px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5;
-
-  justify-content: center; 
-  margin-left: auto; 
-  margin-right: auto;
-  }
-  .end-line-sign-up-two{
-    width: 116px;
-    height: 2px;
-    top: 370px;
-    left: 80px;
-    position: relative;
-    border-bottom: 2px solid #F0F0F5;
-    margin-left: auto; 
-    margin-right: auto;
-
-    justify-content: center; 
-    }
-  
-    
-    .login-option-container{
-      display: flex;
-      position: relative;
-      top: 405px;
-      left: 30px;
-      justify-content: center; 
-  
-    }
-    
-  .provider-option-container{
-    display: flex;
-    position: relative;
-    top: 430px;
-    left: 0px;
-    justify-content: center; 
-  }
- 
-}
-
-@media (min-width:1024px) and (max-width: 1439px) {
-  .form-overall-container {
-    position: relative;
-    top: -90px;
-    left: 20%;
-  }
-
-  .custom-modal .modal-dialog {
-    max-width: none;
-    width: 90%;
-    height: auto;
-    margin: auto;
-  }
-
-  .custom-modal .modal-content {
-    border-radius: 10px;
-    border: none;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    height: auto;
-    font-family: 'Matter', sans-serif;
-    background-color: #F4F7FC;
-  }
-
-  .model-header {
-    width: 100%;
-    height: auto;
-    top: 4vh;
-    left: 57.5%;
-    font-family: 'Matter', sans-serif;
-    font-size: 2vw;
-    font-weight: 600;
-    line-height: 1.2em;
-    display: flex;
-    justify-content: left;
-    text-align: left;
-  }
-
-  .model-header-sub {
-    position: relative;
-    width: 100%;
-    height: auto;
-    top: 5vh;
-    left: 57.5%;
-    font-family: 'Matter', sans-serif;
-    font-size: 1.5vw;
-    font-weight: 600;
-    line-height: 1.2em;
-    display: flex;
-    text-align: left;
-  }
-
-  .custom-modal .btn-custom {
-    width: 20vw;
-    height: auto;
-    border: 0.5px solid #FFFFFF;
-    border-radius: 22px;
-    background: #0067FF;
-    padding: 0.5rem 2rem;
-    align-items: center;
-    font-family: 'Matter', sans-serif;
-    margin: 2vh auto;
-    display: block;
-    top: 10 !important;
-  }
-
-  .smile-emoji {
-    display: flex;
-    position: relative;
-    top: -4vh;
-    width: 0px !important;
-    left: 2%;
-  }
-
-  .brand-image-logo {
-    position: relative;
-    top: -6vh;
-    left: 0vw;
-  }
-
-.running-container{
-  position: relative;
-  top: 30px !important;
-left: -199px !important;
-}
-  
-  .curvedesign {
-    width: 565px;
-    height: 117px;
-    margin-left: auto;
-    margin-right: auto;
-    left: -36%; 
-    top: 200px;
-    justify-content: center;
-  }
-  
-  .running-text {
-    width: 205px;
-    height: 22px;
-    top: 125px;
-    left: -36%;
-    font-family: Matter;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 19.2px;
-    text-align: left;
-    color: #272848;
-    white-space: nowrap;
-margin-left: auto;
-justify-content: center;
-margin-right: auto;
-
-
-  }
-  
-  
-
-  .emoji-ring {
-    position: relative;
-    width: 3vw;
-    height: auto;
-    top: 10vh;
-    left: 16vw;
-    font-family: 'Font Awesome 5 Free';
-    font-size: 3vw;
-    font-weight: 900;
-    line-height: 1em;
-    text-align: right;
-    animation: upDown 2s infinite, disappear 16s infinite;
-  }
-
-  .calender-emoji,
-  .band-aid-emoji,
-  .stethoscope-emoji,
-  .scheduletwo-emoji,
-  .consultation-emoji,
-  .medicalexam-emoji,
-  .hand-emoji,
-  .heartbeat-emoji {
-    width: 3vw;
-    height: auto;
-    position: relative;
-    opacity: 0.7;
-   
-  }
-
-  .calender-emoji {
-    top: 17vh;
-    left: -7vw;
-  }
-
-  .band-aid-emoji {
-    top: 35vh;
-    left: 22vh;
-  }
-
-  .stethoscope-emoji {
-    top: 43vh;
-    left: -18vw;
-  }
-
-  .scheduletwo-emoji {
-    top: 55vh;
-    left:-2vw;
-  }
-
-  .consultation-emoji {
-    top: 25vh;
-    left: 70vw;
-  }
-
-  .medicalexam-emoji {
-    top: 35vh;
-    left: 75vw;
-  }
-
-  .hand-emoji {
-    top: 15vh;
-    left: 40vw;
-    font-family: Matter;
-    font-size: 2.5vw;
-    font-weight: 600;
-    line-height: 1.2em;
-    text-align: left;
-  }
-
-  .heartbeat-emoji {
-    top: 35vh;
-    left: 35vw;
-  }
-
-  .curvedsigntwo,
-  .running-text-two,
-  .consultation-emoji,
-  .medicalexam-emoji,
-  .hand-emoji,
-  .heartbeat-emoji {
-    display: none;
-  }
-
-  .text-sign-up{
-    position: relative;
-    width: 474px;
-  height: 67px;
-  top: 450px;
-  left: 50px;
-  font-family: 'Matter', sans-serif;
-  font-size: 25px;
-  font-weight: 600;
-  line-height: 30px;
-  text-align: left;
-  color: #27272766;
-
-  
-  }
-  
-  .or-sign-up-container {
-    display: flex;
-    width: 100%;
-    position: relative;
-    top: -360px;
-    flex-direction: column;
-    justify-content: center; 
-    left: 00px;
-    margin-left: auto; 
-    margin-right: auto;
-  }
-  .or-sign-up{
-    width: 16px;
-  height: 19px;
-  top: 386px;
-  left: 0px;
-  font-family: 'Matter', sans-serif;
-  font-size: 10.5px;
-  font-weight: 600;
-  line-height: 12.6px;
-  text-align: left;
-  color: #272848;
-  position: relative;
-  margin-left: auto; 
-  margin-right: auto;
-  }
-
-  .end-line-sign-up{
-  width: 116px;
-  height: 2px;
-  top: 372px;
-  left: -80px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5;
-
-  justify-content: center; 
-  margin-left: auto; 
-  margin-right: auto;
-  }
-  .end-line-sign-up-two{
-    width: 116px;
-    height: 2px;
-    top: 370px;
-    left: 80px;
-    position: relative;
-    border-bottom: 2px solid #F0F0F5;
-    margin-left: auto; 
-    margin-right: auto;
-
-    justify-content: center; 
-    }
-  
-    
-    .login-option-container{
-      display: flex;
-      position: relative;
-      top: 405px;
-      left: 0px;
-      justify-content: center; 
-  
-    }
-    
-  .provider-option-container{
-    display: flex;
-    position: relative;
-    top: 430px;
-    left: 0px;
-    justify-content: center; 
-  }
- 
-}
-
-@media (min-width: 1440px) and (max-width: 1499px) {
-  .role-selection-container{
-    margin-top: 40px;
-  }
-
-}
-@media (min-width: 1500px) {
-  .role-selection-container{
-    margin-top: 50px;
-  }
-    .emoji-ring,
-.calender-emoji,
-.band-aid-emoji,
-.stethoscope-emoji,
-.scheduletwo-emoji,
-.consultation-emoji,
-.medicalexam-emoji,
-.hand-emoji,
-.heartbeat-emoji {
-  position: absolute; 
-  opacity: 1;
-}
-
-.emoji-ring {
-  width: 36px;
-  height: 18px;
-  top: 100%; 
-  left: 23%; 
-}
-
-.calender-emoji {
-  width: 40px;
-  height: 40px;
-  top: 305%;
-  left: 9%;
-}
-
-.band-aid-emoji {
-  width: 40px;
-  height: 40px;
-  top: 700%;
-  left: 28%;
-}
-
-.stethoscope-emoji {
-  width: 40px;
-  height: 40px;
-  top: 785%;
-  left: 4%;
-}
-
-
-.scheduletwo-emoji {
-  width: 40px;
-  height: 40px;
-  top: 1015%;
-  left: 18%;
-}
-
-.consultation-emoji {
-  width: 40px;
-  height: 40px;
-  top: 385%;
-  left: 86%;
-}
-
-.medicalexam-emoji {
-  width: 40px;
-  height: 40px;
-  top: 850%;
-  left: 93%;
-}
-
-.hand-emoji {
-  width: 40px;
-  height: 40px;
-  top: 230%;
-  left: 70%;
-}
-
-.heartbeat-emoji {
-  width: 40px;
-  height: 40px;
-  top:700%;
-  left: 70%;
-}
-.curvedesign,
-.running-text,
-.curvedsigntwo,
-.running-text-two {
-  position: absolute; 
-}
-
-.running-container{
-  position: relative;
-  top: 0px !important;
-left: -199px !important;
-}
-.curvedesign {
-  width: 565px;
-  height: 117px;
-  top: 440%; 
-  left: -1%; 
-}
-
-.running-text {
-  width: 205px;
-  height: 22px;
-  top: 530%;
-  left: 180px;
-  font-family: Matter;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 19.2px;
-  text-align: left;
-  color: #272848;
-  white-space: nowrap;
-}
-.running-container-two{
-  position: relative;
-  top: 0%;
-  left: 52%;
-}
-
-.curvedsigntwo {
-  width: 565px;
-  height: 117px;
-
-}
-
-.running-text-two {
-  width: 205px;
-  height: 37px;
-top: 75%;
-  font-family: Matter;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 15.6px;
-  text-align: left;
-  color: #272848;
-  white-space: nowrap;
-}
-.form-overall-container{
-  position: relative;
-
-}
-.model-header {
-  width: 100%;
-  height: 39px;
-  top: 80px;
-  left: 38.5%;
-  font-family: 'Matter', sans-serif;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 38.4px;
-  display: flex;
-
-  text-align: left;
-}
-
-.model-header-sub {
-  position: relative;
-  width: 100%;
-  height: 22px;
-  top: 90px;
-  left: 38.5%;
-  font-family: 'Matter', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 19.2px;
-  display: flex;
-
-  text-align: left;
-}
-
-.form-overall-container {
-  position: relative;
-  top: -10px;
-  width: 100%;
-  padding: 0 10px;
-  box-sizing: border-box;
-}
-.or-sign-up-container {
-  display: flex;
-
-top: -340px;
-  width: 100%;
-  position: relative;
-
-  flex-direction: column;
-  justify-content: center; 
-}
-.or-sign-up{
-  width: 16px;
-height: 19px;
-top: 386px;
-left: 0px;
-font-family: 'Matter', sans-serif;
-font-size: 10.5px;
-font-weight: 600;
-line-height: 12.6px;
-text-align: left;
-color: #272848;
-position: relative;
-margin-left: auto; 
-margin-right: auto;
-}
-
-.end-line-sign-up{
-width: 116px;
-height: 2px;
-top: 372px;
-left: -80px;
-position: relative;
-border-bottom: 2px solid #F0F0F5;
-
-justify-content: center; 
-margin-left: auto; 
-margin-right: auto;
-}
-.end-line-sign-up-two{
-  width: 116px;
-  height: 2px;
-  top: 370px;
-  left: 80px;
-  position: relative;
-  border-bottom: 2px solid #F0F0F5;
-  margin-left: auto; 
-  margin-right: auto;
-
-  justify-content: center; 
-  }
-
-  
-  .login-option-container{
-    display: flex;
-    position: relative;
-    top: 405px;
-    left: 0px;
-    justify-content: center; 
-
-  }
-  
-.provider-option-container{
-  display: flex;
-  position: relative;
-  top: 430px;
-  left: 0px;
-  justify-content: center; 
-}
-.text-sign-up{
-  position: relative;
-  width: 474px;
-height: 67px;
-top: 450px;
-left: 579px;
-font-family: 'Matter', sans-serif;
-font-size: 25px;
-font-weight: 600;
-line-height: 30px;
-text-align: left;
-color: #27272766;
-margin-left: auto;
-margin-right: auto;
-
-}
-.brand-image-logo{
-
-top: -50px;
-left: 50px;
-position: relative;
-
-}
-  }
-  

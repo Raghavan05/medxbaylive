@@ -70,7 +70,7 @@
     border-radius: 20px 5px 20px 5px;
     background: #F3F6FF;
 }
-  
+/*   
 .nav-notification-button {
     background: none;
     border: none;
@@ -96,7 +96,7 @@
     align-items: center;
     width: 16px;
     height: 18px;
-}
+} */
 
 .profile-container {
     display: flex;

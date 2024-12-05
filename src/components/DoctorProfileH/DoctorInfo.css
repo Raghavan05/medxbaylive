@@ -57,6 +57,10 @@
   left: 0;
 }
 
+.treatmentApproach-icon{
+  width: 20px;
+  height: 20px;
+}
 .hospital-section {
   display: flex;
   flex-direction: column;
