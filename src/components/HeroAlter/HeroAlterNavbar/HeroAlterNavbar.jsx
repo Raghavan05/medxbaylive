@@ -57,7 +57,7 @@ const HeroAlterNavbar = () => {
       <nav className="Real-one-heroalter-navbar-nav" ref={dropdownRef}>
         {/* Logo */}
         <div className="Real-one-heroalter-navbar-brand">
-          <Link to={"/"}>
+          <Link to={"https://medxbay.com"}>
             <img src={logobrand} alt="Brand Logo" className="Real-one-heroalter-brand-img" />
           </Link>
         </div>

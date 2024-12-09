@@ -41,7 +41,7 @@ const Footer = () => {
     <footer className="custom-footer">
       <div className="custom-footer-container">
         <div className="custom-footer-logo">
-        <a className="" href="/">     <img className='gwaimage' src={logobrand}  alt="Description of the image" /></a>
+        <a className="" href="https://medxbay.com">     <img className='gwaimage' src={logobrand}  alt="Description of the image" /></a>
   <div className="custom-footer-socials">
             <div className="custom-social-icon">
               <a href="https://www.facebook.com/profile.php?id=61558154772271&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
@@ -69,7 +69,7 @@ const Footer = () => {
           <div className="custom-footer-column">
             <h4 className='explore'>Explore</h4>
             <ul>
-              <Link to="/"onClick={handleLinkClick}><li>Home</li></Link>
+              <Link to="https://medxbay.com"onClick={handleLinkClick}><li>Home</li></Link>
               <Link to="/about/section" onClick={handleLinkClick}><li>About Us</li></Link>
               <Link to="/faq/section" onClick={handleLinkClick}><li>FAQs</li></Link>
               <Link to="https://community.medxbay.com/" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick}><li>Community</li></Link>

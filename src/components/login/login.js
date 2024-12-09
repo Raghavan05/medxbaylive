@@ -280,7 +280,7 @@ const LoginCard = () => {
      <div className='login-new--total-container'>
         <div className='login-new--close-custom-container'>
           <button type="button" className="login-new--close-custom" aria-label="Close">
-            <Link to={'/'}>
+            <Link to={'https://medxbay.com'}>
             <FaTimes size='1rem'/>
             </Link>
           </button>

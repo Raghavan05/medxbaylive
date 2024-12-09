@@ -338,7 +338,7 @@ const HeroAlterNavbar = () => {
     setIsLoggedIn(false);
     setUserRole("");
     setProfileImage(profilePlaceholder);
-    navigate("/");
+    window.location.href = 'https://medxbay.com'; // Redirect to the desired URL
   };
 
 
@@ -357,7 +357,7 @@ const HeroAlterNavbar = () => {
       {/* Offcanvas for mobile view */}
       <div className={`offcanvas-custom ${isOffcanvasOpen ? 'open' : ''}`}>
         <div className="offcanvas-header">
-          <Link className="navbar-brand" to={"/"}>
+          <Link className="navbar-brand" to={"https://medxbay.com"}>
             <img src={logobrand} alt="Brand Logo" className='brand-img' />
           </Link>
           <button type="button" className="offcanvas-close" onClick={toggleOffcanvas}>
@@ -381,7 +381,7 @@ const HeroAlterNavbar = () => {
                               ? "/OurProviders"
                               : userRole === "suppliers"
                                 ? "/OurProducts"
-                                : "/"
+                                : "https://medxbay.com"
                       }
                     >
                       <div className="image-container">
@@ -405,7 +405,7 @@ const HeroAlterNavbar = () => {
                             ? "/OurProviders/notification"
                             : userRole === "suppliers"
                               ? "/OurProducts/notification"
-                              : "/"
+                              : "https://medxbay.com"
                     }
                   >
                     <div className="dashboard-setting-bell">
@@ -548,7 +548,7 @@ const HeroAlterNavbar = () => {
                               ? "/corporate/dashboardpage/"
                               : userRole === "supplier"
                                 ? "/supplier/dashboardpage/"
-                                : "/"
+                                : "https://medxbay.com"
                       }
                     >
                       Dashboard
@@ -706,7 +706,7 @@ const HeroAlterNavbar = () => {
                           ? "/corporate/dashboardpage/"
                           : userRole === "supplier"
                             ? "/supplier/dashboardpage/"
-                            : "/"
+                            : "https://medxbay.com"
                   }
                 >
                   Dashboard
@@ -750,7 +750,7 @@ const HeroAlterNavbar = () => {
                               ? "/OurProviders"
                               : userRole === "suppliers"
                                 ? "/OurProducts"
-                                : "/"
+                                : "https://medxbay.com"
                       }
                     >
                       <div className="heroalter-image-container">
@@ -774,7 +774,7 @@ const HeroAlterNavbar = () => {
                             ? "/OurProviders/notification"
                             : userRole === "suppliers"
                               ? "/OurProducts/notification"
-                              : "/"
+                              : "https://medxbay.com"
                     }
                   >
                     <div className="heroalter-dashboard-setting-bell">

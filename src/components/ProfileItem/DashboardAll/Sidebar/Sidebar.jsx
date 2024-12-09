@@ -78,8 +78,8 @@ const Sidebar = () => {
     axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
         sessionStorage.clear();
-        navigate('/');
-        window.location.reload();
+        window.location.href = 'https://medxbay.com'; // Redirect to the desired URL
+        // window.location.reload();
       })
       .catch(error => {
         console.error('Error during logout:', error);
@@ -193,7 +193,7 @@ const Sidebar = () => {
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/Logout')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
-          <Link to="logout" onClick={handleLogout} className="menu-link">
+          <Link onClick={handleLogout} className="menu-link">
             <div className="sidebar-icon"><RiLogoutCircleRLine /></div>
             <span>Logout</span>
           </Link>

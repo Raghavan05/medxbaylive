@@ -90,7 +90,7 @@ const Corporatesidebar = () => {
     axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
         sessionStorage.clear();
-        navigate('/');
+        navigate('https://medxbay.com');
         window.location.reload();
       })
       .catch(error => {

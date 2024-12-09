@@ -143,9 +143,7 @@ const Navbar = () => {
     setIsLoggedIn(false);
     setUserRole("");
     setProfileImage(profilePlaceholder);
-    navigate("/");
-
-    window.location.reload();
+    window.location.href = 'https://medxbay.com'; // Redirect to the desired URL
   };
 
   const handleLogin = (role) => {
@@ -346,7 +344,7 @@ const Navbar = () => {
         <nav className={`navbar navbar-expand-lg navbar-light navbar-head-style ${isLoggedIn ? "logged-in-background" : ""}`}
           style={isLoggedIn ? { backgroundColor: "white" } : {}}
         >
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="https://medxbay.com">
             <img src={logobrand} alt="Brand Logo" className='brand-img' />
           </Link>
 
@@ -358,9 +356,9 @@ const Navbar = () => {
           {/* Offcanvas for mobile view */}
           <div className={`offcanvas-custom ${isOffcanvasOpen ? 'open' : ''}`}>
             <div className="offcanvas-header">
-              <a className="navbar-brand" href="/">
+              <Link className="navbar-brand" to="https://medxbay.com">
                 <img src={logobrand} alt="Brand Logo" className='brand-img' />
-              </a>
+              </Link>
               <button type="button" className="offcanvas-close" onClick={toggleOffcanvas}>
                 &times;
               </button>
@@ -382,7 +380,7 @@ const Navbar = () => {
                                   ? "/OurProviders"
                                   : userRole === "suppliers"
                                     ? "/OurProducts"
-                                    : "/"
+                                    : "https://medxbay.com"
                           }
                         >
                           <div className="image-container">
@@ -399,14 +397,14 @@ const Navbar = () => {
                       <Link
                         to={
                           userRole === "patient"
-                            ? "/"
+                            ? "https://medxbay.com"
                             : userRole === "doctor"
-                              ? "/"
+                              ? "https://medxbay.com"
                               : userRole === "corporate"
-                                ? "/"
+                                ? "https://medxbay.com"
                                 : userRole === "suppliers"
-                                  ? "/"
-                                  : "/"
+                                  ? "https://medxbay.com"
+                                  : "https://medxbay.com"
                         }
                       >
                         <div className="dashboard-setting-bell">
@@ -549,7 +547,7 @@ const Navbar = () => {
                                   ? "/corporate/dashboardpage/"
                                   : userRole === "supplier"
                                     ? "/supplier/dashboardpage/"
-                                    : "/"
+                                    : "https://medxbay.com"
                           }
                         >
                           Dashboard
@@ -722,7 +720,7 @@ const Navbar = () => {
                                 ? "/corporate/dashboardpage/"
                                 : userRole === "supplier"
                                   ? "/supplier/dashboardpage"
-                                  : "/"
+                                  : "https://medxbay.com"
                         }
                       >
                         Dashboard
@@ -765,7 +763,7 @@ const Navbar = () => {
                                     ? "/OurProviders"
                                     : userRole === "supplier"
                                       ? "/OurProducts"
-                                      : "/"
+                                      : "https://medxbay.com"
                             }
                           >
                             <div className="image-container">
@@ -782,14 +780,14 @@ const Navbar = () => {
                         <Link
                           to={
                             userRole === "patient"
-                              ? "/"
+                              ? "https://medxbay.com"
                               : userRole === "doctor"
-                                ? "/"
+                                ? "https://medxbay.com"
                                 : userRole === "corporate"
-                                  ? "/"
+                                  ? "https://medxbay.com"
                                   : userRole === "supplier"
-                                    ? "/"
-                                    : "/"
+                                    ? "https://medxbay.com"
+                                    : "https://medxbay.com"
                           }
                         >
                           <div className="dashboard-setting-bell">

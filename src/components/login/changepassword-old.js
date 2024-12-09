@@ -81,7 +81,7 @@ const ChangePassword = () => {
            className: 'toast-sign toast-success',
  
          });
-          navigate('/'); 
+         window.location.href = 'https://medxbay.com'; // Redirect to the desired URL
         } else {
           toast.error(res.data.message || 'Failed to reset password. Please try again.',{
             position: "top-center" ,

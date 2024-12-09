@@ -47,7 +47,7 @@ const Footer = () => {
               Explore
             </h3>
             <nav className="flex flex-col mt-8 text-sm leading-loose text-neutral-600">
-              <Link to="/">Home Page</Link>
+              <Link to="https://medxbay.com">Home Page</Link>
               <Link to="/about" className="mt-5">
                 About Us
               </Link>

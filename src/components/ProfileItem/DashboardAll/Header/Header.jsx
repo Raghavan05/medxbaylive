@@ -48,7 +48,7 @@ const Header = () => {
     <>
       <header className="header-head">
         <div className="home-return">
-          <Link to='/' className="text-home-return">Home</Link>
+          <Link to='https://medxbay.com' className="text-home-return">Home</Link>
         </div>
         <div className="profile-return">
           <Link to='/edit/profile/doctor' className="text-profile-return">Edit Profile</Link>

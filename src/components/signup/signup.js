@@ -326,7 +326,7 @@ const SignupCard = () => {
       <div className='signupnew--total-container'>
         <div className='signupnew--close-custom-container'>
           <button type="button" className="signupnew--close-custom" aria-label="Close">
-            <Link to={'/'}>
+            <Link to={'https://medxbay.com'}>
               <FaTimes size='1rem'/>
             </Link>
           </button>

@@ -90,7 +90,7 @@ const Adminsidebar = () => {
     axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
         sessionStorage.clear();
-        navigate('/');
+        window.location.href = 'https://medxbay.com'; // Redirect to the desired URL
         window.location.reload();
       })
       .catch(error => {
@@ -265,7 +265,7 @@ const Adminsidebar = () => {
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/login')}
         >
-          <Link to="logout" onClick={handleLogout} className="menu-link">
+          <Link to="https://medxbay.com" onClick={handleLogout} className="menu-link">
             <div className="sidebar-icon"><RiLogoutCircleRLine /></div>
             <span>Logout</span>
           </Link>

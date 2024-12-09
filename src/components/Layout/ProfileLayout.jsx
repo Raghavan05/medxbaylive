@@ -53,7 +53,7 @@ const ProfileLayout = () => {
     })
     .then(() => {
       sessionStorage.clear();
-      navigate("/");
+      navigate("https://medxbay.com");
     })
     .catch((error) => {
       console.error("Error during logout:", error);
