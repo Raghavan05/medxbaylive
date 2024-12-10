@@ -273,7 +273,7 @@ function Sidebar({ scheduleList, doctor, setEvents }) {
 
   return (
     <div className="schedule-sidebar">
-      <button className='Schedule-TimeSlot-button' onClick={onSelectSlot}>Add Timeslot</button>
+      {/* <button className='Schedule-TimeSlot-button' onClick={onSelectSlot}>Add Timeslot</button> */}
       <h3>All Schedule</h3>
 
       <p>TimeSlots</p>
