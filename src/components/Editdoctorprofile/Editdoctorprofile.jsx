@@ -711,7 +711,7 @@ const handleSpecialitiesRemove = (specialityToRemove) => {
                             className="edit-doctor-profile-dropdown"
                           >
                             <option value="" disabled>Select Treatment Approach</option>
-                            {['conventional', 'holistic', 'traditional', 'speciality'].map((approach) => (
+                            {['conventional', 'holistic', 'traditional ', 'speciality'].map((approach) => (
                               <option key={approach} value={approach} disabled={doctorData?.treatmentApproach?.includes(approach)}>
                                 {approach}
                               </option>
