@@ -68,6 +68,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
     const navigate = useNavigate();
 
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+  const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
       const handleResize = () => setIsMobileView(window.innerWidth <= 768);
@@ -195,6 +196,8 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
         setSelectedTimeSlot(slot);
     };
     const handleBookAppointment = async () => {
+    setIsSaving(true);  // Set saving state to true
+
         if (!userLoggedin) {
             toast.info('You need to log in to book an appointment.', {
                 className: 'toast-sign toast-fail',
@@ -261,12 +264,18 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                         progressBar: true,
                     });
                 }
+                setTimeout(() => {
+                    setIsSaving(false);  // Reset saving state after the process is done
+                    window.location.reload();
+                  }, 3000);  // 3000 milliseconds = 3 seconds
             } else {
                 toast.error('Unexpected server response. Please try again.', {
                     className: 'toast-center toast-fail',
                     closeButton: true,
                     progressBar: true,
                 });
+                setIsSaving(false);  // Reset saving state on error
+
             }
         } catch (error) {
             console.error('Error booking appointment:', error.message);
@@ -275,7 +284,10 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 closeButton: true,
                 progressBar: true,
             });
+            setIsSaving(false);  // Reset saving state on error
+
         }
+        
     };
     const currencySymbols = {
         usd: '$',
@@ -580,8 +592,17 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                         {selectedTimeSlot && (
                             <div className="book-now">
                             {!userLoggedin ?
-                                (<button className={`book-button book-login mr-2 p-3 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowPopup}>Register to book now</button>)
-                                : (<button className="btn btn-primary" onClick={handleBookAppointment}>Book Now</button>)
+                                    (<button className={`book-button book-login mr-2 p-3 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowPopup}>Register to book now</button>)
+                                    : (
+                                        <>
+                                            <button className="savebutton" type="submit" onClick={handleBookAppointment} disabled={isSaving}>
+                                                <span className="savebutton-text">Book Now</span>
+                                                {isSaving && <div className="spinner-overlay">
+                                                    <div className="small-spinner"></div>
+                                                </div>}
+                                            </button>
+                                        </>
+                                    )
                             }
                         </div>
                         )}

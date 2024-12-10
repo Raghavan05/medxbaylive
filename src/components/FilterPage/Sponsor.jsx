@@ -61,6 +61,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
     const [currencytoBookingData,setCurrencytoBookingData] = useState('usd');
     const navigate = useNavigate();
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+  const [isSaving, setIsSaving] = useState(false);
 
 useEffect(() => {
   const handleResize = () => setIsMobileView(window.innerWidth <= 768);
@@ -188,6 +189,8 @@ useEffect(() => {
         setSelectedTimeSlot(slot);
     };
     const handleBookAppointment = async () => {
+    setIsSaving(true);  // Set saving state to true
+
         if (!userLoggedin) {
             toast.info('You need to log in to book an appointment.', {
                 className: 'toast-sign toast-fail',
@@ -254,12 +257,17 @@ useEffect(() => {
                         progressBar: true,
                     });
                 }
+                setTimeout(() => {
+                    setIsSaving(false);  // Reset saving state after the process is done
+                    window.location.reload();
+                  }, 3000);  // 3000 milliseconds = 3 seconds
             } else {
                 toast.error('Unexpected server response. Please try again.', {
                     className: 'toast-center toast-fail',
                     closeButton: true,
                     progressBar: true,
                 });
+                setIsSaving(false);  // Reset saving state after the process is done
             }
         } catch (error) {
             console.error('Error booking appointment:', error.message);
@@ -268,6 +276,7 @@ useEffect(() => {
                 closeButton: true,
                 progressBar: true,
             });
+            setIsSaving(false);  // Reset saving state after the process is done   
         }
     };
     const currencySymbols = {
@@ -554,7 +563,16 @@ useEffect(() => {
                             <div className="book-now">
                                 {!userLoggedin ?
                                     (<button className={`book-button book-login mr-2 p-3 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowPopup}>Register to book now</button>)
-                                    : (<button className="btn btn-primary" onClick={handleBookAppointment}>Book Now</button>)
+                                    : (
+                                        <>
+                                            <button className="savebutton" type="submit" onClick={handleBookAppointment} disabled={isSaving}>
+                                                <span className="savebutton-text">Book Now</span>
+                                                {isSaving && <div className="spinner-overlay">
+                                                    <div className="small-spinner"></div>
+                                                </div>}
+                                            </button>
+                                        </>
+                                    )
                                 }
                             </div>
                         )}
