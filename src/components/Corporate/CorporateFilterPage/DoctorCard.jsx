@@ -588,7 +588,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 )}
 
             </div>
-            <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
+            {/* <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} /> */}
         </>
     );
 };

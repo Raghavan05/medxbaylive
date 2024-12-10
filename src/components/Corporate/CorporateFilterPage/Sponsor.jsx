@@ -561,7 +561,7 @@ useEffect(() => {
                     </div>
                 )}
             </div>
-            <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
+            {/* <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} /> */}
         </>
     );
 };

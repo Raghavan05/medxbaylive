@@ -61,9 +61,9 @@ const PopupModal = () => {
       )}
 
       {/* Display SignupCard even after closing the initial modal */}
-      {showPopup && (
+      {/* {showPopup && (
         <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
-      )}
+      )} */}
     </>
   );
 };

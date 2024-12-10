@@ -183,7 +183,10 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
         }
     };
     const handleShowLogin = () => setShowLoginPopup(true);
-    const handleShowPopup = () => setShowPopup(true);
+    const handleShowPopup = () =>{
+        navigate('/signup');
+        // setShowPopup(true);
+    }
     const handleClosePopup = () => setShowPopup(false);
     const handleShowCard = () => {
         setShowDoctorCard(prevState => !prevState);
@@ -586,7 +589,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 )}
 
             </div>
-            <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
+            {/* <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} /> */}
         </>
     );
 };

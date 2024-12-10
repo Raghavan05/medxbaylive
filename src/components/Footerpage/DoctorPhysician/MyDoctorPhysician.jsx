@@ -427,16 +427,16 @@ const DoctorPhysician = () => {
                 </div>
             
             </section> 
-            <SignupCard 
+            {/* <SignupCard 
                 show={showPopup} 
                 handleClose={handleClosePopup}
-                 openLoginModal={handleShowLogin}/>
-                        <LoginCard 
+                 openLoginModal={handleShowLogin}/> */}
+                        {/* <LoginCard 
           show={showLoginPopup} 
           handleClose={handleCloseLoginPopup} 
           openRegisterModal={handleShowRegister} 
           handleLogin={handleLogin}
-        />
+        /> */}
 
         </div> 
     </>          

@@ -179,7 +179,10 @@ useEffect(() => {
         setShowDoctorCard(prevState => !prevState);
     };
     const handleShowLogin = () => setShowLoginPopup(true);
-    const handleShowPopup = () => setShowPopup(true);
+    const handleShowPopup = () =>{
+        navigate('/signup');
+        // setShowPopup(true);
+    }
     const handleClosePopup = () => setShowPopup(false);
     const handleTimeSlotClick = (slot) => {
         setSelectedTimeSlot(slot);
@@ -558,7 +561,7 @@ useEffect(() => {
                     </div>
                 )}
             </div>
-            <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} />
+            {/* <SignupCard show={showPopup} handleClose={handleClosePopup} openLoginModal={handleShowLogin} /> */}
         </>
     );
 };

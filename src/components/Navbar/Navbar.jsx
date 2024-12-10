@@ -813,21 +813,21 @@ const Navbar = () => {
         </nav>
         {isSignInClicked && (
           <div className="blur-background">
-            <LoginCard
+            {/* <LoginCard
               onClose={handleCloseSignupCard}
               onSwitchToSignup={handleRegisterClick}
               handleClose={handleCloseLogin}
               handleLogin={handleLogin}
-            />
+            /> */}
           </div>
         )}
         {isRegisterClicked && (
           <div className="blur-background">
-            <SignupCard
+            {/* <SignupCard
               onCloseSignupCard={handleCloseLoginCard}
               onSwitchToLogin={handleSignInClick}
               handleClose={handleCloseRegister}
-            />
+            /> */}
           </div>
         )}
         {/* <SignupCard
