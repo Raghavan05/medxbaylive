@@ -76,7 +76,7 @@ const DoctorInfo = () => {
       const doctorData = response.data;
 
       console.log(doctorData);
-      console.log(doctorData.doctor.treatmentApproach);
+      // console.log(doctorData.doctor.treatmentApproach);
 
       if (doctorData.doctor.dateOfBirth) {
         const date = new Date(doctorData.doctor.dateOfBirth);
@@ -152,14 +152,19 @@ const DoctorInfo = () => {
           ))}
         </div>
         <div className="flex-row mt-2">
-          <img loading="lazy" src="/DoctorProfile/checklist-1.png" alt="" className="icon" />
-          {doctor?.treatmentApproach?.map((treatmentApproach, index) => (
-            <span key={index}>
-              {treatmentApproach}
-              {index < doctor.treatmentApproach.length - 1 ? ", " : ""}
-            </span>
-          ))}
-        </div>
+  <img loading="lazy" src="/DoctorProfile/checklist-1.png" alt="" className="icon" />
+  {Array.isArray(doctor?.treatmentApproach) ? (
+    doctor?.treatmentApproach.map((treatmentApproach, index) => (
+      <span key={index}>
+        {treatmentApproach}
+        {index < doctor?.treatmentApproach.length - 1 ? ", " : ""}
+      </span>
+    ))
+  ) : (
+    <span>No treatment approaches</span>
+  )}
+</div>
+
         <div className="flex-row mt-2">
           <img loading="lazy" src="/DoctorProfile/videoConsultamnt.png" alt="" className="icon" />
           <span>Video consult | </span>

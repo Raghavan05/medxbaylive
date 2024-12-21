@@ -91,7 +91,7 @@ const ManageAppointments = () => {
     // apply search filter based on doctor name
     if (searchQuery) {
       filtered = filtered.filter(booking => 
-        booking.doctor && booking.doctor.name.toLowerCase().includes(searchQuery)
+        booking.doctor && booking.doctor?.name.toLowerCase().includes(searchQuery)
       );
     }
     return filtered;
@@ -266,7 +266,7 @@ const ManageAppointments = () => {
             {Array.isArray(filteredBookings) && filteredBookings.length > 0 ? (
               filteredBookings.slice(0, visibleAppointments).map(({ _id, doctor, date, time, status, consultationType, hospital, meetingLink }) => (
                 <tr key={_id}>
-                  <td>{doctor ? doctor.name : 'N/A'}</td>
+                  <td>{doctor ? doctor?.name : 'N/A'}</td>
                   <td>{new Date(date).toLocaleDateString()}</td>
                   <td>{time}</td>
                   <td><span className={`status-dot ${getStatusClass(status)}`}></span></td>
@@ -308,7 +308,7 @@ const ManageAppointments = () => {
           <h2>Appointment Details</h2>
           {selectedAppointment ? (
             <>
-              <p><strong>Doctor:</strong> {selectedAppointment.doctor.name}</p>
+              <p><strong>Doctor:</strong> {selectedAppointment?.doctor?.name}</p>
               <p><strong>Date:</strong> {new Date(selectedAppointment.date).toLocaleDateString()}</p>
               <p><strong>Time:</strong> {selectedAppointment.time}</p>
               <p><strong>Status:</strong> {selectedAppointment.status}</p>
@@ -317,12 +317,12 @@ const ManageAppointments = () => {
                   <strong>Doctor Location:</strong>
                   <br />
                   <ul className='list-unstyled'>
-                    <li><b> Hospital Name : </b>{selectedAppointment.hospital.name}</li>
-                    <li><b> Location : </b>{selectedAppointment.hospital.location.country} , 
-                      {selectedAppointment.hospital.location.state} , 
-                      {selectedAppointment.hospital.location.city},
-                      {selectedAppointment.hospital.location.street},
-                      {selectedAppointment.hospital.location.zip}
+                    <li><b> Hospital Name : </b>{selectedAppointment?.hospital?.name}</li>
+                    <li><b> Location : </b>{selectedAppointment?.hospital?.location?.country} , 
+                      {selectedAppointment?.hospital?.location?.state} , 
+                      {selectedAppointment?.hospital?.location?.city},
+                      {selectedAppointment?.hospital?.location?.street},
+                      {selectedAppointment?.hospital?.location?.zip}
                       </li>
                       {/* // <li>
                       //   {hospital.street}, {hospital.city}, {hospital.state}, {hospital.country}
@@ -331,7 +331,7 @@ const ManageAppointments = () => {
                   </ul>
                 </div>
               ) : (
-                <p><strong>Meeting Link:</strong> <a href={selectedAppointment.meetingLink} target="_blank" rel="noopener noreferrer">Join Meeting</a></p>
+                <p><strong>Meeting Link:</strong> <a href={selectedAppointment?.meetingLink} target="_blank" rel="noopener noreferrer">Join Meeting</a></p>
               )}
             </>
           ) : (
@@ -352,7 +352,7 @@ const ManageAppointments = () => {
         <div className="review-modal-content">
           {selectedAppointment ? (
             <>
-              <h2>Add Review for {selectedAppointment.doctor.name}</h2>
+              <h2>Add Review for {selectedAppointment?.doctor?.name}</h2>
               <form onSubmit={handleReviewSubmit}>
                 <div>
                   <label>

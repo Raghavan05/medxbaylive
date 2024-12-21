@@ -1,18 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './ourproviderspage.css';
 import axios from 'axios';
+
 // Default Cover-Image and Profile-Image
 import providers from './Assets/providers3.png';
 import providersprofile from './Assets/images.png';
+
 // React icons
 import { LuPencil } from "react-icons/lu";
 import { IoIosStar } from "react-icons/io";
 import { PiDotsThreeCircle } from "react-icons/pi";
 import { FaPlus } from "react-icons/fa6";
 import { PiPaperPlaneTiltBold } from "react-icons/pi";
+import { RiUserAddLine } from "react-icons/ri";
 import { RxExternalLink } from "react-icons/rx";
 import { BiSolidShareAlt } from "react-icons/bi";
 import { TbEdit } from "react-icons/tb";
+
 // Components
 import OverviewActivity from './OverviewActivity/OverviewActivity';
 import OurProvidersPEPOP from './OurProvidersPEPOP/OurProvidersPEPOP';
@@ -20,6 +24,7 @@ import OurProvidersDC from './OurProvidersDC/OurProvidersDC';
 import OurReviewsDc from './OurReviewsDc/OurReviewsDc';
 import OurBlogDc from './OurBlogDc/OurBlogDc';
 import BlogPopup from '../../patientBlog/BlogPopup';
+import AddDoctor from './AddDoctor/AddDoctor';
 import OurProvidersSharePopup from './OurProviderSharePopup/OurProvidersSharePopup'
 import { Link } from 'react-router-dom';
 
@@ -48,6 +53,22 @@ const OurProvidersPage = () => {
   const [patientReviews,setPatientReviews] = useState([]);
   const [corporateSpecialties,setCorporateSpecialities] = useState([]);
   const [overview,setOverview] = useState([]);
+  const [inviteLinks, setInviteLinks] = useState('');
+  
+
+  //AddDoctor
+  const [isAddDoctorVisible, setIsAddDoctorVisible] = useState(false);
+  
+  const openAddDoctorPopup = () => {
+    setIsAddDoctorVisible(true);
+    document.body.classList.add('scroll-lock');
+  };
+
+  const handleCloseAddDoctorPopup = () => {
+    setIsAddDoctorVisible(false);
+    document.body.classList.remove('scroll-lock'); 
+  };
+
 
   // Fetch profile data from the backend
   useEffect(() => {
@@ -71,8 +92,9 @@ const OurProvidersPage = () => {
         setPatientReviews(data.patientReviews || []);
         setDoctors(data.doctors || []);
         setBlogs(data.blogs || []);
+        setInviteLinks(data.inviteLinks || '');
         setOverview(data.corporate.overview)
-      console.log(data.corporate.corporateSpecialties);
+        console.log(data.corporate.corporateSpecialties);
         setCorporateSpecialities(data.corporate.corporateSpecialties)
   
         setProfileData({
@@ -183,6 +205,7 @@ const OurProvidersPage = () => {
     setProfileData(tempProfileData);
     closeEditPopup();
   };
+
   const copyLink = () => {
     const link = window.location.href; // Get the current URL of the page
     navigator.clipboard.writeText(link).then(() => {
@@ -240,6 +263,11 @@ const OurProvidersPage = () => {
 
             {isDropdownOpen && (
               <div className={`our-providers-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+
+                <div className="our-providers-dropdown-item" onClick={openAddDoctorPopup}>
+                  <RiUserAddLine size="1rem" /> Add Doctor
+                </div>
+
                 <div className="our-providers-dropdown-item" onClick={copyLink}>
                   <RxExternalLink size="1rem" /> Copy Link
                 </div>
@@ -278,7 +306,7 @@ const OurProvidersPage = () => {
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
-
+      <AddDoctor inviteLinks={inviteLinks} show={isAddDoctorVisible} handleClose={handleCloseAddDoctorPopup} />
     </div>
   );
 };

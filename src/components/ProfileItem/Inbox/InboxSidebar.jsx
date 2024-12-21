@@ -37,7 +37,7 @@ const Sidebar = ({ onSelectChat }) => {
 
           return {
             id: chat._id,
-            name: role === 'patient' ? chat.doctorId.name : chat.patientId.name,
+            name: role === 'patient' ? chat?.doctorId?.name : chat?.patientId?.name,
             message: latestMessage?.text || 'No messages yet',
             time: time,
             img: imgSrc,
@@ -67,14 +67,14 @@ const Sidebar = ({ onSelectChat }) => {
         {error ? (
           <li>Error loading users: {error}</li>
         ) : (
-          users.map(user => (
-            <li key={user.id} className="user-list-item" onClick={() => onSelectChat(user)}>
+          users?.map(user => (
+            <li key={user?.id} className="user-list-item" onClick={() => onSelectChat(user)}>
               <div className="user-avatar">
-                <img src={user.img} alt={user.name} />
+                <img src={user?.img} alt={user?.name} />
               </div>
               <div className="user-info">
-                <div className="user-name">{user.name}</div>
-                <div className="user-message">{user.message}</div>
+                <div className="user-name">{user?.name}</div>
+                <div className="user-message">{user?.message}</div>
                 <div className="message-time"><LuClock3 className='clock-icon-user-message-time'/> {user.time}</div>
               </div>
             </li>

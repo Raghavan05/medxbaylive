@@ -30,7 +30,7 @@ const ManageAppointments = () => {
         const data = await response.json();
         setStatuses(data.bookings.map(booking => ({
           id: booking._id,
-          patientName: booking.patient ? booking.patient.name : 'Unknown Patient',
+          patientName: booking?.patient ? booking?.patient?.name : 'Unknown Patient',
           consultationType: booking.consultationType || 'Unknown Type',
           date: new Date(booking.date).toLocaleDateString(),
           time: booking.time,

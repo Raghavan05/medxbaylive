@@ -15,7 +15,7 @@ const Inbox = () => {
 
     try {
       const role = sessionStorage.getItem('role');
-      const response = await fetchFromServer(role, `/chat/${chat.id}`);
+      const response = await fetchFromServer(role, `/chat/${chat?.id}`);
       console.log('Fetched messages:', response);
       setMessages(response.chat.messages);
       setPatientId(response.chat.patientId);
@@ -27,7 +27,7 @@ const Inbox = () => {
   const handleSendMessage = async (message) => {
     try {
       const role = sessionStorage.getItem('role');
-      await fetchFromServer(role, `/chats/${selectedChat.id}/send-message`, { message }, 'POST');
+      await fetchFromServer(role, `/chats/${selectedChat?.id}/send-message`, { message }, 'POST');
       setMessages([...messages, { text: message, timestamp: new Date(), senderId: sessionStorage.getItem('userId') }]);
     } catch (error) {
       setError(error.message);
