@@ -23,15 +23,16 @@ const AddDoctor = ({ inviteLinks, show, handleClose }) => {
   
     try {
       // Generate the invite link dynamically
-      const generatedInviteLink = inviteLinks.inviteLink
-      console.log(generatedInviteLink); // Optional: If you want to show it in the UI
+      const generatedInviteLink = inviteLinks[0].inviteLink
+      console.log(inviteLinks.inviteLink); // Optional: If you want to show it in the UI
   
       // Send the data to the backend
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/corporate/send-invite`, {
         // name,
         email,
         inviteLink: generatedInviteLink, // Send the generated invite link
-      });
+      },{withCredentials:true}
+    );
   
       console.log('Invitation sent successfully:', response.data);
       alert('Invitation sent successfully');
@@ -71,6 +72,15 @@ const AddDoctor = ({ inviteLinks, show, handleClose }) => {
             placeholder="Enter doctor's email"
           />
         </div>
+        {/* <div className="add-doctor-modal-form-group">
+          <label htmlFor="doctor-name">Name</label>
+          <input
+            id="doctor-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter doctor's name"
+          />
+        </div> */}
         {error && <p className="error-message">{error}</p>}
         <button
           onClick={handleSave}
