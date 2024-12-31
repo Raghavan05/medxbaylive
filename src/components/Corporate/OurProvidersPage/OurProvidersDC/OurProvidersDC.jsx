@@ -148,7 +148,7 @@ const DoctorExp = () => (
         <div className="OurProvidersDC-blogPage-Doctors-title-head">
           <h2>Our Providers</h2>
           <div>
-          {doctors.length === 4 ? (
+          {doctors?.length === 4 ? (
           ''
         ) :(
           <button className="OurProvidersDC-See-more-btn">
@@ -157,17 +157,17 @@ const DoctorExp = () => (
         )}
           </div>
         </div>
-        {doctors.length === 0 ? (
+        {doctors?.length === 0 ? (
         <div className="noDoctorsMessage">
           <p>No doctors available at the moment.</p>
         </div>
       ) : (
         <div className="OurProvidersDC-blogPageDoctorCardBox">
-          {doctors.map((doctor,index) => (
-            <div key={doctor.id || index} className="OurProvidersDC-blogPageDoctorCard">
-              <div className={`OurProvidersDC-blogPageDoctorCardImgBox ${doctor.subscriptionType === 'Standard' ? 'OurProvidersDC-sponsorColor' : ''}`}>
-                <Link to={`/book-appointment-profile/${doctor.id}`}>
-                  <img src={getProfileImage(doctor.profilePicture.data)} alt={doctor.name} />
+          {doctors?.map((doctor,index) => (
+            <div key={doctor?.id || index} className="OurProvidersDC-blogPageDoctorCard">
+              <div className={`OurProvidersDC-blogPageDoctorCardImgBox ${doctor?.subscriptionType === 'Standard' ? 'OurProvidersDC-sponsorColor' : ''}`}>
+                <Link to={`/book-appointment-profile/${doctor?.id}`}>
+                  <img src={getProfileImage(doctor?.profilePicture?.data)} alt={doctor?.name} />
                 </Link>
                 <span className="OurProvidersDC-verifiedTick">
                   <VerifiedTick />
@@ -177,24 +177,24 @@ const DoctorExp = () => (
               <div className="OurProvidersDC-blogPageDoctorCard-content">
                 <div className="OurProvidersDC-blogPageDoctorCardHeader">
                   <h3 className="OurProvidersDC-blogPageDoctorCardName">
-                    {doctor.name}
+                    {doctor?.name}
                   </h3>
                   <div className="OurProvidersDC-blogPageDoctorCardRating">
-                    <IoIosStar /> {doctor.rating}
+                    <IoIosStar /> {doctor?.rating}
                   </div>
                 </div>
 
                 <div className="OurProvidersDC-blogPageDoctorCardSpecialist">
-                  <DoctorSymbol /> <p>{doctor.speciality[0]}</p>
+                  <DoctorSymbol /> <p>{doctor?.speciality[0] || '-------------------'}</p>
                 </div>
 
 
                 <div className="OurProvidersDC-blogPageDoctorCardExp">
-                {doctor.experience ? (<DoctorExp />) : (<br/>)}
+                {doctor?.experience ? (<DoctorExp />) : '-------------------'}
                 <p>
-                    {doctor.experience ? (
+                    {doctor?.experience ? (
                       <>
-                        <span>{doctor.experience} years experience overall</span>
+                        <span>{doctor?.experience} years experience overall</span>
                       </>
                     ) : ""}
                   </p>
@@ -202,10 +202,10 @@ const DoctorExp = () => (
                 </div>
 
                 <div className="OurProvidersDC-blogPageDoctorCardDesc">
-                  {doctor.aboutMe?.split(" ").slice(0, 15).join(" ") + "..."}
+                  {doctor?.aboutMe?.split(" ").slice(0, 15).join(" ") + "..." || '-------------------'}
                 </div>
 
-                <Link to={`/book-appointment-profile/${doctor._id}`}>
+                <Link to={`/book-appointment-profile/${doctor?._id}`}>
                   <button className="OurProvidersDC-blogPageDoctorCardBtn">
                     Book appointment
                   </button>

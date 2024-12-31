@@ -24,7 +24,7 @@ const AddDoctor = ({ inviteLinks, show, handleClose }) => {
     try {
       // Generate the invite link dynamically
       const generatedInviteLink = inviteLinks[0].inviteLink
-      console.log(inviteLinks.inviteLink); // Optional: If you want to show it in the UI
+      // console.log(inviteLinks.inviteLink); // Optional: If you want to show it in the UI
   
       // Send the data to the backend
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/corporate/send-invite`, {

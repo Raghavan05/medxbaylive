@@ -167,7 +167,6 @@ const DoctorProfile = () => {
         {doctor ? doctor.name : "Loading..."}
         </div>
         <div style={{ fontSize: "14px" }}> {doctor ? doctor.title : "Loading..."}</div>
-
         <br></br>
         <div style={{ display: "flex", flexDirection: "row"}}>
           <div style={{ border: "1px solid #bfbebe", padding: "3px 55px", borderRadius:"10px", backgroundColor:"#0167FF", color:"white"  }} onClick={handleShowEdit}>Edit Profile</div>

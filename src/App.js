@@ -57,6 +57,7 @@ import Supplierroute from './components/Supplier/Supplierdashboard/Supplierroute
 import OurProductsPage from './components/Supplier/OurProductsPage/OurProductsPage';
 import CorporateFilter from './components/Corporate/CorporateFilterPage/FilterPage';
 import SupplierFilter from './components/Supplier/SupplierFilterPage/FilterPage';
+import ProviderSignup from './components/signup/ProviderSignup';
 
 function App() {
   useEffect(() => {
@@ -96,6 +97,7 @@ function App() {
           <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
           <Route path="/enterprise" element={[<Navbar/>,<Enterprise />,<Footer/>]} />
           <Route path="/signup" element={<SignupCard />} />
+          <Route path="/provider/signup" element={<ProviderSignup />} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
           <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
