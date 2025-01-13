@@ -48,7 +48,7 @@ const AdmindoctorSubscription = () => {
           { verificationStatus: newStatus }
         );
         console.log(response);
-        toast.success('Status updated successfully!');
+        toast.info('Status updated successfully!');
       } catch (error) {
         console.error("Error updating status:", error);
         toast.error('Failed to update status');

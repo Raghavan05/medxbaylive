@@ -106,7 +106,7 @@ const AdminBlogUploadForm = () => {
       });
   
       if (res.data) {
-        toast.success("Blog published successfully!");
+        toast.info("Blog published successfully!");
         handleAddClick();  // Reset form after successful submission
       } else {
         toast.error("Failed to publish blog.");

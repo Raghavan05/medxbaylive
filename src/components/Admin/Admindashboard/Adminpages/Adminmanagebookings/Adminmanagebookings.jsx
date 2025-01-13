@@ -15,7 +15,7 @@ const Adminmanagebooking = () => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/bookings`);
-        // console.log('Fetched bookings:', response.data); // Log the full response to confirm structure
+        console.log('Fetched bookings:', response.data); // Log the full response to confirm structure
         if (Array.isArray(response.data.bookings)) {
           setBookings(response.data.bookings);
         } else {

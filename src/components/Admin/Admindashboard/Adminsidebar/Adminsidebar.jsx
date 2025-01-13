@@ -10,6 +10,10 @@ import axios from 'axios';
 
 //sidebar item icons
 import { BiSolidDashboard } from "react-icons/bi";
+import { BiSolidUserAccount } from "react-icons/bi";
+import { MdManageAccounts } from "react-icons/md";
+import { RiFileTransferFill } from "react-icons/ri";
+
 import { MdWallpaper } from "react-icons/md";
 import { RiInboxLine } from "react-icons/ri";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -23,7 +27,7 @@ import { AiOutlineNotification } from "react-icons/ai";
 import { RiLogoutCircleRLine } from 'react-icons/ri';
 
 // Using Link and useLocation for active and inactive states
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Adminsidebar = () => {
   const location = useLocation();
@@ -85,7 +89,7 @@ const Adminsidebar = () => {
     setActiveItem(item);
     localStorage.setItem('lastActiveItem', item);
   };
-  const navigate = useNavigate();
+
   const handleLogout = () => {
     axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
@@ -100,8 +104,8 @@ const Adminsidebar = () => {
 
 
   return (
-    <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
-      <div className="logo-container">
+    <div className={`admin-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+      <div className="admin-logo-container">
         {isSidebarOpen ? (
           <>
             <img src={brandLogo} alt="Logo" className="logo" />
@@ -115,9 +119,9 @@ const Adminsidebar = () => {
           </button>
         )}
       </div>
-      <ul className="sidebar-menu-admin">
+      <ul className="sidebar-menu-direct-admin">
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admindashboardpage' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admindashboardpage' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admindashboardpage')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admindashboardpage')}
@@ -127,8 +131,45 @@ const Adminsidebar = () => {
             <span>Dashboard Page</span>
           </Link>
         </li>
+
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-viewblog' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admincreatenewaccount' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admincreatenewaccount')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
+          onClick={() => handleItemClick('/admin/dashboardpage/admindashboardpage')}
+        >
+          <Link to="/admin/dashboardpage/admincreatenewaccount" className="menu-link">
+            <div className="sidebar-icon"><BiSolidUserAccount /></div>
+            <span>Create New Account</span>
+          </Link>
+        </li>
+
+        <li 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-manage-accounts' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-manage-accounts')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
+          onClick={() => handleItemClick('/admin/dashboardpage/admin-manage-accounts')}
+        >
+          <Link to="/admin/dashboardpage/admin-manage-accounts" className="menu-link">
+            <div className="sidebar-icon"><MdManageAccounts/></div>
+            <span>Manage Accounts</span>
+          </Link>
+        </li>
+
+        <li 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-ProfileTransferRequests' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-ProfileTransferRequests')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
+          onClick={() => handleItemClick('/admin/dashboardpage/admin-ProfileTransferRequests')}
+        >
+          <Link to="/admin/dashboardpage/admin-ProfileTransferRequests" className="menu-link">
+            <div className="sidebar-icon"><RiFileTransferFill /></div>
+            <span>Profile Transfer Requests</span>
+          </Link>
+        </li>
+
+        <li 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-viewblog' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-viewblog')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-viewblog')}
@@ -138,8 +179,9 @@ const Adminsidebar = () => {
             <span>Manage Library</span>
           </Link>
         </li>
+
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-createblog' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-createblog' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-createblog')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-createblog')}
@@ -150,10 +192,10 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-createblog-supplier' ? 'active' : ''}`} 
-          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-createblog')}
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-createblog-supplier' ? 'active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-createblog-supplier')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
-          onClick={() => handleItemClick('/admin/dashboardpage/admin-createblog')}
+          onClick={() => handleItemClick('/admin/dashboardpage/admin-createblog-supplier')}
         >
           <Link to="/admin/dashboardpage/admin-createblog-supplier" className="menu-link">
             <div className="sidebar-icon"><RiInboxLine /></div>
@@ -161,7 +203,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-doctorprofile' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-doctorprofile' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-doctorprofile')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-doctorprofile')}
@@ -172,7 +214,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-managebookings' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-managebookings' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-managebookings')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-managebookings')}
@@ -183,7 +225,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-doctorsubscription' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-doctorsubscription' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-doctorsubscription')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-doctorsubscription')}
@@ -194,7 +236,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-managepayments' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-managepayments' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-managepayments')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-managepayments')}
@@ -205,7 +247,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-CommisionFee' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-CommisionFee' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-CommisionFee')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-CommisionFee')}
@@ -216,7 +258,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-insurance' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-insurance' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-insurance')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-insurance')}
@@ -227,7 +269,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-viewdoctor' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-viewdoctor' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-viewdoctor')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-viewdoctor')}
@@ -238,7 +280,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/admin-viewpatients' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/admin-viewpatients' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/admin-viewpatients')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/admin-viewpatients')}
@@ -249,7 +291,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/admin/dashboardpage/adminappointments' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/admin/dashboardpage/adminappointments' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/admin/dashboardpage/adminappointments')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/admin/dashboardpage/adminappointments')}
@@ -260,7 +302,7 @@ const Adminsidebar = () => {
           </Link>
         </li>
         <li 
-          className={`menu-item ${activeItem === '/login' ? 'active' : ''}`} 
+          className={`admin-menu-item ${activeItem === '/login' ? 'active' : ''}`} 
           onMouseEnter={() => setActiveItem('/login')}
           onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/admin/dashboardpage/admindashboardpage')}
           onClick={() => handleItemClick('/login')}

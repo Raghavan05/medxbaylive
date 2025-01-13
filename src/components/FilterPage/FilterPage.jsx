@@ -137,7 +137,8 @@ const FilterPage = () => {
     if (!Array.isArray(doctors)) {
       return [];
     }
-
+    console.log(filters);
+    
     return doctors.filter((doctor) => {
       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
 
@@ -146,6 +147,7 @@ const FilterPage = () => {
       const speciality = (doctor.speciality.length > 0 ? doctor.speciality : []).map(getStringValue);
       const city = getStringValue(doctor.city || '');
       const gender = getStringValue(doctor.gender || '');
+      const treatmentApproach = getStringValue(doctor.treatmentApproach || '');
       const hospital = doctor.hospitals.length > 0 ? doctor.hospitals.map(hospital => getStringValue(hospital.name)) : [];
       const availability = getStringValue(doctor.availability || '');
       const doctorConditions = (doctor.conditions || []).map(getStringValue);
@@ -159,6 +161,7 @@ const FilterPage = () => {
       const matchesCity = !filters.city || city === getStringValue(filters.city);
       const matchesSpeciality = !filters.speciality || speciality.includes(getStringValue(filters.speciality));
       const matchesGender = !filters.gender || gender === getStringValue(filters.gender);
+      const matchesTreatmentApproach = !filters.treatmentApproach || treatmentApproach === getStringValue(filters.treatmentApproach);
       const matchesHospital = !filters.hospital || hospital.includes(getStringValue(filters.hospital));
       const matchesAvailability = !filters.availability || availability === getStringValue(filters.availability);
       const matchesConditions = filters.conditions.length === 0 || filters.conditions.every(condition => doctorConditions.includes(getStringValue(condition)));
@@ -172,6 +175,7 @@ const FilterPage = () => {
         matchesCity &&
         matchesSpeciality &&
         matchesGender &&
+        matchesTreatmentApproach &&
         matchesHospital &&
         matchesAvailability &&
         matchesConditions &&

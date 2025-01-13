@@ -27,10 +27,6 @@ export const fetchFromPatient = async (endpoint, data = {}, method = 'GET') => {
       const queryString = new URLSearchParams(data).toString();
       response = await api.get(`/patient${endpoint}?${queryString}`);
     }
-
-    // Log the response to inspect it
-    // console.log('Response:', response);
-
     // Return the response data
     return response.data;
   } catch (error) {
@@ -50,13 +46,10 @@ export const fetchFromDoctor = async (endpoint, data = {}, method = 'GET') => {
       let response;
       if (method === 'POST') {
           response = await api.post(`/patient${endpoint}`, data);
-          console.log(response)
       } else {
           response = await api.get(`/patient${endpoint}`);
       }
-
       // return response.data;
-
       if (response.headers['content-type']?.includes('application/json')) {
           return response.data;
       } else {

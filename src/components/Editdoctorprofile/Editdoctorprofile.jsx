@@ -28,7 +28,7 @@ const Editdoctorprofile = () => {
     speciality: [],
     conditions: [],
     languages: [],
-    treatmentApproach: [],
+    treatmentApproach: "",
     facebook: "",
     twitter: "",
     linkedin: "",
@@ -61,7 +61,7 @@ const Editdoctorprofile = () => {
   const navigate = useNavigate();
   const [allInsurances, setAllInsurances] = useState([]);
   const [allSpecialties, setAllSpecialties] = useState([]);
-  const [allTreatmentApproach, setAllTreatmentApproach] = useState([]);
+  const [allTreatmentApproach, setAllTreatmentApproach] = useState();
   const [allConditions, setAllConditions] = useState([]);
   const [insurances, setInsurances] = useState([]);
   const [isOpenFaq, setIsOpenFaq] = useState(false);
@@ -200,22 +200,32 @@ const Editdoctorprofile = () => {
   };
   const handleTreatmentChange = (event) => {
     const selectedTreatment = event.target.value;
-    // Ensure treatmentApproach is an array
-    const currentApproach = doctorData?.treatmentApproach || [];
-    if (!currentApproach.includes(selectedTreatment)) {
+    const currentApproach = doctorData?.treatmentApproach || ""; // Default to an empty string
+    const treatmentsArray = currentApproach.split(",").map((t) => t.trim()); // Split into an array
+  
+    if (!treatmentsArray.includes(selectedTreatment)) {
       setDoctorData({
         ...doctorData,
-        treatmentApproach: [...currentApproach, selectedTreatment], // Add the treatment name
+        treatmentApproach: [...treatmentsArray, selectedTreatment].join(", "), // Join back to a string
       });
     }
   };
+  
   // Function to remove a selected speciality
   const handleTreatmentRemove = (treatmentToRemove) => {
+    const currentApproach = doctorData?.treatmentApproach || ""; // Default to an empty string
+    const updatedApproach = currentApproach
+      .split(",")
+      .map((t) => t.trim()) // Split and trim whitespace
+      .filter((treatment) => treatment !== treatmentToRemove) // Remove the selected treatment
+      .join(", "); // Join back to a string
+  
     setDoctorData({
       ...doctorData,
-      treatmentApproach: doctorData?.treatmentApproach.filter(treatmentApproach => treatmentApproach !== treatmentToRemove)
+      treatmentApproach: updatedApproach,
     });
   };
+  
   const handleSpecialitiesChange = (event) => {
     const selectedSpeciality = event.target.value;
     if (!doctorData.speciality.includes(selectedSpeciality)) {
@@ -403,8 +413,6 @@ const Editdoctorprofile = () => {
 
     setDoctorData({ ...doctorData, faqs: newFaqasking });
   };
-
-
   return (
     <>
       <div className='edit-your-profile-container'>
@@ -627,15 +635,17 @@ const Editdoctorprofile = () => {
                       <div className="edop-form-group edop-full-width">
                         <label>Treatment Approach</label>
                         <div className="tag-container">
-                          {/* Display selected specialities as tags */}
-                          {doctorData?.treatmentApproach?.map((treatmentApproach, index) => (
-                            <span key={index} className="tag-edit-doctor">
-                              {treatmentApproach} {/* Display the speciality name */}
-                              <button onClick={() => handleTreatmentRemove(treatmentApproach)}>x</button>
-                            </span>
-                          ))}
-
-                          {/* Dropdown for adding new specialities */}
+                          {/* Display selected treatmentApproach as tags */}
+                          <span className="tag-edit-doctor">
+                            {doctorData?.treatmentApproach &&
+                              doctorData.treatmentApproach.split(",").map((treatment, index) => (
+                                <span key={index} className="treatment-tag">
+                                  {treatment}
+                                  <button onClick={() => handleTreatmentRemove(treatment)}>x</button>
+                                </span>
+                              ))}
+                          </span>
+                          {/* Dropdown for adding new treatmentApproach */}
                           <select
                             value=""
                             onChange={handleTreatmentChange}

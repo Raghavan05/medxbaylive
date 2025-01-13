@@ -139,7 +139,7 @@ const Editviewdoctor = () => {
     try {
       // Post the updated form data to the backend
       await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/update-doctor/${id}`, formData,{withCredentials:true});
-      toast.success('Doctor details updated successfully', {
+      toast.info('Doctor details updated successfully', {
         position: 'top-right'  // Use 'top-right' instead of toast.POSITION.TOP_RIGHT
       });
       // Redirect or show a success message

@@ -14,6 +14,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         country: '',
         state: '',
         city: '',
+        treatmentApproach : "",
         speciality: '',
         languages: [],
         gender: '',
@@ -53,6 +54,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         const delayDebounceFn = setTimeout(() => {
             searchDoctors();
             onFilterChange(formData);
+            return () => clearTimeout(delayDebounceFn);
         }, 300); // 300ms debouncereturn() =>clearTimeout(delayDebounceFn);
     }, [formData, onFilterChange]);
     const populateDropdowns = async () => {
@@ -308,7 +310,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 <div className="select-container-filter">
                     <div className="form-group">
                         <label htmlFor="city">Treatment approach:</label>
-                        <select id="treatmentApproach" >
+                        <select id="treatmentApproach" onChange={handleInputChange} value={formData.treatmentApproach}>
                             <option value="">Select Treatment</option>
                             <option value={'conventional'}>conventional</option>
                             <option value={'holistic'}>holistic</option>
@@ -338,7 +340,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 <div className="select-container-filter">
                     <div className="form-group">
                         <label htmlFor="dateAvailability">Date Availability:</label>
-                        <input type="date" id="dateAvailability" onChange={handleInputChange} value={formData.dateAvailability} min={new Date().toISOString().split('T')[0]} />
+                        <input className='filter-date-style' type="date" id="dateAvailability" onChange={handleInputChange} value={formData.dateAvailability} min={new Date().toISOString().split('T')[0]} />
                         <FiCalendar className="custom-calendar-icon" />
                     </div>
                 </div>

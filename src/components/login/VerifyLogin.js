@@ -144,7 +144,7 @@ const VerifyLogin = ({ show, handleClose,openRegisterModal }) => {
         try {
           const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/forgot-password`, { email });
           if (res.data.success) {
-            toast.success('Password reset email sent successfully.', { position: "top-center" });
+            toast.info('Password reset email sent successfully.', { position: "top-center" });
             setIsForgotPassword(false);
           } else {
             toast.error(res.data.message || 'Failed to send reset email. Please try again.', { position: "top-center" });

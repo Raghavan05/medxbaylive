@@ -17,7 +17,6 @@ const Bookingdetails = () => {
         console.log("Fetching booking details..."); // Log before fetching
         try {
           const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/booking-details/${id}`);
-          console.log("API response:", response.data); // Log the full response
           setBooking(response.data.booking);
         } catch (error) {
           console.error('Error fetching booking details:', error);
@@ -32,7 +31,7 @@ const Bookingdetails = () => {
   }
 
   const handleGoBack = () => {
-    navigate('/admin-managebookings');
+    navigate('/admin/dashboardpage/admin-managebookings');
   };
 
   return (

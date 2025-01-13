@@ -400,6 +400,8 @@ useEffect(() => {
             </>
         );
     };
+    console.log(doctor);
+    
     return (
         <>
             <ToastContainer />
@@ -424,9 +426,9 @@ useEffect(() => {
                             <Link to={`/book-appointment-profile/${doctor._id}`}>
                                 <h2>{doctor.name}</h2>
                             </Link>
-                            <p className="speciality">{doctor.speciality +" "}</p>
+                            <p className="speciality">{doctor.speciality.join(", ")}</p>
                             <p className="experience">{doctor.experience ? doctor.experience +" years experience overall" : " "}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{hospitalCity || "Hospital City"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"Hospital"}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                                 <div className="row mt-2">
                                     <div className="col">
@@ -449,6 +451,8 @@ useEffect(() => {
                 </div>
                 <div className={`col-12 col-lg-5 appointment d-flex flex-column align-items-center ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
                     <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
+                        Rating
+                        <br />
                         {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
                     </div>
                     <div>

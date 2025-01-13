@@ -6,11 +6,11 @@ import { Outlet } from 'react-router-dom';
 
 const Adminlayout = () => {
   return (
-    <div className="dashboard-container">
+    <div className="admin-dashboard-container">
       <Adminsidebar/>
-      <div className="main-content">
+      <div className="admin-main-content">
         <Adminheader/>
-        <div className="content-area">
+        <div className="admin-content-area">
           <Outlet />
         </div>
       </div>

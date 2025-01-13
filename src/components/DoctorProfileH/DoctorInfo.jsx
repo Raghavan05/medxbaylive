@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import profileImage from "../Assets/profileimg.png";
 import axios from "axios";
 import { fetchFromDoctor } from "../../actions/api";
-import {  useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // import "./DoctorInfo.css";
 
@@ -35,34 +35,34 @@ const DoctorInfo = () => {
   const [verificationStatus, setVerificationStatus] = useState("");
   useEffect(() => {
     if (id) {
-    const fetchDoctorDetails = async () => {
-      try {
-        const response = await fetchFromDoctor(`/doctors/${id}/slots`);
-        console.log(response);
-        if (response.doctor.dateOfBirth) {
-          const date = new Date(response.doctor.dateOfBirth);
-          const formattedDate = `${String(date.getDate()).padStart(
-            2,
-            "0"
-          )}-${String(date.getMonth() + 1).padStart(
-            2,
-            "0"
-          )}-${date.getFullYear()}`;
-          response.doctor.dateOfBirth = formattedDate;
+      const fetchDoctorDetails = async () => {
+        try {
+          const response = await fetchFromDoctor(`/doctors/${id}/slots`);
+          console.log(response);
+          if (response.doctor.dateOfBirth) {
+            const date = new Date(response.doctor.dateOfBirth);
+            const formattedDate = `${String(date.getDate()).padStart(
+              2,
+              "0"
+            )}-${String(date.getMonth() + 1).padStart(
+              2,
+              "0"
+            )}-${date.getFullYear()}`;
+            response.doctor.dateOfBirth = formattedDate;
+          }
+
+
+          setDoctor(response.doctor);
+          setInsurance(response.insurances);
+          setBlogs(response.blogs);
+          setVerificationStatus(response.doctor.verified);
+        } catch (error) {
+          console.error("Error fetching doctor details:", error);
         }
-   
-     
-        setDoctor(response.doctor);
-        setInsurance(response.insurances);
-        setBlogs(response.blogs);
-        setVerificationStatus(response.doctor.verified);
-      } catch (error) {
-        console.error("Error fetching doctor details:", error);
-      }
-    };
-        fetchDoctorDetails();
-  }
-    }, []);
+      };
+      fetchDoctorDetails();
+    }
+  }, []);
   const getBaseImage = (logo) => {
     const base64String = bufferToBase64(logo);
     return base64String;
@@ -98,7 +98,7 @@ const DoctorInfo = () => {
       setInsurance(doctorData.insurances);
       setBlogs(doctorData.blogs);
       setVerificationStatus(doctorData.doctor.verified);
-      
+
     } catch (error) {
       console.error("Error fetching doctor details:", error);
     }
@@ -119,11 +119,11 @@ const DoctorInfo = () => {
       <div className="about-section" style={{ backgroundColor: "white", marginTop: "40px", padding: "2.25rem 2.5rem", borderRadius: "0.75rem" }}>
         <h2 style={{ fontSize: '24px', fontWeight: 500 }}>About</h2>
         <div>
-        <p className="about-text" >{isReadMore ? `${doctor?.aboutMe ? doctor?.aboutMe : ""}` : `${doctor?.aboutMe ? doctor?.aboutMe : ""}`}</p>
-        {/* <div onClick={toggleReadMore} className="button"  style={{color:"blue", cursor:"pointer", paddingLeft:"10px", paddingBottom:"20px"}}>
+          <p className="about-text" >{isReadMore ? `${doctor?.aboutMe ? doctor?.aboutMe : ""}` : `${doctor?.aboutMe ? doctor?.aboutMe : ""}`}</p>
+          {/* <div onClick={toggleReadMore} className="button"  style={{color:"blue", cursor:"pointer", paddingLeft:"10px", paddingBottom:"20px"}}>
           {isReadMore ? "Read More" : "Read Less"}
         </div> */}
-      </div>
+        </div>
 
         <div className="flex-row">
           <img loading="lazy" src="/DoctorProfile/date.png" alt="" className="icon" />
@@ -152,18 +152,11 @@ const DoctorInfo = () => {
           ))}
         </div>
         <div className="flex-row mt-2">
-  <img loading="lazy" src="/DoctorProfile/checklist-1.png" alt="" className="icon" />
-  {Array.isArray(doctor?.treatmentApproach) ? (
-    doctor?.treatmentApproach.map((treatmentApproach, index) => (
-      <span key={index}>
-        {treatmentApproach}
-        {index < doctor?.treatmentApproach.length - 1 ? ", " : ""}
-      </span>
-    ))
-  ) : (
-    <span>No treatment approaches</span>
-  )}
-</div>
+          <img loading="lazy" src="/DoctorProfile/checklist-1.png" alt="" className="icon" />
+          <span>
+            {doctor.treatmentApproach || "No treatment approaches"}
+          </span>
+        </div>
 
         <div className="flex-row mt-2">
           <img loading="lazy" src="/DoctorProfile/videoConsultamnt.png" alt="" className="icon" />
@@ -171,7 +164,7 @@ const DoctorInfo = () => {
           <span>{doctor?.consultation}</span>
         </div>
 
-        <h2  style={{ marginTop: "30px",fontSize: '24px', fontWeight:500 }}>Languages</h2>
+        <h2 style={{ marginTop: "30px", fontSize: '24px', fontWeight: 500 }}>Languages</h2>
         <div style={{ display: 'flex', gap: '15px', flexDirection: 'row' }}>
           {doctor?.languages?.map((language, index) => (
             <div style={{ display: 'flex', alignItems: 'center' }} key={index}>
@@ -256,7 +249,7 @@ const DoctorInfo = () => {
                 loading="lazy"
                 src={getBaseImage(i.logo)}
                 alt="insurance-logo"
-                style={{ width: '150px',  marginLeft: '20px', border: '1px solid #e0e0e0',  borderRadius: '5px' }}
+                style={{ width: '150px', marginLeft: '20px', border: '1px solid #e0e0e0', borderRadius: '5px' }}
               />
             </div>
           ))}
@@ -268,7 +261,7 @@ const DoctorInfo = () => {
         <h2 className="about-title" style={{ fontSize: '24px', fontWeight: 500 }}>Awards</h2>
         <div style={{ display: 'flex', gap: '20px', marginTop: '28px', flexDirection: 'row' }}>
           {doctor?.awards?.map((award, index) => (
-            <div className="award-item" key={index} style={{ display: 'flex', alignItems: 'center', border:"1px solid #e0e0e0", padding:"10px", borderRadius:"10px", backgroundColor:"#F2F6FF"  }}>
+            <div className="award-item" key={index} style={{ display: 'flex', alignItems: 'center', border: "1px solid #e0e0e0", padding: "10px", borderRadius: "10px", backgroundColor: "#F2F6FF" }}>
               <img
                 loading="lazy"
                 src="/DoctorProfile/Awardcup.png"

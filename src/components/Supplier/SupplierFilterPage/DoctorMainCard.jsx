@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DoctorMainCard.css';
+import './SupplierMainCard.css';
 import { BsInfoCircle } from "react-icons/bs";
 import DoctorCard from './DoctorCard';
 import VerifiedImg from '../../../assests/img/Verified-SVG.svg';
@@ -7,7 +7,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import Sponsor from './Sponsor';
 import Loader from '../../Loader/Loader';
 
-const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus }) => {
+const DoctorMainCard = ({ isMapExpanded, suppliers, location, responseStatus }) => {
     const [sortOption, setSortOption] = useState('');
     const [sponsoredDoctors, setSponsoredDoctors] = useState([]);
     const [nonSponsoredDoctors, setNonSponsoredDoctors] = useState([]);
@@ -15,68 +15,42 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
 
     // Combined pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const doctorsPerPage = 5; // Number of doctors to show per classification per page
+    const suppliersPerPage = 5; // Number of suppliers to show per classification per page
 
     const handleSortChange = (e) => {
         setSortOption(e.target.value);
     };
 
-    const sortDoctors = (doctors) => {
+    const sortDoctors = (suppliers) => {
+        if (!Array.isArray(suppliers)) return [];
         switch (sortOption) {
             case 'highestRated':
-                return [...doctors].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                return [...suppliers].sort((a, b) => (b.rating || 0) - (a.rating || 0));
             case 'mostReviewed':
-                return [...doctors].sort((a, b) => (b.reviews.length || 0) - (a.reviews.length || 0));
-            case 'priceLowToHigh':
-                return [...doctors].sort((a, b) => (a.doctorFee || 0) - (b.doctorFee || 0)); // Assuming consultationFee is the price field
+                return [...suppliers].sort((a, b) => (b.totalReviews || 0) - (a.totalReviews || 0));
+            case 'followersLowtoHigh':
+                return [...suppliers].sort((a, b) => (a.followers?.length || 0) - (b.followers?.length || 0));
             default:
-                return doctors;
+                return suppliers;
         }
     };
 
     useEffect(() => {
-        if (responseStatus === 'pending') {
-            setLoader(true);
-        }
+        const sorted = sortDoctors(suppliers || []);
+        setSponsoredDoctors(sorted);
+        setNonSponsoredDoctors(sorted);
+        setLoader(!(sorted?.length || suppliers?.length));
+    }, [sortOption, suppliers, responseStatus]);
 
-        const sorted = sortDoctors(doctors);
+    // Pagination logic (combined for sponsored and non-sponsored suppliers)
+    const indexOfLastDoctor = currentPage * suppliersPerPage;
+    const indexOfFirstDoctor = indexOfLastDoctor - suppliersPerPage;
 
-        const filteredDoctors = sorted.filter(
-            doctor =>
-                doctor.timeSlots &&
-                doctor.timeSlots.length > 0 &&
-                doctor.timeSlots.some(slot => slot.status === 'free')
-        );
-
-        const sponsored = filteredDoctors.filter(
-            doctor =>
-                doctor.subscriptionType === 'Premium' ||
-                doctor.subscriptionType === 'Enterprise'
-        );
-        const nonSponsored = filteredDoctors.filter(
-            doctor =>
-                doctor.subscriptionType !== 'Premium' &&
-                doctor.subscriptionType !== 'Enterprise'
-        );
-
-        setSponsoredDoctors(sponsored);
-        setNonSponsoredDoctors(nonSponsored);
-
-        // Disable the loader if doctors are loaded
-        if (filteredDoctors.length > 0 || doctors.length > 0) {
-            setLoader(false);
-        }
-    }, [sortOption, doctors, responseStatus]);
-
-    // Pagination logic (combined for sponsored and non-sponsored doctors)
-    const indexOfLastDoctor = currentPage * doctorsPerPage;
-    const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
-
-    const currentSponsoredDoctors = sponsoredDoctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
+    const currentSponsoredDoctors = Array.isArray(sponsoredDoctors) ? sponsoredDoctors.slice(indexOfFirstDoctor, indexOfLastDoctor) : [];
     const currentNonSponsoredDoctors = nonSponsoredDoctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
 
-    const totalSponsoredPages = Math.ceil(sponsoredDoctors.length / doctorsPerPage);
-    const totalNonSponsoredPages = Math.ceil(nonSponsoredDoctors.length / doctorsPerPage);
+    const totalSponsoredPages = Math.ceil(sponsoredDoctors.length / suppliersPerPage);
+    const totalNonSponsoredPages = Math.ceil(nonSponsoredDoctors.length / suppliersPerPage);
     const totalPages = Math.max(totalSponsoredPages, totalNonSponsoredPages);
 
     const nextPage = () => {
@@ -95,7 +69,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
         <div className="container px-3">
             <div className="row doctor-main-card">
                 <div className={`col-12 ${isMapExpanded ? 'mapExpanded-doc-card-header' : 'doc-card-header'}`}>
-                    <h4>{nonSponsoredDoctors.length + sponsoredDoctors.length} Supplier{nonSponsoredDoctors.length + sponsoredDoctors.length >=1  ? 's' : ''} available</h4>
+                    <h4>{nonSponsoredDoctors.length + sponsoredDoctors.length} supplier{nonSponsoredDoctors.length + sponsoredDoctors.length >= 1 ? 's' : ''} available</h4>
                     <div className='d-flex'>
                         <img src={VerifiedImg} alt="Verified" style={{ width: "26px", height: "26px" }} />
                         <p>Book appointments with minimum wait-time & verified supplier details</p>
@@ -105,8 +79,8 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
             <div className={`doctor-card-container sponsor-card ${isMapExpanded ? 'mapExpanded-sponsor-card' : ''}`}>
                 <div className='row sponsored-text '>
                     <div className="col-6 d-flex">
-                    <BsInfoCircle />
-                    <p>Sponsored</p>
+                        <BsInfoCircle />
+                        <p>Sponsored</p>
                     </div>
                     <div className={`sort-by ${isMapExpanded ? 'col-5 mapExpanded-sort-by' : 'col-6'}`}>
                         <div className="form-group">
@@ -115,7 +89,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
                                 <option value="">Select</option>
                                 <option value="highestRated">Highest Rated</option>
                                 <option value="mostReviewed">Most Reviewed</option>
-                                <option value="priceLowToHigh">Price: Low to High</option> {/* New option */}
+                                <option value="followersLowtoHigh">Followers: Low to High</option> {/* New option */}
                             </select>
                             <RiArrowDownSLine className="arrow-icon-filter" />
                         </div>
@@ -123,8 +97,8 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
                 </div>
                 <div>
                     {currentSponsoredDoctors.length > 0 ? (
-                        currentSponsoredDoctors.map((doctor) => (
-                            <Sponsor key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
+                        currentSponsoredDoctors.map((supplier) => (
+                            <Sponsor key={supplier._id} supplier={supplier} isMapExpanded={isMapExpanded} />
                         ))
                     ) : (
                         <>{loader ? <Loader /> : <p className='no-results-message'>No sponsored supplier found based on the applied filters.</p>}</>
@@ -134,35 +108,35 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
             <div className={`doctor-card-container result-card ${isMapExpanded ? 'expanded' : ''}`}>
                 <p>All results</p>
                 {currentNonSponsoredDoctors.length > 0 ? (
-                    currentNonSponsoredDoctors.map((doctor) => (
-                        <DoctorCard key={doctor._id} doctor={doctor} isMapExpanded={isMapExpanded} />
+                    currentNonSponsoredDoctors.map((supplier) => (
+                        <DoctorCard key={supplier._id} supplier={supplier} isMapExpanded={isMapExpanded} />
                     ))
                 ) : (
                     <>{loader ? <Loader /> : <p className='no-results-message'>No supplier found based on the applied filters.</p>}</>
                 )}
-            {/* Combined Pagination */}
-            <Pagination 
-                totalPages={totalPages} 
-                currentPage={currentPage} 
-                paginate={setCurrentPage} 
-                nextPage={nextPage} 
-                prevPage={prevPage} 
-                isMapExpanded={isMapExpanded}
-            />
+                {/* Combined Pagination */}
+                <Pagination
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    paginate={setCurrentPage}
+                    nextPage={nextPage}
+                    prevPage={prevPage}
+                    isMapExpanded={isMapExpanded}
+                />
             </div>
         </div>
     );
 };
 
 // Pagination component
-const Pagination = ({ totalPages, currentPage, paginate, nextPage, prevPage,isMapExpanded }) => {
+const Pagination = ({ totalPages, currentPage, paginate, nextPage, prevPage, isMapExpanded }) => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
     }
 
     return (
-        <div className={`pagination  ${isMapExpanded ? 'mapExpanded-pagination' : ''}`}>
+        <div className={`pagination`}>
             <button
                 onClick={prevPage}
                 disabled={currentPage === 1}

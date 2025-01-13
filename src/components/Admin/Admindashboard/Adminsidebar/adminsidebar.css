@@ -1,25 +1,25 @@
-.sidebar {
+.admin-sidebar {
   z-index: 1000;
-  width: 270px;
+  width: 310px;
   height: 100vh;
   background-color: #F7FAFF;
-  border-left: 30px solid #F7FAFF;
+  border-left: 20px solid #F7FAFF;
   transition: width 0.3s;
   overflow: hidden;
 }
 
-.sidebar.closed {
+.admin-sidebar.closed {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 60px;
 }
 
-.logo-container {
+.admin-logo-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 45px 10px 0px 10px;
+  margin: 30px 10px 0px 10px;
 }
 
 .logo {
@@ -36,27 +36,27 @@
   cursor: pointer;
 }
 
-.sidebar-menu-admin{
+.sidebar-menu-direct-admin{
   list-style: none;
   padding: 0;
-  margin-top: 15px;
+  margin-top: 10px;
   flex-direction: column;
   display: flex;
   align-items: start;
   justify-content: space-evenly;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 55px);
 }
 
-.menu-item {
+.admin-menu-item {
   display: flex;
   align-items: start;
   width: 100%;
   margin: -50px 0px -10px 0px;
-  padding: 16px 0px 16px 20px;
+  padding: 14px 0px 14px 20px;
   color: #A0AAC8;
 }
 
-.menu-item .menu-link {
+.admin-menu-item .menu-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,8 +78,8 @@
 }
 
 /* Curve design */
-.menu-item:hover,
-.menu-item.active {
+.admin-menu-item:hover,
+.admin-menu-item.active {
   position: relative;
   color: #42427D;
   background-color: #FFFFFF;
@@ -87,8 +87,8 @@
   border-bottom-left-radius: 20px;
 }
 
-.menu-item:hover:before,
-.menu-item.active:before {
+.admin-menu-item:hover:before,
+.admin-menu-item.active:before {
   position: absolute;
   content: '';
   height: 40px;
@@ -100,8 +100,8 @@
   box-shadow: 0 17px 0 #FFFFFF;
 }
 
-.menu-item:hover:after,
-.menu-item.active:after {
+.admin-menu-item:hover:after,
+.admin-menu-item.active:after {
   position: absolute;
   content: '';
   height: 40px;
@@ -113,95 +113,95 @@
   box-shadow: 0 -17px 0 #FFFFFF;
 }
 
-.menu-item span {
+.admin-menu-item span {
   flex-grow: 1;
   outline: none;
   border: none;
 }
 
-.sidebar.closed .menu-item span {
+.admin-sidebar.closed .admin-menu-item span {
   display: none;
 }
 
-.sidebar.closed .sidebar-icon {
+.admin-sidebar.closed .sidebar-icon {
   margin-right: 0;
 }
 
-.sidebar.open .close-icon {
+.admin-sidebar.open .close-icon {
   display: none;
 }
 
-.sidebar.closed .close-icon {
+.admin-sidebar.closed .close-icon {
   display: block;
 }
 
 @media (max-width: 1024px) {
-  .sidebar {
-    width: 250px;
+  .admin-sidebar {
+    width: 300px;
   }
 
-  .sidebar.closed {
+  .admin-sidebar.closed {
     width: 60px;
   }
 
-  .logo-container {
-    margin: 38px 10px 0px 10px;
+  .admin-logo-container {
+    margin: 28px 10px 0px 10px;
   }
 
-  .menu-item {
+  .admin-menu-item {
     margin: -40px 0px -10px 0px;
     padding: 12px 0px 12px 15px;
   }
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .admin-sidebar {
     position: fixed;
     top: 0;
     left: 0;
     border-left: 15px solid #F7FAFF;
   }
 
-  .sidebar.open {
-    width: 250px;
+  .admin-sidebar.open {
+    width: 300px;
   }
 
   .toggle-button {
     display: block;
   }
 
-  .sidebar-menu-admin .menu-item span {
+  .sidebar-menu-direct-admin .admin-menu-item span {
     display: none;
   }
 
-  .sidebar.open .sidebar-menu-admin .menu-item span {
+  .admin-sidebar.open .sidebar-menu-direct-admin .admin-menu-item span {
     display: inline;
   }
 
-  .sidebar-menu-admin {
+  .sidebar-menu-direct-admin {
     margin-top: 10px;
   }
 
-  .menu-item {
+  .admin-menu-item {
     padding: 15px 20px;
   }
 
-  .menu-item:hover,
-  .menu-item.active {
+  .admin-menu-item:hover,
+  .admin-menu-item.active {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
   }
 
-  .menu-item:hover:before,
-  .menu-item.active:before {
+  .admin-menu-item:hover:before,
+  .admin-menu-item.active:before {
     height: 20px;
     width: 20px;
     border-bottom-right-radius: 15px;
     box-shadow: 0 9px 0 #FFFFFF;
   }
 
-  .menu-item:hover:after,
-  .menu-item.active:after {
+  .admin-menu-item:hover:after,
+  .admin-menu-item.active:after {
     height: 20px;
     width: 20px;
     border-top-right-radius: 15px;

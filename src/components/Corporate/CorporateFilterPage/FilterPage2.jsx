@@ -938,3 +938,252 @@ export default FilterPage
 // };
 
 // export default FilterPage;
+
+// import React, { useEffect, useState } from 'react';
+// import DoctorMainCard from './DoctorMainCard';
+// import Filter from './Filter';
+// import './FilterPage.css';
+// import MapContainer from './Mapcontainer';
+// import { fetchFromPatient } from '../../../actions/api';
+// import { useSearch } from '../../context/context';
+// import { faFilter } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { IoClose } from "react-icons/io5";
+// import axios from 'axios';
+
+// const FilterPage = () => {
+//   const [isFilterOpen, setIsFilterOpen] = useState(false);
+//   const [isMapExpanded, setIsMapExpanded] = useState(false);
+//   const [searchInput, setSearchInput] = useState('');
+//   const [corporates, setCorporates] = useState([]);
+//   const [doc, setDoc] = useState([]);
+//   const [filtersData, setFiltersData] = useState(null);
+//   const [locations, setLocations] = useState([]);
+//   const [responseStatus, setResponseStatus] = useState();
+//   const [filters, setFilters] = useState({
+//     what: '',
+//     where: '',
+//     country: '',
+//     state: '',
+//     city: '',
+//     speciality: '',
+//     conditions: [],
+//     languages: [],
+//     gender: '',
+//     hospital: "",
+//     availability: '',
+//     dateAvailability: '',
+//     consultation: ''
+//   });
+
+//   const { searchData } = useSearch();
+
+//   useEffect(() => {
+//     if (searchData.corporates) {
+//       setCorporates(searchData.corporates);
+//       setFilters(prevFilters => ({
+//         ...prevFilters,
+//         what: searchData.what || '',
+//         where: searchData.where || ''
+//       }));
+//     } else if (searchData.error) {
+//       console.error(searchData.error);
+//     }
+//   }, [searchData]);
+
+//   const fetchDoctors = async () => {
+//     try {
+//       const response = await fetchFromPatient('/corporate-list');
+//       const filterResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/corporate/corporate-list`);
+      
+//       // Set filters data
+//       console.log('Response from backend:', filterResponse.data);  // Logs the response immediately
+
+//       setFiltersData(filterResponse.data);
+
+//       if (response && Array.isArray(response.corporates)) {
+//         setCorporates(response.corporates);
+//         setDoc(response.corporates);
+//         setResponseStatus(response.status === 200 ? "Success" : "Failed");
+  
+//         // const extractedLocations = response.uniqueLocations.map(location => ({
+//         //   lat: location.lat,
+//         //   lng: location.lng,
+//         //   hospitalName: location.hospitalName,
+//         //   city: location.city,
+//         //   doctorName: location.doctorName,
+//         //   doctorTitle: location.doctorTitle,
+//         //   doctorImage: location.doctorImage || '/path/to/default/profile/pic.png',
+//         //   doctorId: location.doctorId,
+//         //   subscriptionType: location.subscriptionType
+//         // }));
+  
+//         // setLocations(extractedLocations);
+//         // console.log('Unique Locations:', extractedLocations);
+//       } else {
+//         // setLocations([]);
+//         setCorporates([]);
+//       }
+  
+//       if (response.status === 200) {
+//         setResponseStatus("Success");
+//       } else if (response.status === 500) {
+//         setResponseStatus("Failed");
+//       } else {
+//         setResponseStatus("Pending");
+//       }
+//     } catch (error) {
+//       console.error('Error fetching corporates:', error);
+//     }
+//   };
+  
+//   useEffect(() => {
+//     console.log('Updated filtersData:', filtersData);  // Logs after filtersData is updated
+//   }, [filtersData]);  // This effect runs when filtersData changes
+  
+
+//   useEffect(() => {
+//     fetchDoctors();
+//   }, []);
+
+//   const toggleFilterCanvas = () => {
+//     setIsFilterOpen(!isFilterOpen);
+//   };
+
+//   const handleMapExpandToggle = () => {
+//     setIsMapExpanded(!isMapExpanded);
+//   };
+
+//   const handleSearchInputChange = (e) => {
+//     setSearchInput(e.target.value);
+//   };
+
+//   const handleSearchButtonClick = () => {
+//     setFilters((prevFilters) => ({ ...prevFilters, what: searchInput }));
+//   };
+
+//   const handleFilterChange = (filterData) => {
+//     setFilters(filterData);
+//   };
+
+//   const handleResetClick = () => {
+//     setIsMapExpanded(false);
+//     setSearchInput('');
+
+//   };
+
+//   const handleMapClose = () => {
+//     setIsMapExpanded(false);
+//   };
+
+//   const handleLocationClick = (doctorId) => {
+//     if (doctorId) {
+//       const filtered = corporates.filter(doctor => doctor._id === doctorId);
+//       setCorporates(filtered);
+//     } else {
+//       fetchDoctors();
+//     }
+//   };
+
+//   const filterDoctors = (corporates) => {
+//     if (!Array.isArray(corporates)) {
+//       return [];
+//     }
+
+//     // return corporates.filter((doctor) => {
+//     //   const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
+
+//     //   const country = getStringValue(doctor.country || '');
+//     //   const state = getStringValue(doctor.state || '');
+//     //   const speciality = (doctor.speciality.length > 0 ? doctor.speciality : []).map(getStringValue);
+//     //   const city = getStringValue(doctor.city || '');
+//     //   const gender = getStringValue(doctor.gender || '');
+//     //   const hospital = doctor.hospitals.length > 0 ? doctor.hospitals.map(hospital => getStringValue(hospital.name)) : [];
+//     //   const availability = getStringValue(doctor.availability || '');
+//     //   const doctorConditions = (doctor.conditions || []).map(getStringValue);
+//     //   const doctorLanguages = (doctor.languages || []).map(getStringValue);
+//     //   const consultation = getStringValue(doctor.consultation || '');
+//     //   const doctorDates = (doctor.timeSlots || []).map((slot) => new Date(slot.date).toISOString().split('T')[0]);
+//     //   const filterDate = filters.dateAvailability ? new Date(filters.dateAvailability).toISOString().split('T')[0] : null;
+
+//     //   const matchesCountry = !filters.country || country === getStringValue(filters.country);
+//     //   const matchesState = !filters.state || state === getStringValue(filters.state);
+//     //   const matchesCity = !filters.city || city === getStringValue(filters.city);
+//     //   const matchesSpeciality = !filters.speciality || speciality.includes(getStringValue(filters.speciality));
+//     //   const matchesGender = !filters.gender || gender === getStringValue(filters.gender);
+//     //   const matchesHospital = !filters.hospital || hospital.includes(getStringValue(filters.hospital));
+//     //   const matchesAvailability = !filters.availability || availability === getStringValue(filters.availability);
+//     //   const matchesConditions = filters.conditions.length === 0 || filters.conditions.every(condition => doctorConditions.includes(getStringValue(condition)));
+//     //   const matchesLanguages = filters.languages.length === 0 || filters.languages.every(language => doctorLanguages.includes(getStringValue(language)));
+//     //   const matchesConsultation = !filters.consultation || consultation === getStringValue(filters.consultation);
+//     //   const matchesDateAvailability = !filterDate || doctorDates.includes(filterDate);
+
+//     //   return (
+//     //     matchesCountry &&
+//     //     matchesState &&
+//     //     matchesCity &&
+//     //     matchesSpeciality &&
+//     //     matchesGender &&
+//     //     matchesHospital &&
+//     //     matchesAvailability &&
+//     //     matchesConditions &&
+//     //     matchesLanguages &&
+//     //     matchesConsultation &&
+//     //     matchesDateAvailability
+//     //   );
+//     // });
+//   };
+
+//   // const filteredDoctors = filterDoctors(corporates);
+//   const filteredDoctors = corporates.length === 0 ? filterDoctors(doc) : filterDoctors(corporates);
+//   console.log(filtersData);
+  
+
+//   return (
+//     <>
+//       <div className='container-fluid mt-lg-5'>
+//         <div className='filterpage-container'>
+//           <button onClick={toggleFilterCanvas} className="filterpage-hamburger btn btn-primary my-3 d-lg-none">
+//             <FontAwesomeIcon icon={faFilter} />
+//           </button>
+
+//           <div className={`filterpage-offcanvas ${isFilterOpen ? 'filterpage-offcanvas-show' : ''}`}>
+//             <button className="filterpage-offcanvas-close btn-close" onClick={toggleFilterCanvas}><IoClose /></button>
+//             <Filter onFilterChange={handleFilterChange} initialFilters={filtersData} />
+//             <div className='d-flex justify-content-center '>
+//               <button className="btn btn-primary" onClick={toggleFilterCanvas}>Apply filters</button>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className='filterpage-parent'>
+//           <div className='row'>
+//             <div className="filter-edit col-3 d-none d-lg-block">
+//               <Filter onFilterChange={handleFilterChange} initialFilters={filtersData} />
+//             </div>
+//             <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
+//               <DoctorMainCard isMapExpanded={isMapExpanded} corporates={corporates} 
+//               // location={locations} 
+//               responseStatus={responseStatus} />
+//             </div>
+//             <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
+//               <MapContainer
+//                 expanded={isMapExpanded}
+//                 searchInput={searchInput}
+//                 onExpandToggle={handleMapExpandToggle}
+//                 onSearchInputChange={handleSearchInputChange}
+//                 onSearchButtonClick={handleSearchButtonClick}
+//                 onResetClick={handleResetClick}
+//                 // uniqueLocations={locations}
+//                 onClickOutside={handleMapClose}
+//                 onLocationClick={handleLocationClick}
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default FilterPage;

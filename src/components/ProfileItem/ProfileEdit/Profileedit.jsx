@@ -603,11 +603,11 @@ const ProfileEdit = () => {
 
           </div>
           <button className="savebutton" type="submit" onClick={handleSave} disabled={isSaving}>
-      <span className="savebutton-text">Save Changes</span>
-      {isSaving && <div className="spinner-overlay">
-        <div className="small-spinner"></div>
-      </div>}
-    </button>
+            <span className="savebutton-text">Save Changes</span>
+            {isSaving && <div className="spinner-overlay">
+              <div className="small-spinner"></div>
+            </div>}
+          </button>
         </form>
       </div>
     </>

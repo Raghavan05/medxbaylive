@@ -4,9 +4,10 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { RiArrowDownSLine } from "react-icons/ri";
 import { FiCalendar, FiSearch } from "react-icons/fi";
 import { useSearch } from '../../context/context';
-
+import axios from 'axios';
 const Filter = ({ onFilterChange, initialFilters }) => {
-    const [doctors, setDoctors] = useState([]);
+    // const [doctors, setDoctors] = useState([]);
+    const [filters, setFilters] = useState({});
     const [formData, setFormData] = useState({
         ...initialFilters,
         what: '',
@@ -14,140 +15,55 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         country: '',
         state: '',
         city: '',
-        speciality: '',
-        languages: [],
-        gender: '',
-        hospital: '',
-        availability: '',
-        dateAvailability: '',
-        consultation: '',
-        conditions: [],
-        sortOption: ''
+        companyName: "",
     });
     const { setSearchData } = useSearch();
     const [dropdownData, setDropdownData] = useState({
         countries: [],
         states: [],
         cities: [],
-        specialities: [],
-        conditions: [],
-        languages: [],
-        hospitals: [],
+        suppliers: [],
     });
-    const [conditionSearch, setConditionSearch] = useState('');
-    const [languageSearch, setLanguageSearch] = useState('');
 
-    const filteredConditions = dropdownData.conditions.filter(condition =>
-        condition.toLowerCase().includes(conditionSearch.toLowerCase())
-    );
-
-    const filteredLanguages = dropdownData.languages.filter(language =>
-        language.toLowerCase().includes(languageSearch.toLowerCase())
-    );
-    useEffect(() => {
-        populateDropdowns();
-        populateSearchFieldsFromUrl();
-        searchDoctors();
-    }, []);
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            searchDoctors();
             onFilterChange(formData);
+            return () => clearTimeout(delayDebounceFn);
         }, 300); // 300ms debouncereturn() =>clearTimeout(delayDebounceFn);
     }, [formData, onFilterChange]);
-    const populateDropdowns = async () => {
-        await populateCountryDropdown();
-        await populateStateDropdown();
-        await populateCityDropdown();
-        await populateSpecialityDropdown();
-        await populateConditionsDropdown();
-        await populateLanguagesDropdown();
-        await populateHospitalDropdown();
-    };
-    const populateCountryDropdown = async () => {
+
+    const fetchsuppliers = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/countries`);
-            const countries = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                countries,
-            }));
+            const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/supplier/all-suppliers`, { withCredentials: true });
+            // Map or validate data as needed
+            console.log(data);
+            
+            setFilters({
+                countries: data.countries || [],
+                states: data.states || [],
+                cities: data.cities || [],
+                suppliers: data.suppliers || [],
+            });
         } catch (error) {
-            console.error('Error fetching countries:', error);
+            console.error('Error fetching suppliers:', error);
         }
     };
-    const populateStateDropdown = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/states`);
-            const states = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                states,
-            }));
-        } catch (error) {
-            console.error('Error fetching states:', error);
-        }
-    };
-    const populateCityDropdown = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/cities`);
-            const cities = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                cities,
-            }));
-        } catch (error) {
-            console.error('Error fetching cities:', error);
-        }
-    };
-    const populateSpecialityDropdown = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/specialitie`);
-            const specialities = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                specialities,
-            }));
-        } catch (error) {
-            console.error('Error fetching specialities:', error);
-        }
-    };
-    const populateConditionsDropdown = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/condition`);
-            const conditions = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                conditions,
-            }));
-        } catch (error) {
-            console.error('Error fetching conditions:', error);
-        }
-    };
-    const populateLanguagesDropdown = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/language`);
-            const languages = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                languages,
-            }));
-        } catch (error) {
-            console.error('Error fetching languages:', error);
-        }
-    };
-    const populateHospitalDropdown = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/hospitals`);
-            const hospitals = await response.json();
-            setDropdownData((prev) => ({
-                ...prev,
-                hospitals,
-            }));
-        } catch (error) {
-            console.error('Error fetching hospitals:', error);
-        }
-    };
+
+    useEffect(() => {
+        fetchsuppliers();
+        // populateDropdowns();
+        populateSearchFieldsFromUrl();
+    }, []);
+    // Update dropdownData when filters state changes
+    useEffect(() => {
+        setDropdownData({
+            countries: filters.countries || [],
+            states: filters.states || [],
+            cities: filters.cities || [],
+            suppliers: filters.suppliers || [],
+        });
+    }, [filters]);
+
     const populateSearchFieldsFromUrl = () => {
         const urlParams = new URLSearchParams(window.location.search);
         setFormData((prev) => ({
@@ -158,15 +74,8 @@ const Filter = ({ onFilterChange, initialFilters }) => {
     };
     const handleInputChange = (e) => {
         const { id, value, selectedOptions } = e.target;
-
         // Handle date format conversion if needed
-        if (id === 'dateAvailability') {
-            const formattedDate = new Date(value).toISOString().split('T')[0]; // YYYY-MM-DD format
-            setFormData((prevData) => ({
-                ...prevData,
-                [id]: formattedDate,
-            }));
-        } else if (id === 'conditions' || id === 'languages') {
+        if (id === 'conditions' || id === 'languages') {
             const options = Array.from(selectedOptions).map(option => option.value);
             setFormData((prevData) => ({
                 ...prevData,
@@ -178,41 +87,27 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 [id]: value,
             }));
         }
-
-        setSearchData({ doctors: [] });
-        searchDoctors();
+        setSearchData({ suppliers: [] });
     };
 
     const handleCheckboxChange = (e) => {
         const { name, value, checked } = e.target;
-        setFormData(prev => {
+
+        setFormData((prev) => {
             const updatedArray = checked
-                ? [...prev[name], value]
-                : prev[name].filter(item => item !== value);
+                ? [...(prev[name] || []), value]
+                : (prev[name] || []).filter((item) => item !== value);
 
-            onFilterChange({ ...prev, [name]: updatedArray });
-            return {
-                ...prev,
-                [name]: updatedArray
-            };
+            const newFormData = { ...prev, [name]: updatedArray };
+
+            onFilterChange(newFormData); // Trigger callback with updated formData
+            return newFormData;
         });
-        setSearchData({ doctors: [] })
-    };
-    const searchDoctors = async () => {
-        const query = new URLSearchParams(formData).toString();
-        const url = `${process.env.REACT_APP_BASE_URL}/auth/search-doctors?${query}`;
 
-        try {
-            const response = await fetch(url);
-            const doctors = await response.json();
-            setDoctors(doctors);
-            // console.log('Fetched doctors:', doctors); // Log the fetched doctors
-
-        } catch (error) {
-            console.error('Error fetching doctors:', error);
-        }
+        setSearchData({ suppliers: [] });
     };
 
+    // console.log(filters);
     const resetFilters = () => {
         const resetData = {
             what: '',
@@ -220,45 +115,14 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             country: '',
             state: '',
             city: '',
-            speciality: '',
-            languages: [],
-            gender: '',
-            hospital: '',
-            availability: '',
-            dateAvailability: '',
-            consultation: '',
-            conditions: [],
-            sortOption: ''
+            suppliers: "",
         };
         setFormData(resetData);
         onFilterChange(resetData);
-        searchDoctors();
-        setSearchData({ doctors: [] })
-        setConditionSearch(''); // Reset condition search
-        setLanguageSearch(''); // Reset language search
+        setSearchData({ suppliers: [] })
     };
-    
-
-
-
     return (
         <div>
-            {/* <div className="search-container">
-        <label htmlFor="what">What:</label>
-        <input type="text" id="what" placeholder="Search by name or speciality" value={formData.what} onChange={handleInputChange} />
-
-        <label htmlFor="where">Where:</label>
-        <input type="text" id="where" placeholder="Search by location" value={formData.where} onChange={handleInputChange} />
-
-        <button onClick={searchDoctors}>Search</button>
-
-        <label htmlFor="sortOptions">Sort by:</label>
-        <select id="sortOptions" onChange={sortDoctors} value={formData.sortOption}>
-          <option value="">Select</option>
-          <option value="highestRated">Highest Rated</option>
-          <option value="mostReviewed">Most Reviewed</option>
-        </select>
-      </div> */}
             <div className='sidebar-filter'>
                 <div className='filter-heading-reset'>
                     <h5>Filter</h5>
@@ -305,27 +169,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
 
                     </div>
                 </div>
-                <div className="select-container-filter">
-                    <div className="form-group">
-                        <label htmlFor="speciality">Speciality:</label>
-                        <select id="speciality" onChange={handleInputChange} value={formData.speciality}>
-                            <option value="">Select Speciality</option>
-                            {dropdownData.specialities.map(speciality => (
-                                <option key={speciality} value={speciality}>{speciality}</option>
-                            ))}
-                        </select>
-                        <RiArrowDownSLine className="arrow-icon-filter" />
-
-                    </div>
-                </div>
                 {/* <div className="select-container-filter">
-                    <div className="form-group">
-                        <label htmlFor="dateAvailability">Date Availability:</label>
-                        <input type="date" id="dateAvailability" onChange={handleInputChange} value={formData.dateAvailability} min={new Date().toISOString().split('T')[0]} />
-                        <FiCalendar className="custom-calendar-icon" />
-                    </div>
-                </div> */}
-                <div className="select-container-filter">
                     <div className="form-group">
                         <label>Conditions:</label>
                         <div className="filter-search-container">
@@ -362,20 +206,20 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                             )}
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="select-container-filter">
+                {/* <div className="select-container-filter">
                     <div className="form-group">
                         <label>Language Spoken:</label>
                         <div className="filter-search-container">
-                        <input
-                            type="text"
-                            placeholder="Search Languages"
-                            value={languageSearch}
-                            onChange={(e) => setLanguageSearch(e.target.value)}
-                            className="filter-search-bar"
-                        />
-                        <FiSearch className="filter-search-icon" />
+                            <input
+                                type="text"
+                                placeholder="Search Languages"
+                                value={languageSearch}
+                                onChange={(e) => setLanguageSearch(e.target.value)}
+                                className="filter-search-bar"
+                            />
+                            <FiSearch className="filter-search-icon" />
                         </div>
                         <div className="checkbox-group scrollable-container">
                             {filteredLanguages.length > 0 ? (
@@ -385,9 +229,9 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                                             <input
                                                 type="checkbox"
                                                 id={`language-${language}`}
-                                                name="languages"
+                                                name="languagesSpoken"
                                                 value={language}
-                                                checked={formData.languages ? formData.languages.includes(language) : false}
+                                                checked={formData.languagesSpoken ? formData.languagesSpoken.includes(language) : false}
                                                 onChange={handleCheckboxChange}
                                             />
                                             <label htmlFor={`language-${language}`} className="checkbox-label">
@@ -401,58 +245,19 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                             )}
                         </div>
                     </div>
-                </div>
-
-                {/* <div className="select-container-filter">
-                    <div className="form-group">
-                        <label htmlFor="gender">Gender:</label>
-                        <select id="gender" onChange={handleInputChange} value={formData.gender}>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <RiArrowDownSLine className="arrow-icon-filter" />
-                    </div>
                 </div> */}
                 <div className="select-container-filter">
                     <div className="form-group">
-                        <label htmlFor="hospital">Hospital:</label>
-                        <select id="hospital" name="hospital" value={formData.hospital} onChange={handleInputChange}>
-                            <option value="">Select Hospital</option>
-                            {dropdownData.hospitals.map(hospital => (
-                                <option key={hospital} value={hospital}>{hospital}</option>
+                        <label htmlFor="hospital">suppliers:</label>
+                        <select id="companyName" name="companyName" value={formData.companyName} onChange={handleInputChange}>
+                            <option value="">Select Corporate</option>
+                            {dropdownData.suppliers.map(supplier => (
+                                <option key={supplier._id} value={supplier.companyName}>{supplier.companyName}</option>
                             ))}
                         </select>
                         <RiArrowDownSLine className="arrow-icon-filter" />
                     </div>
                 </div>
-
-                <div className="select-container-filter">
-                    <div className="form-group">
-
-                        <label htmlFor="availability">Availability:</label>
-                        <select id="availability" onChange={handleInputChange} value={formData.availability}>
-                            <option value="">Select Availability</option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                        <RiArrowDownSLine className="arrow-icon-filter" />
-
-                    </div>
-                </div>
-                {/* <div className="select-container-filter">
-                    <div className="form-group">
-                        <label htmlFor="consultation">Consultation Type:</label>
-                        <select id="consultation" onChange={handleInputChange} value={formData.consultation}>
-                            <option value="">Select Consultation</option>
-                            <option value="In-person">In-person</option>
-                            <option value="video call">video call</option>
-                            <option value="Both">Both</option>
-                        </select>
-                        <RiArrowDownSLine className="arrow-icon-filter" />
-                    </div>
-                </div> */}
             </div>
 
         </div>

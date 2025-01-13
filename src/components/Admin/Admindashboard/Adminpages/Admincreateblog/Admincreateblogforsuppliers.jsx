@@ -100,7 +100,7 @@ const SupplierBlogUploadForm = () => {
       });
     
       if (res.data) {
-        toast.success("Blog published successfully!");
+        toast.info("Blog published successfully!");
         handleAddClick();
       } else {
         toast.error("Failed to publish blog.");

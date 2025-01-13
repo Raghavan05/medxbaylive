@@ -124,7 +124,7 @@ const OurProductsPage = () => {
         );
         if (response.status === 200) {
           console.log("Cover photo updated successfully");
-          toast.success("Cover photo updated successfully")
+          toast.info("Cover photo updated successfully")
         }
       } catch (error) {
         console.error("Error uploading cover photo:", error);

@@ -54,7 +54,7 @@ const SubscriptionContact = ({ show, handleClose,openRegisterModal }) => {
         }
       } catch (err) {
         console.error('Error during form submission:', err);
-        toast.success('Submission failed. Please try again.');
+        toast.info('Submission failed. Please try again.');
       }
       finally {
         setIsSubmitDisabled(false); 

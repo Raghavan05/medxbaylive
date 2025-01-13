@@ -119,7 +119,7 @@ const EditPatient = () => {
             });
     
             // Show success message
-            toast.success('Patient updated successfully!', {
+            toast.info('Patient updated successfully!', {
                 position: 'top-right',
                 autoClose: 3000,
                 hideProgressBar: false,

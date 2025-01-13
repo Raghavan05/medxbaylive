@@ -18,7 +18,6 @@ const DashboardAppointments = () => {
                 console.error("Error fetching details:", error);
             }
         };
-
         fetchData();
     }, []);
 

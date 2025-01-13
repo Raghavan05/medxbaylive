@@ -26,8 +26,7 @@ import OurBlogDc from './OurBlogDc/OurBlogDc';
 import BlogPopup from '../../patientBlog/BlogPopup';
 import AddDoctor from './AddDoctor/AddDoctor';
 import OurProvidersSharePopup from './OurProviderSharePopup/OurProvidersSharePopup'
-import { Link } from 'react-router-dom';
-
+import { Link, useParams } from 'react-router-dom';
 
 const OurProvidersPage = () => {
   const [backgroundImage, setBackgroundImage] = useState(providers);
@@ -46,19 +45,18 @@ const OurProvidersPage = () => {
   const [isSharePopupVisible, setIsSharePopupVisible] = useState(false); // State for share popup
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [tempProfileData, setTempProfileData] = useState(profileData);
-  const [corporate,setCorporate] = useState([]);
-  const [doctors,setDoctors] = useState([]);
-  const [blogs,setBlogs] = useState([]);
-  const [doctorReviews,setDoctorReviews] = useState([]);
-  const [patientReviews,setPatientReviews] = useState([]);
-  const [corporateSpecialties,setCorporateSpecialities] = useState([]);
-  const [overview,setOverview] = useState([]);
+  const [corporate, setCorporate] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [doctorReviews, setDoctorReviews] = useState([]);
+  const [patientReviews, setPatientReviews] = useState([]);
+  const [corporateSpecialties, setCorporateSpecialities] = useState([]);
+  const [overview, setOverview] = useState([]);
   const [inviteLinks, setInviteLinks] = useState('');
-  
-
-  //AddDoctor
   const [isAddDoctorVisible, setIsAddDoctorVisible] = useState(false);
-  
+
+  const { corporateId } = useParams(); // Get corporateId from the route
+
   const openAddDoctorPopup = () => {
     setIsAddDoctorVisible(true);
     document.body.classList.add('scroll-lock');
@@ -66,37 +64,36 @@ const OurProvidersPage = () => {
 
   const handleCloseAddDoctorPopup = () => {
     setIsAddDoctorVisible(false);
-    document.body.classList.remove('scroll-lock'); 
+    document.body.classList.remove('scroll-lock');
   };
-
-
   // Fetch profile data from the backend
   useEffect(() => {
     const fetchCorporateDetails = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/corporate/profile`,
-          { withCredentials: true }
-        );
-  
+        const url = corporateId
+          ? `${process.env.REACT_APP_BASE_URL}/patient/corporate/${corporateId}` // New route with corporateId
+          : `${process.env.REACT_APP_BASE_URL}/corporate/profile`; // Existing route
+
+        const response = await axios.get(url, { withCredentials: true });
+
         // // Log response for debugging
         console.log("API Response:", response);
-  
+
         const data = response.data?.data; // Ensure data exists
         if (!data) {
           throw new Error("Data property is undefined in the response");
         }
-  
+
         setCorporate(data.corporate || {});
         setDoctorReviews(data.doctorReviews || []);
         setPatientReviews(data.patientReviews || []);
         setDoctors(data.doctors || []);
         setBlogs(data.blogs || []);
         setInviteLinks(data.inviteLinks || '');
+        console.log(data.inviteLinks);
         setOverview(data.corporate.overview)
         console.log(data.corporate.corporateSpecialties);
         setCorporateSpecialities(data.corporate.corporateSpecialties)
-  
         setProfileData({
           corporateName: data.corporate?.corporateName || "Corporate Name",
           rating: data.corporate?.rating || 0,
@@ -108,7 +105,6 @@ const OurProvidersPage = () => {
             ? bufferToBase64(data.corporate.profilePicture.data)
             : providersprofile,
         });
-  
         setBackgroundImage(
           data.corporate?.coverPhoto
             ? bufferToBase64(data.corporate.coverPhoto.data)
@@ -118,10 +114,9 @@ const OurProvidersPage = () => {
         console.error("Error fetching corporate details:", error.message, error);
       }
     };
-  
     fetchCorporateDetails();
   }, []);
-  
+
   // Convert buffer data to Base64
   const bufferToBase64 = (buffer) => {
     if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
@@ -141,10 +136,10 @@ const OurProvidersPage = () => {
       const reader = new FileReader();
       reader.onloadend = () => setBackgroundImage(reader.result);
       reader.readAsDataURL(file);
-  
+
       const formData = new FormData();
       formData.append("coverPhoto", file);
-  
+
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/corporate/edit-profile`,
@@ -165,7 +160,7 @@ const OurProvidersPage = () => {
       }
     }
   };
-  
+
   const handleShowPopup = () => {
     setIsPopupVisible(true);
   };
@@ -213,9 +208,9 @@ const OurProvidersPage = () => {
     }).catch(err => {
       console.error('Failed to copy link: ', err); // Handle any errors
     });
-  };  
+  };
 
-  
+
   return (
     <div className="our-providers-profile-container">
       <div className="our-providers-cover-profile-image-head">
@@ -255,8 +250,8 @@ const OurProvidersPage = () => {
 
         <div className="our-providers-body-buttons">
           <div className="our-providers-body-buttons-two">
-          <button className="follow-button" onClick={handleShowPopup}><FaPlus size='1rem'/> Follow</button>
-          <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem'/> Message</button>
+            <button className="follow-button" onClick={handleShowPopup}><FaPlus size='1rem' /> Follow</button>
+            <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem' /> Message</button>
             <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
               <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
             </div>
@@ -281,7 +276,7 @@ const OurProvidersPage = () => {
               </div>
             )}
           </div>
-          <Link to={'/contact-us'}>
+          <Link to={'/corporate/Filters'}>
             <button className="appointment-button" >
               Book an Appointment
             </button>
@@ -299,10 +294,10 @@ const OurProvidersPage = () => {
       )}
 
 
-      <OverviewActivity overviewData = {overview} corporateSpecialties = {corporateSpecialties}/>
-      <OurProvidersDC doctors ={doctors}/>
-      <OurReviewsDc doctorReviews={doctorReviews} patientReviews ={patientReviews}/>
-      <OurBlogDc blogs={blogs}/>
+      <OverviewActivity overviewData={overview} corporateSpecialties={corporateSpecialties} />
+      <OurProvidersDC doctors={doctors} />
+      <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
+      <OurBlogDc blogs={blogs} />
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />

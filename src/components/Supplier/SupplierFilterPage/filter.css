@@ -92,37 +92,6 @@
     color: #272848;
 }
   
-input[type="date"] {
-    padding-right: 40px;
-    position: relative;
-    z-index: 1;
-}
-  
-input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: auto;
-    height: auto;
-    color: black;
-    background: none;
-    z-index: 2;
-}
-
-/*defult icons removeing in date icons*/
-input[type="date"]::-webkit-clear-button,
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="date"]::-moz-clear-button,
-input[type="date"]::-moz-inner-spin-button,
-input[type="date"]::-moz-calendar-picker-indicator,
-input[type="date"]::-ms-clear,
-input[type="date"]::-ms-expand {
-  display: none;
-}
-  
 .sidebar-filter .select-container-filter .form-group label {
     display: block;
     margin-bottom: 10px;

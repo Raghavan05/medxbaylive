@@ -33,7 +33,10 @@ import Editviewpatient from '../Adminpages/Adminviewpatients/Editviewpatient/Edi
 
 import Adminappointments from '../Adminpages/Adminappointments/Adminappointments';
 import CommissionFeeUpdate from '../Adminpages/AdminCommisionFee';
-
+import CreateNewAccount from '../Adminpages/MarketingFeatures/CreateNewAccount/CreateNewAccount';
+import ManageAccounts from '../Adminpages/MarketingFeatures/ManageAccounts/ManageAccounts';
+import ProfileTransferRequests from '../Adminpages/MarketingFeatures/ProfileTransferRequests/ProfileTransferRequests ';
+import AccountEditProfile from '../Adminpages/MarketingFeatures/AccountEditProfile/AccountEditProfile';
 
 const Adminroute = () => {
   return (
@@ -42,6 +45,12 @@ const Adminroute = () => {
         <Route index  path="/" element={<Navigate to="admindashboardpage" />} />
         <Route path="/admindashboardpage" element={<Admindashboardpage />} />
         
+        <Route path="/admincreatenewaccount" element={<CreateNewAccount />} />
+        <Route path="/admin-manage-accounts" element={<ManageAccounts />} />
+        <Route path="/admin-ProfileTransferRequests" element={<ProfileTransferRequests />} />
+        <Route path="/admin-manage-accounts/admin-AccountEditProfile/:id" element={<AccountEditProfile />} />
+        <Route path="/admin-ProfileTransferRequests/admin-AccountEditProfile/:id" element={<AccountEditProfile />} />
+
         <Route path="/admin-viewblog" element={<Adminviewblogs />} />
         <Route path="/view-detailsblog/:id" element={<Viewblogsdetails />} />
       
