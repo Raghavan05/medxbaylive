@@ -101,7 +101,7 @@ const BookAppointment = () => {
         
     } catch (error) {
         console.error("Error fetching doctor's fees:", error);
-        toast.error("Unable to fetch fees. Please try again.");
+        // toast.error("Unable to fetch fees. Please try again.");
     }
 };
 
@@ -115,7 +115,7 @@ useEffect(() => {
         },
         (error) => {
             console.error('Error fetching geolocation:', error);
-            toast.error('Unable to fetch your location. Please enable location services.');
+            // toast.error('Unable to fetch your location. Please enable location services.');
         }
     );
 }, []);
@@ -294,7 +294,7 @@ const handleConsultationTypeChange = async (type) => {
     console.log(totalFees);
   } catch (error) {
     console.error("Error fetching doctor's fees:", error);
-    toast.error("Unable to fetch fees. Please try again.");
+    // toast.error("Unable to fetch fees. Please try again.");
   }
 };
 

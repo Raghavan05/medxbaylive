@@ -113,6 +113,7 @@ function App() {
 
           {/* Suppliers */}
           <Route path="/OurProducts" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
+          <Route path="/OurProducts/:supplierId" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
           <Route path="/supplier/dashboardpage/*" element={[<Navbar/>,<Supplierroute/>,<Footer/>]} />
           <Route path="/supplier/Filters" element={[<Nestednavbar/>,<SupplierFilter/>,<Footer/>]} />
 

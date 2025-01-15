@@ -413,6 +413,186 @@ const Editdoctorprofile = () => {
 
     setDoctorData({ ...doctorData, faqs: newFaqasking });
   };
+  const countries = {
+    "USA": {
+        "Alabama": ["Birmingham", "Montgomery", "Huntsville", "Mobile", "Tuscaloosa"],
+        "Alaska": ["Anchorage", "Fairbanks", "Juneau", "Sitka", "Ketchikan"],
+        "Arizona": ["Phoenix", "Tucson", "Mesa", "Chandler", "Scottsdale"],
+        "Arkansas": ["Little Rock", "Fort Smith", "Fayetteville", "Springdale", "Jonesboro"],
+        "California": ["Los Angeles", "San Francisco", "San Diego", "Sacramento", "San Jose"],
+        "Colorado": ["Denver", "Colorado Springs", "Aurora", "Fort Collins", "Lakewood"],
+        "Connecticut": ["Bridgeport", "New Haven", "Stamford", "Hartford", "Waterbury"],
+        "Delaware": ["Wilmington", "Dover", "Newark", "Middletown", "Bear"],
+        "Florida": ["Miami", "Orlando", "Tampa", "Jacksonville", "Tallahassee"],
+        "Georgia": ["Atlanta", "Augusta", "Columbus", "Macon", "Savannah"],
+        "Hawaii": ["Honolulu", "Hilo", "Kailua", "Pearl City", "Kapolei"],
+        "Idaho": ["Boise", "Nampa", "Meridian", "Idaho Falls", "Pocatello"],
+        "Illinois": ["Chicago", "Springfield", "Peoria", "Naperville", "Aurora"],
+        "Indiana": ["Indianapolis", "Fort Wayne", "Evansville", "South Bend", "Carmel"],
+        "Iowa": ["Des Moines", "Cedar Rapids", "Davenport", "Sioux City", "Iowa City"],
+        "Kansas": ["Wichita", "Overland Park", "Kansas City", "Topeka", "Olathe"],
+        "Kentucky": ["Louisville", "Lexington", "Bowling Green", "Owensboro", "Covington"],
+        "Louisiana": ["New Orleans", "Baton Rouge", "Shreveport", "Lafayette", "Lake Charles"],
+        "Maine": ["Portland", "Lewiston", "Bangor", "Augusta", "Auburn"],
+        "Maryland": ["Baltimore", "Columbia", "Silver Spring", "Rockville", "Germantown"],
+        "Massachusetts": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell"],
+        "Michigan": ["Detroit", "Grand Rapids", "Ann Arbor", "Lansing", "Flint"],
+        "Minnesota": ["Minneapolis", "Saint Paul", "Rochester", "Duluth", "Bloomington"],
+        "Mississippi": ["Jackson", "Gulfport", "Biloxi", "Hattiesburg", "Meridian"],
+        "Missouri": ["St. Louis", "Kansas City", "Springfield", "Columbia", "Independence"],
+        "Montana": ["Billings", "Missoula", "Bozeman", "Helena", "Great Falls"],
+        "Nebraska": ["Omaha", "Lincoln", "Bellevue", "Grand Island", "Kearney"],
+        "Nevada": ["Las Vegas", "Reno", "Henderson", "North Las Vegas", "Sparks"],
+        "New Hampshire": ["Manchester", "Nashua", "Concord", "Derry", "Keene"],
+        "New Jersey": ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison"],
+        "New Mexico": ["Albuquerque", "Santa Fe", "Las Cruces", "Rio Rancho", "Roswell"],
+        "New York": ["New York City", "Buffalo", "Albany", "Syracuse", "Rochester"],
+        "North Carolina": ["Charlotte", "Raleigh", "Greensboro", "Durham", "Winston-Salem"],
+        "North Dakota": ["Fargo", "Bismarck", "Grand Forks", "Minot", "West Fargo"],
+        "Ohio": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron"],
+        "Oklahoma": ["Oklahoma City", "Tulsa", "Norman", "Broken Arrow", "Edmond"],
+        "Oregon": ["Portland", "Salem", "Eugene", "Gresham", "Beaverton"],
+        "Pennsylvania": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Harrisburg"],
+        "Rhode Island": ["Providence", "Cranston", "Warwick", "Pawtucket", "East Providence"],
+        "South Carolina": ["Columbia", "Charleston", "Greenville", "Spartanburg", "Myrtle Beach"],
+        "South Dakota": ["Sioux Falls", "Rapid City", "Aberdeen", "Brookings", "Mitchell"],
+        "Tennessee": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Clarksville"],
+        "Texas": ["Houston", "Dallas", "Austin", "San Antonio", "Fort Worth"],
+        "Utah": ["Salt Lake City", "Provo", "West Valley City", "Sandy", "Orem"],
+        "Vermont": ["Burlington", "Montpelier", "Rutland", "Essex Junction", "Barre"],
+        "Virginia": ["Virginia Beach", "Norfolk", "Chesapeake", "Richmond", "Newport News"],
+        "Washington": ["Seattle", "Spokane", "Tacoma", "Vancouver", "Bellevue"],
+        "West Virginia": ["Charleston", "Huntington", "Morgantown", "Parkersburg", "Wheeling"],
+        "Wisconsin": ["Milwaukee", "Madison", "Green Bay", "Kenosha", "Appleton"],
+        "Wyoming": ["Cheyenne", "Casper", "Laramie", "Gillette", "Rock Springs"]
+    },
+    "UAE": {
+        "Dubai": ["Dubai City", "Jumeirah", "Deira", "Bur Dubai", "Dubai Marina"],
+        "Abu Dhabi": ["Abu Dhabi City", "Al Ain", "Western Region", "Saadiyat Island"],
+        "Sharjah": ["Sharjah City", "Al Majaz", "Al Qasba", "Al Nahda"],
+        "Ajman": ["Ajman City", "Al Nuaimiya", "Al Mowaihat"],
+        "Fujairah": ["Fujairah City", "Al Badiyah", "Dibba"],
+        "Ras Al Khaimah": ["Ras Al Khaimah City", "Al Dhait", "Al Nakheel"]
+    },
+    "India": {
+        "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Tirupati"],
+        "Arunachal Pradesh": ["Itanagar", "Tawang", "Naharlagun", "Ziro", "Aalo"],
+        "Assam": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon"],
+        "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia"],
+        "Chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Durg", "Korba"],
+        "Goa": ["Panaji", "Vasco da Gama", "Margao", "Mapusa", "Ponda"],
+        "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar"],
+        "Haryana": ["Chandigarh", "Faridabad", "Gurugram", "Ambala", "Hisar"],
+        "Himachal Pradesh": ["Shimla", "Manali", "Kullu", "Dharamshala", "Solan"],
+        "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Hazaribagh"],
+        "Karnataka": ["Bangalore", "Mysore", "Mangalore", "Hubli", "Belgaum"],
+        "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Palakkad"],
+        "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
+        "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane"],
+        "Manipur": ["Imphal", "Thoubal", "Churachandpur", "Kakching", "Bishnupur"],
+        "Meghalaya": ["Shillong", "Tura", "Jowai", "Nongstoin", "Williamnagar"],
+        "Mizoram": ["Aizawl", "Kolasib", "Lunglei", "Champhai", "Serchhip"],
+        "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Wokha", "Mon"],
+        "Odisha": ["Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur"],
+        "Punjab": ["Chandigarh", "Amritsar", "Ludhiana", "Jalandhar", "Patiala"],
+        "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur", "Kota", "Ajmer"],
+        "Sikkim": ["Gangtok", "Mangan", "Rangpo", "Namchi", "Jorethang"],
+        "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Trichy", "Salem"],
+        "Telangana": ["Hyderabad", "Warangal", "Khammam", "Karimnagar", "Nizamabad"],
+        "Tripura": ["Agartala", "Udaipur", "Dharmanagar", "Ambassa", "Kailashahar"],
+        "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra", "Varanasi", "Meerut"],
+        "Uttarakhand": ["Dehradun", "Nainital", "Haridwar", "Rishikesh", "Haldwani"],
+        "West Bengal": ["Kolkata", "Siliguri", "Howrah", "Durgapur", "Asansol"],
+        "Andaman and Nicobar Islands": ["Port Blair", "Diglipur", "Mayabunder", "Car Nicobar", "Havelock"],
+        "Chandigarh": ["Chandigarh", "Mullanpur", "Manimajra", "Daria", "Palsora"],
+        "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Diu", "Silvassa", "Vapi", "Moti Daman"],
+        "Lakshadweep": ["Kavaratti", "Minicoy", "Andrott", "Amini", "Kalapeni"],
+        "Delhi": ["New Delhi", "Old Delhi", "Dwarka", "Vasant Kunj", "Karol Bagh"],
+        "Puducherry": ["Puducherry", "Auroville", "Karaikal", "Mahe", "Yanam"],
+        "Ladakh": ["Leh", "Kargil", "Nubra", "Zanskar", "Drass"],
+        "Lakshadweep": ["Kavaratti", "Minicoy", "Andrott", "Amini", "Kalapeni"],
+    },
+    "Africa": {
+        "Nigeria": ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Benin City", "Enugu", "Kaduna", "Zaria", "Maiduguri"],
+        "South Africa": ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "Polokwane", "Pietermaritzburg", "Nelspruit", "East London"],
+        "Kenya": ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Malindi", "Kakamega", "Kitale", "Meru"],
+        "Egypt": ["Cairo", "Alexandria", "Giza", "Sharm El Sheikh", "Luxor", "Aswan", "Port Said", "Suez", "Tanta", "Mansoura"],
+        "Morocco": ["Casablanca", "Marrakech", "Rabat", "Fes", "Tangier", "Agadir", "Meknes", "Tétouan", "Oujda", "Essaouira"],
+        "Ghana": ["Accra", "Kumasi", "Takoradi", "Tamale", "Koforidua", "Sekondi", "Ashaiman", "Cape Coast", "Techiman", "Ho"],
+        "Ethiopia": ["Addis Ababa", "Gondar", "Dire Dawa", "Mekelle", "Hawassa", "Adama", "Bahir Dar", "Jijiga", "Debre Markos", "Hossana"],
+        "Uganda": ["Kampala", "Entebbe", "Mbarara", "Jinja", "Masaka", "Mbale", "Lira", "Fort Portal", "Kabale", "Arua"],
+        "Algeria": ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Sétif", "Béjaïa", "Tizi Ouzou", "Chlef"],
+        "Morocco": ["Casablanca", "Marrakech", "Rabat", "Fes", "Tangier", "Agadir", "Meknes", "Tétouan", "Oujda", "Essaouira"],
+        "Sudan": ["Khartoum", "Omdurman", "Port Sudan", "Kassala", "Nyala", "Juba", "El Obeid", "Kadugli", "Wad Madani", "Dongola"],
+        "Mozambique": ["Maputo", "Beira", "Nampula", "Chimoio", "Quelimane", "Tete", "Nacala", "Pemba", "Xai-Xai", "Lichinga"],
+        "Angola": ["Luanda", "Huambo", "Lobito", "Benguela", "Kuito", "Malanje", "Cabinda", "Uige", "Cuito Cuanavale", "Sumbe"],
+        "Democratic Republic of the Congo": ["Kinshasa", "Lubumbashi", "Mbuji-Mayi", "Kananga", "Kisangani", "Bukavu", "Goma", "Kolwezi", "Matadi", "Kikwit"],
+        "Tanzania": ["Dar es Salaam", "Dodoma", "Arusha", "Mbeya", "Mwanza", "Morogoro", "Tanga", "Zanzibar", "Shinyanga", "Mtwara"],
+        "Senegal": ["Dakar", "Touba", "Thiès", "Saint-Louis", "Ziguinchor", "Kaolack", "Rufisque", "Tambacounda", "Mbour", "Diourbel"],
+        "Madagascar": ["Antananarivo", "Toamasina", "Antsirabe", "Fianarantsoa", "Mahajanga", "Toliara", "Diego Suarez", "Antsiranana", "Nosy Be", "Mahanoro"],
+        "Côte d'Ivoire": ["Abidjan", "Yamoussoukro", "Bouaké", "San Pedro", "Daloa", "Korhogo", "Man", "San Pédro", "Tiebissou", "Odienné"],
+        "Zimbabwe": ["Harare", "Bulawayo", "Mutare", "Gweru", "Kwekwe", "Marondera", "Chinhoyi", "Masvingo", "Zvishavane", "Chegutu"],
+        "Zambia": ["Lusaka", "Kitwe", "Ndola", "Kabwe", "Livingstone", "Mufulira", "Chingola", "Chililabombwe", "Luanshya", "Solwezi"],
+        "Liberia": ["Monrovia", "Gbarnga", "Buchanan", "Harper", "Paynesville", "Kakata", "Bomi", "Bopolu", "Voinjama", "Sanniquellie"],
+        "Somalia": ["Mogadishu", "Hargeisa", "Kismayo", "Baidoa", "Galkayo", "Merca", "Burao", "Bosaso", "Jowhar", "Kismayo"],
+        "Botswana": ["Gaborone", "Francistown", "Molepolole", "Maun", "Selibe Phikwe", "Serowe", "Palapye", "Jwaneng", "Orapa", "Kasane"],
+        "Namibia": ["Windhoek", "Swakopmund", "Walvis Bay", "Rundu", "Rehoboth", "Okahandja", "Tsumeb", "Ondangwa", "Keetmanshoop", "Grootfontein"],
+        "Gabon": ["Libreville", "Port-Gentil", "Franceville", "Moanda", "Oyem", "Bitam", "Koulamoutou", "Tchibanga", "Mouila", "Lambaréné"],
+        "Mali": ["Bamako", "Ségou", "Koutiala", "San", "Mopti", "Tombouctou", "Kayes", "Gao", "Kadiolo", "Koulikoro"]
+    }
+};
+
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  // Handle Country Change
+  const handleCountryChange = (event) => {
+    const country = event.target.value;
+
+    // Update doctorData with the selected country
+    setDoctorData({ ...doctorData, country, state: "", city: "" });
+
+    // Update local states
+    setSelectedCountry(country);
+    setSelectedState("");
+    setCities([]);
+
+    // Populate states based on the selected country
+    if (country) {
+      setStates(Object.keys(countries[country]));
+    } else {
+      setStates([]);
+    }
+  };
+
+  // Handle State Change
+  const handleStateChange = (event) => {
+    const state = event.target.value;
+
+    // Update doctorData with the selected state
+    setDoctorData({ ...doctorData, state, city: "" });
+
+    // Update local state
+    setSelectedState(state);
+
+    // Populate cities based on the selected state
+    if (state) {
+      setCities(countries[selectedCountry][state]);
+    } else {
+      setCities([]);
+    }
+  };
+
+  // Handle City Change
+  const handleCityChange = (event) => {
+    const city = event.target.value;
+
+    // Update doctorData with the selected city
+    setDoctorData({ ...doctorData, city });
+  };
+
   return (
     <>
       <div className='edit-your-profile-container'>
@@ -518,27 +698,65 @@ const Editdoctorprofile = () => {
                     </div>
 
                     <div className="edop-form-row">
-                      <div className="edop-form-group">
-                        <label htmlFor="city">City</label>
-                        <input type="text" id="city" placeholder='Enter your city' value={doctorData.city} onChange={handleInputChange} />
-                      </div>
-                      <div className="edop-form-group">
-                        <label htmlFor="state">State</label>
-                        <input type="text" id="state" placeholder='Enter your state' value={doctorData.state} onChange={handleInputChange} />
-                      </div>
-                    </div>
+        <div className="edop-form-group">
+          <label htmlFor="country">Country</label>
+          <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+            <option value="">{doctorData.country || "Select Country"}</option>
+            {Object.keys(countries).map((country) => (
+              <option key={country} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+        </div>
 
-                    <div className="edop-form-row">
-                      <div className="edop-form-group">
-                        <label htmlFor="country">Country</label>
-                        <input type="text" id="country" placeholder='Enter your country' value={doctorData.country} onChange={handleInputChange} />
-                      </div>
+        <div className="edop-form-group">
+          <label htmlFor="state">State/Province</label>
+          <select
+            id="state"
+            value={selectedState}
+            onChange={handleStateChange}
+            disabled={!states.length}
+          >
+            <option value="">{doctorData.state || "Select State"}</option>
+            {states.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-                      <div className="edop-form-group">
-                        <label htmlFor="zip">Zip code</label>
-                        <input type="text" id="zip" placeholder='Enter your zipcode' value={doctorData.zip} onChange={handleInputChange} />
-                      </div>
-                    </div>
+      <div className="edop-form-row">
+        <div className="edop-form-group">
+          <label htmlFor="city">City</label>
+          <select
+            id="city"
+            value={doctorData.city}
+            onChange={handleCityChange}
+            disabled={!cities.length}
+          >
+            <option value="">{doctorData.city || "Select City"}</option>
+            {cities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="edop-form-group">
+          <label htmlFor="zip">Zip code</label>
+          <input
+            type="text"
+            id="zip"
+            placeholder="Enter your zipcode"
+            value={doctorData.zip || ""}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
                   </div>
                 )}
               </div>

@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import SignupCard from '../../signup/signup';
+import ClaimProfilePopup from './ClaimProfilePopup/ClaimProfilePopup';
 
 const bufferToBase64 = (buffer) => {
     if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
@@ -113,6 +114,23 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
         }
         return description;
     };
+    const handleViewProfile = () => {
+        navigate(`/OurProviders/${corporate._id}`);
+    }
+
+    // Claim Profile using Start
+    const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+
+    const openClaimPopup = () => {
+        setIsClaimPopupVisible(true);
+        document.body.classList.add("scroll-lock");
+    };
+
+    const handleCloseClaimPopup = () => {
+        setIsClaimPopupVisible(false);
+        document.body.classList.remove("scroll-lock");
+    };
+    // Claim Profile using End
     return (
         <>
             <ToastContainer />
@@ -127,16 +145,16 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
                                 {corporate.rating !== undefined ? renderStars(corporate.rating) : renderStars(0)}
                             </div>
                             <div className={`distance-div ${isMapExpanded ? 'mapExpanded-sponsor-distance-div' : 'd-none'}`}>
-                               
+
                             </div>
                         </div>
                         <div className="doctor-details1">
                             <Link to={`/OurProviders/${corporate._id}`}>
                                 <h2>{corporate?.corporateName}</h2>
                             </Link>
-                            <p className="speciality">{truncateDescription(corporate?.tagline + " ",50)}</p>
+                            <p className="speciality">{truncateDescription(corporate?.tagline + " ", 50)}</p>
                             <p className="experience">{truncateDescription(corporate?.overview, 65)}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{corporate?.address?.country + " | " + corporate?.address?.state + " | " + corporate?.address?.city || "Hospital City"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{corporate?.address?.country + " | " + corporate?.address?.state || "Hospital"}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                             </p>
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
@@ -149,15 +167,33 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
                         </div>
                     </div>
                 </div>
-                <div className={`col-12 col-lg-5 appointment d-flex flex-column align-items-center ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
-                    <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
-                        {corporate?.rating !== undefined ? renderStars(corporate?.rating) : renderStars(0)}
-                    </div>
+                <div className={`col-12 col-lg-5 dc-filter-appointment ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
                     <div>
+                        <span className='dc-filter-appointment-Rating'>Rating</span>
+                        <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
+                            {corporate?.rating !== undefined ? renderStars(corporate?.rating) : renderStars(0)}
+                        </div>
+                    </div>
+                    <div className='d-flex flex-column align-items-center'>
                         <div className='d-flex flex-row'>
-                            <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
-                            // onClick={handleShowCard}
-                            >Claim Profile !</button>
+
+                        {corporate?.createdByAdmin === true && corporate?.profileTransferRequest === "Pending" ? (
+                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                    onClick={openClaimPopup}  // Toggle the popup on button click
+                                >
+                                    Claim Profile !
+                                </button>
+                            ) : (
+                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                onClick={handleViewProfile}
+                                >View Profile</button>
+                            )}
+                            {isClaimPopupVisible && (
+                                <ClaimProfilePopup
+                                corporateId ={corporate._id}
+                                    handleCloseClaimPopup={handleCloseClaimPopup} />
+                            )}
+
                             <button
                                 className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''}   ${selectedHospital ? "" : "d-none"}`}
                             // onClick={() => {

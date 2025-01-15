@@ -133,7 +133,7 @@ const FilterPage = () => {
       return [];
     }
     console.log(corporates);
-    
+
     return corporates.filter((corporate) => {
       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
 
@@ -144,7 +144,7 @@ const FilterPage = () => {
       const corporateName = getStringValue(corporate?.corporateName || '');
       const corporateConditions = (corporate.conditions || []).map(getStringValue);
       const corporateLanguages = (corporate.languagesSpoken || []).map(getStringValue);
-      
+
       const matchesCountry = !filters.country || country === getStringValue(filters.country);
       const matchesState = !filters.state || state === getStringValue(filters.state);
       const matchesCity = !filters.city || city === getStringValue(filters.city);
@@ -160,7 +160,7 @@ const FilterPage = () => {
         matchesSpeciality &&
         matchesCorporate &&
         matchesConditions &&
-        matchesLanguages 
+        matchesLanguages
       );
     });
   };
@@ -168,7 +168,7 @@ const FilterPage = () => {
   // const filteredcorporates = filtercorporates(corporates);
   const filteredcorporates = corporates.length === 0 ? filtercorporates(doc) : filtercorporates(corporates);
   // console.log(corporates);
-  
+
 
   return (
     <>
@@ -187,18 +187,15 @@ const FilterPage = () => {
           </div>
         </div>
 
-        <div className='filterpage-parent'>
-          <div className='row'>
-            <div className="filter-edit col-3 d-none d-lg-block">
-              <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
-            </div>
-            <div className={`doctorMainCard-edit col-12 col-lg-6`}>
-              <DoctorMainCard isMapExpanded={isMapExpanded} corporates={filteredcorporates}
-              //  location={locations} 
-               responseStatus={responseStatus} />
-            </div>
-            <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
-              {/* <MapContainer
+        <div className='filterpage-parent d-flex flex-column flex-lg-row'>
+          <div className="filter-edit col-12 col-lg-3">
+            <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
+          </div>
+          <div className={`doctorMainCard-edit col-12 col-lg-6`}>
+            <DoctorMainCard isMapExpanded={isMapExpanded} corporates={filteredcorporates} responseStatus={responseStatus} />
+          </div>
+          <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
+            {/* <MapContainer
                 expanded={isMapExpanded}
                 searchInput={searchInput}
                 onExpandToggle={handleMapExpandToggle}
@@ -209,7 +206,6 @@ const FilterPage = () => {
                 onClickOutside={handleMapClose}
                 onLocationClick={handleLocationClick}
               /> */}
-            </div>
           </div>
         </div>
       </div>

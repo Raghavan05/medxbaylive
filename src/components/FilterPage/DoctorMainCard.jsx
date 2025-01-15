@@ -95,7 +95,7 @@ const DoctorMainCard = ({ isMapExpanded, doctors = [], location, responseStatus 
         <div className="container px-3">
             <div className="row doctor-main-card">
                 <div className={`col-12 ${isMapExpanded ? 'mapExpanded-doc-card-header' : 'doc-card-header'}`}>
-                    <h4>{nonSponsoredDoctors.length + sponsoredDoctors.length} Provider{nonSponsoredDoctors.length + sponsoredDoctors.length !== 1 ? 's' : ''} available</h4>
+                    <h4>{nonSponsoredDoctors.length + sponsoredDoctors.length} Provider{nonSponsoredDoctors.length + sponsoredDoctors.length > 1 ? 's' : ''} available</h4>
                     <div className='d-flex'>
                         <img src={VerifiedImg} alt="Verified" style={{ width: "26px", height: "26px" }} />
                         <p>Book appointments with minimum wait-time & verified providers details</p>

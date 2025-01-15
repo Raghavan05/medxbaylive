@@ -20,7 +20,7 @@ const MapContainer = ({
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (mapRef.current && !mapRef.current.contains(event.target)) {
+            if (mapRef?.current && !mapRef.current.contains(event.target)) {
                 onClickOutside();
             }
         };

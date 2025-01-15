@@ -76,10 +76,10 @@ const OurProvidersPage = () => {
 
         const response = await axios.get(url, { withCredentials: true });
 
-        // // Log response for debugging
-        console.log("API Response:", response);
 
         const data = response.data?.data; // Ensure data exists
+        // // Log response for debugging
+        console.log("API Response:", data);
         if (!data) {
           throw new Error("Data property is undefined in the response");
         }
@@ -258,21 +258,24 @@ const OurProvidersPage = () => {
 
             {isDropdownOpen && (
               <div className={`our-providers-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
-
-                <div className="our-providers-dropdown-item" onClick={openAddDoctorPopup}>
-                  <RiUserAddLine size="1rem" /> Add Doctor
-                </div>
+                {sessionStorage.getItem('role') === 'corporate' && (
+                  <div className="our-providers-dropdown-item" onClick={openAddDoctorPopup}>
+                    <RiUserAddLine size="1rem" /> Add Doctor
+                  </div>
+                )}
 
                 <div className="our-providers-dropdown-item" onClick={copyLink}>
                   <RxExternalLink size="1rem" /> Copy Link
                 </div>
-
                 <div className="our-providers-dropdown-item" onClick={handleShareClick}>
                   <BiSolidShareAlt size="1rem" /> Share Profile
                 </div>
-                <div className="our-providers-dropdown-item" onClick={openEditPopup}>
-                  <TbEdit size="1rem" /> Edit Profile
-                </div>
+                {sessionStorage.getItem('role') === 'corporate' && (
+                  <div className="our-providers-dropdown-item" onClick={openEditPopup}>
+                    <TbEdit size="1rem" /> Edit Profile
+                  </div>
+                )}
+
               </div>
             )}
           </div>

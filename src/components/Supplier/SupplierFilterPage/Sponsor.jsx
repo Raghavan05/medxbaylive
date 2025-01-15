@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import SignupCard from '../../signup/signup';
+import ClaimProfilePopup from './ClaimProfilePopup/ClaimProfilePopup';
 
 const bufferToBase64 = (buffer) => {
     if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
@@ -112,6 +113,23 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
         }
         return description;
     };
+    const handleViewProfile = () => {
+        navigate(`/OurProviders/${supplier._id}`);
+    }
+        // Claim Profile using Start
+        const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+    
+        const openClaimPopup = () => {
+            setIsClaimPopupVisible(true);
+            document.body.classList.add("scroll-lock");
+        };
+    
+        const handleCloseClaimPopup = () => {
+            setIsClaimPopupVisible(false);
+            document.body.classList.remove("scroll-lock");
+        };
+        // Claim Profile using End
+    
     return (
         <>
             <ToastContainer />
@@ -131,11 +149,11 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
                         </div>
                         <div className="doctor-details1">
                             <Link to={`/OurProviders/${supplier._id}`}>
-                                <h2>{supplier?.companyName}</h2>
+                                <h2>{supplier?.name}</h2>
                             </Link>
                             <p className="speciality">{supplier?.tagline + " "}</p>
                             <p className="experience">{truncateDescription(supplier?.overview, 65)}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{supplier?.address?.country + " | " + supplier?.address?.state + " | " + supplier?.address?.city || "Hospital City"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{supplier?.address?.country + " | " + supplier?.address?.state || "Hospital"}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                             </p>
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
@@ -143,20 +161,36 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
                                     <img src={thumbsUp} alt="thumbsUp" />
                                     <span>{`${supplier.rating ? supplier?.rating * 20 : 0}%` || "70%"}</span>
                                 </div>
-                                <span>{supplier?.followers?.length} follower{supplier?.followers?.length >= 1 ? 's' : ''}</span>
+                                <span>{supplier?.followers?.length} follower{supplier?.followers?.length > 1 ? 's' : ''}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={`col-12 col-lg-5 appointment d-flex flex-column align-items-center ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
-                    <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
-                        {supplier?.rating !== undefined ? renderStars(supplier?.rating) : renderStars(0)}
+                <div className={`col-12 col-lg-5 dc-filter-appointment ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
+                <div>
+                        <span className='dc-filter-appointment-Rating'>Rating</span>
+                        <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
+                            {supplier?.rating !== undefined ? renderStars(supplier?.rating) : renderStars(0)}
+                        </div>
                     </div>
-                    <div>
+                    <div className='d-flex flex-column align-items-center'>
                         <div className='d-flex flex-row'>
-                            <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
-                            // onClick={handleShowCard}
-                            >Claim Profile !</button>
+                        {supplier?.createdByAdmin === true && supplier?.profileTransferRequest !== "Accepted" ? (
+                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                    onClick={openClaimPopup}  // Toggle the popup on button click
+                                >
+                                    Claim Profile !
+                                </button>
+                            ) : (
+                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                    onClick={handleViewProfile}
+                                >View Profile </button>
+                            )}
+                            {isClaimPopupVisible && (
+                                <ClaimProfilePopup
+                                    supplierId={supplier._id}
+                                    handleCloseClaimPopup={handleCloseClaimPopup} />
+                            )}
                             <button
                                 className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''}   ${selectedHospital ? "" : "d-none"}`}
                             // onClick={() => {

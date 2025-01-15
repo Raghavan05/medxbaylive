@@ -293,7 +293,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                         </div>
                     </div>
                 </div>
-                <div className="select-container-filter">
+                {/* <div className="select-container-filter">
                     <div className="form-group">
                         <label htmlFor="hospital">Corporates:</label>
                         <select id="corporateName" name="corporateName" value={formData.corporateName} onChange={handleInputChange}>
@@ -304,7 +304,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                         </select>
                         <RiArrowDownSLine className="arrow-icon-filter" />
                     </div>
-                </div>
+                </div> */}
             </div>
 
         </div>

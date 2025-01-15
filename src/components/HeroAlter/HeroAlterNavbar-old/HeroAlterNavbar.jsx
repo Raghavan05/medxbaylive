@@ -109,16 +109,16 @@ const HeroAlterNavbar = () => {
   const handleClosePopup = () => setShowPopup(false);
 
   const handleClickOutside = (event) => {
-    if (WhoWeDropdownRef.current && !WhoWeDropdownRef.current.contains(event.target)) {
+    if (WhoWeDropdownRef?.current && !WhoWeDropdownRef.current.contains(event.target)) {
       setWhoWeDropdownOpen(false);
     }
-    if (AboutDropdownRef.current && !AboutDropdownRef.current.contains(event.target)) {
+    if (AboutDropdownRef?.current && !AboutDropdownRef.current.contains(event.target)) {
       setAboutDropdownOpen(false);
     }
-    if (ServiceDropdownRef.current && !ServiceDropdownRef.current.contains(event.target)) {
+    if (ServiceDropdownRef?.current && !ServiceDropdownRef.current.contains(event.target)) {
       setServiceDropdownOpen(false);
     }
-    if (FindProviderDropdownRef.current && !FindProviderDropdownRef.current.contains(event.target)) {
+    if (FindProviderDropdownRef?.current && !FindProviderDropdownRef.current.contains(event.target)) {
       setFindProviderDropdownOpen(false);
     }
   };

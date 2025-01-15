@@ -25,7 +25,7 @@ const HeroAlterNavbar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (dropdownRef?.current && !dropdownRef.current.contains(event.target)) {
         setActiveDropdown(null);
       }
     };
@@ -34,7 +34,7 @@ const HeroAlterNavbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [dropdownRef]);
 
   useEffect(() => {
     const handleScroll = () => {

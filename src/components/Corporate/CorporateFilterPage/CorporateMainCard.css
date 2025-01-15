@@ -273,13 +273,21 @@
     font-size: 14px;
     margin-right: 20px;
   }
-  .rating-stars{
-    margin-bottom: 80px;
-  }
-  .appointment {
+ 
+  .dc-filter-appointment {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items:center;
+    justify-content: center;
+    gap:14px;
+  }
+  .dc-filter-appointment-Rating{
+    color:rgb(55, 173, 255);
+  margin-left: 10px;
+  }
+
+  .rating-stars{
+    margin-bottom: 80px;
   }
   
   .book-button {
@@ -292,6 +300,7 @@
     cursor: pointer;
     margin-bottom: 20px;
   }
+
   .book-login{
     padding: 10px 50px;
   }
@@ -586,7 +595,7 @@
 
 .sponsored-text p {
   flex-grow: 1; /* Allow the paragraph to take up available space */
-  margin: 0 0 0 0 !important; /* Remove default margin for better alignment */
+  margin: -3px 0 0 0 !important; /* Remove default margin for better alignment */
   padding-left: 8px; /* Optional: Add padding for spacing */
   font-weight: 100;
   font-size: 14px;
@@ -665,7 +674,7 @@
   .doctor-card {
       flex-direction: column;
   }
-  .doctor-info, .appointment {
+  .doctor-info, .dc-filter-appointment {
       width: 100%;
       text-align: start;
   }
@@ -728,7 +737,7 @@
   }
 }
 @media (max-width: 360px) {
-  .appointment{
+  .dc-filter-appointment{
     padding-left: 65px !important;
   }
   .date-item h3 {
@@ -826,3 +835,4 @@
 .mapExpanded-pagination{
   width: 93%;
 }
+

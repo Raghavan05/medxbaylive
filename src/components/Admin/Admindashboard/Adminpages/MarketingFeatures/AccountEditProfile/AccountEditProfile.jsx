@@ -75,7 +75,7 @@ const fetchProfile = async () => {
   };
   return (
     <div className="Adim-MA-PTR-edit-profile-container">
-      <h2 className="Adim-MA-PTR-edit-profile-title">Edit Accounts</h2>
+      <h2 className="Adim-MA-PTR-edit-profile-title">Edit Account</h2>
       <form onSubmit={handleSubmit}>
       <ToastContainer />
         <div className="Adim-MA-PTR-edit-profile-form">

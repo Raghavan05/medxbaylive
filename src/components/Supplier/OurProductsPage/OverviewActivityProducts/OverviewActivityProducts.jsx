@@ -213,9 +213,11 @@ const handleImageUpload = (e, index) => {
       {/* Overview Section */}
       <div className="our-products-overview">
         <div className="our-products-overview-edit-icons-contains">
-          <div className="our-products-overview-edit-icons-head">
-            <LuPencil className="our-products-overview-edit-icons" onClick={openModal} />
-          </div>
+          {sessionStorage.getItem('role') === 'supplier' && (
+            <div className="our-products-overview-edit-icons-head">
+              <LuPencil className="our-products-overview-edit-icons" onClick={openModal} />
+            </div>
+          )}
         </div>
         <h2>Overview</h2>
         <p>

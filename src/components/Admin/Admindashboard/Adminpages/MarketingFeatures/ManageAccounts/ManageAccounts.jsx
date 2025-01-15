@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./ManageAccounts.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { RiSearchLine } from 'react-icons/ri'; // Import search icon
 
 const ManageAccounts = () => {
   const navigate = useNavigate(); // Hook for navigation
   const [accounts, setAccounts] = useState([]);
+      const [searchQuery, setSearchQuery] = useState('');
+  
 
   useEffect(() => {
     // Fetch accounts from the backend
@@ -22,6 +25,18 @@ const ManageAccounts = () => {
 
     fetchAccounts();
   }, []);
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+};
+
+// Filter doctors based on search query
+const filteredAccounts = accounts.filter(account => {
+    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+    return (
+      account.name.toLowerCase().includes(lowerCaseSearchQuery) ||
+      account.email.toLowerCase().includes(lowerCaseSearchQuery)
+    );
+});
 
   const handleViewEdit = (id) => {
     navigate(`admin-AccountEditProfile/${id}`); // Navigate to edit page
@@ -29,9 +44,20 @@ const ManageAccounts = () => {
 
   return (
     <div className="ManageAccounts-admin-page-container">
-      <h2 className="ManageAccounts-admin-page-title">Admin Accounts</h2>
 
       <div className="ManageAccounts-admin-page-table-control">
+        <div className="doctor-head-part-title-search">
+      <h2 className="ManageAccounts-admin-page-title">Admin Accounts</h2>
+                        <div className="admin-search-bar">
+                            <input
+                                type="text"
+                                placeholder="Search for doctors..."
+                                value={searchQuery}
+                                onChange={handleSearch}
+                            />
+                            <RiSearchLine className="admin-search-bar-icon" />
+                        </div>
+                    </div>
         <table className="Ma-ap-table">
           <thead className="Ma-ap-thead">
             <tr>
@@ -43,7 +69,7 @@ const ManageAccounts = () => {
             </tr>
           </thead>
           <tbody className="Ma-ap-tbody">
-            {accounts.map((account) => (
+            {filteredAccounts.map((account) => (
               <tr className="table-row" key={account._id}>
                 <td className="table-cell">{account.name}</td>
                 <td className="table-cell">{account.email}</td>

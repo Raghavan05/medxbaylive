@@ -43,7 +43,7 @@ const Adminsidebar = () => {
           routeKey = '/admin/dashboardpage/admin-viewblog';
           break;
         case '/admin/dashboardpage/admin-viewdoctor':
-        case '/admin/dashboardpage/edit-viewdoctor':
+        case '/admin/dashboardpage/edit-viewdoctor/:id':
           routeKey = '/admin/dashboardpage/admin-viewdoctor';
           break;
         case '/admin/dashboardpage/admin-viewpatients':
@@ -95,7 +95,7 @@ const Adminsidebar = () => {
       .then(() => {
         sessionStorage.clear();
         window.location.href = 'https://medxbay.com'; // Redirect to the desired URL
-        window.location.reload();
+        // window.location.reload();
       })
       .catch(error => {
         console.error('Error during logout:', error);

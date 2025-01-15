@@ -207,9 +207,8 @@ const FilterPage = () => {
           </div>
         </div>
 
-        <div className='filterpage-parent'>
-          <div className='row'>
-            <div className="filter-edit col-3 d-none d-lg-block">
+        <div className='filterpage-parent d-flex flex-column flex-lg-row'>
+        <div className="filter-edit col-12 col-lg-3">
               <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
             </div>
             <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
@@ -229,7 +228,6 @@ const FilterPage = () => {
               />
             </div>
           </div>
-        </div>
       </div>
     </>
   );

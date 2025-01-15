@@ -31,7 +31,7 @@ const MessageInput = ({ onSendMessage }) => {
   };
 
   const handleClickOutside = (event) => {
-    if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+    if (emojiPickerRef?.current && !emojiPickerRef.current.contains(event.target)) {
       setShowEmojiPicker(false);
     }
   };

@@ -129,7 +129,7 @@ const FilterPage = () => {
       return [];
     }
     console.log(suppliers);
-    
+
     return suppliers.filter((supplier) => {
       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
 
@@ -137,7 +137,7 @@ const FilterPage = () => {
       const state = getStringValue(supplier?.address?.state || '');
       const city = getStringValue(supplier?.address?.city || '');
       const companyName = getStringValue(supplier?.companyName || '');
-      
+
       const matchesCountry = !filters.country || country === getStringValue(filters.country);
       const matchesState = !filters.state || state === getStringValue(filters.state);
       const matchesCity = !filters.city || city === getStringValue(filters.city);
@@ -155,7 +155,7 @@ const FilterPage = () => {
   // const filteredSuppliers = filterSuppliers(suppliers);
   const filteredSuppliers = suppliers.length === 0 ? filterSuppliers(doc) : filterSuppliers(suppliers);
   // console.log(suppliers);
-  
+
 
   return (
     <>
@@ -174,18 +174,17 @@ const FilterPage = () => {
           </div>
         </div>
 
-        <div className='filterpage-parent'>
-          <div className='row'>
-            <div className="filter-edit col-3 d-none d-lg-block">
-              <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
-            </div>
-            <div className={`doctorMainCard-edit col-12 col-lg-6`}>
-              <DoctorMainCard isMapExpanded={isMapExpanded} suppliers={filteredSuppliers}
+        <div className='filterpage-parent d-flex flex-column flex-lg-row'>
+          <div className="filter-edit col-12 col-lg-3">
+            <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
+          </div>
+          <div className={`doctorMainCard-edit col-12 col-lg-6`}>
+            <DoctorMainCard isMapExpanded={isMapExpanded} suppliers={filteredSuppliers}
               //  location={locations} 
-               responseStatus={responseStatus} />
-            </div>
-            <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
-              {/* <MapContainer
+              responseStatus={responseStatus} />
+          </div>
+          <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
+            {/* <MapContainer
                 expanded={isMapExpanded}
                 searchInput={searchInput}
                 onExpandToggle={handleMapExpandToggle}
@@ -196,7 +195,6 @@ const FilterPage = () => {
                 onClickOutside={handleMapClose}
                 onLocationClick={handleLocationClick}
               /> */}
-            </div>
           </div>
         </div>
       </div>

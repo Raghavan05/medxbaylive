@@ -25,7 +25,7 @@ import Condition from './Condition/Condition';
 import axios from 'axios';
 import BlogPopup from '../../patientBlog/BlogPopup';
 import OurProductsSharePopup from './OurProductsSharePopup/OurProductsSharePopup'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast,ToastContainer } from 'react-toastify';
 
 
@@ -48,15 +48,17 @@ const OurProductsPage = () => {
   const [supplier, setSupplier] = useState([]);
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
-
+    const { supplierId } = useParams(); // Get corporateId from the route
+  
   // Fetch profile data from the backend
   useEffect(() => {
     const fetchSuppliersDetails = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/supplier/profile`,
-          { withCredentials: true }
-        );
+        const url = supplierId
+          ? `${process.env.REACT_APP_BASE_URL}/supplier/supplier/${supplierId}` // New route with corporateId
+          : `${process.env.REACT_APP_BASE_URL}/supplier/profile`; // Existing route
+
+        const response = await axios.get(url, { withCredentials: true });
         const { supplier, products, blogs } = response.data;
         setSupplier(supplier);
         setProducts(products);
@@ -271,10 +273,12 @@ const OurProductsPage = () => {
                 <div className="our-products-dropdown-item" onClick={handleShareClick}>
                   <BiSolidShareAlt size="1rem" /> Share Profile
                 </div>
-                <div className="our-products-dropdown-item" onClick={openEditPopup}>
-                  <TbEdit size="1rem" /> Edit Profile
+                  {sessionStorage.getItem('role') === 'supplier' && (
+                    <div className="our-products-dropdown-itemm" onClick={openEditPopup}>
+                      <TbEdit size="1rem" /> Edit Profile
+                    </div>
+                  )}
                 </div>
-              </div>
             )}
 
             {isEditPopupOpen && (
@@ -287,7 +291,7 @@ const OurProductsPage = () => {
               />
             )}
           </div>
-          <Link to={'/contact-us'}>
+          <Link to={'/supplier/Filters'}>
           <button className="appointment-button">Book an Appointment</button>
           </Link>
           </div>

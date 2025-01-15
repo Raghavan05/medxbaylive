@@ -69,7 +69,7 @@ const DoctorMainCard = ({ isMapExpanded, corporates, location, responseStatus })
         <div className="container px-3">
             <div className="row doctor-main-card">
                 <div className={`col-12 ${isMapExpanded ? 'mapExpanded-doc-card-header' : 'doc-card-header'}`}>
-                    <h4>{nonSponsoredDoctors.length + sponsoredDoctors.length} Corporate{nonSponsoredDoctors.length + sponsoredDoctors.length >= 1 ? 's' : ''} available</h4>
+                    <h4>{nonSponsoredDoctors.length} Corporate{nonSponsoredDoctors.length >= 1 ? 's' : ''} available</h4>
                     <div className='d-flex'>
                         <img src={VerifiedImg} alt="Verified" style={{ width: "26px", height: "26px" }} />
                         <p>Book appointments with minimum wait-time & verified corporate details</p>
@@ -80,7 +80,9 @@ const DoctorMainCard = ({ isMapExpanded, corporates, location, responseStatus })
                 <div className='row sponsored-text '>
                     <div className="col-6 d-flex">
                         <BsInfoCircle />
-                        <p>Sponsored</p>
+                        {/* <p>Sponsored</p> */}
+                        <p>All results</p>
+
                     </div>
                     <div className={`sort-by ${isMapExpanded ? 'col-5 mapExpanded-sort-by' : 'col-6'}`}>
                         <div className="form-group">
@@ -95,7 +97,7 @@ const DoctorMainCard = ({ isMapExpanded, corporates, location, responseStatus })
                         </div>
                     </div>
                 </div>
-                <div>
+                {/* <div>
                     {currentSponsoredDoctors.length > 0 ? (
                         currentSponsoredDoctors.map((corporate) => (
                             <Sponsor key={corporate._id} corporate={corporate} isMapExpanded={isMapExpanded} />
@@ -103,10 +105,9 @@ const DoctorMainCard = ({ isMapExpanded, corporates, location, responseStatus })
                     ) : (
                         <>{loader ? <Loader /> : <p className='no-results-message'>No sponsored corporate found based on the applied filters.</p>}</>
                     )}
-                </div>
+                </div> */}
             </div>
             <div className={`doctor-card-container result-card ${isMapExpanded ? 'expanded' : ''}`}>
-                <p>All results</p>
                 {currentNonSponsoredDoctors.length > 0 ? (
                     currentNonSponsoredDoctors.map((corporate) => (
                         <DoctorCard key={corporate._id} corporate={corporate} isMapExpanded={isMapExpanded} />

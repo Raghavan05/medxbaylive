@@ -20,7 +20,7 @@ const MapContainer = ({
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (mapRef.current && !mapRef.current.contains(event.target)) {
+            if (mapRef?.current && !mapRef.current.contains(event.target)) {
                 onClickOutside();
             }
         };
@@ -88,24 +88,39 @@ const MapContainer = ({
                         });
                     },
                     error => {
-                        alert('Location access is required to show your position on the map. Please enable location services in your browser settings.');
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                alert('Location access is required to show your position on the map. Please enable location services in your browser settings.');
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                alert('Location information is unavailable.');
+                                break;
+                            case error.TIMEOUT:
+                                alert('The request to get your location timed out.');
+                                break;
+                            default:
+                                alert('An unknown error occurred while fetching location.');
+                                break;
+                        }
                         reject(error);
                     }
                 );
             } else {
+                alert('Geolocation is not supported by this browser.');
                 reject(new Error('Geolocation is not supported by this browser.'));
             }
         });
     };
 
     const calculateDistance = (googleMaps, userLocation, targetLocation) => {
-        if (!userLocation || !targetLocation || !userLocation.lat || !userLocation.lng || !targetLocation.lat || !targetLocation.lng) {
+        if (!userLocation || !targetLocation || !userLocation?.lat || !userLocation?.lng || !targetLocation?.lat || !targetLocation?.lng) {
+            console.error('Invalid userLocation or targetLocation:', { userLocation, targetLocation });
             return null;
         }
 
-        const userLatLng = new googleMaps.LatLng(userLocation.lat, userLocation.lng);
-        const targetLatLng = new googleMaps.LatLng(targetLocation.lat, targetLocation.lng);
-        return googleMaps.geometry.spherical.computeDistanceBetween(userLatLng, targetLatLng);
+        const userLatLng = new googleMaps.LatLng(userLocation?.lat, userLocation.lng);
+        const targetLatLng = new googleMaps.LatLng(targetLocation?.lat, targetLocation.lng);
+        return googleMaps.geometry?.spherical.computeDistanceBetween(userLatLng, targetLatLng);
     };
 
     const createCircularImage = (imageUrl, borderColor, callback) => {
@@ -179,12 +194,12 @@ const MapContainer = ({
     
         if (uniqueLocations && Array.isArray(uniqueLocations)) {
             uniqueLocations.forEach(location => {
-                if (!location.lat || !location.lng) {
-                    console.error('Location data is incomplete:', location);
+                if (!location || typeof location?.lat !== 'number' || typeof location?.lng !== 'number') {
+                    console.error('Skipping invalid location:', location);
                     return;
                 }
     
-                const position = { lat: location.lat, lng: location.lng };
+                const position = { lat: location?.lat, lng: location?.lng };
                 const markerColor = location.subscriptionType === 'Premium' ? '#FF7F50' :
                                     location.subscriptionType === 'Standard' ? '#0067FF' : '#808080';
     
@@ -215,7 +230,7 @@ const MapContainer = ({
                                     Clear Selection
                                 </button>
                                 <br>
-                                <a href="https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${location.lat},${location.lng}" target="_blank" class="view-directions" style="color: #2980b9; text-decoration: none; font-size: 11px; transition: color 0.3s ease; margin-top: 4px; display: inline-block;">
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lng}&destination=${location?.lat},${location?.lng}" target="_blank" class="view-directions" style="color: #2980b9; text-decoration: none; font-size: 11px; transition: color 0.3s ease; margin-top: 4px; display: inline-block;">
                                     View Directions
                                 </a>
                             </div>

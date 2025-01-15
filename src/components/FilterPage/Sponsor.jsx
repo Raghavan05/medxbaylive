@@ -14,6 +14,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SignupCard from '../signup/signup';
 import axios from 'axios';
+import ClaimProfilePopup from './ClaimProfilePopup/ClaimProfilePopup';
+
 const bufferToBase64 = (buffer) => {
     if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
         const bytes = new Uint8Array(buffer.data);
@@ -79,7 +81,7 @@ useEffect(() => {
             },
             (error) => {
                 console.error('Error fetching geolocation:', error);
-                toast.error('Unable to fetch your location. Please enable location services.');
+                // toast.error('Unable to fetch your location. Please enable location services.');
             }
         );
     }, []);
@@ -97,7 +99,7 @@ useEffect(() => {
                 
             } catch (error) {
                 console.error("Error fetching doctor's fees:", error);
-                toast.error("Unable to fetch fees. Please try again.");
+                // toast.error("Unable to fetch fees. Please try again.");
             }
         };
         currencyDataApi();
@@ -119,8 +121,6 @@ useEffect(() => {
     }, [selectedHospital, doctor.hospitals, userLocation]);
     useEffect(() => {
         if (doctor.profilePicture && doctor.profilePicture.data) {
-            // console.log('Profile picture data type:', typeof doctor.profilePicture.data);
-            // console.log('Profile picture data:', doctor.profilePicture.data);
             const base64String = bufferToBase64(doctor.profilePicture.data);
             setProfilePicture(base64String);
         }
@@ -245,7 +245,6 @@ useEffect(() => {
             });
     
             const result = await response.json();
-            // console.log(result.url);
             if (response.ok) {
                 if(consultationType === "Video call" && result.url){
                     window.open(result.url)
@@ -400,20 +399,33 @@ useEffect(() => {
             </>
         );
     };
-    console.log(doctor);
-    
+        // Claim Profile using Start
+            const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+        
+            const openClaimPopup = () => {
+              setIsClaimPopupVisible(true);
+              document.body.classList.add("scroll-lock");
+            };
+          
+            const handleCloseClaimPopup = () => {
+              setIsClaimPopupVisible(false);
+              document.body.classList.remove("scroll-lock");
+            };
+        // Claim Profile using End
+        
+        
     return (
         <>
             <ToastContainer />
             <div className={`row doctor-card ${isMapExpanded ? 'mapExpanded-doctor-card' : ''}`}>
-                <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-12' : ''}`}>
+                <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-lg-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
                             <Link to={`/book-appointment-profile/${doctor._id}`}>
                                 <img src={profilePicture} alt={doctor.name || "Doctor"} className="sponsored-doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
-                                {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
+                                {doctor?.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
                             </div>
                             <div className={`distance-div ${isMapExpanded ? 'mapExpanded-sponsor-distance-div' : 'd-none'}`}>
                                 <div className='d-flex flex-row'>
@@ -444,27 +456,40 @@ useEffect(() => {
                                     <img src={thumbsUp} alt="thumbsUp" />
                                     <span>{ `${doctor.rating ? doctor.rating * 20 : 0}%` || "70%"}</span>
                                 </div>
-                                <span>{doctor.patientStories || "93 Patient Stories"}</span>
+                                <span>{doctor?.patientStories || "0 Patient Stories"}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={`col-12 col-lg-5 appointment d-flex flex-column align-items-center ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
+                <div className={`col-12 col-lg-5 dc-filter-appointment ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
+                     <div>
+                    <span className={`dc-filter-appointment-Rating ${isMapExpanded ? "d-none" : " "}`}>Rating</span>
                     <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
-                        Rating
-                        <br />
                         {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
                     </div>
-                    <div>
+                    </div>
+
+                    <div className='d-flex flex-column align-items-center'>
                         <div className={`distance-div ${isMapExpanded ? 'd-none' : ''}`}>
                         <div className={` ${selectedHospital ? "d-flex flex-row" : "d-none"}`}>
                                 <FontAwesomeIcon icon={faLocationDot} style={{ fontSize: "11px", marginTop: "4.8px", marginRight: "3px" }} />
                                 <p className='distance'> {hospitalDistance ? `${hospitalDistance} km Away` : 'xyz km Away'}</p>
                             </div>
-                            <p className="availability">{doctor.availability ? "Available" : "Not Available"}</p>
+                            <p className="availability">{doctor?.availability ? "Available" : "Not Available"}</p>
                         </div>
                         <div className='d-flex flex-row'>
-                            <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowCard}>Book Appointment</button>
+                        {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
+                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                    onClick={openClaimPopup}
+                                >Claim Profile !</button>
+                            ) : (
+                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowCard}>Book Appointment</button>
+                            )}
+                            {isClaimPopupVisible && (
+                               <ClaimProfilePopup
+                               doctorId={doctor._id}
+                                   handleCloseClaimPopup={handleCloseClaimPopup} />
+                           )}
                             <button
                                 className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''}   ${selectedHospital ? "" :"d-none"}`}
                                 onClick={() => {
