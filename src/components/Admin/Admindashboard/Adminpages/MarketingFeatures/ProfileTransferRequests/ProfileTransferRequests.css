@@ -1,0 +1,18 @@
+.PTR-sort-dropdown {
+    margin-left: 250px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .PTR-sort-dropdown label {
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+  
+  .PTR-sort-dropdown-select {
+    padding: 5px 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  

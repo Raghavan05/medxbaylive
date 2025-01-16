@@ -51,7 +51,7 @@ const filteredAccounts = accounts.filter(account => {
                         <div className="admin-search-bar">
                             <input
                                 type="text"
-                                placeholder="Search for doctors..."
+                                placeholder="Search..."
                                 value={searchQuery}
                                 onChange={handleSearch}
                             />

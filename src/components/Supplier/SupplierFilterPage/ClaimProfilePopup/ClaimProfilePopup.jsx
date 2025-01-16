@@ -46,7 +46,7 @@ const ClaimProfilePopup = ({ supplierId, handleCloseClaimPopup }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/corporate/claim-profile`,
+        `${process.env.REACT_APP_BASE_URL}/supplier/claim-profile`,
         formData,
         {
           headers: {

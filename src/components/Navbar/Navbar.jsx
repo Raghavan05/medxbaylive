@@ -427,7 +427,7 @@ const Navbar = () => {
                       onClick={toggleFindProviderDropdownMobile}
                     >
                       {/* {getDisplayedName()} */}
-                      Find My
+                      Find
                       <FontAwesomeIcon
                         icon={isFindProviderDropdownOpenMobile ? faChevronUp : faChevronDown}
                         className="ml-2"
@@ -438,11 +438,11 @@ const Navbar = () => {
                         Provider
                       </Link>
                       <Link className="dropdown-item" to="/corporate/Filters" >
-                        Corporate
+                        Hospitals/Clinics
                       </Link>
                       {(userRole !== "Patient") && (
                         <Link className="dropdown-item" to="/supplier/Filters">
-                          Supplier
+                          Medical Supplier
                         </Link>
                       )}
                     </div>
@@ -605,7 +605,7 @@ const Navbar = () => {
                     onClick={toggleFindProviderDropdown}
                   >
                     {/* {getDisplayedName()} */}
-                    Find My
+                    Find
                     <FontAwesomeIcon
                       icon={isFindProviderDropdownOpen ? faChevronUp : faChevronDown}
                       className="ml-2"
@@ -616,11 +616,11 @@ const Navbar = () => {
                       Provider
                     </Link>
                     <Link className="dropdown-item" to="/corporate/Filters">
-                      Corporate
+                      Hospitals/Clinics
                     </Link>
                     {userRole !== "Patient" && (
                       <Link className="dropdown-item" to="/supplier/Filters">
-                        Supplier
+                        Medical Supplier
                       </Link>
                     )}
                   </div>

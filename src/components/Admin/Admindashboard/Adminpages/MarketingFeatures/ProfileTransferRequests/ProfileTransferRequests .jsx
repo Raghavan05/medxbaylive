@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../../../../Loader/Loader";
 import { RiSearchLine } from 'react-icons/ri'; // Import search icon
+import './ProfileTransferRequests.css';
 
 const ProfileTransferRequests = () => {
   const [data, setData] = useState([]); // State to hold data
   const [loading, setLoading] = useState(true);
-        const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [roleFilter, setRoleFilter] = useState(''); // State for role filter (Doctors, Corporates, Suppliers)
 
   // Fetch data from the backend using Axios
   useEffect(() => {
@@ -19,7 +21,23 @@ const ProfileTransferRequests = () => {
             withCredentials: true,
           }
         );
-        setData(response.data.requests); // Update state with fetched data
+        console.log("Profile transfer requests data:", response.data.requests);
+
+        // Sort the profileVerification within each request and then sort requests
+        const sortedData = response.data.requests
+          .map((request) => ({
+            ...request,
+            profileVerification: request.profileVerification.sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            ),
+          }))
+          .sort((a, b) => {
+            const latestA = new Date(a.profileVerification[0]?.createdAt || 0);
+            const latestB = new Date(b.profileVerification[0]?.createdAt || 0);
+            return latestB - latestA; // Sort requests descending by latest profileVerification
+          });
+
+        setData(sortedData); // Update state with sorted data
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -43,16 +61,23 @@ const ProfileTransferRequests = () => {
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
-};
+  };
 
-// Filter doctors based on search query
-const filteredAccounts = data.filter(data => {
+  // Handle role filter change
+  const handleRoleFilter = (event) => {
+    setRoleFilter(event.target.value);
+  };
+
+  // Filter accounts based on search query and role filter
+  const filteredAccounts = data.filter((request) => {
     const lowerCaseSearchQuery = searchQuery.toLowerCase();
+    const roleMatches = roleFilter ? request.role === roleFilter : true;
     return (
-      data.name.toLowerCase().includes(lowerCaseSearchQuery) ||
-      data.email.toLowerCase().includes(lowerCaseSearchQuery)
+      roleMatches &&
+      (request.name.toLowerCase().includes(lowerCaseSearchQuery) ||
+      request.email.toLowerCase().includes(lowerCaseSearchQuery))
     );
-});
+  });
 
   // Handle document view
   const handleViewDocument = (document) => {
@@ -77,20 +102,36 @@ const filteredAccounts = data.filter(data => {
 
   return (
     <div className="ManageAccounts-admin-page-container">
-    <div className="doctor-head-part-title-search">
-    <h2 className="ManageAccounts-admin-page-title">Profile Transfer Requests</h2>
-                            <div className="admin-search-bar">
-                                <input
-                                    type="text"
-                                    placeholder="Search for doctors..."
-                                    value={searchQuery}
-                                    onChange={handleSearch}
-                                />
-                                <RiSearchLine className="admin-search-bar-icon" />
-                            </div>
-                        </div>
+      <div className="doctor-head-part-title-search">
+        <h2 className="ManageAccounts-admin-page-title">Profile Transfer Requests</h2>
+         {/* Dropdown for filtering by role */}
+         <div className="PTR-sort-dropdown">
+          <label htmlFor="roleFilter" className="">Filter by Role</label>
+          <select
+            id="roleFilter"
+            value={roleFilter}
+            onChange={handleRoleFilter}
+            className="PTR-sort-dropdown-select"
+          >
+            <option value="">All</option>
+            <option value="Doctor">Doctors</option>
+            <option value="Corporate">Corporates</option>
+            <option value="Supplier">Suppliers</option>
+          </select>
+        </div>
+        <div className="admin-search-bar">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          <RiSearchLine className="admin-search-bar-icon" />
+        </div>
+      </div>
+
       <div className="ManageAccounts-admin-page-table-control">
-        {data.length > 0 ? (
+        {filteredAccounts.length > 0 ? (
           <table className="Ma-ap-table">
             <thead className="Ma-ap-thead">
               <tr>

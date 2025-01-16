@@ -374,10 +374,10 @@ const Editdoctorprofile = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      if (!error) {
+      if (response.status === 200) {
+        toast.info('Profile updated successfully');
         setIsSaving(false);  // Reset saving state after the process is done
-        toast.info('Form submitted successfully');
-        navigate('/doc-profile');
+        // navigate('/doc-profile');
         window.scrollTo(0, 0);
       }
     } catch (error) {
