@@ -312,7 +312,7 @@ const OurProvidersPage = () => {
       </div>
       {isClaimPopupVisible && (
         <ClaimProfilePopup
-          doctorId={corporate._id}
+          corporateId={corporate._id}
           handleCloseClaimPopup={handleCloseClaimPopup} />
       )}
       {isEditPopupOpen && (

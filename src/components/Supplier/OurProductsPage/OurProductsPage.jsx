@@ -322,7 +322,7 @@ const OurProductsPage = () => {
         </div>
         {isClaimPopupVisible && (
         <ClaimProfilePopup
-          doctorId={supplier._id}
+          supplierId={supplier._id}
           handleCloseClaimPopup={handleCloseClaimPopup} />
       )}
       <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories}/>
