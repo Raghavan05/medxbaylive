@@ -175,10 +175,10 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
                         </div>
                     </div>
                     <div className='d-flex flex-column align-items-center'>
-                        <div className='d-flex flex-row'>
+                        <div className='d-flex flex-row book-appointment-btn'>
 
                         {corporate?.createdByAdmin === true && corporate?.profileTransferRequest === "Pending" ? (
-                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                <button className={`claim-profile-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
                                     onClick={openClaimPopup}  // Toggle the popup on button click
                                 >
                                     Claim Profile !

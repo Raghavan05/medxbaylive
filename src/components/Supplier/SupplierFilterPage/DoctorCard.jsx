@@ -141,7 +141,7 @@ const DoctorCard = ({ isMapExpanded, supplier, location }) => {
                 <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/OurProviders/${supplier._id}`}>
+                            <Link to={`/OurProducts/${supplier._id}`}>
                                 <img src={profilePicture} alt={supplier?.companyName || "supplier"} className="doctor-photo" />
                             </Link>
 
@@ -154,7 +154,7 @@ const DoctorCard = ({ isMapExpanded, supplier, location }) => {
                         </div>
                         <div className="doctor-details1">
 
-                            <Link to={`/OurProviders/${supplier._id}`}>
+                            <Link to={`/OurProducts/${supplier._id}`}>
                                 <h2>{supplier?.name}</h2>
                             </Link>
                             <p className="speciality">{supplier?.tagline + " "}</p>
@@ -181,12 +181,12 @@ const DoctorCard = ({ isMapExpanded, supplier, location }) => {
                         </div>
                     </div>
                     <div className='d-flex flex-column align-items-center'>
-                        <div className='d-flex flex-row'>
+                        <div className='d-flex flex-row book-appointment-btn'>
                             {supplier?.createdByAdmin === true && supplier?.profileTransferRequest !== "Accepted" ? (
-                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                <button className={`claim-profile-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
                                     onClick={openClaimPopup}  // Toggle the popup on button click
                                 >
-                                    Claim Profile !
+                                    Claim Profile!
                                 </button>
                             ) : (
                                 <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}

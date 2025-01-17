@@ -6,7 +6,8 @@ export const SearchProvider = ({ children }) => {
   const [searchData, setSearchData] = useState({
     doctors: [],
     what: '',
-    where: ''
+    where: '',
+    toggle: false, // Add the `toggle` property
   });
 
   return (

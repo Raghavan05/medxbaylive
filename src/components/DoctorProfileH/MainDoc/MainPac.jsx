@@ -86,7 +86,7 @@ const MainPac = () => {
       <div className="background-container">
         <img
           src={profile}
-          alt="Overlap Example"
+          alt="Profile image"
           className="overlapping-image"
         />
       </div>

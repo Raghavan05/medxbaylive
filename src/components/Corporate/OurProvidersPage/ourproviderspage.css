@@ -264,7 +264,10 @@
     justify-content: center;
     transition: transform 0.3s ease;
 }
-
+.our-providers-body-buttons-two a img{
+    width: 20px;
+    height: 20px;
+}
 /* Rotation animation on click */
 .DotsThreeCircle-icon.rotate {
     transform: rotate(90deg); /* Rotate the icon on click */

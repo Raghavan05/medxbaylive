@@ -489,11 +489,11 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                             </div>
                             <p className="availability">{doctor?.availability ? "Available" : "Not Available"}</p>
                         </div>
-                        <div className='d-flex flex-row'>
+                        <div className='d-flex flex-row book-appointment-btn'>
                             {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
-                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                <button className={`  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''} claim-profile-button`}
                                     onClick={openClaimPopup}
-                                >Claim Profile !</button>
+                                >Claim Profile!</button>
                             ) : (
                                 <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowCard}>Book Appointment</button>
                             )}

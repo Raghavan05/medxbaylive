@@ -771,6 +771,57 @@
   font-style: italic; /* Italic font to differentiate the message */
 }
 
+/* Book Button Styling */
+.book-appointment-btn .book-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(1, 103, 255, 1);
+  padding: 10px 20px;
+  gap: 5px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  outline: none;
+  border: 0.4px solid #0167ff;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+/* Claim Profile Button Specific Styling */
+.book-appointment-btn .claim-profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FF7F50; /* Coral color for better visibility */
+  padding: 10px 20px;
+  gap: 5px;
+  border-radius: 5px;
+  color: #ffffff; /* White text color */
+  font-size: 15px;
+  font-weight: bold; /* Ensures the text is bold */
+  outline: none;
+  border: 1px solid rgba(255, 127, 80, 1); /* Slightly darker border color */
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  text-align: center; /* Center the text properly */
+}
+
+/* Claim Profile Button Hover Effect */
+.book-appointment-btn .claim-profile-button:hover {
+  background-color: rgba(255, 230, 220, 0.5); /* Lighter background on hover */
+  border: 1px solid rgba(255, 127, 80, 1); /* Slightly darker border color */
+  color: #FF7F50; /* Ensures the text color remains white */
+  transform: scale(1.05);
+}
+
+/* Book Button Hover Effect */
+.book-appointment-btn .book-button:hover {
+  background-color: #edf3ff;
+  border: 0.4px solid #0167ff;
+  color: #0167ff;
+  transform: scale(1.05);
+}
 
 /* MAPEXPANDED */
 .mapExpanded-doctor-card{

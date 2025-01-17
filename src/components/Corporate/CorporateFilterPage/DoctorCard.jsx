@@ -180,12 +180,12 @@ const DoctorCard = ({ isMapExpanded, corporate, location }) => {
                         </div>
                     </div>
                     <div className='d-flex flex-column align-items-center'>
-                        <div className='d-flex flex-row'>
+                        <div className='d-flex flex-row book-appointment-btn'>
                             {corporate?.createdByAdmin === true && corporate?.profileTransferRequest !== "Accepted" ? (
-                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                                <button className={`  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''} claim-profile-button`}
                                     onClick={openClaimPopup}  // Toggle the popup on button click
                                 >
-                                    Claim Profile !
+                                    Claim Profile!
                                 </button>
                             ) : (
                                 <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}

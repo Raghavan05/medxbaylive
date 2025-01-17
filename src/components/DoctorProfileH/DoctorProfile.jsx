@@ -155,7 +155,7 @@ const DoctorProfile = () => {
       <div className="background-container">
         <img
           src={profileimg}
-          alt="Overlap Example"
+          alt="Profile image"
           className="overlapping-image"
         />
       </div>

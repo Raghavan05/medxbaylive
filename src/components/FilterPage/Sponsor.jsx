@@ -58,18 +58,18 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
     const [userLoggedin, setUserLogged] = useState();
     const [showPopup, setShowPopup] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const [currencies,setCurrencies]= useState([]);
-    const [totalFees,setTotalFees]= useState();
-    const [currencytoBookingData,setCurrencytoBookingData] = useState('usd');
+    const [currencies, setCurrencies] = useState([]);
+    const [totalFees, setTotalFees] = useState();
+    const [currencytoBookingData, setCurrencytoBookingData] = useState('usd');
     const navigate = useNavigate();
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
-  const [isSaving, setIsSaving] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
-useEffect(() => {
-  const handleResize = () => setIsMobileView(window.innerWidth <= 768);
-  window.addEventListener('resize', handleResize);
-  return () => window.removeEventListener('resize', handleResize);
-}, []);
+    useEffect(() => {
+        const handleResize = () => setIsMobileView(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -85,7 +85,7 @@ useEffect(() => {
             }
         );
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         const currencyDataApi = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctor._id}/slots`, {
@@ -96,14 +96,14 @@ useEffect(() => {
                 setTotalFees(totalFee);
                 console.log(currencies);
                 console.log(totalFees);
-                
+
             } catch (error) {
                 console.error("Error fetching doctor's fees:", error);
                 // toast.error("Unable to fetch fees. Please try again.");
             }
         };
         currencyDataApi();
-    },[])
+    }, [])
     // Calculate distance when hospital or user location changes
     useEffect(() => {
         if (selectedHospital && doctor.hospitals) {
@@ -180,7 +180,7 @@ useEffect(() => {
         setShowDoctorCard(prevState => !prevState);
     };
     const handleShowLogin = () => setShowLoginPopup(true);
-    const handleShowPopup = () =>{
+    const handleShowPopup = () => {
         navigate('/signup');
         // setShowPopup(true);
     }
@@ -189,7 +189,7 @@ useEffect(() => {
         setSelectedTimeSlot(slot);
     };
     const handleBookAppointment = async () => {
-    setIsSaving(true);  // Set saving state to true
+        setIsSaving(true);  // Set saving state to true
 
         if (!userLoggedin) {
             toast.info('You need to log in to book an appointment.', {
@@ -202,7 +202,7 @@ useEffect(() => {
             }, 2000);
             return;
         }
-    
+
         if (consultationType === 'In-person' && !selectedHospital) {
             toast.info('Please select a hospital for in-person consultation.', {
                 className: 'toast-center',
@@ -211,7 +211,7 @@ useEffect(() => {
             });
             return;
         }
-    
+
         try {
             const selectedDay = dates[selectedDate];
             if (!consultationType) {
@@ -222,7 +222,7 @@ useEffect(() => {
                 });
                 return;
             }
-    
+
             const bookingData = {
                 doctorId: doctor._id,
                 date: moment(selectedDay.day).format('YYYY-MM-DD'),
@@ -232,8 +232,8 @@ useEffect(() => {
                 currency: consultationType === 'Video call' ? currencytoBookingData : null
             };
             console.log(bookingData);
-            
-    
+
+
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/patient/book`, {
                 method: 'POST',
                 headers: {
@@ -243,12 +243,12 @@ useEffect(() => {
                 body: JSON.stringify(bookingData),
                 credentials: 'include',
             });
-    
+
             const result = await response.json();
             if (response.ok) {
-                if(consultationType === "Video call" && result.url){
+                if (consultationType === "Video call" && result.url) {
                     window.open(result.url)
-                }else{
+                } else {
                     navigate('/profile/userprofile/manage/appointments')
                     toast.info('Booking successfull.', {
                         className: 'toast-center',
@@ -259,7 +259,7 @@ useEffect(() => {
                 setTimeout(() => {
                     setIsSaving(false);  // Reset saving state after the process is done
                     window.location.reload();
-                  }, 3000);  // 3000 milliseconds = 3 seconds
+                }, 3000);  // 3000 milliseconds = 3 seconds
             } else {
                 toast.error('Unexpected server response. Please try again.', {
                     className: 'toast-center toast-fail',
@@ -331,7 +331,7 @@ useEffect(() => {
                         </div>
                     </div>
                 ) : null}
-    
+
                 {doctor.consultation === 'Video call' || doctor.consultation === 'Both' ? (
                     <div className={`p-1 ${consultationType === "Video call" ? "consultationActiveColor" : ""}`}>
                         <div className="form-check">
@@ -356,25 +356,25 @@ useEffect(() => {
                         </div>
                         {consultationType === 'Video call' && doctor.doctorFee && (
                             <div className="minimal-dropdown">
-                            <select
-                                value={currencytoBookingData}
-                                onChange={(e) => setCurrencytoBookingData(e.target.value)}
-                            >
-                                {Object.entries(currencies).map(([currency, value], index) => (
-                                     <option key={index} value={currency}>
-                                     {currency.toUpperCase()} - {currencySymbols[currency] || ''}{value}
-                                 </option>
-                                ))}
-                            </select>
-                        </div>
-                        
+                                <select
+                                    value={currencytoBookingData}
+                                    onChange={(e) => setCurrencytoBookingData(e.target.value)}
+                                >
+                                    {Object.entries(currencies).map(([currency, value], index) => (
+                                        <option key={index} value={currency}>
+                                            {currency.toUpperCase()} - {currencySymbols[currency] || ''}{value}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
                         )}
                     </div>
                 ) : null}
             </>
         );
     };
-    
+
 
     const renderHospitalOptions = () => {
         if (!doctor.hospitals || doctor.hospitals.length === 0) {
@@ -399,21 +399,21 @@ useEffect(() => {
             </>
         );
     };
-        // Claim Profile using Start
-            const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
-        
-            const openClaimPopup = () => {
-              setIsClaimPopupVisible(true);
-              document.body.classList.add("scroll-lock");
-            };
-          
-            const handleCloseClaimPopup = () => {
-              setIsClaimPopupVisible(false);
-              document.body.classList.remove("scroll-lock");
-            };
-        // Claim Profile using End
-        
-        
+    // Claim Profile using Start
+    const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+
+    const openClaimPopup = () => {
+        setIsClaimPopupVisible(true);
+        document.body.classList.add("scroll-lock");
+    };
+
+    const handleCloseClaimPopup = () => {
+        setIsClaimPopupVisible(false);
+        document.body.classList.remove("scroll-lock");
+    };
+    // Claim Profile using End
+
+
     return (
         <>
             <ToastContainer />
@@ -439,7 +439,7 @@ useEffect(() => {
                                 <h2>{doctor.name}</h2>
                             </Link>
                             <p className="speciality">{doctor.speciality.join(", ")}</p>
-                            <p className="experience">{doctor.experience ? doctor.experience +" years experience overall" : " "}</p>
+                            <p className="experience">{doctor.experience ? doctor.experience + " years experience overall" : " "}</p>
                             <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"Hospital"}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                                 <div className="row mt-2">
@@ -454,7 +454,7 @@ useEffect(() => {
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
                                 <div className='liked'>
                                     <img src={thumbsUp} alt="thumbsUp" />
-                                    <span>{ `${doctor.rating ? doctor.rating * 20 : 0}%` || "70%"}</span>
+                                    <span>{`${doctor.rating ? doctor.rating * 20 : 0}%` || "70%"}</span>
                                 </div>
                                 <span>{doctor?.patientStories || "0 Patient Stories"}</span>
                             </div>
@@ -462,36 +462,36 @@ useEffect(() => {
                     </div>
                 </div>
                 <div className={`col-12 col-lg-5 dc-filter-appointment ${isMapExpanded ? 'col-12 mapExpanded-appointment' : ''}`}>
-                     <div>
-                    <span className={`dc-filter-appointment-Rating ${isMapExpanded ? "d-none" : " "}`}>Rating</span>
-                    <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
-                        {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
-                    </div>
+                    <div>
+                        <span className={`dc-filter-appointment-Rating ${isMapExpanded ? "d-none" : " "}`}>Rating</span>
+                        <div className={`rating-stars ${isMapExpanded ? 'd-none' : ''}`}>
+                            {doctor.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}
+                        </div>
                     </div>
 
                     <div className='d-flex flex-column align-items-center'>
                         <div className={`distance-div ${isMapExpanded ? 'd-none' : ''}`}>
-                        <div className={` ${selectedHospital ? "d-flex flex-row" : "d-none"}`}>
+                            <div className={` ${selectedHospital ? "d-flex flex-row" : "d-none"}`}>
                                 <FontAwesomeIcon icon={faLocationDot} style={{ fontSize: "11px", marginTop: "4.8px", marginRight: "3px" }} />
                                 <p className='distance'> {hospitalDistance ? `${hospitalDistance} km Away` : 'xyz km Away'}</p>
                             </div>
-                            <p className="availability">{doctor?.availability ? "Available" : "Not Available"}</p>
+                            <p className={`${doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? "claim-profile-availability" : "availability"}`}>{doctor?.availability ? "Available" : "Not Available"}</p>
                         </div>
-                        <div className='d-flex flex-row'>
-                        {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
-                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`}
+                        <div className='d-flex flex-row book-appointment-btn'>
+                            {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
+                                <button className={` mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''} claim-profile-button`}
                                     onClick={openClaimPopup}
-                                >Claim Profile !</button>
+                                >Claim Profile!</button>
                             ) : (
-                                <button className={`book-button  mr-2 ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowCard}>Book Appointment</button>
+                                <button className={`book-button  ${isMapExpanded ? 'mapExpanded-button' : ''}`} onClick={handleShowCard}>Book Appointment</button>
                             )}
                             {isClaimPopupVisible && (
-                               <ClaimProfilePopup
-                               doctorId={doctor._id}
-                                   handleCloseClaimPopup={handleCloseClaimPopup} />
-                           )}
+                                <ClaimProfilePopup
+                                    doctorId={doctor._id}
+                                    handleCloseClaimPopup={handleCloseClaimPopup} />
+                            )}
                             <button
-                                className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''}   ${selectedHospital ? "" :"d-none"}`}
+                                className={`book-button ${isMapExpanded ? 'mapExpanded-button' : ''}   ${selectedHospital ? "" : "d-none"}`}
                                 onClick={() => {
                                     const lat = hospitalLocationLat;  // Replace slot.lat with the actual latitude value
                                     const lng = hospitalLocationLng;  // Replace slot.lng with the actual longitude value
@@ -537,8 +537,8 @@ useEffect(() => {
                             <div
                                 className="underline-active"
                                 style={{
-                                    left: `calc(100% / ${isMapExpanded || isMobileView  ? 1 : 3} * ${selectedDate - startIndex})`,
-                                    width: `calc(100% / ${isMapExpanded || isMobileView  ? 1 : 3})`
+                                    left: `calc(100% / ${isMapExpanded || isMobileView ? 1 : 3} * ${selectedDate - startIndex})`,
+                                    width: `calc(100% / ${isMapExpanded || isMobileView ? 1 : 3})`
                                 }}
                             ></div>
                         </div>

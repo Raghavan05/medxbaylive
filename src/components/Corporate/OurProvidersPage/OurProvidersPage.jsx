@@ -27,7 +27,8 @@ import BlogPopup from '../../patientBlog/BlogPopup';
 import AddDoctor from './AddDoctor/AddDoctor';
 import OurProvidersSharePopup from './OurProviderSharePopup/OurProvidersSharePopup'
 import { Link, useParams } from 'react-router-dom';
-
+import ClaimProfilePopup from '../CorporateFilterPage/ClaimProfilePopup/ClaimProfilePopup';
+import network from '../Assets/network.png';
 const OurProvidersPage = () => {
   const [backgroundImage, setBackgroundImage] = useState(providers);
   const [profileData, setProfileData] = useState({
@@ -209,12 +210,27 @@ const OurProvidersPage = () => {
       console.error('Failed to copy link: ', err); // Handle any errors
     });
   };
+  // Claim Profile using Start
+  const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+
+  const openClaimPopup = () => {
+    setIsClaimPopupVisible(true);
+    document.body.classList.add("scroll-lock");
+  };
+
+  const handleCloseClaimPopup = () => {
+    setIsClaimPopupVisible(false);
+    document.body.classList.remove("scroll-lock");
+  };
+  // Claim Profile using End
+
 
 
   return (
     <div className="our-providers-profile-container">
       <div className="our-providers-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
+        {sessionStorage.getItem('role') === 'corporate' && (
         <div className="our-provider-edit-cover-img">
           <input
             type="file"
@@ -225,6 +241,7 @@ const OurProvidersPage = () => {
           />
           <LuPencil className="our-provider-cover-edit-icon" onClick={handleEditClick} />
         </div>
+        )}
 
         <div className="our-provider-profile-info">
           <div className="our-provider-profile-img">
@@ -250,7 +267,9 @@ const OurProvidersPage = () => {
 
         <div className="our-providers-body-buttons">
           <div className="our-providers-body-buttons-two">
-            <button className="follow-button" onClick={handleShowPopup}><FaPlus size='1rem' /> Follow</button>
+            <Link to={'https://medxbay.com/social/'} target='_blank'>
+              <button className="follow-button" ><img src={network} alt='social media' /> Social</button>
+            </Link>
             <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem' /> Message</button>
             <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
               <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
@@ -279,14 +298,23 @@ const OurProvidersPage = () => {
               </div>
             )}
           </div>
-          <Link to={'/corporate/Filters'}>
-            <button className="appointment-button" >
-              Book an Appointment
-            </button>
-          </Link>
+          {corporate?.createdByAdmin === true && corporate?.profileTransferRequest !== "Accepted" ? (
+            <button className={`appointment-button  mr-2  `}
+              onClick={openClaimPopup}
+            >Claim Profile!</button>
+          ) : (
+            <Link to={'/corporate/Filters'}>
+              <button className={`appointment-button `} >Book Appointment</button>
+            </Link>
+          )}
+
         </div>
       </div>
-
+      {isClaimPopupVisible && (
+        <ClaimProfilePopup
+          doctorId={corporate._id}
+          handleCloseClaimPopup={handleCloseClaimPopup} />
+      )}
       {isEditPopupOpen && (
         <OurProvidersPEPOP
           tempProfileData={tempProfileData}

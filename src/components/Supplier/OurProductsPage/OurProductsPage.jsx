@@ -27,9 +27,8 @@ import BlogPopup from '../../patientBlog/BlogPopup';
 import OurProductsSharePopup from './OurProductsSharePopup/OurProductsSharePopup'
 import { Link, useParams } from 'react-router-dom';
 import { toast,ToastContainer } from 'react-toastify';
-
-
-
+import ClaimProfilePopup from '../SupplierFilterPage/ClaimProfilePopup/ClaimProfilePopup';
+import network from '../Assets/network.png';
 const OurProductsPage = () => {
   const [backgroundImage, setBackgroundImage] = useState(providers);
   const [profileData, setProfileData] = useState({
@@ -212,6 +211,21 @@ const OurProductsPage = () => {
     setProfileData(tempProfileData);
     closeEditPopup();
   };
+    // Claim Profile using Start
+    const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+  
+    const openClaimPopup = () => {
+      setIsClaimPopupVisible(true);
+      document.body.classList.add("scroll-lock");
+    };
+  
+    const handleCloseClaimPopup = () => {
+      setIsClaimPopupVisible(false);
+      document.body.classList.remove("scroll-lock");
+    };
+    // Claim Profile using End
+  
+  
 
   return (
     <>
@@ -219,6 +233,7 @@ const OurProductsPage = () => {
     <div className="our-products-profile-container">
       <div className="our-products-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
+        {sessionStorage.getItem('role') === 'supplier' && (
         <div className="our-products-edit-cover-img">
           <input
             type="file"
@@ -229,6 +244,7 @@ const OurProductsPage = () => {
           />
           <LuPencil className="our-products-cover-edit-icon" onClick={handleEditClick} />
         </div>
+        )}
 
         <div className="our-products-profile-info">
           <div className="our-products-profile-img">
@@ -253,8 +269,10 @@ const OurProductsPage = () => {
         </div>
 
         <div className="our-products-body-buttons">
-          <div className="our-products-body-buttons-two">
-            <button className="follow-button" onClick={handleShowPopup}><FaPlus size='1rem' /> Follow</button>
+            <div className="our-products-body-buttons-two">
+              <Link to={'https://medxbay.com/social/'} target='_blank'>
+                <button className="follow-button" ><img src={network} alt='social media'/> Social</button>
+              </Link>
             <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem' /> Message</button>
             <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
               <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
@@ -274,7 +292,7 @@ const OurProductsPage = () => {
                   <BiSolidShareAlt size="1rem" /> Share Profile
                 </div>
                   {sessionStorage.getItem('role') === 'supplier' && (
-                    <div className="our-products-dropdown-itemm" onClick={openEditPopup}>
+                    <div className="our-products-dropdown-item" onClick={openEditPopup}>
                       <TbEdit size="1rem" /> Edit Profile
                     </div>
                   )}
@@ -290,12 +308,23 @@ const OurProductsPage = () => {
                 closeEditPopup={closeEditPopup}
               />
             )}
+            </div>
+            {supplier?.createdByAdmin === true && supplier?.profileTransferRequest !== "Accepted" ? (
+              <button className={`appointment-button  mr-2  `}
+                onClick={openClaimPopup}
+              >Claim Profile!</button>
+            ) : (
+              <Link to={'/supplier/Filters'}>
+                <button className={`appointment-button `} >Book Appointment</button>
+              </Link>
+            )}
           </div>
-          <Link to={'/supplier/Filters'}>
-          <button className="appointment-button">Book an Appointment</button>
-          </Link>
-          </div>
-      </div>
+        </div>
+        {isClaimPopupVisible && (
+        <ClaimProfilePopup
+          doctorId={supplier._id}
+          handleCloseClaimPopup={handleCloseClaimPopup} />
+      )}
       <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories}/>
       <OurProductsDC products={products} />
       <ReviewPageProducts review={supplier.reviews} />
