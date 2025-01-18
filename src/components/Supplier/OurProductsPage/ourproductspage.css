@@ -232,6 +232,12 @@
     width: 20px;
     height: 20px;
 }
+.our-products-body-buttons-two a {
+    text-decoration: none;
+}
+.our-products-body-buttons-two .follow-button:hover img{
+    content: url('../Assets/network-blue.png');
+}
 .our-products-body-buttons-two .DotsThreeCircle {
     cursor: pointer;
 }

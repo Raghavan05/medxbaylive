@@ -225,7 +225,6 @@ const OurProductsPage = () => {
     };
     // Claim Profile using End
   
-  
 
   return (
     <>
@@ -291,7 +290,7 @@ const OurProductsPage = () => {
                 <div className="our-products-dropdown-item" onClick={handleShareClick}>
                   <BiSolidShareAlt size="1rem" /> Share Profile
                 </div>
-                  {sessionStorage.getItem('role') === 'supplier' && (
+                {sessionStorage.getItem('userId') === supplier._id && (
                     <div className="our-products-dropdown-item" onClick={openEditPopup}>
                       <TbEdit size="1rem" /> Edit Profile
                     </div>

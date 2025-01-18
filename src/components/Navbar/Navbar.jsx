@@ -370,8 +370,8 @@ const Navbar = () => {
                   {isLoggedIn && (
                     <li className="nav-item active ml-md-3">
                       <div className="profile-container">
-                        <Link
-                          to={
+                        <a
+                          href={
                             userRole === "patient"
                               ? "/profile/userprofile/edit/profile"
                               : userRole === "doctor"
@@ -386,7 +386,7 @@ const Navbar = () => {
                           <div className="image-container">
                             <img src={profileImage} alt="Profile" />
                           </div>
-                        </Link>
+                        </a>
                       </div>
                     </li>
                   )}
@@ -753,14 +753,14 @@ const Navbar = () => {
                     {isLoggedIn && (
                       <li className="nav-item active ml-md-3">
                         <div className="profile-container">
-                          <Link
-                            to={
+                          <a
+                            href={
                               userRole === "patient"
                                 ? "/profile/userprofile/edit/profile"
                                 : userRole === "doctor"
                                   ? "/doc-profile"
                                   : userRole === "corporate"
-                                    ? "/OurProviders"
+                                    ? `/OurProviders`
                                     : userRole === "supplier"
                                       ? "/OurProducts"
                                       : "https://medxbay.com"
@@ -769,7 +769,7 @@ const Navbar = () => {
                             <div className="image-container">
                               <img src={profileImage} alt="Profile" />
                             </div>
-                          </Link>
+                          </a>
                         </div>
                       </li>
                     )}

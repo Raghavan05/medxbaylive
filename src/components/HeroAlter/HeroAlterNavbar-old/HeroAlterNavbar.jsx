@@ -428,7 +428,7 @@ const HeroAlterNavbar = () => {
                   onClick={toggleFindProviderDropdownMobile}
                 >
                   {/* {getDisplayedName()} */}
-                  Find My
+                  Find
                   <FontAwesomeIcon
                     icon={isFindProviderDropdownOpenMobile ? faChevronUp : faChevronDown}
                     className="ml-2"
@@ -439,11 +439,11 @@ const HeroAlterNavbar = () => {
                     Provider
                   </Link>
                   <Link className="dropdown-item" to="/corporate/Filters" >
-                    Corporate
+                  Hospitals/Clinics
                   </Link>
                   {(userRole !== "Patient") && (
                     <Link className="dropdown-item" to="/supplier/Filters">
-                    Supplier
+                    Medical Supplier
                     </Link>
                   )}
                 </div>
@@ -595,7 +595,7 @@ const HeroAlterNavbar = () => {
             <li className={`heroalter-nav-item ml-md-4 ${isFindProviderDropdownOpen ? "show" : ""}`} ref={FindProviderDropdownRef}>
               <button className="heroalter-nav-link" onClick={toggleFindProviderDropdown}>
                 {/* {getDisplayedName()} */}
-                Find My
+                Find
                 <FontAwesomeIcon icon={isFindProviderDropdownOpen ? faChevronUp : faChevronDown} />
               </button>
               <div className={`heroalter-dropdown-menu ${isFindProviderDropdownOpen ? "show" : ""}`}>
@@ -603,11 +603,11 @@ const HeroAlterNavbar = () => {
                   Provider
                 </Link>
                 <Link className="heroalter-dropdown-item" to="/corporate/Filters">
-                  Corporate
+                  Hospitals/Clinics
                 </Link>
                 {userRole !== "Patient" && (
                   <Link className="heroalter-dropdown-item" to="/supplier/Filters">
-                    Supplier
+                    Medical Supplier
                   </Link>
                 )}
               </div>

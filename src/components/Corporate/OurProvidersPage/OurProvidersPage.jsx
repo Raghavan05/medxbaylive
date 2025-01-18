@@ -277,7 +277,7 @@ const OurProvidersPage = () => {
 
             {isDropdownOpen && (
               <div className={`our-providers-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
-                {sessionStorage.getItem('role') === 'corporate' && (
+                {sessionStorage.getItem('userId') === corporate._id && (
                   <div className="our-providers-dropdown-item" onClick={openAddDoctorPopup}>
                     <RiUserAddLine size="1rem" /> Add Doctor
                   </div>
@@ -289,7 +289,7 @@ const OurProvidersPage = () => {
                 <div className="our-providers-dropdown-item" onClick={handleShareClick}>
                   <BiSolidShareAlt size="1rem" /> Share Profile
                 </div>
-                {sessionStorage.getItem('role') === 'corporate' && (
+                {sessionStorage.getItem('userId') === corporate._id && (
                   <div className="our-providers-dropdown-item" onClick={openEditPopup}>
                     <TbEdit size="1rem" /> Edit Profile
                   </div>
