@@ -18,7 +18,7 @@ function PatientFrofile() {
           </div>
           <div style={{border:"", width:"60%", paddingLeft:"", paddingRight:"5%"}}>
             <DoctorInfo />
-            <Articles />
+            {/* <Articles /> */}
             <FAQ />
           </div>
         </div>

@@ -328,7 +328,7 @@ const OurProvidersPage = () => {
       <OverviewActivity overviewData={overview} corporateSpecialties={corporateSpecialties} />
       <OurProvidersDC doctors={doctors} />
       <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
-      <OurBlogDc blogs={blogs} />
+      {/* <OurBlogDc blogs={blogs} /> */}
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />

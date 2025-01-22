@@ -327,7 +327,7 @@ const OurProductsPage = () => {
       <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories}/>
       <OurProductsDC products={products} />
       <ReviewPageProducts review={supplier.reviews} />
-      <Condition blogs={blogs} />
+      {/* <Condition blogs={blogs} /> */}
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProductsSharePopup name={supplier.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />

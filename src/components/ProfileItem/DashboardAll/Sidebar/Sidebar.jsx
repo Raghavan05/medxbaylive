@@ -180,7 +180,7 @@ const Sidebar = () => {
             <span>Reviews</span>
           </Link>
         </li>
-        <li className={`menu-item ${activeItem === '/doctorprofile/dashboardpage/blog' ? 'active' : ''} ${subscriptionType === 'Free' ? 'disabled' : ''}`}
+        {/* <li className={`menu-item ${activeItem === '/doctorprofile/dashboardpage/blog' ? 'active' : ''} ${subscriptionType === 'Free' ? 'disabled' : ''}`}
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/blog')}
           onMouseLeave={() => setActiveItem(location.pathname)}
         >
@@ -188,7 +188,7 @@ const Sidebar = () => {
             <div className="sidebar-icon"><ImBlogger2 /></div>
             <span>Blog</span>
           </Link>
-        </li>
+        </li> */}
         <li className={`menu-item ${activeItem === '/doctorprofile/dashboardpage/Logout' ? 'active' : ''}`}
           onMouseEnter={() => setActiveItem('/doctorprofile/dashboardpage/Logout')}
           onMouseLeave={() => setActiveItem(location.pathname)}
