@@ -134,7 +134,7 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
         <>
             <ToastContainer />
             <div className={`row doctor-card ${isMapExpanded ? 'mapExpanded-doctor-card' : ''}`}>
-                <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-12' : ''}`}>
+                <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-lg-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
                             <Link to={`/OurProducts/${supplier._id}`}>
@@ -152,8 +152,9 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
                                 <h2>{supplier?.name}</h2>
                             </Link>
                             <p className="speciality">{supplier?.tagline + " "}</p>
-                            <p className="experience">{truncateDescription(supplier?.overview, 65)}</p>
                             <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{supplier?.address?.country + " | " + supplier?.address?.state || "Hospital"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"About"}</p>
+                            <p className="supplier-aboutMe">{truncateDescription(supplier?.overview, 80)}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                             </p>
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>

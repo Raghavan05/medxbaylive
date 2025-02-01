@@ -412,7 +412,13 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
         document.body.classList.remove("scroll-lock");
     };
     // Claim Profile using End
-
+    // Function to truncate description
+    const truncateDescription = (description, maxLength) => {
+        if (description.length > maxLength) {
+            return `${description.slice(0, maxLength)}...`;
+        }
+        return description;
+    };
 
     return (
         <>
@@ -440,23 +446,32 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                             </Link>
                             <p className="speciality">{doctor.speciality.join(", ")}</p>
                             <p className="experience">{doctor.experience ? doctor.experience + " years experience overall" : " "}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"Hospital"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>
+                            {!(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") ? "Hospital" : "About"}
+                            </p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
                                 <div className="row mt-2">
                                     <div className="col">
-                                        {renderHospitalOptions()}
+                                        {!(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") && (
+                                            renderHospitalOptions()
+                                        )}
+                                        {(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") && (
+                                            truncateDescription(doctor?.aboutMe, 115)
+                                        )}
                                     </div>
                                 </div>
                             </p>
                             <div className={`consultation-type ${isMapExpanded ? 'mapExpanded-consultation-type' : ''}`}>
-                                {renderConsultationType()}
+                            {!(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") && (
+                                renderConsultationType()
+                                )}
                             </div>
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
                                 <div className='liked'>
                                     <img src={thumbsUp} alt="thumbsUp" />
                                     <span>{`${doctor.rating ? doctor.rating * 20 : 0}%` || "70%"}</span>
                                 </div>
-                                <span>{doctor?.patientStories || "0 Patient Stories"}</span>
+                                {/* <span>{doctor?.patientStories || "0 Patient Stories"}</span> */}
                             </div>
                         </div>
                     </div>

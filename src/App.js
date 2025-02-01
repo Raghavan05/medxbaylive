@@ -38,8 +38,11 @@ import Adminroute from './components/Admin/Admindashboard/Adminroute/Adminroute'
 import SignupCard from './components/signup/signup';
 import PrivacyPolicy from './components/Footerpage/PrivacyPolicy';
 import DoctorEditPatient from './components/PatientProfile/doctorEdit';
-import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
-import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
+// import MainDoc from "./components/DoctorProfileH/MainDoc/MainDoc";
+import ProviderProfile from "./components/ProviderProfile/ProviderProfile";
+
+
+// import PatientFrofile from "./components/DoctorProfileH/MainDoc/PatientFrofile"
 import PopupModal from './components/PopupModal';
 import Enterprise from './components/Footerpage/Enterprise/Enterprise';
 import ContactUs from './components/Footerpage/ContactUs/ContactUs';
@@ -99,8 +102,9 @@ function App() {
           <Route path="/signup" element={<SignupCard />} />
           <Route path="/provider/signup" element={<ProviderSignup />} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
-          <Route path="/doc-profile" element={[<Nestednavbar/>,<MainDoc />,<Footer/>]}/>
-          <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<PatientFrofile />,<Footer/>]}/>
+          <Route path="/doc-profile" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
+          <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
+
 
           {/* Admin */}
           <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
@@ -108,7 +112,7 @@ function App() {
           {/* Corporate */}
           <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
           <Route path="/OurProviders/:corporateId" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
-          <Route path="/corporate/dashboardpage/*" element={[<Navbar/>,<Corporateroute/>,<Footer/>]} />
+          <Route path="/corporate/dashboardpage/*" element={[<Corporateroute/>,<Footer/>]} />
           <Route path="/corporate/Filters" element={[<Nestednavbar/>,<CorporateFilter />,<Footer/>]} />
 
           {/* Suppliers */}

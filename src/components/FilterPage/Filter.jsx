@@ -283,9 +283,9 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 </div>
                 <div className="select-container-filter">
                     <div className="form-group">
-                        <label htmlFor="state">Province:</label>
+                        <label htmlFor="state">Province/State:</label>
                         <select id="state" onChange={handleInputChange} value={formData.state}>
-                            <option value="">Select Province</option>
+                            <option value="">Select </option>
                             {dropdownData.states.map(state => (
                                 <option key={state} value={state}>{state}</option>
                             ))}
@@ -312,10 +312,10 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                         <label htmlFor="city">Treatment approach:</label>
                         <select id="treatmentApproach" onChange={handleInputChange} value={formData.treatmentApproach}>
                             <option value="">Select Treatment</option>
-                            <option value={'conventional'}>conventional</option>
-                            <option value={'holistic'}>holistic</option>
-                            <option value={'traditional'}>traditional </option>
-                            <option value={'speciality'}>speciality </option>
+                            <option value={'conventional'}>Conventional</option>
+                            <option value={'holistic'}>Holistic</option>
+                            <option value={'traditional'}>Traditional </option>
+                            <option value={'speciality'}>Speciality </option>
                             {/* {dropdownData.cities.map(city => (
                                 <option key={city} value={city}>{city}</option>
                             ))} */}
@@ -429,7 +429,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <option value="Other">Other</option>
+                            {/* <option value="Other">Other</option> */}
                         </select>
                         <RiArrowDownSLine className="arrow-icon-filter" />
                     </div>
@@ -466,7 +466,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                         <select id="consultation" onChange={handleInputChange} value={formData.consultation}>
                             <option value="">Select Consultation</option>
                             <option value="In-person">In-person</option>
-                            <option value="video call">video call</option>
+                            <option value="video call">Video call</option>
                             <option value="Both">Both</option>
                         </select>
                         <RiArrowDownSLine className="arrow-icon-filter" />

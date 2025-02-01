@@ -91,7 +91,7 @@ overflow: hidden;
   cursor: pointer;
   color: orange;
   left: -90px;
-  top: 135px;
+  top: 105px;
 }
 .arrow-doctor-one:disabled {
   color: orange;
@@ -109,8 +109,8 @@ overflow: hidden;
   border-radius: 50%;
   cursor: pointer;
   color: orange;
-  left: 200px;
-  top: -55px;
+  left: 280px;
+  top: -70px;
 }
 .arrow-doctor-two:disabled {
   color: orange;
@@ -163,7 +163,7 @@ overflow: hidden;
 }
 
 .date-item-doctor .slots-available-doctor {
-  color: green;
+  color: #FF7F50;
   font-size: 14px;
 }
 
@@ -421,21 +421,18 @@ color: #414146;
 
 .Appointment-container{
     position: relative;
-    width: 360px !important;
-height: 409px;
-left: -30px !important;
+    /* width: 360px !important; */
+/* height: 409px; */
+/* left: -30px !important; */
 border-radius: 15px;
 background: #ffffff;
 border: 1px solid #0000001A;
 z-index: 1; 
-
-
 display: flex; 
 flex-direction: column;
-
 top:4% !important;
 width: 100%;
-max-width: 440px;
+max-width: 600px;
 margin-left: auto;
 margin-right: auto;
 

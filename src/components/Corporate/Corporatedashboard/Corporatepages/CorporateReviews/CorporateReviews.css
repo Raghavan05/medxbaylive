@@ -1,0 +1,57 @@
+.dashboard-page-item-review-head {
+  padding: 20px;
+}
+.review-scroll-user {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.review-container {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  background-color: #fffdfd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+}
+
+.review-idnumber {
+
+  margin-right: 10px;
+}
+
+.review-details-item {
+
+  font-size: 19px;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-day,
+.review-date-time {
+  margin: 0;
+  font-size: 0.9em;
+}
+.review-day{
+font-weight: bold;
+}
+.review-body {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+}
+
+.rating-icon {
+  font-size: 1.5em;
+}

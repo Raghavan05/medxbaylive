@@ -1,3 +1,57 @@
+.sidebar-menu.disabled .menu-link {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.sidebar-menu.disabled .menu-link:hover {
+  cursor: not-allowed;
+}
+
+.verify-popup-doctor h1 {
+  font-size: 28px; 
+  margin-bottom: 20px; 
+  white-space: nowrap; 
+}
+
+.verify-popup-doctor p {
+  font-size: 18px; 
+  margin-bottom: 20px;
+}
+
+.submitbtn {
+  background-color: #007bff; 
+  color: white;
+  padding: 6px 12px; 
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 17px; 
+  margin: 20px auto; 
+  display: block; 
+}
+
+  .submitbtn:hover {
+    background-color: #0056b3;
+  }
+  .submitbtn-trial {
+    background-color: #007bff; 
+    color: white;
+    padding: 6px 12px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 17px; 
+    margin: 20px auto; 
+    display: block; 
+    margin-left: -80px;
+  }
+  
+    .submitbtn-trial:hover {
+      background-color: #0056b3;
+    }
+
+
+
 .sidebar {
   z-index: 1000;
   width: 270px;
@@ -36,7 +90,7 @@
   cursor: pointer;
 }
 
-.sidebar-menu-admin{
+.sidebar-menu {
   list-style: none;
   padding: 0;
   margin-top: 15px;
@@ -44,7 +98,7 @@
   display: flex;
   align-items: start;
   justify-content: space-evenly;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 180px);
 }
 
 .menu-item {
@@ -65,8 +119,6 @@
   font-weight: 400;
   font-size: 16px;
   color: inherit;
-  outline: none;
-  border: none;
   width: 100%;
 }
 
@@ -115,8 +167,6 @@
 
 .menu-item span {
   flex-grow: 1;
-  outline: none;
-  border: none;
 }
 
 .sidebar.closed .menu-item span {
@@ -170,15 +220,15 @@
     display: block;
   }
 
-  .sidebar-menu-admin .menu-item span {
+  .sidebar-menu .menu-item span {
     display: none;
   }
 
-  .sidebar.open .sidebar-menu-admin .menu-item span {
+  .sidebar.open .sidebar-menu .menu-item span {
     display: inline;
   }
 
-  .sidebar-menu-admin {
+  .sidebar-menu {
     margin-top: 10px;
   }
 

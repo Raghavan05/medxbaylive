@@ -29,57 +29,73 @@ const Nestednavbar = () => {
   const populateWhatOptions = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/what-options`, { withCredentials: true });
-      const { specialities, conditions, doctors } = response.data;
-      setSpecialities(specialities);
-      setConditions(conditions);
-      setDoctors(doctors);
-      setFilteredSpecialities(specialities);
-      setFilteredConditions(conditions);
-      setFilteredDoctors(doctors);
+      const { specialities = [], conditions = [], doctors = [] } = response.data;
+  
+      const isValid = (value) => value && value.trim().length > 0;
+  
+      // Remove duplicates using Set
+      const uniqueSpecialities = [...new Set(specialities.filter(isValid))];
+      const uniqueConditions = [...new Set(conditions.filter(isValid))];
+      const uniqueDoctors = [...new Map(doctors.filter(doctor => isValid(doctor.name)).map(doctor => [doctor.name, doctor])).values()];
+  
+      setSpecialities(uniqueSpecialities);
+      setConditions(uniqueConditions);
+      setDoctors(uniqueDoctors);
+  
+      setFilteredSpecialities(uniqueSpecialities);
+      setFilteredConditions(uniqueConditions);
+      setFilteredDoctors(uniqueDoctors);
     } catch (error) {
       console.error('Error fetching what options:', error);
+    }
+  };
+  const populateWhereOptions = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/where-options`, { withCredentials: true });
+      const { cities = [], states = [], countries = [] } = response.data;
+  
+      const isValid = (value) => value && value.trim().length > 0;
+  
+      // Remove duplicates using Set
+      const uniqueWhereOptions = [...new Set([...cities, ...states, ...countries].filter(isValid))];
+  
+      setWhereOptions(uniqueWhereOptions);
+    } catch (error) {
+      console.error('Error fetching where options:', error);
     }
   };
 
   const handleWhatInput = async (event) => {
     const query = event.target.value.toLowerCase();
     setWhat(query);
-
+  
     if (!query) {
-      setFilteredSpecialities(specialities);
-      setFilteredConditions(conditions);
-      setFilteredDoctors(doctors);
+      setFilteredSpecialities([...new Set(specialities)]);
+      setFilteredConditions([...new Set(conditions)]);
+      setFilteredDoctors([...new Map(doctors.map(doctor => [doctor.name, doctor])).values()]);
       setShowWhatOptions(true);
       return;
     }
-
+  
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/what-options?search=${encodeURIComponent(query)}`, { withCredentials: true });
       const { specialities: newSpecialities = [], conditions: newConditions = [], doctors: newDoctors = [] } = response.data;
-
-      setFilteredSpecialities(newSpecialities.filter(speciality => speciality.toLowerCase().includes(query)));
-      setFilteredConditions(newConditions.filter(condition => condition.toLowerCase().includes(query)));
-      setFilteredDoctors(newDoctors.filter(doctor => doctor.name.toLowerCase().includes(query)));
+  
+      const isValid = (value) => value && value.trim().length > 0;
+  
+      setFilteredSpecialities([...new Set(newSpecialities.filter(speciality => isValid(speciality) && speciality.toLowerCase().includes(query)))]);
+      setFilteredConditions([...new Set(newConditions.filter(condition => isValid(condition) && condition.toLowerCase().includes(query)))]);
+      setFilteredDoctors([...new Map(newDoctors.filter(doctor => isValid(doctor.name) && doctor.name.toLowerCase().includes(query)).map(doctor => [doctor.name, doctor])).values()]);
       setShowWhatOptions(true);
     } catch (error) {
       console.error('Error fetching filtered options:', error);
     }
   };
-
   const handleWhatSelect = (option) => {
     setWhat(option);
     setShowWhatOptions(false);
   };
-  const populateWhereOptions = async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/where-options`, { withCredentials: true });
-      const data = response.data;
-      const { cities, states, countries } = data;
-      setWhereOptions([...cities, ...states, ...countries]);
-    } catch (error) {
-      console.error('Error fetching where options:', error);
-    }
-  };
+
   const handleWhereSelect = (option) => {
     setWhere(option);
     setShowWhereOptions(false);
@@ -117,39 +133,43 @@ const Nestednavbar = () => {
     let hasItems = false;
     return (
       <ul className="dropdown-list what-dropdown">
-        {filteredSpecialities.length > 0 && (
-          <>
-            <li className="dropdown-item disabled" >Specialities</li>
-            {filteredSpecialities.map((speciality, index) => (
-              <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(speciality)}>
-                {speciality}
-              </li>
-            ))}
-            {hasItems = true}
-          </>
-        )}
-        {filteredConditions.length > 0 && (
-          <>
-            <li className="dropdown-item disabled">Conditions</li>
-            {filteredConditions.map((condition, index) => (
-              <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(condition)}>
-                {condition}
-              </li>
-            ))}
-            {hasItems = true}
-          </>
-        )}
-        {filteredDoctors.length > 0 && (
-          <>
-            <li className="dropdown-item disabled" >Doctors</li>
-            {filteredDoctors.map((doctor, index) => (
-              <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(doctor.name)}>
-                {doctor.name}
-              </li>
-            ))}
-            {hasItems = true}
-          </>
-        )}
+          {filteredSpecialities.length > 0 && (
+            <>
+              <li className="dropdown-item disabled" style={{ color: "orange" }}>Specialities :</li>
+              {filteredSpecialities
+                .sort((a, b) => a.localeCompare(b)) // Correct sorting for strings
+                .map((speciality, index) => (
+                  <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(speciality)}>
+                    {speciality}
+                  </li>
+                ))}
+            </>
+          )}
+          {filteredConditions.length > 0 && (
+            <>
+              <li className="dropdown-item disabled" style={{ color: "orange" }}>Conditions :</li>
+              {filteredConditions
+                .sort((a, b) => a.localeCompare(b)) // Correct sorting for strings
+                .map((condition, index) => (
+                  <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(condition)}>
+                    {condition}
+                  </li>
+                ))}
+            </>
+          )}
+          {filteredDoctors.length > 0 && (
+            <>
+              <li className="dropdown-item disabled" style={{ color: "orange" }}>Doctors :</li>
+              {filteredDoctors
+                .sort((a, b) => a.name.localeCompare(b.name)) // Sort using `name` for objects
+                .map((doctor, index) => (
+                  <li key={index} className="dropdown-item" onClick={() => handleWhatSelect(doctor.name)}>
+                    {doctor.name}
+                  </li>
+                ))}
+            </>
+          )}
+
         {!hasItems && <li className="dropdown-item disabled">No results found</li>}
       </ul>
     );
@@ -187,7 +207,7 @@ const Nestednavbar = () => {
                 id="where"
                 value={where}
                 onChange={(e) => setWhere(e.target.value)}
-                placeholder="United Arab Emirates"
+                placeholder="Select your location"
                 onFocus={handleFocusWhere}
                 onBlur={() => setTimeout(() => setShowWhereOptions(false), 200)}
                 autoComplete="off"
@@ -195,12 +215,13 @@ const Nestednavbar = () => {
               {showWhereOptions && (
                 <ul className="dropdown-list where-dropdown">
                   {whereOptions
-                    .filter(option => option.toLowerCase().includes(where.toLowerCase()))
-                    .map((option, index) => (
-                      <li key={index} className="dropdown-item" onMouseDown={() => handleWhereSelect(option)}>
-                        {option}
-                      </li>
-                    ))}
+                      .filter(option => option.toLowerCase().includes(where.toLowerCase()))
+                      .sort((a, b) => a.localeCompare(b)) // Correct sorting for strings
+                      .map((option, index) => (
+                        <li key={index} className="dropdown-item" onMouseDown={() => handleWhereSelect(option)}>
+                          {option}
+                        </li>
+                      ))}
                 </ul>
               )}
             </div>

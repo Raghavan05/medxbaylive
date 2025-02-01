@@ -466,21 +466,42 @@ const Navbar = () => {
                     <FontAwesomeIcon icon={isServiceDropdownOpenMobile ? faChevronUp : faChevronDown} className="ml-2" />
                   </Link>
                   <div className={`dropdown-menu ${isServiceDropdownOpenMobile ? 'show' : ''}`}>
-                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Hospitals/Clinics</Link>
-                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Labs</Link>
+                    <Link className="dropdown-item" to={"https://medxbay.com/consulting/"}
+                    // onClick={handleShowBlogPopup}
+                    >Consulting</Link>
+                    {/* <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Labs</Link>
                     <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Surgery</Link>
                     <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Aesthetic</Link>
-                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link>
+                    <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link> */}
                   </div>
                 </li>
 
-                <li className="nav-item active ml-md-3">
+                {/* <li className="nav-item active ml-md-3">
                   <Link
                     to="https://www.medxbay.org/medxai/"
                     target="_blank" rel="noopener noreferrer"
                     className="about-nav nav-link nav-link-style"
                   >
                     Medx AI
+                  </Link>
+                </li> */}
+
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    to="https://wellth.medxbay.com/"
+                    target="_blank" rel="noopener noreferrer"
+                    className="about-nav nav-link nav-link-style"
+                  >
+                    Wellth
+                  </Link>
+                </li>
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    to="https://www.facebook.com/groups/595636612960098/"
+                    target="_blank" rel="noopener noreferrer"
+                    className="about-nav nav-link nav-link-style"
+                  >
+                    MxB Africa
                   </Link>
                 </li>
 
@@ -643,14 +664,16 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={isServiceDropdownOpen ? faChevronUp : faChevronDown} className="ml-2" />
                 </Link>
                 <div className={`dropdown-menu ${isServiceDropdownOpen ? 'show' : ''}`}>
-                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Hospitals/Clinics</Link>
-                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Labs</Link>
+                  <Link className="dropdown-item" to={"https://medxbay.com/consulting/"} 
+                  // onClick={handleShowBlogPopup}
+                  >Consulting</Link>
+                  {/* <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Labs</Link>
                   <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Surgery</Link>
                   <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Aesthetic</Link>
-                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link>
+                  <Link className="dropdown-item" to="#" onClick={handleShowBlogPopup}>Med Store</Link> */}
                 </div>
               </li>
-              <li className="nav-item active ml-md-3">
+              {/* <li className="nav-item active ml-md-3">
                 <Link
                   to="https://www.medxbay.org/medxai/"
                   target="_blank" rel="noopener noreferrer"
@@ -658,7 +681,25 @@ const Navbar = () => {
                 >
                   Medx AI
                 </Link>
-              </li>
+              </li> */}
+              <li className="nav-item active ml-md-3">
+                  <Link
+                    to="https://wellth.medxbay.com/"
+                    target="_blank" rel="noopener noreferrer"
+                    className="about-nav nav-link nav-link-style"
+                  >
+                    Wellth
+                  </Link>
+                </li>
+                <li className="nav-item active ml-md-3">
+                  <Link
+                    to="https://www.facebook.com/groups/595636612960098/"
+                    target="_blank" rel="noopener noreferrer"
+                    className="about-nav nav-link nav-link-style"
+                  >
+                    MxB Africa
+                  </Link>
+                </li>
               <li className="nav-item active ml-md-3">
                 <Link
                   className="for-corporates nav-link nav-link-style"

@@ -47,38 +47,39 @@ const OurProductsPage = () => {
   const [supplier, setSupplier] = useState([]);
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
-    const { supplierId } = useParams(); // Get corporateId from the route
+    const { supplierId } = useParams(); // Get supplierId from the route
   
   // Fetch profile data from the backend
+  const fetchSuppliersDetails = async () => {
+    try {
+      const url = supplierId
+        ? `${process.env.REACT_APP_BASE_URL}/supplier/supplier/${supplierId}` // New route with supplierId
+        : `${process.env.REACT_APP_BASE_URL}/supplier/profile`; // Existing route
+
+      const response = await axios.get(url, { withCredentials: true });
+      const { supplier, products, blogs } = response.data;
+      setSupplier(supplier);
+      setProducts(products);
+      setBlogs(blogs);
+
+      console.log(response.data);
+
+      setProfileData({
+        name: supplier.name || "Supplier Name",
+        rating: supplier.rating || 0,
+        tagline: supplier.tagline,
+        location: supplier.address || "IT Services and Consulting",
+        followers: supplier.followers?.length || 24,
+        employees: supplier.employees || "11-50",
+        profileImage: supplier.profilePicture ? bufferToBase64(supplier.profilePicture.data) : providersprofile,
+      });
+      setBackgroundImage(bufferToBase64(supplier.coverPhoto.data) || providers);
+    } catch (error) {
+      console.error("Error fetching supplier details:", error);
+    }
+  };
   useEffect(() => {
-    const fetchSuppliersDetails = async () => {
-      try {
-        const url = supplierId
-          ? `${process.env.REACT_APP_BASE_URL}/supplier/supplier/${supplierId}` // New route with corporateId
-          : `${process.env.REACT_APP_BASE_URL}/supplier/profile`; // Existing route
 
-        const response = await axios.get(url, { withCredentials: true });
-        const { supplier, products, blogs } = response.data;
-        setSupplier(supplier);
-        setProducts(products);
-        setBlogs(blogs);
-
-        console.log(response.data);
-
-        setProfileData({
-          name: supplier.name || "Supplier Name",
-          rating: supplier.rating || 0,
-          tagline: supplier.tagline,
-          location: supplier.address || "IT Services and Consulting",
-          followers: supplier.followers?.length || 24,
-          employees: supplier.employees || "11-50",
-          profileImage: supplier.profilePicture ? bufferToBase64(supplier.profilePicture.data) : providersprofile,
-        });
-        setBackgroundImage(bufferToBase64(supplier.coverPhoto.data) || providers);
-      } catch (error) {
-        console.error("Error fetching corporate details:", error);
-      }
-    };
     fetchSuppliersDetails();
   }, []);
 
@@ -123,6 +124,7 @@ const OurProductsPage = () => {
             withCredentials: true,
           }
         );
+        fetchSuppliersDetails()
         if (response.status === 200) {
           console.log("Cover photo updated successfully");
           toast.info("Cover photo updated successfully")
@@ -232,7 +234,7 @@ const OurProductsPage = () => {
     <div className="our-products-profile-container">
       <div className="our-products-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
-        {sessionStorage.getItem('role') === 'supplier' && (
+        {sessionStorage.getItem('userId') === supplierId && (
         <div className="our-products-edit-cover-img">
           <input
             type="file"
@@ -300,11 +302,12 @@ const OurProductsPage = () => {
 
             {isEditPopupOpen && (
               <OurProductsPEPOP
-                tempProfileData={tempProfileData}
+                tempProfileData={supplier}
                 handleProfileDataChange={handleProfileDataChange}
                 handleProfileImageChange={handleProfileImageChange}
                 handleSubmit={handleSubmit}
                 closeEditPopup={closeEditPopup}
+                refreshProfileData={fetchSuppliersDetails} // Pass function as prop
               />
             )}
             </div>
@@ -324,10 +327,17 @@ const OurProductsPage = () => {
           supplierId={supplier._id}
           handleCloseClaimPopup={handleCloseClaimPopup} />
       )}
-      <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories}/>
-      <OurProductsDC products={products} />
+      <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories} supplierId = {supplier._id}/>
+      {supplier.showProducts && (
+        <OurProductsDC products={products} />
+      )}
+            {supplier.showReviews && (
       <ReviewPageProducts review={supplier.reviews} />
-      {/* <Condition blogs={blogs} /> */}
+    )}
+        {supplier.showConditionLibrary && (
+      <Condition blogs={blogs} />
+    )}
+
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProductsSharePopup name={supplier.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />

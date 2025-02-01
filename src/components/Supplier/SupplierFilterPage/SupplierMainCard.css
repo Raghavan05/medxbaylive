@@ -599,6 +599,9 @@
 .container.expanded-map {
   max-width: 70%;
 }
+  .supplier-aboutMe{
+    font-size: 0.9rem;
+  }
 
 /* .doctor-card-container {
   background-color: #ffffff;

@@ -8,34 +8,13 @@ import { IoClose } from "react-icons/io5";
 import { AiFillCamera } from "react-icons/ai";
 
 // Images
-import Dentist from "../Assets/teethimg.png";
-import Heart from "../Assets/heartbeatimg.png";
-import Care from "../Assets/doctorimg.png";
-import Cancer from "../Assets/puzzleimg.png";
-import DNA from "../Assets/testtubeimg.png";
-import Psychology from "../Assets/lookingclinic.png";
-import MRI from "../Assets/MRIimg.png";
-import XRay from "../Assets/xrayimg.png";
 import Ellipse from "../Assets/Ellipse 4153.png";
 
 // Default Image
-import iconnotshowing from "../Assets/iconnotshowing.png";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const OverviewActivity = ({overviewData,corporateSpecialties}) => {
-  
-  // Initial Data
-  const initialSpecialties = [
-    { name: "Dentist", icon: Dentist },
-    { name: "Heart", icon: Heart },
-    { name: "Care", icon: Care },
-    { name: "Cancer", icon: Cancer },
-    { name: "DNA", icon: DNA },
-    { name: "Psychology", icon: Psychology },
-    { name: "MRI", icon: MRI },
-    { name: "X-Ray", icon: XRay },
-  ];
+const OverviewActivity = ({ overviewData, corporateSpecialties ,corporateId}) => {
 
   const posts = [
     {
@@ -49,158 +28,73 @@ const OverviewActivity = ({overviewData,corporateSpecialties}) => {
 
   // State Management
   const [overviewText1, setOverviewText1] = useState(overviewData);
-  const [overviewText2, setOverviewText2] = useState(
-    "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker..."
-  );
-  const fileInputRef = useRef(null);
   const [specialties, setSpecialties] = useState([]); // Main view specialties
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempOverviewText1, setTempOverviewText1] = useState(overviewText1);
-  const [tempOverviewText2, setTempOverviewText2] = useState(overviewText2);
-  const [tempSpecialties, setTempSpecialties] = useState([...initialSpecialties]); // Specialties for modal
+  const [tempSpecialties, setTempSpecialties] = useState([]); // Specialties for modal
   const [isSaving, setIsSaving] = useState(false);
+  const [allSpecialties, setAllSpecialties] = useState([]);
 
-    // Convert buffer data to Base64
-    const bufferToBase64 = (buffer) => {
-        if (buffer?.type === "Buffer" && Array.isArray(buffer?.data)) {
-          const bytes = new Uint8Array(buffer.data);
-          let binary = "";
-          bytes.forEach((byte) => (binary += String.fromCharCode(byte)));
-          return `data:image/jpeg;base64,${btoa(binary)}`;
-        }
-        return "";
-    };
-    const getProfileImage = (formData) => {
-        if (formData?.data?.type === "Buffer") {
-            return bufferToBase64(formData.data);
-        } else if (typeof formData?.data === "string") {
-            return `data:image/jpeg;base64,${formData.data}`;
-        } else {
-            return iconnotshowing;
-        }
-    };
-      
   useEffect(() => {
-    const storedSpecialties = localStorage.getItem("specialties");
-    if (storedSpecialties) {
-      setSpecialties(JSON.parse(storedSpecialties));
+    if (Array.isArray(corporateSpecialties)) {
+      setSpecialties(corporateSpecialties); // Set specialties to the array of strings
     } else {
-      setSpecialties([]); // or fetch from the backend if needed
+      setSpecialties([]); // Default to an empty array
     }
-  }, []);
+    const fetchCorporateDetails = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/corporate/edit-profile`, {
+          withCredentials: true,
+        }
+        );
+        const { data } = response; // Ensure data   exists
+        setAllSpecialties(data?.specialties)
+        if (!data) {
+          throw new Error("Data property is undefined in the response");
+        }
+      } catch (error) {
+        console.error("Error fetching corporate details:", error.message, error);
+      }
+    };
+    fetchCorporateDetails();
+  }, [corporateSpecialties]);
 
   // Modal Functions
   const openModal = () => {
     setTempOverviewText1(overviewText1);
-    setTempOverviewText2(overviewText2);
+    setTempSpecialties(specialties); // Ensure it's an array of objects
     setIsModalOpen(true);
     document.body.classList.add("scroll-lock");
   };
+
 
   const closeModal = () => {
     setIsModalOpen(false);
     document.body.classList.remove("scroll-lock");
   };
 
-  // Add a new specialty
-  const addNewSpecialty = () => {
-    const newSpecialty = {
-      name: `Enter a Name ${tempSpecialties.length + 1}`,
-      image: iconnotshowing,
-      isEditing: true,
-      isAdded: false,
-    };
-    setTempSpecialties([...tempSpecialties, newSpecialty]);
-  };
-
-  // Handle specialty name change
-  const handleNameChange = (index, newName) => {
-    const updatedSpecialties = [...tempSpecialties];
-    updatedSpecialties[index].name = newName;
-    setTempSpecialties(updatedSpecialties);
-  };
-
-// Handle specialty image upload
-const handleImageUpload = (e, index) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedSpecialties = [...tempSpecialties];
-        updatedSpecialties[index].image = {
-          contentType: file.type,
-          data: {
-            type: "Buffer",
-            data: Array.from(new Uint8Array(reader.result)),
-          },
-        };
-        setTempSpecialties(updatedSpecialties);
-      };
-      reader.readAsArrayBuffer(file);
-    }
-  };
-
-  const toggleSpecialty = (index) => {
-    const updatedSpecialties = [...tempSpecialties];
-    updatedSpecialties[index].isAdded = !updatedSpecialties[index].isAdded;
-    setTempSpecialties(updatedSpecialties);
-  
-    // Update localStorage
-    const persistentSpecialties = updatedSpecialties.filter((item) => item.isAdded);
-    localStorage.setItem("specialties", JSON.stringify(persistentSpecialties));
-  };
-  
-  const removeSpecialty = (index) => {
-    const updatedSpecialties = [...tempSpecialties];
-    updatedSpecialties.splice(index, 1);
-    setTempSpecialties(updatedSpecialties);
-  
-    // Update localStorage
-    const persistentSpecialties = updatedSpecialties.filter((item) => item.isAdded);
-    localStorage.setItem("specialties", JSON.stringify(persistentSpecialties));
-  };
-  
-  const handleEditClick = (index) => {
-    const fileInput = document.getElementById(`fileInput-${index}`);
-    if (fileInput) fileInput.click();
-  };
 
   // Save changes from modal
   const saveChanges = async () => {
     setIsSaving(true);
     try {
-      // Ensure no empty names exist
-      if (tempSpecialties.some((item) => !item.name.trim())) {
-        alert("Please fill in all specialty names.");
-        setIsSaving(false);
-        return;
-      }
-  
-      const updatedSpecialties = tempSpecialties.filter((item) => item.isAdded);
-      
-      // Store the updated specialties in localStorage
-      localStorage.setItem("specialties", JSON.stringify(updatedSpecialties));
-      window.location.reload();
-  
+      console.log("Before saving:", tempSpecialties);  // Debugging output
+      const updatedSpecialties = tempSpecialties;  // Convert objects to names
+      console.log("Sending to backend:", updatedSpecialties); // Debugging output
       // Optionally save to the backend
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/corporate/edit-profile`,
         {
           overview: tempOverviewText1,
+          corporateSpecialties: updatedSpecialties,
         },
         { withCredentials: true }
       );
-      const specialtiesResponse = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/corporate/add-specialty`,
-        {
-          specialties: updatedSpecialties,
-        },
-        { withCredentials: true }
-      );
-  
+
       setSpecialties(updatedSpecialties);
-      console.log("Update successful:", response.data);
-      console.log("Update successful:", specialtiesResponse.data);
+      setOverviewText1(tempOverviewText1);
+      console.log("Update successful:", response);
       alert("Overview updated successfully!");
       closeModal();
 
@@ -210,49 +104,45 @@ const handleImageUpload = (e, index) => {
       setIsSaving(false);
     }
   };
-  
-  // const saveChanges = () => {
-  //   setIsSaving(true);
 
-  //   // Validate input
-  //   if (tempSpecialties.some((item) => !item.name.trim())) {
-  //     alert("Please fill in all specialty names.");
-  //     setIsSaving(false);
-  //     return;
-  //   }
+  // Handle Specialty Selection
+  const handleSpecialitiesChange = (event) => {
+    const selectedSpeciality = event.target.value;
+    if (selectedSpeciality && !tempSpecialties.includes(selectedSpeciality)) {
+      setTempSpecialties([...tempSpecialties, selectedSpeciality]);  // Add string
+    }
+  };  
 
-  //   setOverviewText1(tempOverviewText1);
-  //   setOverviewText2(tempOverviewText2);
-  //   setSpecialties(tempSpecialties.filter((item) => item.isAdded));
-  //   closeModal();
-  //   setIsSaving(false);
-  // };
+  // Remove Specialty
+  const handleSpecialitiesRemove = (specialityToRemove) => {
+    setTempSpecialties(tempSpecialties.filter((speciality) => speciality !== specialityToRemove));
+  };
+
 
   return (
     <div className="our-providers-overview-activity-container">
       {/* Overview Section */}
       <div className="our-providers-overview">
         <div className="our-providers-overview-edit-icons-contains">
-        {sessionStorage.getItem('role') === 'corporate' && (
-          <div className="our-providers-overview-edit-icons-head">
-            <LuPencil className="our-providers-overview-edit-icons" onClick={openModal} />
-          </div>
-        )}
+        {sessionStorage.getItem('userId') === corporateId && (
+            <div className="our-providers-overview-edit-icons-head">
+              <LuPencil className="our-providers-overview-edit-icons" onClick={openModal} />
+            </div>
+          )}
         </div>
         <h2>Overview</h2>
         <p>
-  {overviewData && overviewData.length > 555 
-    ? `${overviewData.slice(0, 555)}...` 
-    : overviewData || 'No overview available'}
-</p>
+          {overviewData && overviewData.length > 555
+            ? `${overviewData.slice(0, 555)}...`
+            : 'No overview available'}
+        </p>
 
         <h2>Our Specialties</h2>
         <div className="our-providers-our-specialties-icons-container">
           {specialties.length > 0 ? (
             specialties.map((item, index) => (
               <div key={index} className="our-specialties-icons-item">
-                <img src={item.icon} alt={item.name}   className="our-specialties-icons-image"/>
-                <span>{item.name}</span>
+                <span>{item}</span>
               </div>
             ))
           ) : (
@@ -264,7 +154,7 @@ const handleImageUpload = (e, index) => {
       {/* Condition Libraries */}
       <div className="our-providers-activity-container">
         <div className="our-providers-activity-flex-head">
-          <h2>Condition Libraries</h2>
+          <h2>Our Articles</h2>
         </div>
         <div className="our-providers-activity-underline"></div>
         <div>
@@ -286,8 +176,8 @@ const handleImageUpload = (e, index) => {
               </div>
               <h2>
                 <Link to={'https://conditions.medxbay.com/'} target='_blank'>
-                Show all Conditions
-                <FaArrowRightLong size="1rem" className="show-all-conditions-icon" />
+                  Learn more...
+                  <FaArrowRightLong size="1rem" className="show-all-conditions-icon" />
                 </Link>
               </h2>
             </div>
@@ -315,58 +205,43 @@ const handleImageUpload = (e, index) => {
                   onChange={(e) => setTempOverviewText1(e.target.value)}
                 />
               </div>
-              {/* <div className="our-providers-overview-textarea-head ">
-                <textarea
-                  rows="4"
-                  value={tempOverviewText2}
-                  placeholder="Edit the second paragraph..."
-                  className="editable-textarea fade-in"
-                  onChange={(e) => setTempOverviewText2(e.target.value)}
-                />
-              </div>   */}
-            </div> 
+            </div>
 
             <h2>Our Specialties</h2>
-            <div className="our-providers-specialty-edit-total-container">
-              {tempSpecialties.map((item, index) => (
-                <div key={index} className="our-providers-specialty-edit-container fade-in">
-                  <div className="our-providers-specialty-edit-image-name">
-                    <img src={item.icon} alt={item.name} className="our-providers-specialty-image-preview" />
-                    {item.isEditing ? (
-                      <div className='our-providers-specialty-add-new-one'>
-                        <input
-                          type="text"
-                          value={item.name}
-                          onChange={(e) => handleNameChange(index, e.target.value)}
-                          className="our-providers-specialty-inputs-style"
-                        />
-                         <input
-                          type="file"
-                          id={`fileInput-${index}`}
-                          onChange={(e) => handleImageUpload(e, index)}
-                          accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
-                          style={{ display: 'none' }}
-                        />
-                        <p
-                          onClick={() => handleEditClick(index)}
-                          className="our-providers-specialty-popup-add-photo"
-                        >
-                          <AiFillCamera size="1.5rem" /> Add photo
-                        </p>
-                      </div>
-                    ) : (
-                      <p className="m-0">{item.name}</p>
-                    )}
-                    <button onClick={() => toggleSpecialty(index)}  className="our-providers-specialty-edit-popup-remove-button">
-                      {item.isAdded ? "Remove" : "Add"}
-                    </button>
-                    <button onClick={() => removeSpecialty(index)}  className="our-providers-specialty-edit-popup-remove-button">Delete</button>
-                  </div>
+            {/* Specialties Section */}
+            <div className="edop-form-row">
+              <div className="edop-form-group edop-full-width">
+                <label>Specialities</label>
+                <div className="tag-container">
+                  {/* Display selected specialties as tags */}
+                  {tempSpecialties.map((speciality, index) => (
+                    <span key={index} className="tag-edit-doctor">
+                      {speciality}
+                      <button onClick={() => handleSpecialitiesRemove(speciality)}>x</button>
+                    </span>
+                  ))}
+
+                  {/* Dropdown for adding new specialities */}
+                  <select
+                    value=""
+                    onChange={handleSpecialitiesChange}
+                    className="edit-doctor-profile-dropdown"
+                  >
+                    <option value="" disabled>Select Speciality</option>
+                    {allSpecialties
+                      .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically
+                      .map((specialityObj) => (
+                        <option key={specialityObj._id} value={specialityObj.name}>
+                          {specialityObj.name} {/* Display the name, not the object */}
+                        </option>
+                      ))}
+                  </select>
                 </div>
-              ))}
-            </div> 
-            <div className="our-providers-specialty-edit-popup-button-container"> 
-              <button onClick={addNewSpecialty} className="our-providers-specialty-edit-popup-add-new-changes-button fade-in">Add New Specialty</button>
+              </div>
+            </div>
+
+
+            <div className="our-providers-specialty-edit-popup-button-container">
               <button onClick={saveChanges} disabled={isSaving} className="our-providers-specialty-edit-popup-save-chnages-button fade-in">
                 {isSaving ? "Saving..." : "Save Changes"}
               </button>

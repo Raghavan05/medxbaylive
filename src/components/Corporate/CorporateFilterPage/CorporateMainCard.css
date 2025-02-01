@@ -830,8 +830,9 @@
   color: #0167ff;
   transform: scale(1.05);
 }
-
-
+.corporate-aboutMe{
+  font-size: 0.9rem;
+}
 /* MAPEXPANDED */
 .mapExpanded-doctor-card{
   width: 100%;

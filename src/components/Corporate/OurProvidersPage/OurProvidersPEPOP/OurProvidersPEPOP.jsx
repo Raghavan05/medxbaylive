@@ -5,7 +5,9 @@ import { AiOutlineDoubleRight } from "react-icons/ai";
 import axios from "axios";
 import "./ourproviderspepop.css";
 
-const OurProvidersPEPOP = ({ tempProfileData, handleSubmit, closeEditPopup }) => {
+const OurProvidersPEPOP = ({ tempProfileData, handleSubmit, closeEditPopup,refreshProfileData }) => {
+  console.log(tempProfileData);
+  
   const fileInputRef = useRef(null);
 
   // Local state to manage the form fields
@@ -13,16 +15,20 @@ const OurProvidersPEPOP = ({ tempProfileData, handleSubmit, closeEditPopup }) =>
     corporateName: tempProfileData.corporateName || "",
     tagline: tempProfileData.tagline || "",
     // overview: tempProfileData.overview || "",
-    location: {
-      street: tempProfileData.location.street || "",
-      city: tempProfileData.location.city || "",
-      state: tempProfileData.location.state || "",
-      zipCode: tempProfileData.location.zipCode || "",
-      country: tempProfileData.location.country || "",
+    showConditionLibrary : tempProfileData.showConditionLibrary,
+    showDoctors : tempProfileData.showDoctors,
+    showReviews : tempProfileData.showReviews,
+    showSpecialties : tempProfileData.showSpecialties,
+    address: {
+      street: tempProfileData.address.street || "",
+      city: tempProfileData.address.city || "",
+      state: tempProfileData.address.state || "",
+      zipCode: tempProfileData.address.zipCode || "",
+      country: tempProfileData.address.country || "",
     },
   });
 
-  const [profileImage, setProfileImage] = useState(tempProfileData.profileImage);
+  const [profileImage, setProfileImage] = useState(tempProfileData.profilePicture?.data);
   const [currentFile, setCurrentFile] = useState(null);
 
   // Handle profile image change and show preview
@@ -34,6 +40,16 @@ const OurProvidersPEPOP = ({ tempProfileData, handleSubmit, closeEditPopup }) =>
       setCurrentFile(file);
     }
   };
+    // Convert buffer data to Base64
+    const bufferToBase64 = (buffer) => {
+      if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+        const bytes = new Uint8Array(buffer.data);
+        let binary = '';
+        bytes.forEach(byte => binary += String.fromCharCode(byte));
+        return `data:image/jpeg;base64,${btoa(binary)}`;
+      }
+      return '';
+    };
 
   // Handle form field changes
   const handleFieldChange = (e) => {
@@ -43,8 +59,8 @@ const OurProvidersPEPOP = ({ tempProfileData, handleSubmit, closeEditPopup }) =>
       const locationField = name.split(".")[1];
       setFormData((prevData) => ({
         ...prevData,
-        location: {
-          ...prevData.location,
+        address: {
+          ...prevData.address,
           [locationField]: value,
         },
       }));
@@ -63,17 +79,21 @@ const handleFormSubmit = async (e) => {
 
   // Extract address fields from formData.location
   const address = {
-    street: formData.location.street,
-    city: formData.location.city,
-    state: formData.location.state,
-    zipCode: formData.location.zipCode,
-    country: formData.location.country,
+    street: formData.address.street,
+    city: formData.address.city,
+    state: formData.address.state,
+    zipCode: formData.address.zipCode,
+    country: formData.address.country,
   };
-
+ 
   const formDataToSend = new FormData();
-  formDataToSend.append("profileImage", currentFile);
+  formDataToSend.append("profilePicture", currentFile);
   formDataToSend.append("corporateName", formData.corporateName);
   formDataToSend.append("tagline", formData.tagline);
+  formDataToSend.append("showConditionLibrary", formData.showConditionLibrary);
+  formDataToSend.append("showDoctors", formData.showDoctors);
+  formDataToSend.append("showReviews", formData.showReviews);
+  formDataToSend.append("showSpecialties", formData.showSpecialties);
   formDataToSend.append("address", JSON.stringify(address)); // Convert address object to JSON string
   try {
     const response = await axios.post(
@@ -86,8 +106,10 @@ const handleFormSubmit = async (e) => {
         withCredentials: true, // Make sure this is configured for session management
       }
     );
+    refreshProfileData()
     console.log("Profile updated successfully:", response.data);
     alert("Profile updated successfully");
+    window.location.reload();
     closeEditPopup();
   } catch (error) {
     console.error("Error updating profile:", error);
@@ -98,6 +120,12 @@ const handleFormSubmit = async (e) => {
 
   // Trigger file input on icon click
   const handleEditClick = () => fileInputRef.current.click();
+  const handleToggleChange = (key) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
 
   return (
     <div className="our-providers-edit-popup-container">
@@ -111,7 +139,7 @@ const handleFormSubmit = async (e) => {
             <div className="our-providers-profile-image-edit-popup">
               <label>Profile Image:</label>
               <div className="our-providers-pop-image-preview-image">
-                <img src={profileImage} alt="Profile Preview" />
+                <img src={bufferToBase64(profileImage)} alt="Profile Preview" />
               </div>
               <div>
                 <input
@@ -169,7 +197,7 @@ const handleFormSubmit = async (e) => {
                   name="location.street"
                   className="our-providers-edit-popup-input"
                   placeholder="Enter street"
-                  value={formData.location.street}
+                  value={formData.address.street}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -181,7 +209,7 @@ const handleFormSubmit = async (e) => {
                   name="location.city"
                   className="our-providers-edit-popup-input"
                   placeholder="Enter city"
-                  value={formData.location.city}
+                  value={formData.address.city}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -193,7 +221,7 @@ const handleFormSubmit = async (e) => {
                   name="location.state"
                   className="our-providers-edit-popup-input"
                   placeholder="Enter state"
-                  value={formData.location.state}
+                  value={formData.address.state}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -205,7 +233,7 @@ const handleFormSubmit = async (e) => {
                   name="location.country"
                   className="our-providers-edit-popup-input"
                   placeholder="Enter country"
-                  value={formData.location.country}
+                  value={formData.address.country}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -217,10 +245,47 @@ const handleFormSubmit = async (e) => {
                   name="location.zipCode"
                   className="our-providers-edit-popup-input"
                   placeholder="Enter zip code"
-                  value={formData.location.zipCode}
+                  value={formData.address.zipCode}
                   onChange={handleFieldChange}
                 />
               </label>
+
+              <div className={`edit-your-profile-details-section`}>
+                <div className="edit-your-profile-section-header" >
+                  <h3>Doctor Profile details</h3>
+                  <span>
+                  </span>
+                </div>
+                <div className=" pl-3">
+
+                {/* <ToggleButton
+                    label="Show Specialties"
+                    isChecked={formData.showSpecialties}
+                    onChange={() => handleToggleChange("showSpecialties")}
+                  /> */}
+                  
+                  <ToggleButton
+                    label="Show Providers"
+                    isChecked={formData.showDoctors}
+                    onChange={() => handleToggleChange("showDoctors")}
+                  />
+                  <ToggleButton
+                    label="Show Reviews"
+                    isChecked={formData.showReviews}
+                    onChange={() => handleToggleChange("showReviews")}
+                  />
+                  <ToggleButton
+                    label="Show Articles"
+                    isChecked={formData.showConditionLibrary}
+                    onChange={() => handleToggleChange("showConditionLibrary")}
+                  />
+                  <p className='edop-toggle-note'>
+                      *If you turn this ON, these details will be visible on the Doctor Profile.
+                    </p>
+                </div>
+
+              </div>
+
 
               <button type="submit" className="our-providers-edit-popup-save-chnages">
                 <AiOutlineDoubleRight /> Save Changes
@@ -229,8 +294,20 @@ const handleFormSubmit = async (e) => {
           </div>
         </form>
       </div>
+      
     </div>
   );
 };
-
+const ToggleButton = ({ label, isChecked, onChange }) => {
+  console.log(isChecked);  
+  return (
+    <div className="our-providers-edop-toggle-container">
+      <label className="our-providers-edop-toggle-switch">
+        <input type="checkbox" checked={isChecked} onChange={onChange} />
+        <span className="our-providers-edop-slider"></span>
+      </label>
+      <span className="our-providers-edop-toggle-label">{label}</span>
+    </div>
+  );
+};
 export default OurProvidersPEPOP;

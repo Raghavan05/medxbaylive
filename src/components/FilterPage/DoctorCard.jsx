@@ -425,11 +425,18 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
             
         );
     };
+    // Function to truncate description
+    const truncateDescription = (description, maxLength) => {
+        if (description.length > maxLength) {
+            return `${description.slice(0, maxLength)}...`;
+        }
+        return description;
+    };
     return (
         <>
                 <ToastContainer />
             <div className={`row doctor-card ${isMapExpanded ? 'mapExpanded-doctor-card' : ''}`}>
-                <div className={`col-12  ${isMapExpanded ? 'col-12' : ''}`}>
+                <div className={`col-12 col-lg-7 ${isMapExpanded ? 'col-lg-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
                             <Link to={`/book-appointment-profile/${doctor._id}`}>
@@ -452,23 +459,32 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                             </Link>
                             <p className="speciality">{doctor.speciality + " "}</p>
                             <p className="experience">{doctor.experience ? doctor.experience +" years experience overall" : " "}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"Hospital"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>
+                            {!(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") ? "Hospital" : "About"}
+                            </p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
-                            <div className="row mt-2">
-                                <div className ="col">
-                                    {renderHospitalOptions()}
+                                <div className="row mt-2">
+                                    <div className="col">
+                                        {!(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") && (
+                                            renderHospitalOptions()
+                                        )}
+                                        {(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") && (
+                                            truncateDescription(doctor?.aboutMe, 115)
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
                             </p>
                             <div className={`consultation-type ${isMapExpanded ? 'mapExpanded-consultation-type' : ''}`}>
-                                {renderConsultationType()}
+                            {!(doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted") && (
+                                renderConsultationType()
+                                )}
                             </div>
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
                                 <div className='liked'>
                                     <img src={thumbsUp} alt="thumbsUp" />
                                     <span>{`${doctor.rating ? doctor.rating * 20 : 0}%`|| "70%"}</span>
                                 </div>
-                                <span>{doctor?.patientStories || "0 Patient Stories"}</span>
+                                {/* <span>{doctor?.patientStories || "0 Patient Stories"}</span> */}
                             </div>
                         </div>
                     </div>

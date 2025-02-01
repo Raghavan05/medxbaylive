@@ -68,53 +68,53 @@ const OurProvidersPage = () => {
     document.body.classList.remove('scroll-lock');
   };
   // Fetch profile data from the backend
-  useEffect(() => {
-    const fetchCorporateDetails = async () => {
-      try {
-        const url = corporateId
-          ? `${process.env.REACT_APP_BASE_URL}/patient/corporate/${corporateId}` // New route with corporateId
-          : `${process.env.REACT_APP_BASE_URL}/corporate/profile`; // Existing route
+  const fetchCorporateDetails = async () => {
+    try {
+      const url = corporateId
+        ? `${process.env.REACT_APP_BASE_URL}/patient/corporate/${corporateId}` // New route with corporateId
+        : `${process.env.REACT_APP_BASE_URL}/corporate/profile`; // Existing route
 
-        const response = await axios.get(url, { withCredentials: true });
+      const response = await axios.get(url, { withCredentials: true });
 
 
-        const data = response.data?.data; // Ensure data exists
-        // // Log response for debugging
-        console.log("API Response:", data);
-        if (!data) {
-          throw new Error("Data property is undefined in the response");
-        }
-
-        setCorporate(data.corporate || {});
-        setDoctorReviews(data.doctorReviews || []);
-        setPatientReviews(data.patientReviews || []);
-        setDoctors(data.doctors || []);
-        setBlogs(data.blogs || []);
-        setInviteLinks(data.inviteLinks || '');
-        console.log(data.inviteLinks);
-        setOverview(data.corporate.overview)
-        console.log(data.corporate.corporateSpecialties);
-        setCorporateSpecialities(data.corporate.corporateSpecialties)
-        setProfileData({
-          corporateName: data.corporate?.corporateName || "Corporate Name",
-          rating: data.corporate?.rating || 0,
-          tagline: data.corporate?.tagline || "Your Vision | Our Innovation",
-          location: data.corporate?.address || "IT Services and Consulting",
-          followers: data.corporate?.followers?.length || 24,
-          employees: data.corporate?.employees || "11-50",
-          profileImage: data.corporate?.profilePicture
-            ? bufferToBase64(data.corporate.profilePicture.data)
-            : providersprofile,
-        });
-        setBackgroundImage(
-          data.corporate?.coverPhoto
-            ? bufferToBase64(data.corporate.coverPhoto.data)
-            : providers
-        );
-      } catch (error) {
-        console.error("Error fetching corporate details:", error.message, error);
+      const data = response.data?.data; // Ensure data exists
+      // // Log response for debugging
+      console.log("API Response:", data);
+      if (!data) {
+        throw new Error("Data property is undefined in the response");
       }
-    };
+
+      setCorporate(data?.corporate || {});
+      setDoctorReviews(data?.doctorReviews || []);
+      setPatientReviews(data?.patientReviews || []);
+      setDoctors(data?.doctors || []);
+      setBlogs(data?.blogs || []);
+      setInviteLinks(data?.inviteLinks || '');
+      console.log(data?.inviteLinks);
+      setOverview(data?.corporate?.overview)
+      setCorporateSpecialities(data?.corporate?.corporateSpecialties)
+      setProfileData({
+        corporateName: data.corporate?.corporateName || "Corporate Name",
+        rating: data.corporate?.rating || 0,
+        tagline: data.corporate?.tagline || "Your Vision | Our Innovation",
+        location: data.corporate?.address || "IT Services and Consulting",
+        followers: data.corporate?.followers?.length || 24,
+        employees: data.corporate?.employees || "11-50",
+        profileImage: data.corporate?.profilePicture
+          ? bufferToBase64(data.corporate?.profilePicture.data)
+          : providersprofile,
+      });
+      setBackgroundImage(
+        data.corporate?.coverPhoto
+          ? bufferToBase64(data.corporate?.coverPhoto.data)
+          : providers
+      );
+    } catch (error) {
+      console.error("Error fetching corporate details:", error.message, error);
+    }
+  };
+  useEffect(() => {
+
     fetchCorporateDetails();
   }, []);
 
@@ -156,6 +156,7 @@ const OurProvidersPage = () => {
           console.log("Cover photo updated successfully");
           alert("Cover photo updated successfully")
         }
+        fetchCorporateDetails();
       } catch (error) {
         console.error("Error uploading cover photo:", error);
       }
@@ -230,7 +231,7 @@ const OurProvidersPage = () => {
     <div className="our-providers-profile-container">
       <div className="our-providers-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
-        {sessionStorage.getItem('role') === 'corporate' && (
+        {sessionStorage.getItem('userId') === corporate._id && (
         <div className="our-provider-edit-cover-img">
           <input
             type="file"
@@ -317,18 +318,25 @@ const OurProvidersPage = () => {
       )}
       {isEditPopupOpen && (
         <OurProvidersPEPOP
-          tempProfileData={tempProfileData}
+          tempProfileData={corporate}
           handleProfileDataChange={handleProfileDataChange}
           handleSubmit={handleSubmit}
           closeEditPopup={closeEditPopup}
+          refreshProfileData={fetchCorporateDetails} // Pass function as prop
         />
       )}
 
 
-      <OverviewActivity overviewData={overview} corporateSpecialties={corporateSpecialties} />
-      <OurProvidersDC doctors={doctors} />
-      <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
-      {/* <OurBlogDc blogs={blogs} /> */}
+      <OverviewActivity overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId = {corporate._id}/>
+      {corporate.showDoctors && (
+        <OurProvidersDC doctors={doctors} />
+      )}
+      {corporate.showReviews && (
+        <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
+      )}
+      {corporate.showConditionLibrary && (
+        <OurBlogDc blogs={blogs} /> 
+      )}
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />

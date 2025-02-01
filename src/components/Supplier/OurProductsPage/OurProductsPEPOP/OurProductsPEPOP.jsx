@@ -8,23 +8,28 @@ import axios from 'axios';
 const OurProductsPEPOP  = ({
   tempProfileData,
   closeEditPopup,
-  handleProfileImageChange, // Ensure this is passed in as a prop
+  handleProfileImageChange,
+  refreshProfileData, // Ensure this is passed in as a prop
 }) => {
   
   // Local state to manage the form fields
   const [formData, setFormData] = useState({
     name: tempProfileData.name || "",
     tagline: tempProfileData.tagline || "",
-    location: {
-      street: tempProfileData.location.street || "",
-      city: tempProfileData.location.city || "",
-      state: tempProfileData.location.state || "",
-      zipCode: tempProfileData.location.zipCode || "",
-      country: tempProfileData.location.country || "",
+    showCategories : tempProfileData.showCategories,
+    showConditionLibrary : tempProfileData.showConditionLibrary,
+    showProducts : tempProfileData.showProducts,
+    showReviews : tempProfileData.showReviews,
+    address: {
+      street: tempProfileData.address.street || "",
+      city: tempProfileData.address.city || "",
+      state: tempProfileData.address.state || "",
+      zipCode: tempProfileData.address.zipCode || "",
+      country: tempProfileData.address.country || "",
     },
   });
   const fileInputRef = useRef(null);
-  const [profileImage, setProfileImage] = useState(tempProfileData.profileImage);
+  const [profileImage, setProfileImage] = useState(tempProfileData.profilePicture?.data);
   const [currentFile, setCurrentFile] = useState(null);
 
   // Handle profile image change and show preview
@@ -47,8 +52,8 @@ const OurProductsPEPOP  = ({
         const locationField = name.split(".")[1];
         setFormData((prevData) => ({
           ...prevData,
-          location: {
-            ...prevData.location,
+          address: {
+            ...prevData.address,
             [locationField]: value,
           },
         }));
@@ -67,17 +72,21 @@ const OurProductsPEPOP  = ({
   
     // Extract address fields from formData.location
     const address = {
-      street: formData.location.street,
-      city: formData.location.city,
-      state: formData.location.state,
-      zipCode: formData.location.zipCode,
-      country: formData.location.country,
+      street: formData.address.street,
+      city: formData.address.city,
+      state: formData.address.state,
+      zipCode: formData.address.zipCode,
+      country: formData.address.country,
     };
   
     const formDataToSend = new FormData();
     formDataToSend.append("profileImage", currentFile);
     formDataToSend.append("name", formData.name);
     formDataToSend.append("tagline", formData.tagline);
+    formDataToSend.append("showConditionLibrary", formData.showConditionLibrary);
+    formDataToSend.append("showProducts", formData.showProducts);
+    formDataToSend.append("showReviews", formData.showReviews);
+    formDataToSend.append("showCategories", formData.showCategories);
     formDataToSend.append("address", JSON.stringify(address)); // Convert address object to JSON string
     try {
       const response = await axios.post(
@@ -90,9 +99,11 @@ const OurProductsPEPOP  = ({
           withCredentials: true, // Make sure this is configured for session management
         }
       );
+      refreshProfileData();
       console.log("Profile updated successfully:", response.data);
       alert("Profile updated successfully");
       closeEditPopup();
+      window.location.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile");
@@ -101,7 +112,22 @@ const OurProductsPEPOP  = ({
 
   // Trigger file input on icon click
   const handleEditClick = () => fileInputRef.current.click();
-
+  // Convert buffer data to Base64
+  const bufferToBase64 = (buffer) => {
+    if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+      const bytes = new Uint8Array(buffer.data);
+      let binary = '';
+      bytes.forEach(byte => binary += String.fromCharCode(byte));
+      return `data:image/jpeg;base64,${btoa(binary)}`;
+    }
+    return '';
+  };
+  const handleToggleChange = (key) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
   return (
     <div className="our-products-edit-popup-container">
       <div className="our-products-edit-popup-content">
@@ -115,7 +141,7 @@ const OurProductsPEPOP  = ({
               <label>Profile Image:</label>
               <div className="our-products-pop-image-preview-image">
                 <img
-                  src={profileImage}
+                  src={bufferToBase64(profileImage)}
                   alt="Profile Preview"
                 />
               </div>
@@ -165,7 +191,7 @@ const OurProductsPEPOP  = ({
                   name="location.street"
                   className="our-products-edit-popup-input"
                   placeholder="Enter street"
-                  value={formData.location.street}
+                  value={formData.address.street}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -177,7 +203,7 @@ const OurProductsPEPOP  = ({
                   name="location.city"
                   className="our-products-edit-popup-input"
                   placeholder="Enter city"
-                  value={formData.location.city}
+                  value={formData.address.city}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -189,7 +215,7 @@ const OurProductsPEPOP  = ({
                   name="location.state"
                   className="our-products-edit-popup-input"
                   placeholder="Enter state"
-                  value={formData.location.state}
+                  value={formData.address.state}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -201,7 +227,7 @@ const OurProductsPEPOP  = ({
                   name="location.country"
                   className="our-products-edit-popup-input"
                   placeholder="Enter country"
-                  value={formData.location.country}
+                  value={formData.address.country}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -213,7 +239,7 @@ const OurProductsPEPOP  = ({
                   name="location.zipCode"
                   className="our-products-edit-popup-input"
                   placeholder="Enter zip code"
-                  value={formData.location.zipCode}
+                  value={formData.address.zipCode}
                   onChange={handleFieldChange}
                 />
               </label>
@@ -228,7 +254,7 @@ const OurProductsPEPOP  = ({
                     cols="50"
                     placeholder="Enter your location"
                     className='our-products-edit-popup-textarea'
-                    value={formData.location}
+                    value={formData.address}
                     onChange={handleFieldChange}
                   />
                 </div>
@@ -245,6 +271,41 @@ const OurProductsPEPOP  = ({
                   onChange={handleFieldChange}
                 />
               </label> */}
+                            <div className={`edit-your-profile-details-section`}>
+                <div className="edit-your-profile-section-header" >
+                  <h3>Doctor Profile details</h3>
+                  <span>
+                  </span>
+                </div>
+                <div className=" pl-3">
+
+                {/* <ToggleButton
+                    label="Show Categories"
+                    isChecked={formData.showCategories}
+                    onChange={() => handleToggleChange("showCategories")}
+                  /> */}
+                  
+                  <ToggleButton
+                    label="Show Products"
+                    isChecked={formData.showProducts}
+                    onChange={() => handleToggleChange("showProducts")}
+                  />
+                  <ToggleButton
+                    label="Show Reviews"
+                    isChecked={formData.showReviews}
+                    onChange={() => handleToggleChange("showReviews")}
+                  />
+                  <ToggleButton
+                    label="Show Articles"
+                    isChecked={formData.showConditionLibrary}
+                    onChange={() => handleToggleChange("showConditionLibrary")}
+                  />
+                  <p className='edop-toggle-note'>
+                      *If you turn this ON, these details will be visible on the Doctor Profile.
+                    </p>
+                </div>
+
+              </div>
 
               <button 
                 type="submit" 
@@ -260,5 +321,15 @@ const OurProductsPEPOP  = ({
     </div>
   );
 };
-
+const ToggleButton = ({ label, isChecked, onChange }) => {
+  return (
+    <div className="our-products-edop-toggle-container">
+      <label className="our-products-edop-toggle-switch">
+        <input type="checkbox" checked={isChecked} onChange={onChange} />
+        <span className="our-products-edop-slider"></span>
+      </label>
+      <span className="our-products-edop-toggle-label">{label}</span>
+    </div>
+  );
+};
 export default OurProductsPEPOP ;

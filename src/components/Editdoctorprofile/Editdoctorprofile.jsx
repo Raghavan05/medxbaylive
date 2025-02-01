@@ -11,7 +11,7 @@ import axios from 'axios';  // Import axios for API requests
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LocationPicker from './LocationPicker'; // Assuming you have a LocationPicker component
-
+import iso6391 from "iso-639-1";
 const Editdoctorprofile = () => {
   const [doctorData, setDoctorData] = useState({
     name: "",
@@ -35,6 +35,11 @@ const Editdoctorprofile = () => {
     instagram: "",
     phoneNumber: "",
     doctorFee: "",
+    termsAndConditionsAccepted: false,
+    showAwards: false,
+    showFaq: false,
+    showArticle: false,
+    showInsurances: false,
     zip: "",
     hospitals: [
       { name: "", street: "", city: "", state: "", country: "", zip: "", lat: "", lng: "" },
@@ -65,6 +70,7 @@ const Editdoctorprofile = () => {
   const [allConditions, setAllConditions] = useState([]);
   const [insurances, setInsurances] = useState([]);
   const [isOpenFaq, setIsOpenFaq] = useState(false);
+  const [isOpenShowDetails, setIsOpenShowDetails] = useState(false);
   const [isOpenPersonal, setIsOpenPersonal] = useState(true);
   const [isOpenDoctor, setIsOpenDoctor] = useState(false);
   const [isOpenFees, setIsOpenFees] = useState(false);
@@ -81,6 +87,7 @@ const Editdoctorprofile = () => {
   const toggleDoctorSection = () => setIsOpenDoctor(!isOpenDoctor);
   const toggleFeesSection = () => setIsOpenFees(!isOpenFees);
   const toggleFaqSection = () => setIsOpenFaq(!isOpenFaq);
+  const toggleShowDetails = () => setIsOpenShowDetails(!isOpenShowDetails);
   const [openIndex, setOpenIndex] = useState(null);
   const toggleHospitalSection = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -90,6 +97,12 @@ const Editdoctorprofile = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setDoctorData({ ...doctorData, [id]: value });
+  };
+  const handleToggleChange = (key) => {
+    setDoctorData((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
   const handleFileChange = (e, fileType) => {
     const file = e.target.files[0];
@@ -198,34 +211,38 @@ const Editdoctorprofile = () => {
       setDoctorData({ ...doctorData, dateOfBirth: e.target.value });
     }
   };
+  // Add treatment from the dropdown
   const handleTreatmentChange = (event) => {
     const selectedTreatment = event.target.value;
     const currentApproach = doctorData?.treatmentApproach || ""; // Default to an empty string
-    const treatmentsArray = currentApproach.split(",").map((t) => t.trim()); // Split into an array
-  
+    const treatmentsArray = currentApproach.split(",").map((t) => t.trim());
+
     if (!treatmentsArray.includes(selectedTreatment)) {
       setDoctorData({
         ...doctorData,
-        treatmentApproach: [...treatmentsArray, selectedTreatment].join(", "), // Join back to a string
+        treatmentApproach: [...treatmentsArray, selectedTreatment].filter(Boolean).join(", "),
       });
     }
+
+    // Reset the dropdown value
+    event.target.value = "";
   };
-  
-  // Function to remove a selected speciality
+
+  // Remove treatment tag
   const handleTreatmentRemove = (treatmentToRemove) => {
-    const currentApproach = doctorData?.treatmentApproach || ""; // Default to an empty string
+    const currentApproach = doctorData?.treatmentApproach || "";
     const updatedApproach = currentApproach
       .split(",")
-      .map((t) => t.trim()) // Split and trim whitespace
-      .filter((treatment) => treatment !== treatmentToRemove) // Remove the selected treatment
-      .join(", "); // Join back to a string
-  
+      .map((t) => t.trim())
+      .filter((treatment) => treatment !== treatmentToRemove)
+      .join(", ");
+
     setDoctorData({
       ...doctorData,
       treatmentApproach: updatedApproach,
     });
   };
-  
+
   const handleSpecialitiesChange = (event) => {
     const selectedSpeciality = event.target.value;
     if (!doctorData.speciality.includes(selectedSpeciality)) {
@@ -260,30 +277,42 @@ const Editdoctorprofile = () => {
     });
   };
   //languages
-  const handleLanguageKeyDown = (e) => {
-    if (e.key === 'Enter' && newLanguage && !doctorData.languages.includes(newLanguage)) {
-      setDoctorData({ ...doctorData, languages: [...doctorData.languages, newLanguage] });
-      setNewLanguage('');
+  // Generate language options from iso-639-1
+  const languages = iso6391.getAllNames();
+
+  const handleLanguageAdd = (event) => {
+    const selectedLanguage = event.target.value;  // Get selected condition name
+    if (selectedLanguage && !doctorData.languages.includes(selectedLanguage)) {
+      setDoctorData({ ...doctorData, languages: [...doctorData.languages, selectedLanguage] });
+      setNewLanguage("");
     }
   };
+
   const handleLanguageRemove = (language) => {
-    setDoctorData({ ...doctorData, languages: doctorData.languages.filter((l) => l !== language) });
+    setDoctorData({
+      ...doctorData,
+      languages: doctorData.languages.filter((l) => l !== language),
+    });
   };
   //Insurance
   const handleRemoveInsurance = (index) => {
     const updatedInsurances = doctorData.insurances.filter((_, i) => i !== index);
+    console.log('Updated Insurances:', updatedInsurances); // Debug
     setDoctorData({ ...doctorData, insurances: updatedInsurances });
   };
+
   const handleInsuranceChange = (event) => {
     const selectedInsuranceId = event.target.value;
-    // Check if the selected insurance ID is already in the state
+
+    // Prevent adding duplicates
     if (!doctorData.insurances.includes(selectedInsuranceId)) {
-      setDoctorData({
-        ...doctorData,
-        insurances: [...doctorData.insurances, selectedInsuranceId]
-      });
+      setDoctorData((prevState) => ({
+        ...prevState,
+        insurances: [...prevState.insurances, selectedInsuranceId],
+      }));
     }
   };
+
   //Awards
   const handleAwardsKeyDown = (e) => {
     if (e.key === 'Enter' && newAwards && !doctorData.awards.includes(newAwards)) {
@@ -327,7 +356,10 @@ const Editdoctorprofile = () => {
   const licenseProofInputRef = useRef(null);
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = (e) => {
-    setIsChecked(e.target.checked);
+    setDoctorData((prevData) => ({
+      ...prevData,
+      termsAndConditionsAccepted: e.target.checked, // Update termsAndConditionsAccepted
+    }));
   };
   const handleLocationSelect = (lat, lng) => {
     console.log('Selected Location:', { lat, lng });
@@ -415,132 +447,132 @@ const Editdoctorprofile = () => {
   };
   const countries = {
     "USA": {
-        "Alabama": ["Birmingham", "Montgomery", "Huntsville", "Mobile", "Tuscaloosa"],
-        "Alaska": ["Anchorage", "Fairbanks", "Juneau", "Sitka", "Ketchikan"],
-        "Arizona": ["Phoenix", "Tucson", "Mesa", "Chandler", "Scottsdale"],
-        "Arkansas": ["Little Rock", "Fort Smith", "Fayetteville", "Springdale", "Jonesboro"],
-        "California": ["Los Angeles", "San Francisco", "San Diego", "Sacramento", "San Jose"],
-        "Colorado": ["Denver", "Colorado Springs", "Aurora", "Fort Collins", "Lakewood"],
-        "Connecticut": ["Bridgeport", "New Haven", "Stamford", "Hartford", "Waterbury"],
-        "Delaware": ["Wilmington", "Dover", "Newark", "Middletown", "Bear"],
-        "Florida": ["Miami", "Orlando", "Tampa", "Jacksonville", "Tallahassee"],
-        "Georgia": ["Atlanta", "Augusta", "Columbus", "Macon", "Savannah"],
-        "Hawaii": ["Honolulu", "Hilo", "Kailua", "Pearl City", "Kapolei"],
-        "Idaho": ["Boise", "Nampa", "Meridian", "Idaho Falls", "Pocatello"],
-        "Illinois": ["Chicago", "Springfield", "Peoria", "Naperville", "Aurora"],
-        "Indiana": ["Indianapolis", "Fort Wayne", "Evansville", "South Bend", "Carmel"],
-        "Iowa": ["Des Moines", "Cedar Rapids", "Davenport", "Sioux City", "Iowa City"],
-        "Kansas": ["Wichita", "Overland Park", "Kansas City", "Topeka", "Olathe"],
-        "Kentucky": ["Louisville", "Lexington", "Bowling Green", "Owensboro", "Covington"],
-        "Louisiana": ["New Orleans", "Baton Rouge", "Shreveport", "Lafayette", "Lake Charles"],
-        "Maine": ["Portland", "Lewiston", "Bangor", "Augusta", "Auburn"],
-        "Maryland": ["Baltimore", "Columbia", "Silver Spring", "Rockville", "Germantown"],
-        "Massachusetts": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell"],
-        "Michigan": ["Detroit", "Grand Rapids", "Ann Arbor", "Lansing", "Flint"],
-        "Minnesota": ["Minneapolis", "Saint Paul", "Rochester", "Duluth", "Bloomington"],
-        "Mississippi": ["Jackson", "Gulfport", "Biloxi", "Hattiesburg", "Meridian"],
-        "Missouri": ["St. Louis", "Kansas City", "Springfield", "Columbia", "Independence"],
-        "Montana": ["Billings", "Missoula", "Bozeman", "Helena", "Great Falls"],
-        "Nebraska": ["Omaha", "Lincoln", "Bellevue", "Grand Island", "Kearney"],
-        "Nevada": ["Las Vegas", "Reno", "Henderson", "North Las Vegas", "Sparks"],
-        "New Hampshire": ["Manchester", "Nashua", "Concord", "Derry", "Keene"],
-        "New Jersey": ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison"],
-        "New Mexico": ["Albuquerque", "Santa Fe", "Las Cruces", "Rio Rancho", "Roswell"],
-        "New York": ["New York City", "Buffalo", "Albany", "Syracuse", "Rochester"],
-        "North Carolina": ["Charlotte", "Raleigh", "Greensboro", "Durham", "Winston-Salem"],
-        "North Dakota": ["Fargo", "Bismarck", "Grand Forks", "Minot", "West Fargo"],
-        "Ohio": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron"],
-        "Oklahoma": ["Oklahoma City", "Tulsa", "Norman", "Broken Arrow", "Edmond"],
-        "Oregon": ["Portland", "Salem", "Eugene", "Gresham", "Beaverton"],
-        "Pennsylvania": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Harrisburg"],
-        "Rhode Island": ["Providence", "Cranston", "Warwick", "Pawtucket", "East Providence"],
-        "South Carolina": ["Columbia", "Charleston", "Greenville", "Spartanburg", "Myrtle Beach"],
-        "South Dakota": ["Sioux Falls", "Rapid City", "Aberdeen", "Brookings", "Mitchell"],
-        "Tennessee": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Clarksville"],
-        "Texas": ["Houston", "Dallas", "Austin", "San Antonio", "Fort Worth"],
-        "Utah": ["Salt Lake City", "Provo", "West Valley City", "Sandy", "Orem"],
-        "Vermont": ["Burlington", "Montpelier", "Rutland", "Essex Junction", "Barre"],
-        "Virginia": ["Virginia Beach", "Norfolk", "Chesapeake", "Richmond", "Newport News"],
-        "Washington": ["Seattle", "Spokane", "Tacoma", "Vancouver", "Bellevue"],
-        "West Virginia": ["Charleston", "Huntington", "Morgantown", "Parkersburg", "Wheeling"],
-        "Wisconsin": ["Milwaukee", "Madison", "Green Bay", "Kenosha", "Appleton"],
-        "Wyoming": ["Cheyenne", "Casper", "Laramie", "Gillette", "Rock Springs"]
+      "Alabama": ["Birmingham", "Montgomery", "Huntsville", "Mobile", "Tuscaloosa"],
+      "Alaska": ["Anchorage", "Fairbanks", "Juneau", "Sitka", "Ketchikan"],
+      "Arizona": ["Phoenix", "Tucson", "Mesa", "Chandler", "Scottsdale"],
+      "Arkansas": ["Little Rock", "Fort Smith", "Fayetteville", "Springdale", "Jonesboro"],
+      "California": ["Los Angeles", "San Francisco", "San Diego", "Sacramento", "San Jose"],
+      "Colorado": ["Denver", "Colorado Springs", "Aurora", "Fort Collins", "Lakewood"],
+      "Connecticut": ["Bridgeport", "New Haven", "Stamford", "Hartford", "Waterbury"],
+      "Delaware": ["Wilmington", "Dover", "Newark", "Middletown", "Bear"],
+      "Florida": ["Miami", "Orlando", "Tampa", "Jacksonville", "Tallahassee"],
+      "Georgia": ["Atlanta", "Augusta", "Columbus", "Macon", "Savannah"],
+      "Hawaii": ["Honolulu", "Hilo", "Kailua", "Pearl City", "Kapolei"],
+      "Idaho": ["Boise", "Nampa", "Meridian", "Idaho Falls", "Pocatello"],
+      "Illinois": ["Chicago", "Springfield", "Peoria", "Naperville", "Aurora"],
+      "Indiana": ["Indianapolis", "Fort Wayne", "Evansville", "South Bend", "Carmel"],
+      "Iowa": ["Des Moines", "Cedar Rapids", "Davenport", "Sioux City", "Iowa City"],
+      "Kansas": ["Wichita", "Overland Park", "Kansas City", "Topeka", "Olathe"],
+      "Kentucky": ["Louisville", "Lexington", "Bowling Green", "Owensboro", "Covington"],
+      "Louisiana": ["New Orleans", "Baton Rouge", "Shreveport", "Lafayette", "Lake Charles"],
+      "Maine": ["Portland", "Lewiston", "Bangor", "Augusta", "Auburn"],
+      "Maryland": ["Baltimore", "Columbia", "Silver Spring", "Rockville", "Germantown"],
+      "Massachusetts": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell"],
+      "Michigan": ["Detroit", "Grand Rapids", "Ann Arbor", "Lansing", "Flint"],
+      "Minnesota": ["Minneapolis", "Saint Paul", "Rochester", "Duluth", "Bloomington"],
+      "Mississippi": ["Jackson", "Gulfport", "Biloxi", "Hattiesburg", "Meridian"],
+      "Missouri": ["St. Louis", "Kansas City", "Springfield", "Columbia", "Independence"],
+      "Montana": ["Billings", "Missoula", "Bozeman", "Helena", "Great Falls"],
+      "Nebraska": ["Omaha", "Lincoln", "Bellevue", "Grand Island", "Kearney"],
+      "Nevada": ["Las Vegas", "Reno", "Henderson", "North Las Vegas", "Sparks"],
+      "New Hampshire": ["Manchester", "Nashua", "Concord", "Derry", "Keene"],
+      "New Jersey": ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison"],
+      "New Mexico": ["Albuquerque", "Santa Fe", "Las Cruces", "Rio Rancho", "Roswell"],
+      "New York": ["New York City", "Buffalo", "Albany", "Syracuse", "Rochester"],
+      "North Carolina": ["Charlotte", "Raleigh", "Greensboro", "Durham", "Winston-Salem"],
+      "North Dakota": ["Fargo", "Bismarck", "Grand Forks", "Minot", "West Fargo"],
+      "Ohio": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron"],
+      "Oklahoma": ["Oklahoma City", "Tulsa", "Norman", "Broken Arrow", "Edmond"],
+      "Oregon": ["Portland", "Salem", "Eugene", "Gresham", "Beaverton"],
+      "Pennsylvania": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Harrisburg"],
+      "Rhode Island": ["Providence", "Cranston", "Warwick", "Pawtucket", "East Providence"],
+      "South Carolina": ["Columbia", "Charleston", "Greenville", "Spartanburg", "Myrtle Beach"],
+      "South Dakota": ["Sioux Falls", "Rapid City", "Aberdeen", "Brookings", "Mitchell"],
+      "Tennessee": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Clarksville"],
+      "Texas": ["Houston", "Dallas", "Austin", "San Antonio", "Fort Worth"],
+      "Utah": ["Salt Lake City", "Provo", "West Valley City", "Sandy", "Orem"],
+      "Vermont": ["Burlington", "Montpelier", "Rutland", "Essex Junction", "Barre"],
+      "Virginia": ["Virginia Beach", "Norfolk", "Chesapeake", "Richmond", "Newport News"],
+      "Washington": ["Seattle", "Spokane", "Tacoma", "Vancouver", "Bellevue"],
+      "West Virginia": ["Charleston", "Huntington", "Morgantown", "Parkersburg", "Wheeling"],
+      "Wisconsin": ["Milwaukee", "Madison", "Green Bay", "Kenosha", "Appleton"],
+      "Wyoming": ["Cheyenne", "Casper", "Laramie", "Gillette", "Rock Springs"]
     },
     "UAE": {
-        "Dubai": ["Dubai City", "Jumeirah", "Deira", "Bur Dubai", "Dubai Marina"],
-        "Abu Dhabi": ["Abu Dhabi City", "Al Ain", "Western Region", "Saadiyat Island"],
-        "Sharjah": ["Sharjah City", "Al Majaz", "Al Qasba", "Al Nahda"],
-        "Ajman": ["Ajman City", "Al Nuaimiya", "Al Mowaihat"],
-        "Fujairah": ["Fujairah City", "Al Badiyah", "Dibba"],
-        "Ras Al Khaimah": ["Ras Al Khaimah City", "Al Dhait", "Al Nakheel"]
+      "Dubai": ["Dubai City", "Jumeirah", "Deira", "Bur Dubai", "Dubai Marina"],
+      "Abu Dhabi": ["Abu Dhabi City", "Al Ain", "Western Region", "Saadiyat Island"],
+      "Sharjah": ["Sharjah City", "Al Majaz", "Al Qasba", "Al Nahda"],
+      "Ajman": ["Ajman City", "Al Nuaimiya", "Al Mowaihat"],
+      "Fujairah": ["Fujairah City", "Al Badiyah", "Dibba"],
+      "Ras Al Khaimah": ["Ras Al Khaimah City", "Al Dhait", "Al Nakheel"]
     },
     "India": {
-        "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Tirupati"],
-        "Arunachal Pradesh": ["Itanagar", "Tawang", "Naharlagun", "Ziro", "Aalo"],
-        "Assam": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon"],
-        "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia"],
-        "Chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Durg", "Korba"],
-        "Goa": ["Panaji", "Vasco da Gama", "Margao", "Mapusa", "Ponda"],
-        "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar"],
-        "Haryana": ["Chandigarh", "Faridabad", "Gurugram", "Ambala", "Hisar"],
-        "Himachal Pradesh": ["Shimla", "Manali", "Kullu", "Dharamshala", "Solan"],
-        "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Hazaribagh"],
-        "Karnataka": ["Bangalore", "Mysore", "Mangalore", "Hubli", "Belgaum"],
-        "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Palakkad"],
-        "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
-        "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane"],
-        "Manipur": ["Imphal", "Thoubal", "Churachandpur", "Kakching", "Bishnupur"],
-        "Meghalaya": ["Shillong", "Tura", "Jowai", "Nongstoin", "Williamnagar"],
-        "Mizoram": ["Aizawl", "Kolasib", "Lunglei", "Champhai", "Serchhip"],
-        "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Wokha", "Mon"],
-        "Odisha": ["Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur"],
-        "Punjab": ["Chandigarh", "Amritsar", "Ludhiana", "Jalandhar", "Patiala"],
-        "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur", "Kota", "Ajmer"],
-        "Sikkim": ["Gangtok", "Mangan", "Rangpo", "Namchi", "Jorethang"],
-        "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Trichy", "Salem"],
-        "Telangana": ["Hyderabad", "Warangal", "Khammam", "Karimnagar", "Nizamabad"],
-        "Tripura": ["Agartala", "Udaipur", "Dharmanagar", "Ambassa", "Kailashahar"],
-        "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra", "Varanasi", "Meerut"],
-        "Uttarakhand": ["Dehradun", "Nainital", "Haridwar", "Rishikesh", "Haldwani"],
-        "West Bengal": ["Kolkata", "Siliguri", "Howrah", "Durgapur", "Asansol"],
-        "Andaman and Nicobar Islands": ["Port Blair", "Diglipur", "Mayabunder", "Car Nicobar", "Havelock"],
-        "Chandigarh": ["Chandigarh", "Mullanpur", "Manimajra", "Daria", "Palsora"],
-        "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Diu", "Silvassa", "Vapi", "Moti Daman"],
-        "Lakshadweep": ["Kavaratti", "Minicoy", "Andrott", "Amini", "Kalapeni"],
-        "Delhi": ["New Delhi", "Old Delhi", "Dwarka", "Vasant Kunj", "Karol Bagh"],
-        "Puducherry": ["Puducherry", "Auroville", "Karaikal", "Mahe", "Yanam"],
-        "Ladakh": ["Leh", "Kargil", "Nubra", "Zanskar", "Drass"],
-        "Lakshadweep": ["Kavaratti", "Minicoy", "Andrott", "Amini", "Kalapeni"],
+      "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Tirupati"],
+      "Arunachal Pradesh": ["Itanagar", "Tawang", "Naharlagun", "Ziro", "Aalo"],
+      "Assam": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon"],
+      "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia"],
+      "Chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Durg", "Korba"],
+      "Goa": ["Panaji", "Vasco da Gama", "Margao", "Mapusa", "Ponda"],
+      "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar"],
+      "Haryana": ["Chandigarh", "Faridabad", "Gurugram", "Ambala", "Hisar"],
+      "Himachal Pradesh": ["Shimla", "Manali", "Kullu", "Dharamshala", "Solan"],
+      "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Hazaribagh"],
+      "Karnataka": ["Bangalore", "Mysore", "Mangalore", "Hubli", "Belgaum"],
+      "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Palakkad"],
+      "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
+      "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane"],
+      "Manipur": ["Imphal", "Thoubal", "Churachandpur", "Kakching", "Bishnupur"],
+      "Meghalaya": ["Shillong", "Tura", "Jowai", "Nongstoin", "Williamnagar"],
+      "Mizoram": ["Aizawl", "Kolasib", "Lunglei", "Champhai", "Serchhip"],
+      "Nagaland": ["Kohima", "Dimapur", "Mokokchung", "Wokha", "Mon"],
+      "Odisha": ["Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur"],
+      "Punjab": ["Chandigarh", "Amritsar", "Ludhiana", "Jalandhar", "Patiala"],
+      "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur", "Kota", "Ajmer"],
+      "Sikkim": ["Gangtok", "Mangan", "Rangpo", "Namchi", "Jorethang"],
+      "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Trichy", "Salem"],
+      "Telangana": ["Hyderabad", "Warangal", "Khammam", "Karimnagar", "Nizamabad"],
+      "Tripura": ["Agartala", "Udaipur", "Dharmanagar", "Ambassa", "Kailashahar"],
+      "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra", "Varanasi", "Meerut"],
+      "Uttarakhand": ["Dehradun", "Nainital", "Haridwar", "Rishikesh", "Haldwani"],
+      "West Bengal": ["Kolkata", "Siliguri", "Howrah", "Durgapur", "Asansol"],
+      "Andaman and Nicobar Islands": ["Port Blair", "Diglipur", "Mayabunder", "Car Nicobar", "Havelock"],
+      "Chandigarh": ["Chandigarh", "Mullanpur", "Manimajra", "Daria", "Palsora"],
+      "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Diu", "Silvassa", "Vapi", "Moti Daman"],
+      "Lakshadweep": ["Kavaratti", "Minicoy", "Andrott", "Amini", "Kalapeni"],
+      "Delhi": ["New Delhi", "Old Delhi", "Dwarka", "Vasant Kunj", "Karol Bagh"],
+      "Puducherry": ["Puducherry", "Auroville", "Karaikal", "Mahe", "Yanam"],
+      "Ladakh": ["Leh", "Kargil", "Nubra", "Zanskar", "Drass"],
+      "Lakshadweep": ["Kavaratti", "Minicoy", "Andrott", "Amini", "Kalapeni"],
     },
     "Africa": {
-        "Nigeria": ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Benin City", "Enugu", "Kaduna", "Zaria", "Maiduguri"],
-        "South Africa": ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "Polokwane", "Pietermaritzburg", "Nelspruit", "East London"],
-        "Kenya": ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Malindi", "Kakamega", "Kitale", "Meru"],
-        "Egypt": ["Cairo", "Alexandria", "Giza", "Sharm El Sheikh", "Luxor", "Aswan", "Port Said", "Suez", "Tanta", "Mansoura"],
-        "Morocco": ["Casablanca", "Marrakech", "Rabat", "Fes", "Tangier", "Agadir", "Meknes", "Tétouan", "Oujda", "Essaouira"],
-        "Ghana": ["Accra", "Kumasi", "Takoradi", "Tamale", "Koforidua", "Sekondi", "Ashaiman", "Cape Coast", "Techiman", "Ho"],
-        "Ethiopia": ["Addis Ababa", "Gondar", "Dire Dawa", "Mekelle", "Hawassa", "Adama", "Bahir Dar", "Jijiga", "Debre Markos", "Hossana"],
-        "Uganda": ["Kampala", "Entebbe", "Mbarara", "Jinja", "Masaka", "Mbale", "Lira", "Fort Portal", "Kabale", "Arua"],
-        "Algeria": ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Sétif", "Béjaïa", "Tizi Ouzou", "Chlef"],
-        "Morocco": ["Casablanca", "Marrakech", "Rabat", "Fes", "Tangier", "Agadir", "Meknes", "Tétouan", "Oujda", "Essaouira"],
-        "Sudan": ["Khartoum", "Omdurman", "Port Sudan", "Kassala", "Nyala", "Juba", "El Obeid", "Kadugli", "Wad Madani", "Dongola"],
-        "Mozambique": ["Maputo", "Beira", "Nampula", "Chimoio", "Quelimane", "Tete", "Nacala", "Pemba", "Xai-Xai", "Lichinga"],
-        "Angola": ["Luanda", "Huambo", "Lobito", "Benguela", "Kuito", "Malanje", "Cabinda", "Uige", "Cuito Cuanavale", "Sumbe"],
-        "Democratic Republic of the Congo": ["Kinshasa", "Lubumbashi", "Mbuji-Mayi", "Kananga", "Kisangani", "Bukavu", "Goma", "Kolwezi", "Matadi", "Kikwit"],
-        "Tanzania": ["Dar es Salaam", "Dodoma", "Arusha", "Mbeya", "Mwanza", "Morogoro", "Tanga", "Zanzibar", "Shinyanga", "Mtwara"],
-        "Senegal": ["Dakar", "Touba", "Thiès", "Saint-Louis", "Ziguinchor", "Kaolack", "Rufisque", "Tambacounda", "Mbour", "Diourbel"],
-        "Madagascar": ["Antananarivo", "Toamasina", "Antsirabe", "Fianarantsoa", "Mahajanga", "Toliara", "Diego Suarez", "Antsiranana", "Nosy Be", "Mahanoro"],
-        "Côte d'Ivoire": ["Abidjan", "Yamoussoukro", "Bouaké", "San Pedro", "Daloa", "Korhogo", "Man", "San Pédro", "Tiebissou", "Odienné"],
-        "Zimbabwe": ["Harare", "Bulawayo", "Mutare", "Gweru", "Kwekwe", "Marondera", "Chinhoyi", "Masvingo", "Zvishavane", "Chegutu"],
-        "Zambia": ["Lusaka", "Kitwe", "Ndola", "Kabwe", "Livingstone", "Mufulira", "Chingola", "Chililabombwe", "Luanshya", "Solwezi"],
-        "Liberia": ["Monrovia", "Gbarnga", "Buchanan", "Harper", "Paynesville", "Kakata", "Bomi", "Bopolu", "Voinjama", "Sanniquellie"],
-        "Somalia": ["Mogadishu", "Hargeisa", "Kismayo", "Baidoa", "Galkayo", "Merca", "Burao", "Bosaso", "Jowhar", "Kismayo"],
-        "Botswana": ["Gaborone", "Francistown", "Molepolole", "Maun", "Selibe Phikwe", "Serowe", "Palapye", "Jwaneng", "Orapa", "Kasane"],
-        "Namibia": ["Windhoek", "Swakopmund", "Walvis Bay", "Rundu", "Rehoboth", "Okahandja", "Tsumeb", "Ondangwa", "Keetmanshoop", "Grootfontein"],
-        "Gabon": ["Libreville", "Port-Gentil", "Franceville", "Moanda", "Oyem", "Bitam", "Koulamoutou", "Tchibanga", "Mouila", "Lambaréné"],
-        "Mali": ["Bamako", "Ségou", "Koutiala", "San", "Mopti", "Tombouctou", "Kayes", "Gao", "Kadiolo", "Koulikoro"]
+      "Nigeria": ["Lagos", "Abuja", "Kano", "Ibadan", "Port Harcourt", "Benin City", "Enugu", "Kaduna", "Zaria", "Maiduguri"],
+      "South Africa": ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "Polokwane", "Pietermaritzburg", "Nelspruit", "East London"],
+      "Kenya": ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Malindi", "Kakamega", "Kitale", "Meru"],
+      "Egypt": ["Cairo", "Alexandria", "Giza", "Sharm El Sheikh", "Luxor", "Aswan", "Port Said", "Suez", "Tanta", "Mansoura"],
+      "Morocco": ["Casablanca", "Marrakech", "Rabat", "Fes", "Tangier", "Agadir", "Meknes", "Tétouan", "Oujda", "Essaouira"],
+      "Ghana": ["Accra", "Kumasi", "Takoradi", "Tamale", "Koforidua", "Sekondi", "Ashaiman", "Cape Coast", "Techiman", "Ho"],
+      "Ethiopia": ["Addis Ababa", "Gondar", "Dire Dawa", "Mekelle", "Hawassa", "Adama", "Bahir Dar", "Jijiga", "Debre Markos", "Hossana"],
+      "Uganda": ["Kampala", "Entebbe", "Mbarara", "Jinja", "Masaka", "Mbale", "Lira", "Fort Portal", "Kabale", "Arua"],
+      "Algeria": ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Sétif", "Béjaïa", "Tizi Ouzou", "Chlef"],
+      "Morocco": ["Casablanca", "Marrakech", "Rabat", "Fes", "Tangier", "Agadir", "Meknes", "Tétouan", "Oujda", "Essaouira"],
+      "Sudan": ["Khartoum", "Omdurman", "Port Sudan", "Kassala", "Nyala", "Juba", "El Obeid", "Kadugli", "Wad Madani", "Dongola"],
+      "Mozambique": ["Maputo", "Beira", "Nampula", "Chimoio", "Quelimane", "Tete", "Nacala", "Pemba", "Xai-Xai", "Lichinga"],
+      "Angola": ["Luanda", "Huambo", "Lobito", "Benguela", "Kuito", "Malanje", "Cabinda", "Uige", "Cuito Cuanavale", "Sumbe"],
+      "Democratic Republic of the Congo": ["Kinshasa", "Lubumbashi", "Mbuji-Mayi", "Kananga", "Kisangani", "Bukavu", "Goma", "Kolwezi", "Matadi", "Kikwit"],
+      "Tanzania": ["Dar es Salaam", "Dodoma", "Arusha", "Mbeya", "Mwanza", "Morogoro", "Tanga", "Zanzibar", "Shinyanga", "Mtwara"],
+      "Senegal": ["Dakar", "Touba", "Thiès", "Saint-Louis", "Ziguinchor", "Kaolack", "Rufisque", "Tambacounda", "Mbour", "Diourbel"],
+      "Madagascar": ["Antananarivo", "Toamasina", "Antsirabe", "Fianarantsoa", "Mahajanga", "Toliara", "Diego Suarez", "Antsiranana", "Nosy Be", "Mahanoro"],
+      "Côte d'Ivoire": ["Abidjan", "Yamoussoukro", "Bouaké", "San Pedro", "Daloa", "Korhogo", "Man", "San Pédro", "Tiebissou", "Odienné"],
+      "Zimbabwe": ["Harare", "Bulawayo", "Mutare", "Gweru", "Kwekwe", "Marondera", "Chinhoyi", "Masvingo", "Zvishavane", "Chegutu"],
+      "Zambia": ["Lusaka", "Kitwe", "Ndola", "Kabwe", "Livingstone", "Mufulira", "Chingola", "Chililabombwe", "Luanshya", "Solwezi"],
+      "Liberia": ["Monrovia", "Gbarnga", "Buchanan", "Harper", "Paynesville", "Kakata", "Bomi", "Bopolu", "Voinjama", "Sanniquellie"],
+      "Somalia": ["Mogadishu", "Hargeisa", "Kismayo", "Baidoa", "Galkayo", "Merca", "Burao", "Bosaso", "Jowhar", "Kismayo"],
+      "Botswana": ["Gaborone", "Francistown", "Molepolole", "Maun", "Selibe Phikwe", "Serowe", "Palapye", "Jwaneng", "Orapa", "Kasane"],
+      "Namibia": ["Windhoek", "Swakopmund", "Walvis Bay", "Rundu", "Rehoboth", "Okahandja", "Tsumeb", "Ondangwa", "Keetmanshoop", "Grootfontein"],
+      "Gabon": ["Libreville", "Port-Gentil", "Franceville", "Moanda", "Oyem", "Bitam", "Koulamoutou", "Tchibanga", "Mouila", "Lambaréné"],
+      "Mali": ["Bamako", "Ségou", "Koutiala", "San", "Mopti", "Tombouctou", "Kayes", "Gao", "Kadiolo", "Koulikoro"]
     }
-};
+  };
 
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
@@ -698,65 +730,65 @@ const Editdoctorprofile = () => {
                     </div>
 
                     <div className="edop-form-row">
-        <div className="edop-form-group">
-          <label htmlFor="country">Country</label>
-          <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-            <option value="">{doctorData.country || "Select Country"}</option>
-            {Object.keys(countries).map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-        </div>
+                      <div className="edop-form-group">
+                        <label htmlFor="country">Country</label>
+                        <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                          <option value="">{doctorData.country || "Select Country"}</option>
+                          {Object.keys(countries).map((country) => (
+                            <option key={country} value={country}>
+                              {country}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-        <div className="edop-form-group">
-          <label htmlFor="state">State/Province</label>
-          <select
-            id="state"
-            value={selectedState}
-            onChange={handleStateChange}
-            disabled={!states.length}
-          >
-            <option value="">{doctorData.state || "Select State"}</option>
-            {states.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+                      <div className="edop-form-group">
+                        <label htmlFor="state">State/Province</label>
+                        <select
+                          id="state"
+                          value={selectedState}
+                          onChange={handleStateChange}
+                          disabled={!states?.length}
+                        >
+                          <option value="">{doctorData.state || "Select State"}</option>
+                          {states.map((state) => (
+                            <option key={state} value={state}>
+                              {state}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-      <div className="edop-form-row">
-        <div className="edop-form-group">
-          <label htmlFor="city">City</label>
-          <select
-            id="city"
-            value={doctorData.city}
-            onChange={handleCityChange}
-            disabled={!cities.length}
-          >
-            <option value="">{doctorData.city || "Select City"}</option>
-            {cities.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-        </div>
+                    <div className="edop-form-row">
+                      <div className="edop-form-group">
+                        <label htmlFor="city">City</label>
+                        <select
+                          id="city"
+                          value={doctorData.city}
+                          onChange={handleCityChange}
+                          disabled={!cities?.length}
+                        >
+                          <option value="">{doctorData.city || "Select City"}</option>
+                          {cities.map((city) => (
+                            <option key={city} value={city}>
+                              {city}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-        <div className="edop-form-group">
-          <label htmlFor="zip">Zip code</label>
-          <input
-            type="text"
-            id="zip"
-            placeholder="Enter your zipcode"
-            value={doctorData.zip || ""}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
+                      <div className="edop-form-group">
+                        <label htmlFor="zip">Zip code</label>
+                        <input
+                          type="text"
+                          id="zip"
+                          placeholder="Enter your zipcode"
+                          value={doctorData.zip || ""}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -774,10 +806,10 @@ const Editdoctorprofile = () => {
                       <div className="edop-form-group edop-full-width">
                         <label>Specialities</label>
                         <div className="tag-container">
-                          {/* Display selected specialities as tags */}
-                          {doctorData.speciality.map((speciality, index) => (
+                          {/* Display selected specialties as tags */}
+                          {[...doctorData.speciality].sort().map((speciality, index) => (
                             <span key={index} className="tag-edit-doctor">
-                              {speciality} {/* Display the speciality name */}
+                              {speciality}
                               <button onClick={() => handleSpecialitiesRemove(speciality)}>x</button>
                             </span>
                           ))}
@@ -789,11 +821,13 @@ const Editdoctorprofile = () => {
                             className="edit-doctor-profile-dropdown"
                           >
                             <option value="" disabled>Select Speciality</option>
-                            {allSpecialties.map((specialityObj, index) => (
-                              <option key={index} value={specialityObj.name}>
-                                {specialityObj.name} {/* Display the name, not the object */}
-                              </option>
-                            ))}
+                            {[...allSpecialties]
+                              .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically
+                              .map((specialityObj, index) => (
+                                <option key={index} value={specialityObj.name}>
+                                  {specialityObj.name} {/* Display the name, not the object */}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -804,7 +838,7 @@ const Editdoctorprofile = () => {
                       <div className="edop-form-group edop-full-width">
                         <label>Conditions</label>
                         <div className="tag-container">
-                          {doctorData.conditions.map((condition, index) => (
+                          {[...doctorData.conditions].sort().map((condition, index) => (
                             <span key={index} className="tag-edit-doctor">
                               {condition}
                               <button onClick={() => handleConditionRemove(condition)}>x</button>
@@ -817,11 +851,13 @@ const Editdoctorprofile = () => {
                             className="edit-doctor-profile-dropdown"
                           >
                             <option value="" disabled>Select Condition</option>
-                            {allConditions.map((conditionObj, index) => (
-                              <option key={index} value={conditionObj.name}>
-                                {conditionObj.name}
-                              </option>
-                            ))}
+                            {[...allConditions]
+                              .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically
+                              .map((conditionObj, index) => (
+                                <option key={index} value={conditionObj.name}>
+                                  {conditionObj.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -833,18 +869,27 @@ const Editdoctorprofile = () => {
                       <div className="edop-form-group edop-full-width">
                         <label>Languages</label>
                         <div className="tag-container">
-                          {doctorData?.languages?.map((language, index) => (
+                          {/* Display Selected Languages */}
+                          {doctorData.languages.map((language, index) => (
                             <span key={index} className="tag-edit-doctor">
-                              {language} <button onClick={() => handleLanguageRemove(language)}>x</button>
+                              {language}{" "}
+                              <button onClick={() => handleLanguageRemove(language)}>x</button>
                             </span>
                           ))}
-                          <input
-                            type="text"
-                            placeholder="Add language"
+
+                          {/* Dropdown for Languages */}
+                          <select
                             value={newLanguage}
-                            onChange={(e) => setNewLanguage(e.target.value)}
-                            onKeyDown={handleLanguageKeyDown} // Add onKeyDown handler
-                          />
+                            onChange={handleLanguageAdd}
+
+                          >
+                            <option value="">Select a language</option>
+                            {languages.map((lang, index) => (
+                              <option key={index} value={lang}>
+                                {lang}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -853,7 +898,7 @@ const Editdoctorprofile = () => {
                       <div className="edop-form-group edop-full-width">
                         <label>Treatment Approach</label>
                         <div className="tag-container">
-                          {/* Display selected treatmentApproach as tags */}
+                          {/* Display selected treatmentApproach as tags
                           <span className="tag-edit-doctor">
                             {doctorData?.treatmentApproach &&
                               doctorData.treatmentApproach.split(",").map((treatment, index) => (
@@ -862,24 +907,29 @@ const Editdoctorprofile = () => {
                                   <button onClick={() => handleTreatmentRemove(treatment)}>x</button>
                                 </span>
                               ))}
-                          </span>
+                          </span> */}
                           {/* Dropdown for adding new treatmentApproach */}
                           <select
-                            value=""
-                            onChange={handleTreatmentChange}
-                            className="edit-doctor-profile-dropdown"
+                            id="treatmentApproach"
+                            value={doctorData.treatmentApproach || ''}
+                            onChange={handleInputChange}
+                            className='edop-select-box-input'
                           >
-                            <option value="" disabled>Select Treatment Approach</option>
-                            {['conventional', 'holistic', 'traditional ', 'speciality'].map((approach) => (
-                              <option key={approach} value={approach} disabled={doctorData?.treatmentApproach?.includes(approach)}>
+                            <option value="" disabled>
+                              Select Treatment Approach
+                            </option>
+                            {["Conventional", "Holistic", "Traditional", "Speciality"].map((approach) => (
+                              <option
+                                value={approach}
+                              >
                                 {approach}
                               </option>
                             ))}
                           </select>
-
                         </div>
                       </div>
                     </div>
+
 
                     {/* Availability and Consultation Section */}
                     <div className="edop-form-row">
@@ -921,7 +971,7 @@ const Editdoctorprofile = () => {
                 )}
               </div>
               {/* Hospital Section */}
-              {doctorData?.hospitals.length === 0 && (
+              {doctorData?.hospitals?.length === 0 && (
                 addNewHospital()
               )}
 
@@ -930,7 +980,7 @@ const Editdoctorprofile = () => {
                   <div className="edit-your-profile-section-header" onClick={() => toggleHospitalSection(index)}>
                     <h3>Hospital details {index + 1}</h3>
                     <div className='edit-another-hospital-container'>
-                      {doctorData?.hospitals.length < 5 && (
+                      {doctorData?.hospitals?.length < 5 && (
 
                         <div className='edit-another-hospital-container-icon-text'>
                           <div className='edit-another-hospital-container'>
@@ -1020,7 +1070,7 @@ const Editdoctorprofile = () => {
                         <button className="edit-doctor-Update-btn" onClick={() => setModalShow({ show: true, index })}>
                           Pin your location
                         </button>
-                        {doctorData.hospitals.length > 1 && (
+                        {doctorData.hospitals?.length > 1 && (
                           <button className="edit-doctor-Remove-btn" onClick={() => handleRemoveHospital(index)}>
                             <MdDelete />Remove
                           </button>
@@ -1205,6 +1255,14 @@ const Editdoctorprofile = () => {
                             ))}
                           </select>
                         </div>
+                        <ToggleButton
+                          label="Show Insurances"
+                          isChecked={doctorData.showInsurances}
+                          onChange={() => handleToggleChange("showInsurances")}
+                        />
+                        <p className='edop-toggle-note'>
+                          *If you turn this ON, these details will be visible on the Doctor Profile.
+                        </p>
                       </div>
                     </div>
 
@@ -1225,31 +1283,39 @@ const Editdoctorprofile = () => {
                             onKeyDown={handleAwardsKeyDown}
                           />
                         </div>
+                        <ToggleButton
+                          label="Show Awards"
+                          isChecked={doctorData.showAwards}
+                          onChange={() => handleToggleChange("showAwards")}
+                        />
+                        <p className='edop-toggle-note'>
+                          *If you turn this ON, these details will be visible on the Doctor Profile.
+                        </p>
                       </div>
                     </div>
 
                     {/* Optional FAQ section */}
                     {/* 
-          <div className="edop-form-row">
-            <div className="edop-form-group edop-full-width">
-              <label>FAQ’s</label>
-              <div className="tag-container">
-                {doctorData.faq.map((faqs, index) => (
-                  <span key={index} className="tag-edit-doctor">
-                    {faqs} <button onClick={() => handleFaqRemove(faqs)}>x</button>
-                  </span>
-                ))}
-                <input
-                  type="text"
-                  placeholder="Add FAQ’s"
-                  value={newFaq}
-                  onChange={(e) => setNewFaq(e.target.value)}
-                  onKeyDown={handleFaqKeyDown}
-                />
-              </div>
-            </div>
-          </div>
-          */}
+                      <div className="edop-form-row">
+                        <div className="edop-form-group edop-full-width">
+                          <label>FAQ’s</label>
+                          <div className="tag-container">
+                            {doctorData.faq.map((faqs, index) => (
+                              <span key={index} className="tag-edit-doctor">
+                                {faqs} <button onClick={() => handleFaqRemove(faqs)}>x</button>
+                              </span>
+                            ))}
+                            <input
+                              type="text"
+                              placeholder="Add FAQ’s"
+                              value={newFaq}
+                              onChange={(e) => setNewFaq(e.target.value)}
+                              onKeyDown={handleFaqKeyDown}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                  */}
                   </div>
                 )}
               </div>
@@ -1301,6 +1367,54 @@ const Editdoctorprofile = () => {
                         )}
                       </div>
                     ))}
+                    <ToggleButton
+                      label="Show FAQ"
+                      isChecked={doctorData.showFaq}
+                      onChange={() => handleToggleChange("showFaq")}
+                    />
+                    <p className='edop-toggle-note'>
+                      *If you turn this ON, these details will be visible on the Doctor Profile.
+                    </p>
+                  </div>
+
+                )}
+              </div>
+              <div className={`edit-your-profile-details-section ${isOpenShowDetails ? 'open' : 'closed'}`}>
+                <div className="edit-your-profile-section-header" onClick={toggleShowDetails}>
+                  <h3>Doctor Profile details</h3>
+                  <span>
+                    {isOpenShowDetails ? <RiArrowUpSLine className="toggle-arrow" /> : <RiArrowDownSLine className="toggle-arrow" />}
+                  </span>
+                </div>
+
+                {isOpenShowDetails && (
+                  <div className="edop-qustion-container">
+                    <div className="edop-profile-settings">
+                      <h3>Profile Settings</h3>
+                      {/* <ToggleButton
+                            label="Show Awards"
+                            isChecked={doctorData.showAwards}
+                            onChange={() => handleToggleChange("showAwards")}
+                          /> */}
+                      {/* <ToggleButton
+                            label="Show FAQ"
+                            isChecked={doctorData.showFaq}
+                            onChange={() => handleToggleChange("showFaq")}
+                          /> */}
+                      <ToggleButton
+                        label="Show Article"
+                        isChecked={doctorData.showArticle}
+                        onChange={() => handleToggleChange("showArticle")}
+                      />
+                      <p className='edop-toggle-note'>
+                        *If you turn this ON, these details will be visible on the Doctor Profile.
+                      </p>
+                      {/* <ToggleButton
+                            label="Show Insurances"
+                            isChecked={doctorData.showInsurances}
+                            onChange={() => handleToggleChange("showInsurances")}
+                          /> */}
+                    </div>
                   </div>
                 )}
               </div>
@@ -1311,14 +1425,14 @@ const Editdoctorprofile = () => {
                   <input
                     type="checkbox"
                     id="terms"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
+                    checked={doctorData.termsAndConditionsAccepted} // Reflect current state
+                    onChange={handleCheckboxChange} // Handle state update
                   />
-                  <span htmlFor="terms">I agree to the{" "}<a href="/terms" target="_blank" rel="noopener noreferrer">Terms and Conditions</a></span>
+                  <span htmlFor="terms">I agree to the{" "}<a href="https://medxbay.com/terms-and-conditions/" target="_blank" rel="noopener noreferrer">Terms and Conditions</a></span>
                 </div>
                 <small>Please read and accept our Terms and Conditions before submitting.</small>
                 <div className={`edit-doctor-Update-container`} >
-                  <button className="edit-doctor-Update-btn mt-3" type="submit" onClick={handleSubmit} disabled={isSaving || !isChecked}>
+                  <button className="edit-doctor-Update-btn mt-3" type="submit" onClick={handleSubmit} disabled={isSaving || !doctorData.termsAndConditionsAccepted}>
                     <span className="edit-doctor-Update-btn-text">Update Profile</span>
                     {isSaving && <div className="spinner-overlay">
                       <div className="small-spinner"></div>
@@ -1340,6 +1454,18 @@ const Editdoctorprofile = () => {
         handleLocationSelect={handleLocationSelect}
       />
     </>
+  );
+};
+
+const ToggleButton = ({ label, isChecked, onChange }) => {
+  return (
+    <div className="edop-toggle-container">
+      <label className="edop-toggle-switch">
+        <input type="checkbox" checked={isChecked} onChange={onChange} />
+        <span className="edop-slider"></span>
+      </label>
+      <span className="edop-toggle-label">{label}</span>
+    </div>
   );
 };
 

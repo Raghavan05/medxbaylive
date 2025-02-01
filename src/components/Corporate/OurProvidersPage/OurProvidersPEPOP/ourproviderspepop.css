@@ -195,6 +195,71 @@ form .our-providers-edit-popup-save-chnages:hover {
   transform: scale(1.05);
 }
 
+
+
+.our-providers-edop-toggle-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.our-providers-edop-toggle-label {
+  margin-top: -9px;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.our-providers-edop-toggle-note {
+  margin-left: 10px;
+  font-size: 10px;
+}
+
+.our-providers-edop-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.our-providers-edop-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.our-providers-edop-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.our-providers-edop-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .our-providers-edop-slider {
+  background-color: #00A8E8;
+}
+
+input:checked + .our-providers-edop-slider:before {
+  transform: translateX(20px);
+}
+
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
   .our-providers-edit-popup-content {

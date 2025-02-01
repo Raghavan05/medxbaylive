@@ -81,7 +81,7 @@ const Footer = () => {
             <Link to="/privacy" onClick={handleLinkClick}><li>Privacy Policy</li></Link>
 
    
-              <Link to="/terms" onClick={handleLinkClick}><li>Terms of Service</li></Link>
+              <Link to="https://medxbay.com/terms-and-conditions/" onClick={handleLinkClick}><li>Terms of Service</li></Link>
               <Link to="/contact-us" onClick={handleLinkClick}><li>Contact</li></Link>
             </ul>
           </div>

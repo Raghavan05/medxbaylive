@@ -145,9 +145,9 @@ const Filter = ({ onFilterChange, initialFilters }) => {
                 </div>
                 <div className="select-container-filter">
                     <div className="form-group">
-                        <label htmlFor="state">Province:</label>
+                        <label htmlFor="state">Province/State:</label>
                         <select id="state" onChange={handleInputChange} value={formData.state}>
-                            <option value="">Select Province</option>
+                            <option value="">Select</option>
                             {dropdownData.states.map(state => (
                                 <option key={state} value={state}>{state}</option>
                             ))}

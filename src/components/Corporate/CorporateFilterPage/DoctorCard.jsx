@@ -157,8 +157,10 @@ const DoctorCard = ({ isMapExpanded, corporate, location }) => {
                                 <h2>{corporate?.corporateName}</h2>
                             </Link>
                             <p className="speciality">{truncateDescription(corporate?.tagline + " ", 50)}</p>
-                            <p className="experience">{truncateDescription(corporate?.overview, 65)}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{corporate?.address?.country + " | " + corporate?.address?.state|| "Hospital "}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{corporate?.address?.country + " | " + corporate?.address?.state|| "Hospital"}</p>
+                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"About"}</p>
+                            {/* {!(corporate?.createdByAdmin === true && corporate?.profileTransferRequest !== "Accepted") ? "Hospital" : "About"} */}
+                            <p className="corporate-aboutMe">{truncateDescription(corporate?.overview, 100)}</p>
                             <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
 
                             </p>

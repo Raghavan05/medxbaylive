@@ -120,7 +120,7 @@ const OurBlogDc = ({blogs}) => {
     };
     return (
     <div className="OurBlogDc-blog-list-container">
-        <h2>Our Condition Libraries</h2>
+        <h2>Our Articles</h2>
         {blogs.length === 0 ? (
                 <div className="noDoctorsMessage">
                     <p>No doctors available at the moment.</p>

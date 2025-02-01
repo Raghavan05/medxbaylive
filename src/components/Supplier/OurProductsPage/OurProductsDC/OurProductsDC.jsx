@@ -139,9 +139,9 @@ const OurProductsDC = ({ products }) => {
       <div className="OurProductsDC-blogPage-Doctors-title-head">
         <h2>Our Products</h2>
         <div>
-          <button className="OurProductsDC-See-more-btn">
+          {/* <button className="OurProductsDC-See-more-btn">
             See more
-          </button>
+          </button> */}
         </div>
       </div>
 
