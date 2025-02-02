@@ -1,11 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import './CorporateDashboardpage.css';
+import './ViewInsights.css';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { RiArrowDownSLine } from "react-icons/ri";
 
 const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
-  // const [MyInsights, setMyInsights] = useState('This Month');
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
   const chartRef = useRef(null);
@@ -108,11 +107,11 @@ const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
 
   return (
     <>
-      <div className='Corporate-DBD-booking-header'>
-        <h2 className="Corporate-DBD-booking-title">Booking Rate</h2>
-        <div className="Corporate-DBD-select-container">
+      <div className='Corporate-DIS-booking-header'>
+        <h2 className="Corporate-DIS-booking-title">Booking Rate</h2>
+        <div className="Corporate-DIS-select-container">
           <select 
-            className='Corporate-DBD-recently'
+            className='Corporate-DIS-recently'
             value={MyInsights}
             onChange={(e) => setMyInsights(e.target.value)}
           >
@@ -121,16 +120,16 @@ const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
             <option>This Week</option>
             <option>This Year</option>
           </select>
-          <RiArrowDownSLine className="Corporate-DBD-arrow-icon-filter" />
+          <RiArrowDownSLine className="Corporate-DIS-arrow-icon-filter" />
         </div>
       </div>
-      <div className="Corporate-DBD-booking-area">
-        <div className="Corporate-DBD-rate">
-          <h1 className="Corporate-DBD-booking-number">{highestPercentage}%</h1>
-          <p className='Corporate-DBD-booking-description'>Your highest booking rate this week</p>
-          <p className="Corporate-DBD-increase">Your booking rate is 6% increase from the previous week</p>
+      <div className="Corporate-DIS-booking-area">
+        <div className="Corporate-DIS-rate">
+          <h1 className="Corporate-DIS-booking-number">{highestPercentage}%</h1>
+          <p className='Corporate-DIS-booking-description'>Your highest booking rate this week</p>
+          <p className="Corporate-DIS-increase">Your booking rate is 6% increase from the previous week</p>
         </div>
-        <div className="Corporate-DBD-chart">
+        <div className="Corporate-DIS-chart">
           <Bar ref={chartRef} data={data} options={options} />
         </div>
       </div>

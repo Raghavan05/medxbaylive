@@ -237,10 +237,14 @@ const ProviderProfile = () => {
 
         <div className="Provider-profile-body-buttons">
           <div className="Provider-profile-body-buttons-two">
+          {sessionStorage.getItem('userId') === doctor?._id ? (
             <button className="Edit-button" onClick={handleNavigateDoctorEditProfile}>
               <TbEdit size="1rem" /> Edit Profile
             </button>
-            {/* <button className="verify-button">Request To Verify</button> */}
+          ) : (
+            <button className="Edit-button" disabled={true}>Verified</button>
+          )
+          }
 
             <button
               className="verify-button"

@@ -1,28 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import './Corporatesidebar.css';
-import { FaBars } from 'react-icons/fa';
-import { PiStorefrontBold } from "react-icons/pi";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import { CgList } from "react-icons/cg";
-import { FiX } from 'react-icons/fi';
-import { RiInboxLine } from 'react-icons/ri';
-import { TbStar } from 'react-icons/tb';
-import { PiUserListBold } from "react-icons/pi";
-import { ImBlogger2 } from 'react-icons/im';
-import { RiLogoutCircleRLine } from 'react-icons/ri';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// Images for brand logo
 import brandLogo from '../../Assets/brand-logo.png';
-import Verifypopup from './Verifypopup';
 
-const Sidebar = () => {
+// Open and close sidebar icons
+import { FaBars } from 'react-icons/fa';
+import { FiX } from 'react-icons/fi';
+
+// Sidebar item icons
+import { BiSolidDashboard } from 'react-icons/bi';
+import { TbUserHexagon } from "react-icons/tb";
+import { RiLogoutCircleRLine } from 'react-icons/ri';
+
+
+// Using Link and useLocation for active and inactive states
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
+const Corporatesidebar = () => {
   const location = useLocation();
-  const [activeItem, setActiveItem] = useState(location.pathname);
+  const [activeItem, setActiveItem] = useState(localStorage.getItem('lastActiveItem') ||'/dashboard-main-page');
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
-  const [isVerified, setIsVerified] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [subscriptionType, setSubscriptionType] = useState('Free'); 
-  const [isTrialExpired, setIsTrialExpired] = useState(false); 
+
+  useEffect(() => {
+    const setActiveItemBasedOnRoute = () => {
+      let routeKey = location.pathname;
+      
+      if (routeKey.startsWith('/corporate/dashboardpage/corporate-view-doctors/view-insights') ||
+          routeKey.startsWith('/corporate/dashboardpage/corporate-view-doctors/view-bookings') ||
+          routeKey.startsWith('/corporate/dashboardpage/corporate-view-doctors/view-doctors-patients')
+        ) {
+        routeKey = '/corporate/dashboardpage/corporate-view-doctors'; // Ensuring the parent menu stays active
+      }
+  
+      console.log("Current Route:", location.pathname);
+      console.log("Active Route Key:", routeKey);
+  
+      setActiveItem(routeKey);
+      localStorage.setItem('lastActiveItem', routeKey);
+    };
+  
+    setActiveItemBasedOnRoute();
+  }, [location.pathname]);
+  
+  
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -36,44 +58,15 @@ const Sidebar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // const fetchDoctorDetails = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.REACT_APP_BASE_URL}/corporate/profile/update`,
-  //       { withCredentials: true }
-  //     );
-  //     const doctorData = response.data;
-  
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
-  //     if (doctorData.doctor.verified === 'Verified') {
-  //       setIsVerified(true);
-  //       setIsModalOpen(false); 
-  //     } else {
-  //       setIsVerified(false);
-  //       setIsModalOpen(true); 
-  //     }
+  const handleItemClick = (item) => {
+    setActiveItem(item);
+    localStorage.setItem('lastActiveItem', item);
+  };
   
-  //     const isSubscribed = doctorData.doctor.subscriptionType !== 'Free';
-  //     setSubscriptionType(doctorData.doctor.subscriptionType || 'Free'); 
-
-  //     const currentDate = new Date();
-  //     const trialEndDate = new Date(doctorData.doctor.trialEndDate);
-  //     const trialExpired = currentDate > trialEndDate;
-  
-  //     if (isSubscribed || !trialExpired) {
-  //       setIsTrialExpired(false);
-  //     } else {
-  //       setIsTrialExpired(true);
-  //       setIsModalOpen(true);
-  //     }
-  
-  //   } catch (error) {
-  //     console.error('Error fetching doctor details:', error);
-  //   }
-  // };
-  
-
-  const navigate = useNavigate();
   const handleLogout = () => {
     axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`, { withCredentials: true })
       .then(() => {
@@ -86,155 +79,74 @@ const Sidebar = () => {
       });
   };
 
-  useEffect(() => {
-    setActiveItem(location.pathname);
-    // fetchDoctorDetails();
-  }, [location.pathname]);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-  
-  // const handleClick = () => {
-  //   if (isTrialExpired) {
-  //     navigate('/SubscriptionPlans'); 
-  //   } else {
-  //     navigate('/edit/profile/doctor'); 
-  //   }
-  // };
-  // const handleClickProfile = () => {
-  //   if (isTrialExpired) {
-  //     navigate('/doc-profile'); 
-  //   }
-  // };
-
   return (
-    <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
-      <div className="logo-container">
+    <div className={`Corporate-DBD-sidebar ${isSidebarOpen ? 'Corporate-DBD-open' : 'Corporate-DBD-closed'}`}>
+      <div className="Corporate-DBD-logo-container">
         {isSidebarOpen ? (
           <>
-            <img src={brandLogo} alt="Logo" className="logo" />
-            <button className="toggle-button" onClick={toggleSidebar}>
-              <FaBars />
+            <img src={brandLogo} alt="Logo" className="Corporate-DBD-logo" />
+            <button className="Corporate-DBD-toggle-button" onClick={toggleSidebar}>
+              <FiX />
             </button>
           </>
         ) : (
-          <button className="toggle-button" onClick={toggleSidebar}>
-            <FiX />
+          <button className="Corporate-DBD-toggle-button" onClick={toggleSidebar}>
+            <FaBars />
           </button>
         )}
       </div>
-      <ul className={`sidebar-menu ${
-        // !isVerified || isTrialExpired? 'disabled' : 
-        ''}`}>
-        <li className={`menu-item ${activeItem === '/corporate/dashboardpage/CorporateDashboardPage' ? 'active' : ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/CorporateDashboardPage')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
+      <ul className="Corporate-DBD-sidebar-menu">
+        <li 
+          className={`Corporate-DBD-menu-item ${activeItem === '/corporate/dashboardpage/dashboard-main-page' ? 'Corporate-DBD-active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/dashboard-main-page')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/dashboard-main-page')}
+          onClick={() => handleItemClick('/corporate/dashboardpage/dashboard-main-page')}
         >
-          <Link to={
-            // isVerified && !isTrialExpired? 
-            "/corporate/dashboardpage/CorporateDashboardPage" 
-            // : "#"
-            } 
-            className="menu-link">
-            <div className="sidebar-icon"><PiStorefrontBold size='1.1rem' /></div>
+          <Link to="/corporate/dashboardpage/dashboard-main-page" className="Corporate-DBD-menu-link">
+            <div className="Corporate-DBD-sidebar-icon"><BiSolidDashboard /></div>
             <span>Dashboard</span>
           </Link>
         </li>
-        <li className={`menu-item ${activeItem === '/corporate/dashboardpage/manage' ? 'active' : ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/manage')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
+
+        <li 
+          className={`Corporate-DBD-menu-item ${activeItem === '/corporate/dashboardpage/corporate-view-doctors' ? 'Corporate-DBD-active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/corporate-view-doctors')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/dashboard-main-page')}
+          onClick={() => handleItemClick('/corporate/dashboardpage/corporate-view-doctors')}
         >
-          <Link to={
-            // isVerified && !isTrialExpired ? 
-            "/corporate/dashboardpage/manage" 
-            // : "#"
-          }
-             className="menu-link">
-            <div className="sidebar-icon"><CgList /></div>
-            <span>My Appointments</span>
+          <Link to="/corporate/dashboardpage/corporate-view-doctors" className="Corporate-DBD-menu-link">
+            <div className="Corporate-DBD-sidebar-icon"><TbUserHexagon /></div>
+            <span>View Doctors</span>
           </Link>
         </li>
-        {/* Other menu items */}
-        <li className={`menu-item ${activeItem === '/corporate/dashboardpage/patient' ? 'active' : ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/patient')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
+
+        <li 
+          className={`Corporate-DBD-menu-item ${activeItem === '/corporate/dashboardpage/create-doctors' ? 'Corporate-DBD-active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/create-doctors')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/dashboard-main-page')}
+          onClick={() => handleItemClick('/corporate/dashboardpage/create-doctors')}
         >
-          <Link to={
-            // isVerified && !isTrialExpired ? 
-            "/corporate/dashboardpage/patient" 
-            // : "#"
-          } 
-            className="menu-link">
-            <div className="sidebar-icon"><PiUserListBold /></div>
-            <span>My Patient</span>
+          <Link to="/corporate/dashboardpage/create-doctors" className="Corporate-DBD-menu-link">
+            <div className="Corporate-DBD-sidebar-icon"><TbUserHexagon /></div>
+            <span>Create Doctors</span>
           </Link>
         </li>
-        {/* <li className={`menu-item ${activeItem === '/corporate/dashboardpage/inbox' ? 'active' : ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/inbox')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
+
+     
+        <li 
+          className={`Corporate-DBD-menu-item ${activeItem === '/corporate/dashboardpage/logout' ? 'Corporate-DBD-active' : ''}`} 
+          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/logout')}
+          onMouseLeave={() => setActiveItem(localStorage.getItem('lastActiveItem') || '/dashboard-main-page')}
+         
         >
-          <Link to={isVerified  && !isTrialExpired? "/corporate/dashboardpage/inbox" : "#"} className="menu-link">
-            <div className="sidebar-icon"><RiInboxLine /></div>
-            <span>Inbox</span>
-          </Link>
-        </li> */}
-        <li className={`menu-item ${activeItem === '/corporate/dashboardpage/reviews' ? 'active' : ''} ${
-          // subscriptionType === 'Free' ? 'disabled' : 
-          ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/reviews')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
-        >
-          <Link to={
-            // subscriptionType !== 'Free' && !isTrialExpired ? 
-            "/corporate/dashboardpage/reviews" 
-            // : "#"
-          }
-             className="menu-link">
-          <div className="sidebar-icon"><TbStar /></div>
-            <span>Reviews</span>
-          </Link>
-        </li>
-        {/* <li className={`menu-item ${activeItem === '/corporate/dashboardpage/blog' ? 'active' : ''} ${subscriptionType === 'Free' ? 'disabled' : ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/blog')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
-        >
-          <Link to={subscriptionType !== 'Free' && !isTrialExpired? "/corporate/dashboardpage/blog" : "#"} className="menu-link">
-            <div className="sidebar-icon"><ImBlogger2 /></div>
-            <span>Blog</span>
-          </Link>
-        </li> */}
-        <li className={`menu-item ${activeItem === '/corporate/dashboardpage/Logout' ? 'active' : ''}`}
-          onMouseEnter={() => setActiveItem('/corporate/dashboardpage/Logout')}
-          onMouseLeave={() => setActiveItem(location.pathname)}
-        >
-          <Link onClick={handleLogout} className="menu-link">
-            <div className="sidebar-icon"><RiLogoutCircleRLine /></div>
+          <Link onClick={handleLogout} className="Corporate-DBD-menu-link">
+            <div className="Corporate-DBD-sidebar-icon"><RiLogoutCircleRLine /></div>
             <span>Logout</span>
           </Link>
         </li>
       </ul>
-      {/* <Verifypopup isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className='verify-popup-doctor'>
-          <h1>{isTrialExpired ? '🔔 Trial Expired' : '🛸 Welcome to Medxbay!'}</h1>
-          <p>{isTrialExpired ? 'Your trial period has ended.' : 'You’re almost there! 🌟'}</p>
-          <p>{isTrialExpired ? 'Please upgrade to continue using our platform.' : 'Just a few quick details and you’ll unlock your full dashboard.'}</p>
-          <div className='row '>
-          <button className="submitbtn" onClick={handleClick}>
-      {isTrialExpired ? 'Upgrade Now' : 'Enter Details'}
-    </button>
-    {isTrialExpired && (
-    <button className="submitbtn-trial" onClick={handleClickProfile}>
-     Edit Profile
-
-    </button>
-    )}
-    </div>
-        </div>
-      </Verifypopup>  */}
     </div>
   );
 };
 
-export default Sidebar;
-
+export default Corporatesidebar;

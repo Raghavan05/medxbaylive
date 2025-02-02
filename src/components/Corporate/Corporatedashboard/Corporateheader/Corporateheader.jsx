@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
 import './Corporateheader.css'
-import { SlBell } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { FaArrowRightToBracket } from "react-icons/fa6";
 import profilePlaceholder from '../../Assets/profileimg.png';
 const Corporateheader = () => {
   const [profileImage, setProfileImage] = useState(profilePlaceholder);
 
   return (
     <>
-        <header className="header-head">
-        <div className="home-return">
-         <Link to='https://medxbay.com' className="text-home-return">Home</Link>
+        <header className="Corporate-DBD-header-head">
+        <div className="Corporate-DBD-home-return">
+         <Link to='https://medxbay.com' className="Corporate-DBD-text-home-return">Home</Link>
         </div>
-        <div className='dashboard-setting-bell'>
-          <button type="button" className="nav-notification-button">
-            <SlBell className='notification-icon'/>
-          </button>
+        <div className="Corporate-DBD-home-return">
+         <Link to='/OurProviders' className="Corporate-DBD-text-home-return d-flex "><FaArrowRightToBracket size="1.2rem"/> 
+         <p className='ml-2'>Back to profile</p>
+         </Link>
+         
         </div>
-        <div className="profile-container">
-          <div className="image-container">
+        <div className="Corporate-DBD-profile-container">
+          <div className="Corporate-DBD-image-container">
             <img src={profileImage} alt="Profile"/>
           </div>
         </div>

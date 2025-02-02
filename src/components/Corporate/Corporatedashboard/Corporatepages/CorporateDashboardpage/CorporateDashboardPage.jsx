@@ -59,18 +59,18 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className='admin-main-dashboard-page'>
-      <h2 className='admin-heading-dashboard-page'>Dashboard</h2>
-      <div className='admin-dashboard-scoll-head'>
-        <div className='admin-dashboard-gird-layout'>
+    <div className='Corporate-DBD-main-dashboard-page'>
+      <h2 className='Corporate-DBD-heading-dashboard-page'>Dashboard</h2>
+      <div className='Corporate-DBD-scoll-head'>
+        <div className='Corporate-DBD-gird-layout'>
 
           {/* My Insights */}
-          <div className="admin-insight-patient">
-            <div className='admin-dashboard-head-common'>
+          <div className="Corporate-DBD-insight-patient">
+            <div className='Corporate-DBD-head-common'>
               <p>My Insights</p>
-              <div className="admin-select-container">
+              <div className="Corporate-DBD-select-container">
                 <select
-                  className="admin-select-box-common"
+                  className="Corporate-DBD-select-box-common"
                   value={MyInsights}
                   onChange={(e) => setMyInsights(e.target.value)}
                 >
@@ -78,36 +78,36 @@ const DashboardPage = () => {
                   <option value="This Week">This Week</option>
                   <option value="This Year">This Year</option>
                 </select>
-                <RiArrowDownSLine className="arrow-icon-filter" />
+                <RiArrowDownSLine className="Corporate-DBD-arrow-icon-filter" />
               </div>
             </div>
 
             {/* Insight Items */}
-            <div className="admin-insight-item">
-              <div className="admin-insight-img-container admin-blue-color">
-                <img src={Newpatient} alt="New Patients" className='admin-image-insight' />
+            <div className="Corporate-DBD-insight-item">
+              <div className="Corporate-DBD-insight-img-container    Corporate-DBD-blue-color">
+                <img src={Newpatient} alt="New Patients" className='Corporate-DBD-image-insight' />
               </div>
-              <div className="admin-insight-info">
+              <div className="Corporate-DBD-insight-info">
                 <h4>New Patients</h4>
                 <p>{dashboardData.totalPatients}</p>
               </div>
             </div>
 
-            <div className="admin-insight-item">
-              <div className="admin-insight-img-container admin-dark-blue-color">
-                <CiClock2 className='admin-image-insight text-light' />
+            <div className="Corporate-DBD-insight-item">
+              <div className="Corporate-DBD-insight-img-container   Corporate-DBD-dark-blue-color">
+                <CiClock2 className='Corporate-DBD-image-insight text-light' />
               </div>
-              <div className="admin-insight-info">
+              <div className="Corporate-DBD-insight-info">
                 <h4>Pending Requests</h4>
                 <p>{dashboardData.blogsPendingRequest}</p>
               </div>
             </div>
 
-            <div className="admin-insight-item">
-              <div className="admin-insight-img-container admin-green-color">
-                <RiListView className='admin-image-insight text-light' />
+            <div className="Corporate-DBD-insight-item">
+              <div className="Corporate-DBD-insight-img-container Corporate-DBD-green-color">
+                <RiListView className='Corporate-DBD-image-insight text-light' />
               </div>
-              <div className="admin-insight-info">
+              <div className="Corporate-DBD-insight-info">
                 <h4>Appointments</h4>
                 <p>{dashboardData.totalConsultations}</p>
               </div>
@@ -115,17 +115,17 @@ const DashboardPage = () => {
           </div>
 
           {/* Your Income */}
-          <div className="admin-income-head">
+          <div className="Corporate-DBD-income-head">
             <Yourincome />
           </div>
 
           {/* My Blogs */}
-          <div className="admin-dashboard-blogs-patient">
-            <div className='admin-dashboard-head-common'>
-              <p>My Blogs</p>
-              <div className="admin-select-container">
+          <div className="Corporate-DBD-blogs-patient">
+            <div className='Corporate-DBD-head-common'>
+              <p>My Articles</p>
+              <div className="Corporate-DBD-select-container">
                 <select
-                  className="admin-select-box-common"
+                  className="Corporate-DBD-select-box-common"
                   value={blogtimePeriod}
                   onChange={(e) => setBlogtimePeriod(e.target.value)}
                 >
@@ -133,66 +133,66 @@ const DashboardPage = () => {
                   <option value="This Week">This Week</option>
                   <option value="This Year">This Year</option>
                 </select>
-                <RiArrowDownSLine className="admin-arrow-icon-filter" />
+                <RiArrowDownSLine className="Corporate-DBD-arrow-icon-filter" />
               </div>
             </div>
 
             {/* Blog Items */}
-            <div className="admin-dashboard-blogs-item">
-              <div className="admin-blog-img-container admin-dark-blue-color">
-                <TbBrandBlogger className='admin-dashboard-image-blogs text-light' />
+            <div className="Corporate-DBD-blogs-item">
+              <div className="Corporate-DBD-blog-img-container Corporate-DBD-dark-blue-color">
+                <TbBrandBlogger className='Corporate-DBD-dashboard-image-blogs text-light' />
               </div>
-              <div className="admin-dashboard-blogs-info">
-                <h4>Total Blogs</h4>
+              <div className="Corporate-DBD-blogs-info">
+                <h4>Total Articles</h4>
                 <p>{dashboardData.totalBlogs}</p>
               </div>
             </div>
 
-            <div className="admin-dashboard-blogs-item">
-              <div className="admin-blog-img-container admin-orange-color">
-                <MdOutlinePendingActions className='admin-dashboard-image-blogs text-light' />
+            <div className="Corporate-DBD-blogs-item">
+              <div className="Corporate-DBD-blog-img-container Corporate-DBD-orange-color">
+                <MdOutlinePendingActions className='Corporate-DBD-dashboard-image-blogs text-light' />
               </div>
-              <div className="admin-dashboard-blogs-info">
-                <h4>Pending Blogs</h4>
+              <div className="Corporate-DBD-blogs-info">
+                <h4>Pending Articles</h4>
                 <p>{dashboardData.blogsPendingRequest}</p>
               </div>
             </div>
 
-            <div className="admin-dashboard-blogs-item">
-              <div className="admin-blog-img-container admin-green-color">
-                <img src={experience} className='admin-dashboard-blog-image' alt="Verified Blogs" />
+            <div className="Corporate-DBD-blogs-item">
+              <div className="Corporate-DBD-blog-img-container Corporate-DBD-green-color">
+                <img src={experience} className='Corporate-DBD-blog-image' alt="Verified Blogs" />
               </div>
-              <div className="admin-dashboard-blogs-info">
-                <h4>Verified Blogs</h4>
+              <div className="Corporate-DBD-blogs-info">
+                <h4>Verified Articles</h4>
                 <p>{dashboardData.blogsVerified}</p>
               </div>
             </div>
           </div>
 
           {/* Consultation */}
-          <div className="admin-consultation">
-            <div className='admin-consultation-coverarea'>
-              <div className='admin-consultation-info'>
-                <p className='admin-consultation-count'>{dashboardData.totalConsultations}+</p>
-                <p className='admin-consultation-label'>Consultations</p>
+          <div className="Corporate-DBD-consultation">
+            <div className='Corporate-DBD-consultation-coverarea'>
+              <div className='Corporate-DBD-consultation-info'>
+                <p className='Corporate-DBD-consultation-count'>{dashboardData.totalConsultations}+</p>
+                <p className='Corporate-DBD-consultation-label'>Consultations</p>
               </div>
-              <img src={consultationimg} className='admin-consultation-img' alt="Consultation" />
+              <img src={consultationimg} className='Corporate-DBD-consultation-img' alt="Consultation" />
             </div>
           </div>
 
           {/* Reviews */}
-          <div className="admin-reviews">
-            <div className='admin-reviews-coverarea'>
-              <div className='admin-reviews-info'>
-                <h2 className='admin-reviews-count'>{dashboardData.totalReviews}+</h2>
-                <p className='admin-reviews-label'>Patient Reviews</p>
+          <div className="Corporate-DBD-reviews">
+            <div className='Corporate-DBD-reviews-coverarea'>
+              <div className='Corporate-DBD-reviews-info'>
+                <h2 className='Corporate-DBD-reviews-count'>{dashboardData.totalReviews}+</h2>
+                <p className='Corporate-DBD-reviews-label'>Patient Reviews</p>
               </div>
-              <img src={reviewsImg} className='admin-reviews-img' alt="Reviews" />
+              <img src={reviewsImg} className='Corporate-DBD-reviews-img' alt="Reviews" />
             </div>
           </div>
 
           {/* Booking Rate */}
-          <div className="admin-booking-rate">
+          <div className="Corporate-DBD-booking-rate">
             <BookingRate 
               bookingRates={bookingRatesCount} 
               MyInsights={MyInsights}

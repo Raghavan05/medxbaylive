@@ -1,4 +1,4 @@
-.header-head {
+.Corporate-DBD-header-head {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -8,40 +8,7 @@
     padding: 1.2rem 3rem 10px 1.5rem;
 }
 
-/* .header-head .search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #F3F6FF;
-    padding: 5px;
-    border-radius: 20px 5px 20px 5px;
-    width: 280px;
-    height: 50px;
-    transition: width 0.3s ease;
-}
-
-.header-head .search-bar input::placeholder {
-    color: #7979B2;
-}
-
-.search-bar input {
-    border: none;
-    background: none;
-    outline: none;
-    color: #7979B2;
-    width: 80%;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19.2px;    
-}
-
-.header-head .search-bar .icon-style {
-    color: #42427D;
-    width: 18.01px;
-    height: 18.01px;
-} */
-
-.header-head .home-return{
+.Corporate-DBD-header-head .Corporate-DBD-home-return {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,135 +17,71 @@
     border-radius: 20px 5px 20px 5px;
     height: 50px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.header-head .home-return .text-home-return{
+.Corporate-DBD-header-head .Corporate-DBD-home-return .Corporate-DBD-text-home-return {
     color: #7979B2;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 19.2px;
     text-decoration: none;
+    transition: color 0.3s ease; 
 }
 
-.dashboard-setting-bell{
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px 5px 20px 5px;
-    background: #F3F6FF;
+.Corporate-DBD-header-head .Corporate-DBD-home-return:hover .Corporate-DBD-text-home-return {
+    color: #262744; /* Change the color of the icon when the parent div is hovered */
 }
-  
-/* .nav-notification-button {
-    background: none;
-    border: none;
-    position: relative;
-}
-  
-.nav-notification-button::after {
-    position: absolute;
-    content: '';
-    top: -22px;
-    left:22px;
-    width: 23.38px;
-    height: 23.38px;
-    border-radius:50%;
-    background: #42427D;
-    border: 5px solid #FFFFFF;
-}
-  
-.notification-icon{
-    color: #42427D;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 16px;
-    height: 18px;
-} */
 
-.profile-container {
+.Corporate-DBD-header-head .Corporate-DBD-home-return .Corporate-DBD-text-home-return:hover {
+    color: #262744; /* Also change icon color when the link itself is hovered */
+}
+
+.Corporate-DBD-header-head .Corporate-DBD-home-return  p{
+    margin: 0 5px;
+}
+
+
+.Corporate-DBD-profile-container {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
 
-.profile-container .image-container {
+.Corporate-DBD-profile-container .Corporate-DBD-image-container {
     width: 50px;
     height: 50px;
     border-radius: 20px 5px 20px 5px;
     overflow: hidden;
 }
 
-.profile-container .image-container img {
+.Corporate-DBD-profile-container .Corporate-DBD-image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 /* Responsive Styles */
-
-@media (max-width: 1200px) {
-    .header-head .search-bar {
-        width: 250px;
-    }
-}
-
 @media (max-width: 992px) {
-    .header-head {
+    .Corporate-DBD-header-head {
         justify-content: flex-end;
-    }
-
-    .header-head .search-bar {
-        width: 220px;
     }
 }
 
 @media (max-width: 768px) {
-    .header-head {
+    .Corporate-DBD-header-head {
         padding: 20px 30px;
     }
 }
 
 @media (max-width: 576px) {
-    .header-head {
+    .Corporate-DBD-header-head {
         padding: 20px 10px;
     }
 
-    .header-head .search-bar {
-        width: 80%;
-        height: 45px;
-        border-radius: 5px 15px 5px 15px;
-        padding:1px ;
-    }
 
-    .search-bar input {
-        font-size: 12px;   
-    }
-
-    .header-head .search-bar .icon-style {
-        color: #42427D;
-        width: 16.1px;
-        height: 16.1px;
-    }
-
-    .profile-container {
-        width: 50%;
-    }
-
-    .profile-container .icons-container {
-        gap: 10px;
-    }
-
-    .profile-container .icon-container {
-        width: 45px;
-        height: 45px;
-        border-radius:50%;
-    }
-
-    .profile-container .image-container {
+    .profile-container .Corporate-DBD-image-container {
         width: 50px !important;
         height: 50px !important;
         border-radius:20px 5px 20px 5px;
@@ -186,42 +89,13 @@
 }
 
 @media (max-width: 380px) {
-    .header-head .search-bar {
-        width: 100%;
-        height: 40px;
-    }
-    .search-bar input {
-        font-size: 10px;  
-    }
-
-    .profile-container .icon-container {
-        width: 40px;
-        height: 40px;
-    }
-
-    .profile-container .image-container {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-/*min small view so not important just responsive in small view  */
-@media (max-width: 340px) {
-    .header-head .search-bar {
-        width: 100%;
-        height: 35px;
-    }
-    .search-bar input {
-        font-size: 8px;  
-    }
-
-    .profile-container .icon-container {
-        width: 40px;
-        height: 40px;
-    }
-
-    .profile-container .image-container {
-        width: 40px;
-        height: 40px;
+    .Corporate-DBD-header-head {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-top-right-radius: 30px;
+        border-top-left-radius: 30px;
+        padding:1.5rem;
     }
 }

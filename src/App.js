@@ -112,7 +112,7 @@ function App() {
           {/* Corporate */}
           <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
           <Route path="/OurProviders/:corporateId" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
-          <Route path="/corporate/dashboardpage/*" element={[<Corporateroute/>,<Footer/>]} />
+          <Route path="/corporate/dashboardpage/*" element={<Corporateroute/>} />
           <Route path="/corporate/Filters" element={[<Nestednavbar/>,<CorporateFilter />,<Footer/>]} />
 
           {/* Suppliers */}

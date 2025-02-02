@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './CorporateDashboardpage.css';
+import './ViewInsights.css';
 import { Chart } from 'chart.js/auto';
 import { RiArrowDownSLine } from "react-icons/ri";
 
@@ -92,22 +92,22 @@ const YourIncome = () => {
 
   return (
     <>
-       <div className="Corporate-DBD-income-content">
-        <div className='Corporate-DBD-head-common'>
+       <div className="Corporate-DIS-income-content">
+        <div className='Corporate-DIS-head-common'>
           <p>Your Income</p>
-          <div className="Corporate-DBD-income-select-container">
-            <select className="Corporate-DBD-income-select-box-common">
+          <div className="Corporate-DIS-income-select-container">
+            <select className="Corporate-DIS-income-select-box-common">
               <option>This Month</option>
               <option>This Week</option>
               <option>This Year</option>
             </select>
-            <RiArrowDownSLine className="Corporate-DBD-income-down-arrow-icon" />
+            <RiArrowDownSLine className="Corporate-DIS-income-down-arrow-icon" />
           </div>
         </div>
-        <div className="Corporate-DBD-income-chart-area">
+        <div className="Corporate-DIS-income-chart-area">
           <canvas ref={chartRef} id="incomeChart"></canvas>
         </div>
-        <div className="Corporate-DBD-income-coming-soon-overlay">Coming Soon</div>
+        <div className="Corporate-DIS-income-coming-soon-overlay">Coming Soon</div>
       </div>
     </>
   );

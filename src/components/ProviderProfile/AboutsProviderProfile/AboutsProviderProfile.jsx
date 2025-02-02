@@ -38,12 +38,12 @@ const AboutsProviderProfile = ({doctor}) => {
 
         <div className="providers-profile-about-date-country-container">
           <FaCalendar className="providers-profile-about-about-icons-all"/>
-          <p>
+          {/* <p>
             {doctor?.dateOfBirth
               ? new Intl.DateTimeFormat("en-US", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(doctor.dateOfBirth))
               : "No date of birth available"}
-          </p>
-          {/* <p>{doctor?.dateOfBirth ? moment(doctor.dateOfBirth).format("DD MMM YYYY") : "N/A"}</p> */}
+          </p> */}
+          <p>{doctor?.dateOfBirth ? moment(doctor.dateOfBirth).format("DD MMM YYYY") : "No dob available"}</p>
           <span className="providers-profile-about-one-line"></span>
           <FaMapMarkerAlt className="providers-profile-about-about-icons-all"/>
           <p>{doctor?.country || "No location available"}</p>
@@ -91,7 +91,7 @@ const AboutsProviderProfile = ({doctor}) => {
                 alt=""
                 style={{ width: '16px', height: '16px' }} // Adjust size as needed
               />
-              <span style={{ marginLeft: '5px', fontWeight: '500', color: '#4B5563' }}>
+              <span style={{ marginRight: '5px', marginLeft: '5px', fontWeight: '500', color: '#4B5563' }}>
                 {language || "No languages available"}
               </span>
               <span className="providers-profile-about-one-line"></span>
