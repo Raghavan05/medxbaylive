@@ -23,7 +23,7 @@ import iconnotshowing from "../Assets/iconnotshowing.png";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const OverviewActivityProducts = ({overviewData,productCategories}) => {
+const OverviewActivityProducts = ({supplier, overviewData, productCategories}) => {
   // Initial Data
   const initialSpecialties = [
     { name: "Medical Equipment" },
@@ -168,6 +168,8 @@ const OverviewActivityProducts = ({overviewData,productCategories}) => {
       </div>
 
       {/* Condition Libraries */}
+      {supplier.showConditionLibrary && (
+
       <div className="our-products-activity-container">
         <div className="our-products-activity-flex-head">
           <h2>Our Articles</h2>
@@ -200,6 +202,7 @@ const OverviewActivityProducts = ({overviewData,productCategories}) => {
           ))}
         </div>
       </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (

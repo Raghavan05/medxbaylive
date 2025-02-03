@@ -57,7 +57,7 @@ const Sidebar = () => {
       setSubscriptionType(doctorData.doctor.subscriptionType || 'Free'); 
 
       const currentDate = new Date();
-      const trialEndDate = new Date(doctorData.doctor.trialEndDate);
+      const trialEndDate = new Date(doctorData?.doctor?.trialEndDate);
       const trialExpired = currentDate > trialEndDate;
   
       if (isSubscribed || !trialExpired) {
@@ -104,7 +104,7 @@ const Sidebar = () => {
   };
   const handleClickProfile = () => {
     if (isTrialExpired) {
-      navigate('/doc-profile'); 
+      navigate('/edit/profile/doctor'); 
     }
   };
 
@@ -199,7 +199,7 @@ const Sidebar = () => {
           </Link>
         </li>
       </ul>
-      <Verifypopup isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      {/* <Verifypopup isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className='verify-popup-doctor'>
           <h1>{isTrialExpired ? '🔔 Trial Expired' : '🛸 Welcome to Medxbay!'}</h1>
           <p>{isTrialExpired ? 'Your trial period has ended.' : 'You’re almost there! 🌟'}</p>
@@ -216,7 +216,7 @@ const Sidebar = () => {
     )}
     </div>
         </div>
-      </Verifypopup> 
+      </Verifypopup>  */}
     </div>
   );
 };

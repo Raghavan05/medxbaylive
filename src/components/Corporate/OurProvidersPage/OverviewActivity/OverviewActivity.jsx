@@ -14,7 +14,7 @@ import Ellipse from "../Assets/Ellipse 4153.png";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const OverviewActivity = ({ overviewData, corporateSpecialties ,corporateId}) => {
+const OverviewActivity = ({corporate, overviewData, corporateSpecialties ,corporateId}) => {
 
   const posts = [
     {
@@ -152,6 +152,7 @@ const OverviewActivity = ({ overviewData, corporateSpecialties ,corporateId}) =>
       </div>
 
       {/* Condition Libraries */}
+      {corporate.showConditionLibrary && (
       <div className="our-providers-activity-container">
         <div className="our-providers-activity-flex-head">
           <h2>Our Articles</h2>
@@ -184,6 +185,7 @@ const OverviewActivity = ({ overviewData, corporateSpecialties ,corporateId}) =>
           ))}
         </div>
       </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (

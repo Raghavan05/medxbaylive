@@ -49,7 +49,7 @@ const Condition = ({ blogs }) => {
             ) : (
                 <div className="ProductsCondition-blog-cards">
                     {blogs.map((blog) => (
-                        <div key={blog.id} className="ProductsCondition-blog-card">
+                        <div key={blog._id} className="ProductsCondition-blog-card">
                             <img
                                 src={getProfileImage(blog.image)}
                                 alt="Blog"

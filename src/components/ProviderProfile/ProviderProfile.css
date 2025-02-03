@@ -315,7 +315,95 @@
 .scroll-lock {
     overflow: hidden;
 }
+.Provider-profile-preview-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
   
+  .Provider-profile-cover-preview {
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .Provider-profile-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .Provider-profile-confirm-btn, .Provider-profile-cancel-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .Provider-profile-confirm-btn {
+    background: #007bff;
+    color: white;
+  }
+  
+  .Provider-profile-cancel-btn {
+    background: #FF7F50;
+    color: white;
+  }
+  
+  .Provider-profile-savebutton {
+    position: relative;  /* Make the button a positioning context */
+    border-radius: 5px;
+    background: #2489FF;
+    color: white;
+    padding: 8px 30px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .Provider-profile-savebutton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .Provider-profile-savebutton-text {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+  
+  /* Spinner overlay */
+  .Provider-profile-spinner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);  /* Optional: Semi-transparent background */
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;  /* Match button's border radius */
+  }
+  
+  /* Small spinner style */
+  .Provider-profile-small-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
 @media (max-width: 1440px) and (min-width: 1301px) {
 
     .Provider-profile-container {

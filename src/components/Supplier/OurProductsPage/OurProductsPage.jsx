@@ -22,7 +22,9 @@ import OverviewActivityProducts from './OverviewActivityProducts/OverviewActivit
 import OurProductsDC from './OurProductsDC/OurProductsDC';
 import ReviewPageProducts from './ReviewPageProducts/ReviewPageProducts';
 import Condition from './Condition/Condition';
+import MessagePEPOP from './MessagePEPOP/MessagePEPOP';
 import axios from 'axios';
+
 import BlogPopup from '../../patientBlog/BlogPopup';
 import OurProductsSharePopup from './OurProductsSharePopup/OurProductsSharePopup'
 import { Link, useParams } from 'react-router-dom';
@@ -149,9 +151,19 @@ const OurProductsPage = () => {
   //Popup logic
   const [tempProfileData, setTempProfileData] = useState(profileData);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [isPopupVisible, setIsPopupVisible] = useState(false); // Add popup state
+  const [isEditMessagePopupOpen, setIsEditMessagePopupOpen] = useState(false); // Add popup state
   const [isSharePopupVisible, setIsSharePopupVisible] = useState(false); // State for share popup
 
+  // Message Popup logic    
+  const handleShowEditMessagePopup = () => {
+    setIsEditMessagePopupOpen(true);
+    document.body.classList.add('scroll-lock');
+  };
+
+  const closeEditMessagePopup = () => {
+    setIsEditMessagePopupOpen(false);
+    document.body.classList.remove('scroll-lock');
+  };
 
   const openEditPopup = () => {
     setTempProfileData(profileData);
@@ -162,14 +174,6 @@ const OurProductsPage = () => {
   const closeEditPopup = () => {
     setIsEditPopupOpen(false);
     document.body.classList.remove('scroll-lock');
-  };
-
-  const handleShowPopup = () => {
-    setIsPopupVisible(true);
-  };
-
-  const handleClosePopup = () => {
-    setIsPopupVisible(false);
   };
 
   const handleShareClick = () => {
@@ -274,7 +278,16 @@ const OurProductsPage = () => {
               <Link to={'https://medxbay.com/social/'} target='_blank'>
                 <button className="follow-button" ><img src={network} alt='social media'/> Social</button>
               </Link>
-            <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem' /> Message</button>
+
+              <button className="message-button" onClick={handleShowEditMessagePopup}>
+                <PiPaperPlaneTiltBold size='1rem' /> Message
+              </button> 
+              {isEditMessagePopupOpen && (
+                <MessagePEPOP
+                  closeEditMessagePopup={closeEditMessagePopup}
+                  supplierId = {supplier?._id}
+                />
+              )}
             <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
               <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
             </div>
@@ -316,7 +329,7 @@ const OurProductsPage = () => {
                 onClick={openClaimPopup}
               >Claim Profile!</button>
             ) : (
-              <Link to={'/supplier/Filters'}>
+              <Link to={'/contact-us'}>
                 <button className={`appointment-button `} >Book Appointment</button>
               </Link>
             )}
@@ -327,19 +340,17 @@ const OurProductsPage = () => {
           supplierId={supplier._id}
           handleCloseClaimPopup={handleCloseClaimPopup} />
       )}
-      <OverviewActivityProducts overviewData={supplier.overview} productCategories={supplier.productCategories} supplierId = {supplier._id}/>
+      <OverviewActivityProducts supplier={supplier} overviewData={supplier.overview} productCategories={supplier.productCategories} supplierId = {supplier._id}/>
       {supplier.showProducts && (
         <OurProductsDC products={products} />
       )}
             {supplier.showReviews && (
       <ReviewPageProducts review={supplier.reviews} />
     )}
-        {supplier.showConditionLibrary && (
+        {/* {supplier.showConditionLibrary && (
       <Condition blogs={blogs} />
-    )}
+    )} */}
 
-
-      <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProductsSharePopup name={supplier.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
 
     </div>

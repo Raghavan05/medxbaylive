@@ -42,6 +42,15 @@ const ProviderProfile = () => {
     email: 'hirushit8@gmail.com',
     profileImage: profileHolder,
   };
+  const bufferToBase64 = (buffer) => {
+    if (buffer?.type === 'Buffer' && Array.isArray(buffer?.data)) {
+      const bytes = new Uint8Array(buffer.data);
+      let binary = '';
+      bytes.forEach(byte => binary += String.fromCharCode(byte));
+      return `data:image/jpeg;base64,${btoa(binary)}`;
+    }
+    return '';
+  };
 
   const fetchDoctorDetails = async () => {
     try {
@@ -55,7 +64,7 @@ const ProviderProfile = () => {
         ? `data:image/jpeg;base64,${formData.profilePicture.data}`
         : profileHolder;
       const coverProfileImageData = formData?.coverPhoto
-        ? `data:image/jpeg;base64,${formData.coverPhoto.data}`
+        ? `data:image/jpeg;base64,${formData?.coverPhoto.data}`
         : profileHolder;
       setProfileimage(profileImageData);
       setCoverProfileimage(coverProfileImageData);
@@ -161,21 +170,71 @@ const ProviderProfile = () => {
   };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+
   const dropdownRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  //Cover-image-Handle the image change
+  // Handle file selection
   const handleChangeCoverimage = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setBackgroundImage(reader.result);
+      reader.onloadend = () => {
+        setBackgroundImage(reader.result);
+        setShowPreview(true); // Show preview only when selecting an image
+      };
       reader.readAsDataURL(file);
+      setSelectedFile(file);
     }
   };
 
-  //Cover-image-Handle the file input click 
-  const handleEditClick = () => fileInputRef.current.click();
+  // Handle file input click
+  const handleEditClick = () => {
+    fileInputRef.current.click();
+  };
+
+
+  // Handle cover photo upload
+  const handleConfirmUpload = async () => {
+    if (!selectedFile) return;
+    setIsSaving(true);
+
+    const formData = new FormData();
+    formData.append("coverPhoto", selectedFile);
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/doctor/profile/upload-cover`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
+      if (response.status === 200) {
+        alert("Cover photo updated successfully");
+        setCoverProfileimage(backgroundImage); // Update cover image in UI
+        setBackgroundImage(null);
+        setShowPreview(false); // Hide preview
+        setSelectedFile(null);
+        setIsSaving(false);
+        fetchDoctorDetails();
+      }
+    } catch (error) {
+      console.error("Error uploading cover photo:", error);
+      setIsSaving(false);
+    }
+  };
+
+  // Handle cancel action
+  const handleCancel = () => {
+    setBackgroundImage(null);
+    setShowPreview(false); // Hide preview
+    setSelectedFile(null);
+  };
 
   //ToggleDropdown function
   const toggleDropdown = () => setIsDropdownOpen(prev => !prev);
@@ -209,16 +268,33 @@ const ProviderProfile = () => {
     <div className="Provider-profile-container">
       <div className="Provider-profile-cover-profile-image-head">
         <img src={coverProfileImg} alt="Background" />
-        <div className="Provider-profile-edit-cover-img">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleChangeCoverimage}
-            style={{ display: 'none' }}
-            accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
-          />
-          {/* <LuPencil className="Provider-profile-cover-edit-icon" onClick={handleEditClick} /> */}
-        </div>
+        {sessionStorage.getItem('userId') === doctor._id && (
+          <div className="Provider-profile-edit-cover-img">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleChangeCoverimage}
+              style={{ display: 'none' }}
+              accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+            />
+            <LuPencil className="Provider-profile-cover-edit-icon" onClick={handleEditClick} />
+          </div>
+        )}
+        {/* Preview and confirmation UI */}
+        {showPreview && (
+          <div className="Provider-profile-preview-container">
+            <img src={backgroundImage} alt="Cover Preview" className="Provider-profile-cover-preview" />
+            <div className="Provider-profile-button-group">
+              <button onClick={handleConfirmUpload} className="Provider-profile-savebutton" type="submit" disabled={isSaving}>
+                <span className="Provider-profile-savebutton-text">Confirm</span>
+                {isSaving && <div className="Provider-profile-spinner-overlay">
+                  <div className="Provider-profile-small-spinner"></div>
+                </div>}
+              </button>
+              <button onClick={handleCancel} className="Provider-profile-cancel-btn">Cancel</button>
+            </div>
+          </div>
+        )}
 
         <div className="Provider-profile-profile-info">
           <div className="Provider-profile-profile-img">
@@ -237,14 +313,14 @@ const ProviderProfile = () => {
 
         <div className="Provider-profile-body-buttons">
           <div className="Provider-profile-body-buttons-two">
-          {sessionStorage.getItem('userId') === doctor?._id ? (
-            <button className="Edit-button" onClick={handleNavigateDoctorEditProfile}>
-              <TbEdit size="1rem" /> Edit Profile
-            </button>
-          ) : (
-            <button className="Edit-button" disabled={true}>Verified</button>
-          )
-          }
+            {sessionStorage.getItem('userId') === doctor?._id ? (
+              <button className="Edit-button" onClick={handleNavigateDoctorEditProfile}>
+                <TbEdit size="1rem" /> Edit Profile
+              </button>
+            ) : (
+              <button className="Edit-button" disabled={true}>Verified</button>
+            )
+            }
 
             <button
               className="verify-button"
@@ -309,6 +385,9 @@ const ProviderProfile = () => {
         <FAQProviderProfile />
       )}
       <ProviderShareProfilePopup Providername={doctor?.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
+
+
+
     </div>
   )
 }

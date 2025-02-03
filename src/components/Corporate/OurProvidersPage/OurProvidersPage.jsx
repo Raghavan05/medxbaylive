@@ -304,7 +304,7 @@ const OurProvidersPage = () => {
               onClick={openClaimPopup}
             >Claim Profile!</button>
           ) : (
-            <Link to={'/corporate/Filters'}>
+            <Link to={'/contact-us'}>
               <button className={`appointment-button `} >Book Appointment</button>
             </Link>
           )}
@@ -327,16 +327,16 @@ const OurProvidersPage = () => {
       )}
 
 
-      <OverviewActivity overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId = {corporate._id}/>
+      <OverviewActivity corporate={corporate} overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId = {corporate._id}/>
       {corporate.showDoctors && (
         <OurProvidersDC doctors={doctors} />
       )}
       {corporate.showReviews && (
         <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
       )}
-      {corporate.showConditionLibrary && (
+      {/* {corporate.showConditionLibrary && (
         <OurBlogDc blogs={blogs} /> 
-      )}
+      )} */}
 
       <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
       <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
