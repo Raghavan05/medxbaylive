@@ -101,6 +101,7 @@ const AboutsProviderProfile = ({doctor}) => {
 
       </div>
       {/* Condition Libraries */}
+      {doctor?.showArticle && (
       <div className="PP-CL-container">
         <div className="PP-CL-activity-flex-head">
           <h2>Our Articles</h2>
@@ -133,6 +134,7 @@ const AboutsProviderProfile = ({doctor}) => {
           ))}
         </div>
       </div>
+      )}
     </div>  
   )
 }

@@ -3,7 +3,7 @@ import './ProviderProfile.css';
 
 import doctorsCoverImage from './Assets/doctors-cover-image.png';
 import profileHolder from './Assets/doctor-holder-image.png';
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 //React icons
 import { LuPencil } from 'react-icons/lu';
@@ -23,6 +23,8 @@ import BlogsProviderProfile from './BlogsProviderProfile/BlogsProviderProfile';
 import FAQProviderProfile from './FAQProviderProfile/FAQProviderProfile';
 import axios from 'axios';
 import { fetchFromDoctor } from '../../actions/api';
+import {ToastContainer, toast } from 'react-toastify';
+import ClaimProfilePopup from '../FilterPage/ClaimProfilePopup/ClaimProfilePopup';
 
 
 
@@ -51,6 +53,14 @@ const ProviderProfile = () => {
     }
     return '';
   };
+   useEffect(() => {
+    const userId = sessionStorage.getItem('userId'); // Check if user is logged in
+
+    if (!userId && !id) {  // If no user is logged in and no `id` in URL
+      toast.warning("You need to log in.");
+      navigate("/login"); // Redirect to login
+    }
+  }, [navigate, id]);
 
   const fetchDoctorDetails = async () => {
     try {
@@ -77,13 +87,10 @@ const ProviderProfile = () => {
     }
   };
 
-  useEffect(() => {
-    fetchDoctorDetails();
-  }, []);
 
   useEffect(() => {
     if (id) {
-      const fetchDoctorDetails = async () => {
+      const fetchDoctoridDetails = async () => {
         try {
           const response = await fetchFromDoctor(`/doctors/${id}/slots`);
           if (response?.doctor.dateOfBirth) {
@@ -106,7 +113,10 @@ const ProviderProfile = () => {
           console.error("Error fetching doctor details:", error);
         }
       };
-      fetchDoctorDetails();
+      fetchDoctoridDetails();
+    }
+    else{
+    fetchDoctorDetails();
     }
   }, []);
 
@@ -117,13 +127,16 @@ const ProviderProfile = () => {
 
   //Copy Link Logic here
   const handleCopyLink = () => {
-    const link = window.location.href; // Get the current URL of the page
-    navigator.clipboard.writeText(link).then(() => {
-      alert('Link copied to clipboard!'); // Optional: Show a success message
-    }).catch(err => {
-      console.error('Failed to copy link: ', err); // Handle any errors
-    });
+    const link = `${window.location.origin}/book-appointment-profile/${doctor._id}`; // Dynamically get the base URL
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        alert('Link copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy link: ', err);
+      });
   };
+  
   const [loading, setLoading] = useState(false);
   const handleVerify = async (e) => {
     e.preventDefault();
@@ -263,9 +276,23 @@ const ProviderProfile = () => {
       document.body.classList.remove('scroll-lock');
     };
   }, []);
-
+    // Claim Profile using Start
+    const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+  
+    const openClaimPopup = () => {
+      setIsClaimPopupVisible(true);
+      document.body.classList.add("scroll-lock");
+    };
+  
+    const handleCloseClaimPopup = () => {
+      setIsClaimPopupVisible(false);
+      document.body.classList.remove("scroll-lock");
+    };
+    // Claim Profile using End
+  
   return (
     <div className="Provider-profile-container">
+      <ToastContainer/>
       <div className="Provider-profile-cover-profile-image-head">
         <img src={coverProfileImg} alt="Background" />
         {sessionStorage.getItem('userId') === doctor._id && (
@@ -313,15 +340,13 @@ const ProviderProfile = () => {
 
         <div className="Provider-profile-body-buttons">
           <div className="Provider-profile-body-buttons-two">
-            {sessionStorage.getItem('userId') === doctor?._id ? (
+            {sessionStorage.getItem('userId') === doctor?._id && (
               <button className="Edit-button" onClick={handleNavigateDoctorEditProfile}>
                 <TbEdit size="1rem" /> Edit Profile
               </button>
-            ) : (
-              <button className="Edit-button" disabled={true}>Verified</button>
             )
             }
-
+            {sessionStorage.getItem('userId') === doctor?._id && (
             <button
               className="verify-button"
               onClick={handleVerify}
@@ -339,7 +364,17 @@ const ProviderProfile = () => {
                   ? "Pending"
                   : "Request To Verify"}
             </button>
-
+            )}
+              {/* {id && (
+              <button className="appointment-button" onClick={openEditPopup}>Book an Appointment</button>
+            )} */}
+            {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
+                        <button className={`appointment-button  mr-2  `}
+                          onClick={openClaimPopup}
+                        >Claim Profile!</button>
+                      ) : id && (
+                          <button className={`appointment-button `} onClick={openEditPopup} >Book an Appointment</button>
+                      )}
             <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
               <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
             </div>
@@ -360,9 +395,6 @@ const ProviderProfile = () => {
               </div>
             )}
           </div>
-          {id && (
-            <button className="appointment-button" onClick={openEditPopup}>Book an Appointment</button>
-          )}
           {isEditPopupOpen && (
             <AppointmentPOPOP
               closeEditPopup={closeEditPopup}
@@ -370,6 +402,11 @@ const ProviderProfile = () => {
           )}
         </div>
       </div>
+      {isClaimPopupVisible && (
+        <ClaimProfilePopup
+        doctorId={doctor._id}
+          handleCloseClaimPopup={handleCloseClaimPopup} />
+      )}
       <AboutsProviderProfile doctor={doctor} />
       <LocationProviderProfile doctor={doctor} />
       {doctor?.showInsurances && (

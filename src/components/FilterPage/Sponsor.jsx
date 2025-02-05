@@ -428,7 +428,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {} }) => {
                     <div className="doctor-info">
                         <div>
                             <Link to={`/book-appointment-profile/${doctor._id}`}>
-                                <img src={profilePicture} alt={doctor.name || "Doctor"} className="sponsored-doctor-photo" />
+                                <img src={profilePicture} alt={doctor?.name || "Doctor"} className="sponsored-doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
                                 {doctor?.rating !== undefined ? renderStars(doctor.rating) : renderStars(0)}

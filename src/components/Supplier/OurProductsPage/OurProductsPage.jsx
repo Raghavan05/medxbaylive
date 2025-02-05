@@ -27,7 +27,7 @@ import axios from 'axios';
 
 import BlogPopup from '../../patientBlog/BlogPopup';
 import OurProductsSharePopup from './OurProductsSharePopup/OurProductsSharePopup'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast,ToastContainer } from 'react-toastify';
 import ClaimProfilePopup from '../SupplierFilterPage/ClaimProfilePopup/ClaimProfilePopup';
 import network from '../Assets/network.png';
@@ -42,6 +42,7 @@ const OurProductsPage = () => {
     employees: 50,
     profileImage: providersprofile,
   });
+  const navigate = useNavigate();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -50,6 +51,15 @@ const OurProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
     const { supplierId } = useParams(); // Get supplierId from the route
+       useEffect(() => {
+        const userId = sessionStorage.getItem('userId'); // Check if user is logged in
+    
+        if (!userId && !supplierId) {  // If no user is logged in and no `id` in URL
+          toast.warning("You need to log in.");
+          navigate("/login"); // Redirect to login
+        }
+      }, [navigate, supplierId]);
+    
   
   // Fetch profile data from the backend
   const fetchSuppliersDetails = async () => {
@@ -205,12 +215,14 @@ const OurProductsPage = () => {
   };
 
   const copyLink = () => {
-    const link = window.location.href; // Get the current URL of the page
-    navigator.clipboard.writeText(link).then(() => {
-      alert('Link copied to clipboard!'); // Optional: Show a success message
-    }).catch(err => {
-      console.error('Failed to copy link: ', err); // Handle any errors
-    });
+    const link = `${window.location.origin}/OurProducts/${supplier._id}`; // Dynamically get the base URL
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        alert('Link copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy link: ', err);
+      });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -238,7 +250,7 @@ const OurProductsPage = () => {
     <div className="our-products-profile-container">
       <div className="our-products-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
-        {sessionStorage.getItem('userId') === supplierId && (
+        {sessionStorage.getItem('userId') === supplier._id && (
         <div className="our-products-edit-cover-img">
           <input
             type="file"

@@ -26,9 +26,10 @@ import OurBlogDc from './OurBlogDc/OurBlogDc';
 import BlogPopup from '../../patientBlog/BlogPopup';
 import AddDoctor from './AddDoctor/AddDoctor';
 import OurProvidersSharePopup from './OurProviderSharePopup/OurProvidersSharePopup'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ClaimProfilePopup from '../CorporateFilterPage/ClaimProfilePopup/ClaimProfilePopup';
 import network from '../Assets/network.png';
+import { toast, ToastContainer } from 'react-toastify';
 const OurProvidersPage = () => {
   const [backgroundImage, setBackgroundImage] = useState(providers);
   const [profileData, setProfileData] = useState({
@@ -55,7 +56,7 @@ const OurProvidersPage = () => {
   const [overview, setOverview] = useState([]);
   const [inviteLinks, setInviteLinks] = useState('');
   const [isAddDoctorVisible, setIsAddDoctorVisible] = useState(false);
-
+  const navigate = useNavigate();
   const { corporateId } = useParams(); // Get corporateId from the route
 
   const openAddDoctorPopup = () => {
@@ -67,6 +68,17 @@ const OurProvidersPage = () => {
     setIsAddDoctorVisible(false);
     document.body.classList.remove('scroll-lock');
   };
+
+     useEffect(() => {
+      const userId = sessionStorage.getItem('userId'); // Check if user is logged in
+  
+      if (!userId && !corporateId) {  // If no user is logged in and no `id` in URL
+        toast.warning("You need to log in.");
+        navigate("/login"); // Redirect to login
+      }
+    }, [navigate, corporateId]);
+  
+
   // Fetch profile data from the backend
   const fetchCorporateDetails = async () => {
     try {
@@ -203,13 +215,16 @@ const OurProvidersPage = () => {
     closeEditPopup();
   };
 
+  //Copy Link Logic here
   const copyLink = () => {
-    const link = window.location.href; // Get the current URL of the page
-    navigator.clipboard.writeText(link).then(() => {
-      alert('Link copied to clipboard!'); // Optional: Show a success message
-    }).catch(err => {
-      console.error('Failed to copy link: ', err); // Handle any errors
-    });
+    const link = `${window.location.origin}/OurProviders/${corporate._id}`; // Dynamically get the base URL
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        alert('Link copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy link: ', err);
+      });
   };
   // Claim Profile using Start
   const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
@@ -225,9 +240,9 @@ const OurProvidersPage = () => {
   };
   // Claim Profile using End
 
-
-
   return (
+    <>
+          <ToastContainer/>
     <div className="our-providers-profile-container">
       <div className="our-providers-cover-profile-image-head">
         <img src={backgroundImage} alt="Background" />
@@ -305,7 +320,7 @@ const OurProvidersPage = () => {
             >Claim Profile!</button>
           ) : (
             <Link to={'/contact-us'}>
-              <button className={`appointment-button `} >Book Appointment</button>
+              <button className={`appointment-button `} >Book an Appointment</button>
             </Link>
           )}
 
@@ -342,6 +357,7 @@ const OurProvidersPage = () => {
       <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
       <AddDoctor inviteLinks={inviteLinks} show={isAddDoctorVisible} handleClose={handleCloseAddDoctorPopup} />
     </div>
+    </>
   );
 };
 
