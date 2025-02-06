@@ -34,7 +34,6 @@ const AdminBlogUploadForm = () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/blog`, {
           withCredentials: true,
         });
-        console.log("data", response.data); 
         if (response.data) {
         
           if (response.data.conditions) {

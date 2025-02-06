@@ -45,9 +45,7 @@ const Companion = () => {
         },
         body: JSON.stringify(formData),
         mode: 'no-cors', // Bypass CORS check
-      });
-      console.log(response);
-      
+      });      
         toast.info('Session details submitted successfully!');
         setShowPopup(false);
         window.location.href = "https://mentalhealth.medxbay.com/";

@@ -208,7 +208,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
             const response = await fetch(url);
             const doctors = await response.json();
             setDoctors(doctors);
-            // console.log('Fetched doctors:', doctors); // Log the fetched doctors
 
         } catch (error) {
             console.error('Error fetching doctors:', error);

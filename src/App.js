@@ -103,7 +103,8 @@ function App() {
           <Route path="/provider/signup" element={<ProviderSignup />} />
           <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
           <Route path="/doc-profile" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
-          <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
+          {/* <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/> */}
+          <Route path="/book-appointment/:slug" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
 
 
           {/* Admin */}
@@ -111,13 +112,15 @@ function App() {
           
           {/* Corporate */}
           <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
-          <Route path="/OurProviders/:corporateId" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
+          {/* <Route path="/OurProviders/:corporateId" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/> */}
+          <Route path="/OurProviders/:slug" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
           <Route path="/corporate/dashboardpage/*" element={<Corporateroute/>} />
           <Route path="/corporate/Filters" element={[<Nestednavbar/>,<CorporateFilter />,<Footer/>]} />
 
           {/* Suppliers */}
           <Route path="/OurProducts" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
-          <Route path="/OurProducts/:supplierId" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
+          {/* <Route path="/OurProducts/:supplierId" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/> */}
+          <Route path="/OurProducts/:slug" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
           <Route path="/supplier/dashboardpage/*" element={[<Navbar/>,<Supplierroute/>,<Footer/>]} />
           <Route path="/supplier/Filters" element={[<Nestednavbar/>,<SupplierFilter/>,<Footer/>]} />
 

@@ -85,9 +85,6 @@ const Comment = ({ comments, BlogPageData }) => {
   
   // Submit a reply
   const handleReplySubmit = async (commentId) => {
-    // console.log(`Posting reply to: /patient/blogs/comment/${BlogPageData._id}/reply/${commentId}`);
-    // console.log("Reply text:", replyText[commentId]);
-    
     setIsSaving(true); 
   
     try {
@@ -95,10 +92,7 @@ const Comment = ({ comments, BlogPageData }) => {
         `${process.env.REACT_APP_BASE_URL}/patient/blogs/comment/${BlogPageData._id}/reply/${commentId}`,
         { reply: replyText[commentId] },  // Ensure this matches the expected payload
         { withCredentials: true }
-      );
-      
-      // console.log("Reply response:", response);
-      
+      );      
       if (response.status === 200) {
         // Clear reply input and set replyingTo to null after successful post
         setReplyText((prevState) => ({ ...prevState, [commentId]: "" }));

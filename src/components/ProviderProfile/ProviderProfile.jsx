@@ -25,11 +25,12 @@ import axios from 'axios';
 import { fetchFromDoctor } from '../../actions/api';
 import {ToastContainer, toast } from 'react-toastify';
 import ClaimProfilePopup from '../FilterPage/ClaimProfilePopup/ClaimProfilePopup';
+import DynamicMeta from '../DynamicMeta/DynamicMeta';
 
 
 
 const ProviderProfile = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const [profileImg, setProfileimage] = useState(profileHolder);
   const [coverProfileImg, setCoverProfileimage] = useState(doctorsCoverImage);
@@ -56,11 +57,11 @@ const ProviderProfile = () => {
    useEffect(() => {
     const userId = sessionStorage.getItem('userId'); // Check if user is logged in
 
-    if (!userId && !id) {  // If no user is logged in and no `id` in URL
+    if (!userId && !slug) {  // If no user is logged in and no `id` in URL
       toast.warning("You need to log in.");
       navigate("/login"); // Redirect to login
     }
-  }, [navigate, id]);
+  }, [navigate, slug]);
 
   const fetchDoctorDetails = async () => {
     try {
@@ -89,10 +90,10 @@ const ProviderProfile = () => {
 
 
   useEffect(() => {
-    if (id) {
-      const fetchDoctoridDetails = async () => {
+    if (slug) {
+      const fetchDoctorslugDetails = async () => {
         try {
-          const response = await fetchFromDoctor(`/doctors/${id}/slots`);
+          const response = await fetchFromDoctor(`/doctors/${slug}/slots`);
           if (response?.doctor.dateOfBirth) {
             const date = new Date(response.doctor.dateOfBirth);
             const formattedDate = `${String(date.getDate()).padStart(
@@ -104,8 +105,12 @@ const ProviderProfile = () => {
             )}-${date.getFullYear()}`;
             response.doctor.dateOfBirth = formattedDate;
           }
-
+          const doctorData = response?.doctor;
           setDoctor(response.doctor);
+          const profileImageData = bufferToBase64(doctorData?.profilePicture.data)
+          const coverProfileImageData = bufferToBase64(doctorData?.coverPhoto.data)
+          setProfileimage(profileImageData);
+          setCoverProfileimage(coverProfileImageData);
           setInsurances(response.insurances);
           // setBlogs(response.blogs);
           setVerificationStatus(response.doctor.verified);
@@ -113,7 +118,7 @@ const ProviderProfile = () => {
           console.error("Error fetching doctor details:", error);
         }
       };
-      fetchDoctoridDetails();
+      fetchDoctorslugDetails();
     }
     else{
     fetchDoctorDetails();
@@ -127,7 +132,11 @@ const ProviderProfile = () => {
 
   //Copy Link Logic here
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/book-appointment-profile/${doctor._id}`; // Dynamically get the base URL
+    if (!doctor.name) {
+      alert("Doctor name is missing wait a second");
+      return;
+    }
+    const link = `${window.location.origin}/book-appointment/${doctor?.slug}`; // Dynamically get the base URL
     navigator.clipboard.writeText(link)
       .then(() => {
         alert('Link copied to clipboard!');
@@ -291,8 +300,14 @@ const ProviderProfile = () => {
     // Claim Profile using End
   
   return (
-    <div className="Provider-profile-container">
+    <>
+      <DynamicMeta
+        title={doctor?.name}
+        description={doctor?.aboutMe}
+        image={bufferToBase64(doctor?.profilePicture?.data)}
+      />
       <ToastContainer/>
+    <div className="Provider-profile-container">
       <div className="Provider-profile-cover-profile-image-head">
         <img src={coverProfileImg} alt="Background" />
         {sessionStorage.getItem('userId') === doctor._id && (
@@ -372,7 +387,7 @@ const ProviderProfile = () => {
                         <button className={`appointment-button  mr-2  `}
                           onClick={openClaimPopup}
                         >Claim Profile!</button>
-                      ) : id && (
+                      ) : slug && (
                           <button className={`appointment-button `} onClick={openEditPopup} >Book an Appointment</button>
                       )}
             <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
@@ -419,13 +434,11 @@ const ProviderProfile = () => {
         <BlogsProviderProfile />
       )} */}
       {doctor?.showFaq && (
-        <FAQProviderProfile />
+        <FAQProviderProfile doctor={doctor} />
       )}
       <ProviderShareProfilePopup Providername={doctor?.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
-
-
-
     </div>
+    </>
   )
 }
 

@@ -35,7 +35,6 @@ const ManageAppointments = () => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/bookings`, { withCredentials: true });
-        console.log('Fetched bookings response:', response.data); 
         if (Array.isArray(response.data.bookings)) {
           setBookings(response.data.bookings);
         } else {
@@ -135,16 +134,11 @@ const ManageAppointments = () => {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(reviewForm);
-  
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/patient/review/${selectedAppointment.doctor._id}/${selectedAppointment._id}`,
         reviewForm,
         { withCredentials: true }
       );
-  
-      console.log('Review submitted:', response.data);
-  
       toast.info('Review submitted successfully!', {
         className: 'toast-center',
         autoClose: 5000, 

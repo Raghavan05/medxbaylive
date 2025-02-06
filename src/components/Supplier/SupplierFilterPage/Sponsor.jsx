@@ -114,7 +114,7 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
         return description;
     };
     const handleViewProfile = () => {
-        navigate(`/OurProviders/${supplier._id}`);
+        navigate(`/OurProducts/${supplier?.slug}`);
     }
         // Claim Profile using Start
         const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
@@ -137,7 +137,7 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
                 <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-lg-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/OurProducts/${supplier._id}`}>
+                            <Link to={`/OurProducts/${supplier?.slug}`}>
                                 <img src={profilePicture} alt={supplier?.companyName || "supplier"} className="sponsored-doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
@@ -148,7 +148,7 @@ const DoctorCard = ({ isMapExpanded, supplier = {} }) => {
                             </div>
                         </div>
                         <div className="doctor-details1">
-                            <Link to={`/OurProducts/${supplier._id}`}>
+                            <Link to={`/OurProducts/${supplier?.slug}`}>
                                 <h2>{supplier?.name}</h2>
                             </Link>
                             <p className="speciality">{supplier?.tagline + " "}</p>

@@ -11,7 +11,6 @@ const BookingRate = ({ bookingRates, MyInsights, setMyInsights }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    console.log('Received bookingRates in BookingRate:', bookingRates); // Log received bookingRates
     const chart = chartRef.current;
     if (chart) {
       const ctx = chart.ctx;

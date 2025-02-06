@@ -52,10 +52,7 @@ const BlogCarousel = () => {
       try {
         const response = await axios.get(apiUrl, { withCredentials: true });
         setBlogData(response.data.blogs || []); // Ensure to use response.data.blogs as per your backend structure
-        console.log(response.data.blogs);
         setLoading(false);
-
-        
       } catch (error) {
         console.error('Error fetching blogs:', error);
         setLoading(false);

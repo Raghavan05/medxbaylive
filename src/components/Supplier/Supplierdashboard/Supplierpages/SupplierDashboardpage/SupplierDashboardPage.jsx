@@ -36,8 +36,6 @@ const DashboardPage = () => {
             withCredentials: true,
           }
         );
-        
-        console.log('Fetched Data:', response.data); // Log data to ensure it's fetched correctly
         // setDashboardData(response.data);
         
         // Set the bookingRatesCount state to the array of counts

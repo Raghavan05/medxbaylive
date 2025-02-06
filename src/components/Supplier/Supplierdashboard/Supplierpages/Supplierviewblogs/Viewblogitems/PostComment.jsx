@@ -15,8 +15,6 @@ const PostComment = ({ blogId }) => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/blogs-all/comment/${blogId}`, {
         comment: newComment.comment,
       },{withCredentials:true});
-
-      console.log("Comment submitted successfully:", response.data);
       // Optionally reset the comment field after submission
       setNewComment({ comment: "", save: false });
     } catch (error) {

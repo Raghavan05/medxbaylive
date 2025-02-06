@@ -268,7 +268,6 @@ const Navbar = () => {
             }
           } else if (role === "patient" || role === "corporate" || role === "supplier") {
             if (role === "patient") {
-              console.log(userData.patient);
               const profileData = userData.patient.profilePicture;
               if (profileData) {
                 const profileImageData = getProfileImage(userData.patient.profilePicture);
@@ -293,7 +292,6 @@ const Navbar = () => {
                 setProfileImage(profilePlaceholder);
               }
             }
-            // console.log(userData.data[role]);
 
           }
         } else {

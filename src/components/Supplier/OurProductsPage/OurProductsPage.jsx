@@ -31,6 +31,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast,ToastContainer } from 'react-toastify';
 import ClaimProfilePopup from '../SupplierFilterPage/ClaimProfilePopup/ClaimProfilePopup';
 import network from '../Assets/network.png';
+import DynamicMeta from '../../DynamicMeta/DynamicMeta';
 const OurProductsPage = () => {
   const [backgroundImage, setBackgroundImage] = useState(providers);
   const [profileData, setProfileData] = useState({
@@ -50,22 +51,22 @@ const OurProductsPage = () => {
   const [supplier, setSupplier] = useState([]);
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
-    const { supplierId } = useParams(); // Get supplierId from the route
+    const { slug } = useParams(); // Get slug from the route
        useEffect(() => {
         const userId = sessionStorage.getItem('userId'); // Check if user is logged in
     
-        if (!userId && !supplierId) {  // If no user is logged in and no `id` in URL
+        if (!userId && !slug) {  // If no user is logged in and no `id` in URL
           toast.warning("You need to log in.");
           navigate("/login"); // Redirect to login
         }
-      }, [navigate, supplierId]);
+      }, [navigate, slug]);
     
   
   // Fetch profile data from the backend
   const fetchSuppliersDetails = async () => {
     try {
-      const url = supplierId
-        ? `${process.env.REACT_APP_BASE_URL}/supplier/supplier/${supplierId}` // New route with supplierId
+      const url = slug
+        ? `${process.env.REACT_APP_BASE_URL}/supplier/supplier/${slug}` // New route with slug
         : `${process.env.REACT_APP_BASE_URL}/supplier/profile`; // Existing route
 
       const response = await axios.get(url, { withCredentials: true });
@@ -73,9 +74,6 @@ const OurProductsPage = () => {
       setSupplier(supplier);
       setProducts(products);
       setBlogs(blogs);
-
-      console.log(response.data);
-
       setProfileData({
         name: supplier.name || "Supplier Name",
         rating: supplier.rating || 0,
@@ -215,7 +213,7 @@ const OurProductsPage = () => {
   };
 
   const copyLink = () => {
-    const link = `${window.location.origin}/OurProducts/${supplier._id}`; // Dynamically get the base URL
+    const link = `${window.location.origin}/OurProducts/${supplier?.slug}`; // Dynamically get the base URL
     navigator.clipboard.writeText(link)
       .then(() => {
         alert('Link copied to clipboard!');
@@ -241,11 +239,15 @@ const OurProductsPage = () => {
       setIsClaimPopupVisible(false);
       document.body.classList.remove("scroll-lock");
     };
-    // Claim Profile using End
-  
+    // Claim Profile using End  
 
   return (
     <>
+    <DynamicMeta
+        title={supplier?.name}
+        description={supplier?.overview}
+        image={bufferToBase64(supplier?.profilePicture?.data)}
+      />
     <ToastContainer/>
     <div className="our-products-profile-container">
       <div className="our-products-cover-profile-image-head">

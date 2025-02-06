@@ -57,7 +57,6 @@ function Showall() {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/patient/blogs`
     );
-    console.log(response.data);
     if (response.data) {
       var data = response.data;
       setHastags(data.hashtags);

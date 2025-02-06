@@ -21,7 +21,6 @@ const ProfileTransferRequests = () => {
             withCredentials: true,
           }
         );
-        console.log("Profile transfer requests data:", response.data.requests);
 
         // Sort the profileVerification within each request and then sort requests
         const sortedData = response.data.requests

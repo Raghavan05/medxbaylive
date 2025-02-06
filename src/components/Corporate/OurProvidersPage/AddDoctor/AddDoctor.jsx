@@ -34,7 +34,6 @@ const AddDoctor = ({ inviteLinks, show, handleClose }) => {
       },{withCredentials:true}
     );
   
-      console.log('Invitation sent successfully:', response.data);
       alert('Invitation sent successfully');
       handleClose(); // Close the modal after success
     } catch (err) {

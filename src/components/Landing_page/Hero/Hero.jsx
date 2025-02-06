@@ -130,7 +130,6 @@ const Hero = () => {
       const doctors = response.data;
 
       if (doctors && doctors.length > 0) {
-        console.log('Navigating with:', { doctors, what, where });
         setSearchData({ doctors, what, where });
         navigate('/Filters');
       } else {

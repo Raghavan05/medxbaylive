@@ -195,13 +195,6 @@ const LoginCard = ({ show, handleClose,openRegisterModal }) => {
     const userSubscriptionType = urlParams.get('userSubscriptionType');
     const userSubscriptionVerification = urlParams.get('userSubscriptionVerification');
   
-    console.log('Role:', role);
-    console.log('Name:', name);
-    console.log('ID:', id);
-    console.log('Email:', email);
-    console.log('Subscription Type:', userSubscriptionType);
-    console.log('Subscription Verification:', userSubscriptionVerification);
-  
     if (role && name && id) {
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('userEmail', email);

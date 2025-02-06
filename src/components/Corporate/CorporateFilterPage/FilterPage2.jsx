@@ -46,7 +46,7 @@ const FilterPage = () => {
 
     const handleSearchButtonClick = () => {
         // Handle search functionality here, such as fetching data based on searchInput
-        console.log('Searching for:', searchInput);
+        // console.log('Searching for:', searchInput);
     };
 
     const handleResetClick = () => {

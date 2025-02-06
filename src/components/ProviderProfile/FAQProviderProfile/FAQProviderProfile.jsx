@@ -6,41 +6,41 @@ import { useParams } from "react-router-dom";
 import faqImage from '../../Assets/faqImage.jpg'
 import { fetchFromDoctor } from "../../../actions/api";
 
-const FAQProviderProfile = () => {
-    const [doctor, setDoctor] = useState(null); // Use null to differentiate between loading and empty data
+const FAQProviderProfile = ({doctor}) => {
+    // const [doctor, setDoctor] = useState(null); // Use null to differentiate between loading and empty data
   const [activeFAQ, setActiveFAQ] = useState(null); // Track the index of the active FAQ
   const [error, setError] = useState(null); // Handle error states
-  const { id } = useParams();
+  const { slug } = useParams();
 
-  useEffect(() => {
-    const fetchDoctorDetails = async () => {
-      try {
-        const url = id
-          ? `/doctors/${id}/slots`
-          : `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`;
+  // useEffect(() => {
+  //   const fetchDoctorDetails = async () => {
+  //     try {
+  //       const url = slug
+  //         ? `/doctors/${slug}/slots`
+  //         : `${process.env.REACT_APP_BASE_URL}/doctor/profile/update`;
 
-        const response = id
-          ? await fetchFromDoctor(url)
-          : await axios.get(url, { withCredentials: true });
+  //       const response = slug
+  //         ? await fetchFromDoctor(url)
+  //         : await axios.get(url, { withCredentials: true });
 
-        const doctorData = id ? response.doctor : response.data.doctor;
+  //       const doctorData = slug ? response.doctor : response.data.doctor;
 
-        if (doctorData.dateOfBirth) {
-          const date = new Date(doctorData.dateOfBirth);
-          doctorData.dateOfBirth = `${String(date.getDate()).padStart(2, "0")}-${String(
-            date.getMonth() + 1
-          ).padStart(2, "0")}-${date.getFullYear()}`;
-        }
+  //       if (doctorData.dateOfBirth) {
+  //         const date = new Date(doctorData.dateOfBirth);
+  //         doctorData.dateOfBirth = `${String(date.getDate()).padStart(2, "0")}-${String(
+  //           date.getMonth() + 1
+  //         ).padStart(2, "0")}-${date.getFullYear()}`;
+  //       }
 
-        setDoctor(doctorData);
-      } catch (error) {
-        console.error("Error fetching doctor details:", error);
-        setError("Failed to fetch doctor details. Please try again.");
-      }
-    };
+  //       setDoctor(doctorData);
+  //     } catch (error) {
+  //       console.error("Error fetching doctor details:", error);
+  //       setError("Failed to fetch doctor details. Please try again.");
+  //     }
+  //   };
 
-    fetchDoctorDetails();
-  }, [id]);
+  //   fetchDoctorDetails();
+  // }, [slug]);
 
   const handleFAQClick = (index) => {
     // Toggle the active FAQ or close the currently active FAQ

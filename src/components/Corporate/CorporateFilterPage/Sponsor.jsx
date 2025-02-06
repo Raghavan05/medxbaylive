@@ -43,7 +43,6 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
     return distance.toFixed(2); // Return distance with two decimal places
 };
 const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
-    console.log(corporate);
 
     const [startIndex, setStartIndex] = useState(0);
     const [selectedDate, setSelectedDate] = useState(0);
@@ -115,7 +114,7 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
         return description;
     };
     const handleViewProfile = () => {
-        navigate(`/OurProviders/${corporate._id}`);
+        navigate(`/OurProviders/${corporate?.slug}`);
     }
 
     // Claim Profile using Start
@@ -138,7 +137,7 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
                 <div className={`col-12 col-lg-7  ${isMapExpanded ? 'col-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/OurProviders/${corporate._id}`}>
+                            <Link to={`/OurProviders/${corporate?.slug}`}>
                                 <img src={profilePicture} alt={corporate?.corporateName || "corporate"} className="sponsored-doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
@@ -149,14 +148,14 @@ const DoctorCard = ({ isMapExpanded, corporate = {} }) => {
                             </div>
                         </div>
                         <div className="doctor-details1">
-                            <Link to={`/OurProviders/${corporate._id}`}>
+                            <Link to={`/OurProviders/${corporate?.slug}`}>
                                 <h2>{corporate?.corporateName}</h2>
                             </Link>
                             <p className="speciality">{truncateDescription(corporate?.tagline + " ", 50)}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{corporate?.address?.country + " | " + corporate?.address?.state || "Hospital"}</p>
-                            <p className={`location ${isMapExpanded ? 'mapExpanded-location' : ''}`}>{"About"}</p>
+                            <p className={`location`}>{corporate?.address?.country + " | " + corporate?.address?.state || "Hospital"}</p>
+                            <p className={`location`}>{"About"}</p>
                             <p className="corporate-aboutMe">{truncateDescription(corporate?.overview, 65)}</p>
-                            <p className={`clinic ${isMapExpanded ? 'mapExpanded-clinic' : ''}`}>
+                            <p className={`clinic `}>
                             </p>
                             <div className={`percentage-data d-flex ${isMapExpanded ? 'mapExpanded-percentage-data' : ''}`}>
                                 <div className='liked'>

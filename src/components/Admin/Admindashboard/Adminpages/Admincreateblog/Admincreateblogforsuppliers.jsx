@@ -33,11 +33,9 @@ const SupplierBlogUploadForm = () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/supplier-blog`, {
           withCredentials: true,
         });
-        console.log("Response:", response.data);
   
         const supplierData = response.data?.suppliers || [];
         // const adminData = response.data.admin ? [{ _id: response.data.admin._id, name: response.data.admin.name }] : [];
-        console.log(supplierData[0]._id);
         
         setConditions(supplierData);
         setSuppliers(supplierData);
@@ -91,9 +89,7 @@ const SupplierBlogUploadForm = () => {
       for (const key in formData) {
         formDataToSend.append(key, formData[key]);
       }
-    
-      console.log(`${process.env.REACT_APP_BASE_URL}/admin/supplier-blog-upload`); // Debug URL
-    
+        
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/supplier-blog-upload`, formDataToSend, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },

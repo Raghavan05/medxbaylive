@@ -9,14 +9,12 @@ const PostComment = ({id,loadBlogs}) => {
 
   const handlePublish =(e)=>{
     // e.preventDefault()
-    console.log("Comment submitted:", newComment);
     try{
       const res= axios.post(`${process.env.REACT_APP_BASE_URL}/doctor/blogs/comment/${id}`,
         newComment,
         { withCredentials: true}
       )
       if (res.data) {
-        console.log("Blog updated successfully:", res.data);
         // loadBlogs()
         // handleCancel()
     } else {

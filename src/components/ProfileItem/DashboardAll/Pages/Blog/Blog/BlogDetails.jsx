@@ -28,7 +28,6 @@ const bufferToBase64 = (buffer) => {
 };
 
 function BlogDetails({ blog }) {
-  console.log(blog);
 
   const getProfileImage = (formData) => {
     if (formData?.data?.type === 'Buffer') {
@@ -68,7 +67,6 @@ function BlogDetails({ blog }) {
         setTempBlog(response.data.blogs);
       } else {
         setBlogData([]);
-        console.log(response.data);
       }
     } catch (error) {
       console.error("Error loading blogs:", error);
@@ -90,7 +88,6 @@ function BlogDetails({ blog }) {
         setTags(data?.hashtagCountMap);
       } else {
         setReletedPost([]);
-        console.log(response.data);
       }
     } catch (error) {
       console.error("Error", error);

@@ -16,8 +16,6 @@ const Sidebar = ({ onSelectChat }) => {
       try {
         const role = sessionStorage.getItem('role'); 
         const data = await fetchFromServer(role, '/dashboard');
-        console.log('API Response:', data);
-
         if (!data || !data.chats) {
           throw new Error('Invalid response structure');
         }

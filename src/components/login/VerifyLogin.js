@@ -47,10 +47,8 @@ const VerifyLogin = ({ show, handleClose,openRegisterModal }) => {
         if (validateForm()) {
             try {
                 const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, { email, password }, { withCredentials: true });
-                console.log('Login response:', res.data); 
                 
                 if (res.data.success) {
-                    console.log('Login was successful.');
                     const { user } = res.data;
                     const { role, _id: userId, email: userEmail, subscriptionType, subscriptionVerification } = user;
     

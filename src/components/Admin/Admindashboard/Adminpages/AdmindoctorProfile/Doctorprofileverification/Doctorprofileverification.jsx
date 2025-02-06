@@ -11,9 +11,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Doctorprofileverification = () => {
-  const {doctorID} = useParams();
-  console.log('useParams ID ' + JSON.stringify(doctorID));
-  
+  const {doctorID} = useParams();  
   const [doctorData, setDoctorData] = useState(null);
   const [insurances, setInsurances] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
@@ -33,7 +31,6 @@ const Doctorprofileverification = () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/view/${doctorID}`);  // Use doctorId in the API call
         setDoctorData(response.data.doctor);
         setInsurances(response.data.insurances);
-        console.log(response.data.doctor);
         
       } catch (error) {
         console.error('Error fetching doctor data:', error);
@@ -50,7 +47,6 @@ const Doctorprofileverification = () => {
    const handleStatusChange = (newStatus) => {
     setSelectedStatus(newStatus);
   };
-console.log(insurances);
 
 const bufferToBase64 = (buffer) => {
   if (typeof buffer === 'string') {

@@ -77,7 +77,6 @@ const Blognew = () => {
           setLoading(false);
         }
         setRelatedBlogs(data.recentBlogs);
-        console.log("Related Blogs " + data.recentBlogs);
         setCategories(data.categories);
 
         // Fetch blog post details
@@ -85,18 +84,12 @@ const Blognew = () => {
         const blogData = blogPostresponse.data;
         setBlogPageData(blogData.blog);
         setComments(blogData.blog.comments)
-
-
-
-        console.log(blogData.blog)
-
         // Fetch author details if the blog has an author
         if (blogPageData?.authorId) {
           setLoading(false);
           const id = blogPageData.authorId
           const authordataResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/author/${id}`, { withCredentials: true });
           setAuthorData(authordataResponse.data);
-          console.log(authordataResponse.data);
         }
 
       } catch (error) {
@@ -107,9 +100,6 @@ const Blognew = () => {
     };
     fetchdataforblogs();
   }, [id, blogPageData?.authorId]);
-
-  console.log(blogPageData);
-  console.log(id);
 
 
   const formatDate = (isoString) => {

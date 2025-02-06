@@ -56,15 +56,13 @@ const AppointmentPOPOP = ({ closeEditPopup }) => {
   const handleChange = (event) => {
     setSelectedPlace(event.target.value);
   };
-  const { id } = useParams();
+  const { slug } = useParams();
   useEffect(() => {
     document.title = "Doctor-Profile";
-    if (id) {
+    if (slug) {
       const fetchDoctors = async () => {
         try {
-          const response = await fetchFromDoctor(`/doctors/${id}/slots`);
-          console.log(response);
-  
+          const response = await fetchFromDoctor(`/doctors/${slug}/slots`);  
           const base64String = response.doctor.profilePicture?.data
             ? bufferToBase64(response.doctor.profilePicture.data)
             : "";
@@ -79,11 +77,11 @@ const AppointmentPOPOP = ({ closeEditPopup }) => {
   
       fetchDoctors();
     }
-  }, [id]);
+  }, [slug]);
   
   const currencyDataApi = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctorData._id}/slots`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctorData?.slug}/slots`, {
         withCredentials: true
       });
       setCurrencies(response.data.feesInAllCurrencies);
@@ -247,14 +245,12 @@ const AppointmentPOPOP = ({ closeEditPopup }) => {
 
 
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctorData._id}/slots`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/doctors/${doctorData?.slug}/slots`, {
         withCredentials: true
       });
       const { feesInAllCurrencies, totalFee } = response.data;
       setCurrencies(feesInAllCurrencies);
       setTotalFees(totalFee);
-      console.log(currencies);
-      console.log(totalFees);
     } catch (error) {
       console.error("Error fetching doctor's fees:", error);
       // toast.error("Unable to fetch fees. Please try again.");

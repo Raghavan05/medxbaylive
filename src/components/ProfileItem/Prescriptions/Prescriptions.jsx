@@ -15,7 +15,6 @@ const Prescriptions = () => {
           `${process.env.REACT_APP_BASE_URL}/patient/prescriptions`,
           { withCredentials: true }
         );
-        console.log("Fetched data:", response.data);
         if (Array.isArray(response.data)) {
           const startingSerial = 10001;
           const prescriptionsWithSerials = response.data.map(

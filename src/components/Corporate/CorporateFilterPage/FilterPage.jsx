@@ -132,8 +132,6 @@ const FilterPage = () => {
     if (!Array.isArray(corporates)) {
       return [];
     }
-    console.log(corporates);
-
     return corporates.filter((corporate) => {
       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
 

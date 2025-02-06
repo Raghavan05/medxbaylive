@@ -36,8 +36,6 @@ const formatDate = (dateString) => {
 };
 
 const Condition = ({ blogs }) => {
-    console.log(blogs);
-
     const getFormattedDate = (date) => {
         return date ? formatDate(date) : moment().format("DD MMM, YYYY");
     };

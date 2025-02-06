@@ -38,11 +38,8 @@ const Schedule = ({doctor}) => {
   };
 
   const dateRange = generateDateRange(startDate, 10);
-  console.log(doctor)
   const getScheduleForSelectedDay = (selectedDate) => {
-    const selectedDateString = moment(selectedDate).format('YYYY-MM-DD');
-    console.log(selectedDateString);
-    
+    const selectedDateString = moment(selectedDate).format('YYYY-MM-DD');    
     const scheduleForSelectedDay = doctor.filter(
       (item) =>
         moment(item.date).format('YYYY-MM-DD') === selectedDateString &&
@@ -55,7 +52,6 @@ const Schedule = ({doctor}) => {
 
   const selectedDate = dateRange[selectedDay];
   const scheduleItems = getScheduleForSelectedDay(selectedDate);
-  console.log(scheduleItems)
 
   useEffect(() => {
     // Automatically set selectedDay to today within the dateRange

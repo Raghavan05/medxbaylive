@@ -16,7 +16,6 @@ const Inbox = () => {
     try {
       const role = sessionStorage.getItem('role');
       const response = await fetchFromServer(role, `/chat/${chat?.id}`);
-      console.log('Fetched messages:', response);
       setMessages(response.chat.messages);
       setPatientId(response.chat.patientId);
     } catch (error) {

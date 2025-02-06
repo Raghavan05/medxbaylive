@@ -226,7 +226,6 @@ const HeroAlterNavbar = () => {
             }
           } else if (role === "patient" || role === "corporate" || role === "supplier") {
             if (role === "patient") {
-              console.log(userData.patient);
               const profileData = userData.patient.profilePicture;
               if (profileData) {
                 const profileImageData = getProfileImage(userData.patient.profilePicture);

@@ -136,9 +136,7 @@ const FilterPage = () => {
   const filterDoctors = (doctors) => {
     if (!Array.isArray(doctors)) {
       return [];
-    }
-    console.log(filters);
-    
+    }    
     return doctors.filter((doctor) => {
       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
 
@@ -187,8 +185,7 @@ const FilterPage = () => {
   };
 
   // const filteredDoctors = filterDoctors(doctors);
-  const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors);
-
+  const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors); 
 
   return (
     <>

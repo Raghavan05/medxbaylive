@@ -100,7 +100,6 @@ const OurProductsPEPOP  = ({
         }
       );
       refreshProfileData();
-      console.log("Profile updated successfully:", response.data);
       alert("Profile updated successfully");
       closeEditPopup();
       window.location.reload();

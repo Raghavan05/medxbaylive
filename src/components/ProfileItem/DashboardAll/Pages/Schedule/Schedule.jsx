@@ -96,11 +96,7 @@ function Schedule() {
               end: end,
               consultationType: booking.consultationType || 'N/A',
             };
-          });
-
-          console.log("Bookings:", bookings); // Debugging: Log bookings with consultationType
-
-          
+          });          
           setEvents([...timeSlots, ...bookings]);
         }
       } catch (error) {

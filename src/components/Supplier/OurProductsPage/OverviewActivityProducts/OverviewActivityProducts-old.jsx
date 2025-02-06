@@ -15,9 +15,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const OverviewActivity = ({ overviewData, productCategories, supplierId }) => {
-  console.log(overviewData);
-  console.log(productCategories);
-
   const posts = [
     {
       author: "Zack Darma",
@@ -81,9 +78,7 @@ const OverviewActivity = ({ overviewData, productCategories, supplierId }) => {
   const saveChanges = async () => {
     setIsSaving(true);
     try {
-      console.log("Before saving:", tempSpecialties);  // Debugging output
       const updatedSpecialties = tempSpecialties;  // Convert objects to names
-      console.log("Sending to backend:", updatedSpecialties); // Debugging output
       // Optionally save to the backend
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/supplier/update-profile`,
@@ -96,7 +91,6 @@ const OverviewActivity = ({ overviewData, productCategories, supplierId }) => {
 
       setSpecialties(updatedSpecialties);
       setOverviewText1(tempOverviewText1);
-      console.log("Update successful:", response);
       alert("Overview updated successfully!");
       closeModal();
 

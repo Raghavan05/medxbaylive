@@ -12,9 +12,7 @@ const CorporateViewDoctors = () => {
     const navigate = useNavigate();
 
     // Get corporateId from sessionStorage
-    const corporateId = sessionStorage.getItem('userId');
-    console.log(corporateId);
-    
+    const corporateId = sessionStorage.getItem('userId');    
 
     useEffect(() => {
         const fetchDoctors = async () => {
@@ -25,9 +23,7 @@ const CorporateViewDoctors = () => {
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/corporate/${corporateId}/doctors`,{withCredentials:true});
-                const {data} = response;
-                console.log(data);
-                
+                const {data} = response;                
                     setDoctors(data.doctors);
                 
             } catch (error) {

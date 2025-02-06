@@ -23,7 +23,6 @@ const fetchProfile = async () => {
   try {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/account-view/${id}`,{withCredentials:true});
     const {data} = response;
-    console.log(data);
     
     setFormData({
       name: data.profile.name || data.profile.corporateName,

@@ -47,7 +47,6 @@ const AdmindoctorSubscription = () => {
           `${process.env.REACT_APP_BASE_URL}/admin/verify-subscription/${id}`,
           { verificationStatus: newStatus }
         );
-        console.log(response);
         toast.info('Status updated successfully!');
       } catch (error) {
         console.error("Error updating status:", error);

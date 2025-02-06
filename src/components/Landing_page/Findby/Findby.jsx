@@ -69,7 +69,6 @@ const FindBy = () => {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/search-doctors?what=${name}&where=${" "}`, { withCredentials: true });
       const doctors = response.data;
 
-      console.log('Navigating with:', { doctors, name });
       if (doctors && doctors.length > 0) {
         setSearchData({ doctors, name });
         navigate('/Filters');

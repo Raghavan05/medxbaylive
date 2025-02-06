@@ -171,15 +171,11 @@ const Blog = () => {
       if (response.data) {
         setLoading(false);
         const data = response.data;
-        console.log(data);
-        
-
         // Set various state variables with the received data
         setHastags(data.hashtags);
 
         if (Array.isArray(data.blogsByCategory)) {
           setCategoryData(data.blogsByCategory);
-          console.log(data.blogsByCategory);
         } else {
           setCategoryData(0); // Handle the case where no blogs are returned
         }

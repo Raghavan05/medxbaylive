@@ -5,7 +5,7 @@ import Filter from './Filter'
 import './FilterPage.css'
 import MidPartTwo from '../../MidPartTwo'
 import Footer from '../footer/footerrs'
-import Footerr from '../footer/footer'
+// import Footerr from '../footer/footer'
 import MapContainer from './Mapcontainer'
 import './filter.css';
 import './DoctorMainCard.css'
@@ -46,7 +46,7 @@ const FilterPage = () => {
 
     const handleSearchButtonClick = () => {
         // Handle search functionality here, such as fetching data based on searchInput
-        console.log('Searching for:', searchInput);
+        // console.log('Searching for:', searchInput);
     };
 
     const handleResetClick = () => {

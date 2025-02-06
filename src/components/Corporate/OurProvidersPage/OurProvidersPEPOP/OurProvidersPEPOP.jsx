@@ -6,7 +6,6 @@ import axios from "axios";
 import "./ourproviderspepop.css";
 
 const OurProvidersPEPOP = ({ tempProfileData, handleSubmit, closeEditPopup,refreshProfileData }) => {
-  console.log(tempProfileData);
   
   const fileInputRef = useRef(null);
 
@@ -107,7 +106,6 @@ const handleFormSubmit = async (e) => {
       }
     );
     refreshProfileData()
-    console.log("Profile updated successfully:", response.data);
     alert("Profile updated successfully");
     window.location.reload();
     closeEditPopup();
@@ -299,7 +297,6 @@ const handleFormSubmit = async (e) => {
   );
 };
 const ToggleButton = ({ label, isChecked, onChange }) => {
-  console.log(isChecked);  
   return (
     <div className="our-providers-edop-toggle-container">
       <label className="our-providers-edop-toggle-switch">

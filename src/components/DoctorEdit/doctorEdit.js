@@ -74,8 +74,6 @@ function DoctorEdit() {
         { withCredentials: true }
       );
       const doctorData = response.data;
-
-      console.log(doctorData);
       if (doctorData.doctor.dateOfBirth) {
         const date = new Date(doctorData.doctor.dateOfBirth);
         const formattedDate = `${String(date.getDate()).padStart(

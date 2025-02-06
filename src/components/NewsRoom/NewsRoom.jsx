@@ -21,10 +21,7 @@ const NewsRoom = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/news-releases`,{withCredentials:true});
         setLogos(response.data.logos);
-        console.log(response.data.logos);
-        setNewsReleases(response.data.newsReleases);
-        console.log(response.data.newsReleases);
-        
+        setNewsReleases(response.data.newsReleases);        
         setLoading(false); // Turn off loading when data is fetched
       } catch (err) {
         setError('Failed to fetch news data.');

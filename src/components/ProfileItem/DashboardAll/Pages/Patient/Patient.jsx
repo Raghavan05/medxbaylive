@@ -45,7 +45,6 @@ const PatientTable = () => {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/doctor/completed-bookings`, { withCredentials: true })
       .then(response => {
-        console.log('Bookings data:', response.data.bookings);
         setBookings(response.data.bookings || []);
       })
       .catch(error => {
@@ -60,7 +59,6 @@ const PatientTable = () => {
 
   const handleClickOpen = (booking) => {
     setSelectedBooking(booking);
-    console.log('Opening dialog for booking:', booking);
     axios.get(`${process.env.REACT_APP_BASE_URL}/doctor/bookings/${booking._id}/prescription`, { withCredentials: true })
       .then(response => {
         const { patientAge, medicines } = response.data;
@@ -197,13 +195,9 @@ const PatientTable = () => {
       medicines: prescriptionData.medicines,
       meetingDate: date,
       meetingTime: time
-    };
-  
-    console.log('Submitting prescription with data:', prescriptionPayload);
-  
+    };  
     axios.post(`${process.env.REACT_APP_BASE_URL}/doctor/prescriptions/upload`, prescriptionPayload, { withCredentials: true })
       .then(response => {
-        console.log('Prescription submitted successfully:', response.data);
         setOpen(false);
         setSelectedBooking(null);
       })

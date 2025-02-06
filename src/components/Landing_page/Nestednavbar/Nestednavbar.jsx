@@ -91,7 +91,6 @@ const Nestednavbar = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/search-doctors?what=${what}&where=${where}`, { withCredentials: true });
       const doctors = response.data;
-      console.log('Navigating with:', { doctors, what, where });
 
       if (doctors && doctors.length > 0) {
         setSearchData({ doctors, what, where });

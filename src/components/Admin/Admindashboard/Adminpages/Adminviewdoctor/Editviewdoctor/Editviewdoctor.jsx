@@ -71,7 +71,6 @@ const Editviewdoctor = () => {
             insurance: doctorDetails.insurances || [],
             hospitaldata: doctorDetails.hospitals || [{ name: '', street: '', city: '', state: '', country: '', zip: '' }],
           });
-          console.log(doctorDetails);
           
         } catch (error) {
           console.error('Error fetching doctor details:', error);

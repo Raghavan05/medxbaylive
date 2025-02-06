@@ -52,7 +52,7 @@ const bufferToBase64 = (buffer) => {
 };
 
 function DoctorEditPatient() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [profile, setProfile] = useState("");
 
   const [doctor, setDoctor] = useState([]);
@@ -114,15 +114,14 @@ function DoctorEditPatient() {
   };
   useEffect(() => {
     document.title = "Doctor-Profile";
-    if (id) {
+    if (slug) {
       const fetchDoctors = async () => {
         try {
-          const response = await fetchFromDoctor(`/doctors/${id}/slots`);
+          const response = await fetchFromDoctor(`/doctors/${slug}/slots`);
           setDoctorData(response.doctor);
           setInsurance(response.insurances)
           setBlogs(response.blogs)
           getProfile(response.doctor);
-          console.log(profile)
         } catch (error) {
           console.error("Error fetching doctors:", error);
         }
@@ -140,7 +139,6 @@ function DoctorEditPatient() {
       );
       const doctorData = response.data;
 
-      console.log(doctorData);
       if (doctorData.doctor.dateOfBirth) {
         const date = new Date(doctorData.doctor.dateOfBirth);
         const formattedDate = `${String(date.getDate()).padStart(
@@ -274,7 +272,6 @@ const handleBookAppointment = async () => {
           startTime: selectedTimeSlot,
           consultationType: consultationType
       };
-      console.log('Booking data:', bookingData);
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/patient/book`, {
         method: 'POST',
         headers: {
@@ -286,7 +283,6 @@ const handleBookAppointment = async () => {
     });
 
     const result = await response.json();
-    console.log('Booking response:', result);
 
     if (response.ok) {
         window.location.href = result.url; 

@@ -13,7 +13,6 @@ const Adminviewdoctor = () => {
         const fetchDoctors = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/view-doctors`);
-                // console.log(response.data);
                 setDoctors(response.data.doctors);
             } catch (error) {
                 console.error('Error fetching doctors:', error);

@@ -54,8 +54,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/corporate/corporate-list`, { withCredentials: true });
             // Map or validate data as needed
-            console.log(data);
-
             setFilters({
                 countries: data.countries || [],
                 states: data.states || [],
@@ -134,9 +132,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
 
         setSearchData({ Corporates: [] });
     };
-
-
-    console.log(filters);
     const resetFilters = () => {
         const resetData = {
             what: '',

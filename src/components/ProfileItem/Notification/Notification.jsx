@@ -11,9 +11,7 @@ const Notification = () => {
 
   const fetchNotifications = async () => {
     try {
-      const data = await fetchFromPatient('/notifications');
-      console.log(data);
-      
+      const data = await fetchFromPatient('/notifications');      
       if (data.notifications) {
         setNotifications(data.notifications);
       } else {

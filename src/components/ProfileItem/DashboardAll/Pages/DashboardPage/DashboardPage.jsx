@@ -58,7 +58,6 @@ const DashboardPage = () => {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/doctor/insights`, { withCredentials: true })
       .then(response => {
-        console.log(response.data)
         setData(response.data);
         setBooking(response.data.bookingRates)
         setDoctor(response.data.doctor)

@@ -54,14 +54,6 @@ const ProviderSignup = () => {
     const email = urlParams.get('email');
     const userSubscriptionType = urlParams.get('userSubscriptionType');
     const userSubscriptionVerification = urlParams.get('userSubscriptionVerification');
-
-    console.log('Role:', role);
-    console.log('Name:', name);
-    console.log('ID:', id);
-    console.log('Email:', email);
-    console.log('Subscription Type:', userSubscriptionType);
-    console.log('Subscription Verification:', userSubscriptionVerification);
-
     if (role && name && id) {
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('userEmail', email);
@@ -95,7 +87,6 @@ const ProviderSignup = () => {
     if (validateForm()) {
       try {
         const res = await axios.post(endpoint, user);
-        console.log(res.data);
         toast.info("Registration successful! Please check your email and verify.", {
           position: "top-center",
           closeButton: true,

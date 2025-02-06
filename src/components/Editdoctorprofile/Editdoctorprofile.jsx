@@ -297,7 +297,6 @@ const Editdoctorprofile = () => {
   //Insurance
   const handleRemoveInsurance = (index) => {
     const updatedInsurances = doctorData.insurances.filter((_, i) => i !== index);
-    console.log('Updated Insurances:', updatedInsurances); // Debug
     setDoctorData({ ...doctorData, insurances: updatedInsurances });
   };
 
@@ -362,7 +361,6 @@ const Editdoctorprofile = () => {
     }));
   };
   const handleLocationSelect = (lat, lng) => {
-    console.log('Selected Location:', { lat, lng });
     setDoctorData((prevData) => ({
       ...prevData,
       hospitals: prevData.hospitals.map((hospital, i) =>

@@ -79,8 +79,6 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
     
     useEffect(() => {
         if (doctor.profilePicture && doctor.profilePicture.data) {
-            // console.log('Profile picture data type:', typeof doctor.profilePicture.data);
-            // console.log('Profile picture data:', doctor.profilePicture.data);
             const base64String = bufferToBase64(doctor.profilePicture.data);
             setProfilePicture(base64String);
         }
@@ -98,8 +96,6 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 const { feesInAllCurrencies, totalFee } = response.data;
                 setCurrencies(feesInAllCurrencies);
                 setTotalFees(totalFee);
-                console.log(currencies);
-                console.log(totalFees);
                 
             } catch (error) {
                 console.error("Error fetching doctor's fees:", error);
@@ -238,9 +234,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 consultationType,
                 hospital: consultationType === 'In-person' ? selectedHospital : null,
                 currency: consultationType === 'Video call' ? currencytoBookingData : null
-            };
-            console.log(bookingData);
-            
+            };            
     
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/patient/book`, {
                 method: 'POST',
@@ -439,7 +433,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                 <div className={`col-12 col-lg-7 ${isMapExpanded ? 'col-lg-12' : ''}`}>
                     <div className="doctor-info">
                         <div>
-                            <Link to={`/book-appointment-profile/${doctor._id}`}>
+                            <Link to={`/book-appointment/${doctor?.slug}`}>
                                 <img src={profilePicture} alt={doctor.name || "Doctor"} className="doctor-photo" />
                             </Link>
                             <div className={` ${isMapExpanded ? 'mapExpanded-sponsor-rating-stars' : 'd-none'}`}>
@@ -454,7 +448,7 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                         </div>
                         <div className="doctor-details1">
                
-                            <Link to={`/book-appointment-profile/${doctor._id}`}> 
+                            <Link to={`/book-appointment/${doctor?.slug}`}> 
                                 <h2>{doctor.name}</h2>
                             </Link>
                             <p className="speciality">{doctor.speciality + " "}</p>
@@ -523,8 +517,6 @@ const DoctorCard = ({ isMapExpanded, doctor = {},location }) => {
                                 onClick={() => {
                                     const lat = hospitalLocationLat;  // Replace slot.lat with the actual latitude value
                                     const lng = hospitalLocationLng;  // Replace slot.lng with the actual longitude value
-                                    console.log(hospitalLocationLat)
-                                    console.log(hospitalLocationLng)
                                     const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
                                     window.open(googleMapsUrl, '_blank');
                                 }}

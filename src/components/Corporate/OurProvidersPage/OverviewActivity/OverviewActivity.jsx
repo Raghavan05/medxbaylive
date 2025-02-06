@@ -79,9 +79,7 @@ const OverviewActivity = ({corporate, overviewData, corporateSpecialties ,corpor
   const saveChanges = async () => {
     setIsSaving(true);
     try {
-      console.log("Before saving:", tempSpecialties);  // Debugging output
       const updatedSpecialties = tempSpecialties;  // Convert objects to names
-      console.log("Sending to backend:", updatedSpecialties); // Debugging output
       // Optionally save to the backend
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/corporate/edit-profile`,
@@ -94,7 +92,6 @@ const OverviewActivity = ({corporate, overviewData, corporateSpecialties ,corpor
 
       setSpecialties(updatedSpecialties);
       setOverviewText1(tempOverviewText1);
-      console.log("Update successful:", response);
       alert("Overview updated successfully!");
       closeModal();
 

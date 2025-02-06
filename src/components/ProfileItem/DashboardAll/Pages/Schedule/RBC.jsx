@@ -313,7 +313,6 @@ export default function ReactBigCalendar({ onScheduleChange }) {
     }).then((result) => {
         if (result.isConfirmed && result.value) {
           const {consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;
-          console.log({ consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital });
   
           const newEvent = {
             title: consultationType === 'In-person' ? hospital : 'Video Consultation',

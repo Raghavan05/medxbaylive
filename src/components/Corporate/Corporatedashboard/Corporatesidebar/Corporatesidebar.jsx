@@ -32,10 +32,7 @@ const Corporatesidebar = () => {
         ) {
         routeKey = '/corporate/dashboardpage/corporate-view-doctors'; // Ensuring the parent menu stays active
       }
-  
-      console.log("Current Route:", location.pathname);
-      console.log("Active Route Key:", routeKey);
-  
+    
       setActiveItem(routeKey);
       localStorage.setItem('lastActiveItem', routeKey);
     };

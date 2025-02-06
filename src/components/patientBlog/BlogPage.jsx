@@ -22,14 +22,12 @@ const BlogPage = () => {
   const [relatedBlogs, setRelatedBlogs] = useState([]);
 
   const loadData = async () => {
-    console.log('came')
 
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/patient/blogs`
     );
     if (response.data) {
       var data = response.data;
-      console.log(data, id)
       setRelatedBlogs(data.recentBlogs)
       setCategories(data.categories)
     }

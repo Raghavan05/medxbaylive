@@ -35,9 +35,7 @@ const Filter = ({ onFilterChange, initialFilters }) => {
     const fetchsuppliers = async () => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/supplier/all-suppliers`, { withCredentials: true });
-            // Map or validate data as needed
-            console.log(data);
-            
+            // Map or validate data as needed            
             setFilters({
                 countries: data.countries || [],
                 states: data.states || [],
@@ -106,8 +104,6 @@ const Filter = ({ onFilterChange, initialFilters }) => {
 
         setSearchData({ suppliers: [] });
     };
-
-    // console.log(filters);
     const resetFilters = () => {
         const resetData = {
             what: '',

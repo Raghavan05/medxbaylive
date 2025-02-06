@@ -268,7 +268,6 @@ const DoctorPopUp = ({ show, handleClose,fetchDoctorDetails }) => {
   };
 
   const handleLocationSelect = (lat, lng) => {
-    console.log('Selected Location:', { lat, lng });
     setSelectedLocation({ lat, lng });
     setFormData((prevData) => ({
       ...prevData,

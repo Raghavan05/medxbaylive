@@ -41,7 +41,6 @@ const MessagePEPOP = ({ closeEditMessagePopup, supplierId }) => {
         formData
       );
 
-      console.log("Message sent:", response.data);
       setSuccessMessage("Message sent successfully! Wait for a reply from the supplier.");
       setFormData({
         name: "",

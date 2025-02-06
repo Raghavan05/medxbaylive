@@ -11,7 +11,6 @@ const Bookingdetails = () => {
   const [booking, setBooking] = useState(state?.booking || null);
 
   useEffect(() => {
-    console.log("Current booking:", booking); // Log the current booking state
     if (!booking) {
       const fetchBookingDetails = async () => {
         console.log("Fetching booking details..."); // Log before fetching

@@ -71,7 +71,6 @@ const ProfileEdit = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/patient/profile`, { withCredentials: true });
         const { patient } = response.data;
-        console.log(patient)
         const profileImageData = patient.profilePicture
           ? `data:image/jpeg;base64,${patient.profilePicture.data}` // Update the prefix if the image is not JPEG
           : profileimg;
@@ -84,7 +83,6 @@ const ProfileEdit = () => {
         setDob(patient.dateOfBirth ? formatDate(patient.dateOfBirth) : "");
         setAge(patient.age || "");
         setGender(patient.gender || "");
-        console.log(patient.gender);
         setBloodGroup(patient.bloodGroup || "");
         setInsuranceProvider(patient.insuranceProvider || "");
         setPolicyNumber(patient.policyNumber || "");
@@ -288,7 +286,6 @@ const ProfileEdit = () => {
     formData.append("email", email);
     formData.append("phoneNumber", mobileNumber);
     formData.append("address", address);
-    console.log("Formatted DOB:", formattedDob); // Add this to check the formatted dob
     formData.append("dateOfBirth", formattedDob);  // Ensure DOB is correctly formatted and added
     formData.append("age", age);
     formData.append("gender", gender);

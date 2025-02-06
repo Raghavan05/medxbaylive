@@ -30,6 +30,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import ClaimProfilePopup from '../CorporateFilterPage/ClaimProfilePopup/ClaimProfilePopup';
 import network from '../Assets/network.png';
 import { toast, ToastContainer } from 'react-toastify';
+import DynamicMeta from '../../DynamicMeta/DynamicMeta';
 const OurProvidersPage = () => {
   const [backgroundImage, setBackgroundImage] = useState(providers);
   const [profileData, setProfileData] = useState({
@@ -57,7 +58,7 @@ const OurProvidersPage = () => {
   const [inviteLinks, setInviteLinks] = useState('');
   const [isAddDoctorVisible, setIsAddDoctorVisible] = useState(false);
   const navigate = useNavigate();
-  const { corporateId } = useParams(); // Get corporateId from the route
+  const { slug } = useParams(); // Get corporateId from the route
 
   const openAddDoctorPopup = () => {
     setIsAddDoctorVisible(true);
@@ -72,18 +73,18 @@ const OurProvidersPage = () => {
      useEffect(() => {
       const userId = sessionStorage.getItem('userId'); // Check if user is logged in
   
-      if (!userId && !corporateId) {  // If no user is logged in and no `id` in URL
+      if (!userId && !slug) {  // If no user is logged in and no `id` in URL
         toast.warning("You need to log in.");
         navigate("/login"); // Redirect to login
       }
-    }, [navigate, corporateId]);
+    }, [navigate, slug]);
   
 
   // Fetch profile data from the backend
   const fetchCorporateDetails = async () => {
     try {
-      const url = corporateId
-        ? `${process.env.REACT_APP_BASE_URL}/patient/corporate/${corporateId}` // New route with corporateId
+      const url = slug
+        ? `${process.env.REACT_APP_BASE_URL}/patient/corporate/${slug}` // New route with corporateId
         : `${process.env.REACT_APP_BASE_URL}/corporate/profile`; // Existing route
 
       const response = await axios.get(url, { withCredentials: true });
@@ -91,7 +92,6 @@ const OurProvidersPage = () => {
 
       const data = response.data?.data; // Ensure data exists
       // // Log response for debugging
-      console.log("API Response:", data);
       if (!data) {
         throw new Error("Data property is undefined in the response");
       }
@@ -102,7 +102,6 @@ const OurProvidersPage = () => {
       setDoctors(data?.doctors || []);
       setBlogs(data?.blogs || []);
       setInviteLinks(data?.inviteLinks || '');
-      console.log(data?.inviteLinks);
       setOverview(data?.corporate?.overview)
       setCorporateSpecialities(data?.corporate?.corporateSpecialties)
       setProfileData({
@@ -217,7 +216,11 @@ const OurProvidersPage = () => {
 
   //Copy Link Logic here
   const copyLink = () => {
-    const link = `${window.location.origin}/OurProviders/${corporate._id}`; // Dynamically get the base URL
+    if (!corporate?.corporateName) {
+      alert("Doctor name is missing wait a second");
+      return;
+    }
+    const link = `${window.location.origin}/OurProviders/${corporate?.slug}`; // Dynamically get the base URL
     navigator.clipboard.writeText(link)
       .then(() => {
         alert('Link copied to clipboard!');
@@ -242,6 +245,11 @@ const OurProvidersPage = () => {
 
   return (
     <>
+     <DynamicMeta
+                title={corporate?.corporateName}
+                description={corporate?.overview}
+                image={bufferToBase64(corporate?.profilePicture?.data)}
+            />
           <ToastContainer/>
     <div className="our-providers-profile-container">
       <div className="our-providers-cover-profile-image-head">
@@ -342,7 +350,7 @@ const OurProvidersPage = () => {
       )}
 
 
-      <OverviewActivity corporate={corporate} overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId = {corporate._id}/>
+      <OverviewActivity corporate={corporate} overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId = {corporate?._id}/>
       {corporate.showDoctors && (
         <OurProvidersDC doctors={doctors} />
       )}

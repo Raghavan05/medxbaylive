@@ -78,7 +78,6 @@ export default function ReactBigCalendar({ onScheduleChange }) {
 
         const doctorData = response.data;
         setDoctor(doctorData);
-        console.log(doctor);
         
         const parseDateTime = (dateStr, timeStr) => {
           try {
@@ -135,7 +134,6 @@ export default function ReactBigCalendar({ onScheduleChange }) {
             const start = parseDateTime(booking.date, booking.time);
             const end = new Date(start);
             end.setMinutes(end.getMinutes() + 30); // Assuming each booking is 30 minutes
-            console.log(booking);
 
             return {
               id: booking._id,
@@ -145,12 +143,10 @@ export default function ReactBigCalendar({ onScheduleChange }) {
             };
           });
           setEvents([...timeSlots, ...bookings]);
-          console.log(bookings);
           
           const statuses = events.map((event,index)=>{ 
             return event.status
           });
-          // console.log(statuses);
           
         }
       } catch (error) {
@@ -393,9 +389,7 @@ export default function ReactBigCalendar({ onScheduleChange }) {
       },      
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const {consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;
-        console.log({ consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital });
-        
+        const {consultationType, slotType, date, startdate, enddate, starttime, endtime, hospital } = result.value;        
         const newEvent = {
           title: consultationType === 'In-person' ? hospital : 'Video Consultation',
           start: new Date(`${slotType === 'Single' ? date : startdate}T${starttime}:00`),

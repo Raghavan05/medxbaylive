@@ -27,10 +27,6 @@ const ProfileLayout = () => {
       })
       .then((response) => {
         const { patient } = response.data;
-
-        // Log the response data to check what's being received
-        console.log("Fetched user data:", response.data);
-
         const profileImageData = patient.profilePicture
           ? `data:image/jpeg;base64,${patient.profilePicture.data}` // Update the prefix if the image is not JPEG
           : profileimg;

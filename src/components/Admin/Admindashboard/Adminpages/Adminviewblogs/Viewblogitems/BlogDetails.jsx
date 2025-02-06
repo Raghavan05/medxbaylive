@@ -9,9 +9,7 @@ import { IoLogoLinkedin } from "react-icons/io5";
 import { FaTwitter } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 
-function BlogDetails({ blog ,blogImage,profilePicture}) {
-  console.log(blog);
-  
+function BlogDetails({ blog ,blogImage,profilePicture}) {  
   const comments = Array.isArray(blog.comments) ? blog.comments : [];
 
   // Function to format the date as "20 Sep 2024"

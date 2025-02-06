@@ -16,7 +16,6 @@ const ManageAccounts = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/accounts`,{withCredentials:true}); // Replace with your backend URL
         const {data} = response;
-        console.log("Accounts data:", data);
         setAccounts(data.accounts); // Assuming the response structure contains 'accounts'
       } catch (error) {
         console.error("Error fetching accounts:", error);

@@ -60,7 +60,6 @@ const Comment = ({ comments }) => {
     if (Array.isArray(comments) && comments.length > 0) {
       convertImages();
     }
-    console.log(comments)
   }, [comments]);
 
   return (

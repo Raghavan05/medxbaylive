@@ -68,12 +68,9 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    console.log("Blog submitted:", newBlog);
-  };
+    };
   const handlePublish = async () => {
      toast.info("Blog Published");
-    console.log("Blog submitted:", newBlog);
     try {
       const formData = new FormData();
       formData.append("title", newBlog.title);
@@ -95,9 +92,7 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      console.log(res);
       if (res.data) {
-        console.log("Blog updated successfully:", res.data);
         loadBlogs();
         onCancel();
          toast.info("Blog updated successfully!");
@@ -106,7 +101,6 @@ const EditBlog = ({ blog, onCancel, loadBlogs }) => {
         toast.info("Failed to update Blog.");
       }
     } catch (e) {
-      console.log(e);
       toast.info("An error occurred while updating the blog.");
     }
   };

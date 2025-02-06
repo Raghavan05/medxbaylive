@@ -20,7 +20,6 @@ const Adminmanagepayments = () => {
           withCredentials: true,
         });
         setManagePayments(response.data.doctors || []);
-        console.log(response.data.doctors);
 
       } catch (error) {
         console.error('Error fetching payments:', error);
@@ -54,7 +53,6 @@ const Adminmanagepayments = () => {
   };
 
   const openModal = (payment) => {
-    console.log("Opening modal with payment:", payment); // Add this
     setCurrentPayment(payment);
     setIsModalOpen(true);
     setEditableField(null);
@@ -79,7 +77,6 @@ const Adminmanagepayments = () => {
       });
     }
   };
-  console.log(currentPayment);
   const saveChanges = async () => {
     try {
       const response = await axios.post(

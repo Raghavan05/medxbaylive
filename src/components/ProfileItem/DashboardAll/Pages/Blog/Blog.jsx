@@ -42,7 +42,6 @@ const Blog = () => {
       setTempBlog(response.data.blogs)
     }else{
       setBlogData([]);
-      console.log(response.data)
     }
   }
   const loadPosts =async () =>{
@@ -58,7 +57,6 @@ const Blog = () => {
       setTags(data?.hashtagCountMap)
     }else{
       setBlogData([]);
-      console.log(response.data)
     }
   }
 

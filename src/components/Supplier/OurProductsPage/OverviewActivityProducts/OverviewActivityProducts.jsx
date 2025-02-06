@@ -111,10 +111,7 @@ const OverviewActivityProducts = ({supplier, overviewData, productCategories}) =
     setIsSaving(true);
     try {
       // Ensure no empty names exist
-     console.log("Before saving:", tempSpecialties);  // Debugging output
-      const updatedSpecialties = tempSpecialties;  // Convert objects to names
-      console.log("Sending to backend:", updatedSpecialties); // Debugging output
-  
+      const updatedSpecialties = tempSpecialties;  // Convert objects to names  
       // Optionally save to the backend
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/supplier/update-profile`,
@@ -125,7 +122,6 @@ const OverviewActivityProducts = ({supplier, overviewData, productCategories}) =
         { withCredentials: true }
       );
       setSpecialties(updatedSpecialties);
-      console.log("Update successful:", response.data);
       alert("Overview updated successfully!");
       closeModal();
     } catch (error) {
