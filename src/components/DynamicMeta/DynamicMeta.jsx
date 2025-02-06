@@ -8,14 +8,14 @@ const DynamicMeta = ({ title, description, image }) => {
     
     return (
         <Helmet>
-            <title>{title}</title>
+            <title>{title || "MedxBay"}</title>
             <meta name="description" content={description} />
 
             {/* Open Graph (OG) Meta Tags for Facebook, WhatsApp */}
-            <meta name="title" content={title} />
-            <meta name="description" content={description} />
-            <meta name="image" content={image} />
-            <meta name="og:url" content={url} />
+            <meta property="og:title" content={title || "MedxBay"} />
+            <meta property="og:description" content={description || "MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."} />
+            <meta property="og:image" content={image || "preview.jpeg"} />
+            <meta property="og:url" content={url || "https://medxbay.com"} />
             <meta property="og:type" content="website" />
 
             {/* Twitter Meta Tags */}
