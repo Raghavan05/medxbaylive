@@ -20,6 +20,7 @@ import DawnnaWalton from './About_Assets/DawnnaWalton.png';
 import RaeesTonse from './About_Assets/RaeesTonse.png';
 import SarahMuna from './About_Assets/SarahMuna.png';
 import MagdaSnowden from './About_Assets/Magda Snowden.png';
+import DynamicMeta from '../DynamicMeta/DynamicMeta';
 const About = () => {
    
     const teamMembers = [
@@ -92,6 +93,11 @@ const About = () => {
 
     return (
         <> 
+            <DynamicMeta
+                title={"Medxbay"}
+                description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+                image={null}
+            />
         <div className='about-us-main-container'>
             <section className="about-us-container">
                 <div className="top-section11">

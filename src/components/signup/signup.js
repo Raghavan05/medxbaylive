@@ -1,4 +1,4 @@
-import React, { useEffect,useState ,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './signup.css'
 import logobrand from '../Assets/logobrand.png';
 import { FaTimes } from "react-icons/fa";
@@ -24,6 +24,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 import { Link } from 'react-router-dom';
+import DynamicMeta from '../DynamicMeta/DynamicMeta';
 
 const SignupCard = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +38,7 @@ const SignupCard = () => {
   const [emailError, setEmailError] = useState('');
   const [mobileError, setMobileError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  
+
   const handleGoogleSignIn = (role) => {
     setIsLoading(true);
     const rolePath = role.toLowerCase();
@@ -73,7 +74,7 @@ const SignupCard = () => {
     setIsSubmitting(true);
     let user;
     let endpoint;
-    
+
     // Define the endpoint and request body based on the selected role
     if (selectedRole === 'Provider') {
       endpoint = `${process.env.REACT_APP_BASE_URL}/auth/signup/doctor`;
@@ -83,10 +84,10 @@ const SignupCard = () => {
       user = { name, email, phoneNumber, password };
     } else if (selectedRole === 'Supplier') {
       endpoint = `${process.env.REACT_APP_BASE_URL}/supplier/register`;
-      user = { name, email, phone : phoneNumber, password };
+      user = { name, email, phone: phoneNumber, password };
     } else if (selectedRole === 'Corporate') {
       endpoint = `${process.env.REACT_APP_BASE_URL}/corporate/signup`;
-      user = { corporateName: name, email, mobileNumber : phoneNumber, password };
+      user = { corporateName: name, email, mobileNumber: phoneNumber, password };
     } else {
       console.error("Invalid user type");
       setIsSubmitting(false);
@@ -314,17 +315,22 @@ const SignupCard = () => {
 
   return (
     <>
+      <DynamicMeta
+        title={"Medxbay"}
+        description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+        image={null}
+      />
       <div className='signupnew--total-container'>
         <div className='signupnew--close-custom-container'>
           <button type="button" className="signupnew--close-custom" aria-label="Close">
             <Link to={'https://medxbay.com'}>
-              <FaTimes size='1rem'/>
+              <FaTimes size='1rem' />
             </Link>
           </button>
         </div>
         <div className='signupnew--container'>
           <ToastContainer />
-         
+
           <div className="smile-emoji">
             <div className='smile-emoji-container-one'>
               <img src={logobrand} alt="logo" className="brand-image-logo" />
@@ -352,36 +358,36 @@ const SignupCard = () => {
               </div>
 
               <div className="role-selection-container">
-                  <div className="role-selection-grid">
-                    <div
-                      className={`role-card ${selectedRole === 'Patient' ? 'active-role' : ''}`}
-                      onClick={() => handleRoleClick('Patient')}
-                    >
-                      <img src={patientRole} alt="Patient" className="role-icon" />
-                      <span className="role-label">Patient</span>
-                    </div>
-                    <div
-                      className={`role-card ${selectedRole === 'Provider' ? 'active-role' : ''}`}
-                      onClick={() => handleRoleClick('Provider')}
-                    >
-                      <img src={doctorRole} alt="Provider" className="role-icon" />
-                      <span className="role-label">Provider</span>
-                    </div>
-                    <div
-                      className={`role-card ${selectedRole === 'Supplier' ? 'active-role' : ''}`}
-                      onClick={() => handleRoleClick('Supplier')}
-                    >
-                      <img src={supplierRole} alt="Supplier" className="role-icon" />
-                      <span className="role-label">Supplier</span>
-                    </div>
-                    <div
-                      className={`role-card ${selectedRole === 'Corporate' ? 'active-role' : ''}`}
-                      onClick={() => handleRoleClick('Corporate')}
-                    >
-                      <img src={corporateRole} alt="Corporate" className="role-icon" />
-                      <span className="role-label">Corporate</span>
-                    </div>
+                <div className="role-selection-grid">
+                  <div
+                    className={`role-card ${selectedRole === 'Patient' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Patient')}
+                  >
+                    <img src={patientRole} alt="Patient" className="role-icon" />
+                    <span className="role-label">Patient</span>
                   </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Provider' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Provider')}
+                  >
+                    <img src={doctorRole} alt="Provider" className="role-icon" />
+                    <span className="role-label">Provider</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Supplier' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Supplier')}
+                  >
+                    <img src={supplierRole} alt="Supplier" className="role-icon" />
+                    <span className="role-label">Supplier</span>
+                  </div>
+                  <div
+                    className={`role-card ${selectedRole === 'Corporate' ? 'active-role' : ''}`}
+                    onClick={() => handleRoleClick('Corporate')}
+                  >
+                    <img src={corporateRole} alt="Corporate" className="role-icon" />
+                    <span className="role-label">Corporate</span>
+                  </div>
+                </div>
               </div>
 
               <form onSubmit={register} className="form-overall-container">
@@ -459,15 +465,15 @@ const SignupCard = () => {
                     </button> 
                     <button className='apple-button-sign-up'><img src={apple} alt='Apple' className='apple-sign-up-image'></img></button>
                 </div> */}
-                    
+
                 <div className='login-option-container'>
                   <div className='account-sign-up'>Have an account?</div>
-                    <Link className='login-link-signup' to="/login" >
-                        Sign In
-                    </Link>
-                  </div>
+                  <Link className='login-link-signup' to="/login" >
+                    Sign In
+                  </Link>
+                </div>
 
-                  {/* <div className='provider-option-container'>
+                {/* <div className='provider-option-container'>
                     <div className="account-sign-up-provider">
                       {isProvider ? 'Are you a patient?' : 'Are you a provider?'}
                     </div>
@@ -501,15 +507,15 @@ const SignupCard = () => {
                   </div> */}
               </div>
             </div>
-            
+
             <div className='smile-emoji-container-one'>
               <div className="speech-bubble-container-std">
                 <div className="speech-bubble-std">
                   <span className="typing-animation-std">
-                    Greetings! 👋 Book your visit <br/>today. 📅
+                    Greetings! 👋 Book your visit <br />today. 📅
                   </span>
                 </div>
-              </div>  
+              </div>
               <div className="handsucking">👋</div>
               <img src={doctorconsultation} alt="meds" className="consultation-emoji" />
               <img src={heartbeat} alt="meds" className="heartbeat-emoji" />

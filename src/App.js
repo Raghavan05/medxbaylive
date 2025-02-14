@@ -24,7 +24,7 @@ import FilterPage from './components/FilterPage/FilterPage';
 import VerifyLogin from './components/login/VerifyLogin';
 import Login from './components/login/login';
 import Verification from './components/login/Verification';
-import  Blog from './components/patientBlog/blog';
+import Blog from './components/patientBlog/blog';
 
 import Nestednavbar from './components/Nestednavbar2/Nestednavbar';
 import SubscriptionPlans from './components/Subscription/SubscriptionPlans';
@@ -51,8 +51,8 @@ import DoctorPhysician from './components/Footerpage/DoctorPhysician/DoctorPhysi
 import Conditions from './components/patientBlog/ConditionLibrariesMenu';
 import EditBlog from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/EditBlog';
 import BlogDetails from './components/ProfileItem/DashboardAll/Pages/Blog/Blog/BlogDetails';
-import  Blognew from './components/patientBlog/blognew';
-import  Showall from './components/patientBlog/newestblog';
+import Blognew from './components/patientBlog/blognew';
+import Showall from './components/patientBlog/newestblog';
 import NewsRoom from './components/NewsRoom/NewsRoom'
 import OurProvidersPage from './components/Corporate/OurProvidersPage/OurProvidersPage';
 import Corporateroute from './components/Corporate/Corporatedashboard/Corporateroute/Corporateroute';
@@ -65,75 +65,75 @@ import ProviderSignup from './components/signup/ProviderSignup';
 function App() {
   useEffect(() => {
     document.title = "MedxBay";
-}, []);
+  }, []);
   return (
     <>
-    <SearchProvider>
-      <Router>
-        <Routes>
-        <Route path="/" element={[<HeroPage/>,<Footer/>]} />          
-        <Route path="/reset-password" element={<ChangePassword />} />
-          <Route path="/Doctor/profile/Edit" element={[<Navbar/>,<DoctorEdit />,<Footer/>]} />     
-          <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar/>,<DoctorEditPatient />,<Footer/>]} />     
-          
-          <Route path="/edit/profile/doctor" element={[<Navbar/>,<Editdoctorprofile />,<Footer/>]}  />
-          <Route path="/doctor/:id" element={[<Nestednavbar/>,<DoctorProfile />,<Footer/>]}/>
-          <Route path="/profile/*" element={<ProfileRoutes />} />
-          <Route path="/doctorprofile/dashboardpage/*" element={<ConnectedRoutes />} />
-          <Route path="/Filters" element={[<Nestednavbar/>,<FilterPage />,<Footer/>]} />
-          <Route path="/Spotlights" element={[<Navbar/>,<NewsRoom />,<Footer/>]} />
-          <Route path="/verify/login" element={<VerifyLogin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/verify" element={<Verification />} />
-          <Route path="/condition-libraries/:condition" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/>
-          <Route path="/condition-libraries-menu" element={[<Nestednavbar/>,<Conditions />,<Footer/>]}/>
-          {/* <Route path="/condition-libraries-menu" element={<Conditions />}/> */}
-          {/* <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/> */}
-          {/* <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>       */}
-          <Route path="/blogs/showAll/:condition/:category" element={[<Nestednavbar/>,<Showall />,<Footer/>]}/>   
-          <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>      
-              <Route path="/edit/profile/doctor" element={[<Navbar/>,<DoctorPopUp />,<Footer/>]}  />
-          <Route path="/SubscriptionPlans" element={[<Navbar/>,<SubscriptionPlans />,<Footer/>]}  />
-          <Route path="/Message" element={[<Navbar/>,<Message />,<Footer/>]}  />
-          <Route path="/faq/section" element={[<Navbar/>,<FaqSection />,<Footer/>]} />
-          <Route path="/about/section" element={[<Navbar/>,<About />,<Footer/>]} />
-          <Route path="/terms" element={[<Navbar/>,<TermsAndConditions />,<Footer/>]} />
-          <Route path="/enterprise" element={[<Navbar/>,<Enterprise />,<Footer/>]} />
-          <Route path="/signup" element={<SignupCard />} />
-          <Route path="/provider/signup" element={<ProviderSignup />} />
-          <Route path="/privacy" element={[<Navbar/>,<PrivacyPolicy />,<Footer/>]} />
-          <Route path="/doc-profile" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
-          {/* <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/> */}
-          <Route path="/book-appointment/:slug" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/>
+      <SearchProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={[<HeroPage />, <Footer />]} />
+            <Route path="/reset-password" element={<ChangePassword />} />
+            <Route path="/Doctor/profile/Edit" element={[<Navbar />, <DoctorEdit />, <Footer />]} />
+            <Route path="/Doctor/profile/Edit/Patient/:id" element={[<Navbar />, <DoctorEditPatient />, <Footer />]} />
+
+            <Route path="/edit/profile/doctor" element={[<Navbar />, <Editdoctorprofile />, <Footer />]} />
+            <Route path="/doctor/:id" element={[<Nestednavbar />, <DoctorProfile />, <Footer />]} />
+            <Route path="/profile/*" element={<ProfileRoutes />} />
+            <Route path="/doctorprofile/dashboardpage/*" element={<ConnectedRoutes />} />
+            <Route path="/Filters" element={[<Nestednavbar />, <FilterPage />, <Footer />]} />
+            <Route path="/Spotlights" element={[<Navbar />, <NewsRoom />, <Footer />]} />
+            <Route path="/verify/login" element={<VerifyLogin />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/verify" element={<Verification />} />
+            <Route path="/condition-libraries/:condition" element={[<Nestednavbar />, <Blog />, <Footer />]} />
+            <Route path="/condition-libraries-menu" element={[<Nestednavbar />, <Conditions />, <Footer />]} />
+            {/* <Route path="/condition-libraries-menu" element={<Conditions />}/> */}
+            {/* <Route path="/condition-libraries" element={[<Nestednavbar/>,<Blog />,<Footer/>]}/> */}
+            {/* <Route path="/blogPost/:id" element={[<Nestednavbar/>,<Blognew />,<Footer/>]}/>       */}
+            <Route path="/blogs/showAll/:condition/:category" element={[<Nestednavbar />, <Showall />, <Footer />]} />
+            <Route path="/blogPost/:id" element={[<Nestednavbar />, <Blognew />, <Footer />]} />
+            <Route path="/edit/profile/doctor" element={[<Navbar />, <DoctorPopUp />, <Footer />]} />
+            <Route path="/SubscriptionPlans" element={[<Navbar />, <SubscriptionPlans />, <Footer />]} />
+            <Route path="/Message" element={[<Navbar />, <Message />, <Footer />]} />
+            <Route path="/faq/section" element={[<Navbar />, <FaqSection />, <Footer />]} />
+            <Route path="/about/section" element={[<Navbar />, <About />, <Footer />]} />
+            <Route path="/terms" element={[<Navbar />, <TermsAndConditions />, <Footer />]} />
+            <Route path="/enterprise" element={[<Navbar />, <Enterprise />, <Footer />]} />
+            <Route path="/signup" element={<SignupCard />} />
+            <Route path="/provider/signup" element={<ProviderSignup />} />
+            <Route path="/privacy" element={[<Navbar />, <PrivacyPolicy />, <Footer />]} />
+            <Route path="/doc-profile" element={[<Nestednavbar />, <ProviderProfile />, <Footer />]} />
+            {/* <Route path="/book-appointment-profile/:id" element={[<Nestednavbar/>,<ProviderProfile />,<Footer/>]}/> */}
+            <Route path="/book-appointment/:slug" element={[<Nestednavbar />, <ProviderProfile />, <Footer />]} />
 
 
-          {/* Admin */}
-          <Route path="/admin/dashboardpage/*" element={<Adminroute/>} />
-          
-          {/* Corporate */}
-          <Route path="/OurProviders" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
-          {/* <Route path="/OurProviders/:corporateId" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/> */}
-          <Route path="/OurProviders/:slug" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/>
-          <Route path="/corporate/dashboardpage/*" element={<Corporateroute/>} />
-          <Route path="/corporate/Filters" element={[<Nestednavbar/>,<CorporateFilter />,<Footer/>]} />
+            {/* Admin */}
+            <Route path="/admin/dashboardpage/*" element={<Adminroute />} />
 
-          {/* Suppliers */}
-          <Route path="/OurProducts" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
-          {/* <Route path="/OurProducts/:supplierId" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/> */}
-          <Route path="/OurProducts/:slug" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/>
-          <Route path="/supplier/dashboardpage/*" element={[<Navbar/>,<Supplierroute/>,<Footer/>]} />
-          <Route path="/supplier/Filters" element={[<Nestednavbar/>,<SupplierFilter/>,<Footer/>]} />
+            {/* Corporate */}
+            <Route path="/OurProviders" element={[<Nestednavbar />, <OurProvidersPage />, <Footer />]} />
+            {/* <Route path="/OurProviders/:corporateId" element={[<Nestednavbar/>,<OurProvidersPage/>,<Footer/>]}/> */}
+            <Route path="/OurProviders/:slug" element={[<Nestednavbar />, <OurProvidersPage />, <Footer />]} />
+            <Route path="/corporate/dashboardpage/*" element={<Corporateroute />} />
+            <Route path="/corporate/Filters" element={[<Nestednavbar />, <CorporateFilter />, <Footer />]} />
 
-          <Route path="/contact-us" element={[<Nestednavbar/>,<ContactUs />,<Footer/>]}/>
-          <Route path="/patients" element={[<Nestednavbar/>,<Patients />,<Footer/>]}/>
-          <Route path="/doctor/physician" element={[<Nestednavbar/>,<DoctorPhysician />,<Footer/>]}/>
-          <Route path="/blogs/edit/:id" element={[<Nestednavbar/>,<EditBlog />,<Footer/>]}/>
+            {/* Suppliers */}
+            <Route path="/OurProducts" element={[<Nestednavbar />, <OurProductsPage />, <Footer />]} />
+            {/* <Route path="/OurProducts/:supplierId" element={[<Nestednavbar/>,<OurProductsPage/>,<Footer/>]}/> */}
+            <Route path="/OurProducts/:slug" element={[<Nestednavbar />, <OurProductsPage />, <Footer />]} />
+            <Route path="/supplier/dashboardpage/*" element={[<Navbar />, <Supplierroute />, <Footer />]} />
+            <Route path="/supplier/Filters" element={[<Nestednavbar />, <SupplierFilter />, <Footer />]} />
 
-          <Route path="/blogs/:id" element={[<Nestednavbar/>,<BlogDetails />,<Footer/>]}/>
+            <Route path="/contact-us" element={[<Nestednavbar />, <ContactUs />, <Footer />]} />
+            <Route path="/patients" element={[<Nestednavbar />, <Patients />, <Footer />]} />
+            <Route path="/doctor/physician" element={[<Nestednavbar />, <DoctorPhysician />, <Footer />]} />
+            <Route path="/blogs/edit/:id" element={[<Nestednavbar />, <EditBlog />, <Footer />]} />
+
+            <Route path="/blogs/:id" element={[<Nestednavbar />, <BlogDetails />, <Footer />]} />
 
 
-        </Routes>
-      </Router>
+          </Routes>
+        </Router>
       </SearchProvider>
     </>
   );

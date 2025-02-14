@@ -8,6 +8,7 @@ import { useSearch } from '../context/context';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IoClose } from "react-icons/io5";
+import DynamicMeta from '../DynamicMeta/DynamicMeta';
 
 const FilterPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -136,7 +137,7 @@ const FilterPage = () => {
   const filterDoctors = (doctors) => {
     if (!Array.isArray(doctors)) {
       return [];
-    }    
+    }
     return doctors.filter((doctor) => {
       const getStringValue = (value) => (typeof value === 'string' ? value.toLowerCase().replace(" ", "") : '');
 
@@ -185,10 +186,15 @@ const FilterPage = () => {
   };
 
   // const filteredDoctors = filterDoctors(doctors);
-  const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors); 
+  const filteredDoctors = doctors.length === 0 ? filterDoctors(doc) : filterDoctors(doctors);
 
   return (
     <>
+      <DynamicMeta
+        title={"Medxbay"}
+        description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+        image={null}
+      />
       <div className='container-fluid mt-lg-5'>
         <div className='filterpage-container'>
           <button onClick={toggleFilterCanvas} className="filterpage-hamburger btn btn-primary my-3 d-lg-none">
@@ -205,26 +211,26 @@ const FilterPage = () => {
         </div>
 
         <div className='filterpage-parent d-flex flex-column flex-lg-row'>
-        <div className="filter-edit col-12 col-lg-3">
-              <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
-            </div>
-            <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
-              <DoctorMainCard isMapExpanded={isMapExpanded} doctors={filteredDoctors} location={locations} responseStatus={responseStatus} />
-            </div>
-            <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
-              <MapContainer
-                expanded={isMapExpanded}
-                searchInput={searchInput}
-                onExpandToggle={handleMapExpandToggle}
-                onSearchInputChange={handleSearchInputChange}
-                onSearchButtonClick={handleSearchButtonClick}
-                onResetClick={handleResetClick}
-                uniqueLocations={locations}
-                onClickOutside={handleMapClose}
-                onLocationClick={handleLocationClick}
-              />
-            </div>
+          <div className="filter-edit col-12 col-lg-3">
+            <Filter onFilterChange={handleFilterChange} initialFilters={filters} />
           </div>
+          <div className={`doctorMainCard-edit ${isMapExpanded ? 'col-4' : 'col-12 col-lg-6'}`}>
+            <DoctorMainCard isMapExpanded={isMapExpanded} doctors={filteredDoctors} location={locations} responseStatus={responseStatus} />
+          </div>
+          <div className={`map-edit d-none d-lg-block ${isMapExpanded ? 'col-5 mt-4' : 'col-3'}`}>
+            <MapContainer
+              expanded={isMapExpanded}
+              searchInput={searchInput}
+              onExpandToggle={handleMapExpandToggle}
+              onSearchInputChange={handleSearchInputChange}
+              onSearchButtonClick={handleSearchButtonClick}
+              onResetClick={handleResetClick}
+              uniqueLocations={locations}
+              onClickOutside={handleMapClose}
+              onLocationClick={handleLocationClick}
+            />
+          </div>
+        </div>
       </div>
     </>
   );

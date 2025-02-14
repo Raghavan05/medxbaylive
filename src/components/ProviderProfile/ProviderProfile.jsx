@@ -23,7 +23,7 @@ import BlogsProviderProfile from './BlogsProviderProfile/BlogsProviderProfile';
 import FAQProviderProfile from './FAQProviderProfile/FAQProviderProfile';
 import axios from 'axios';
 import { fetchFromDoctor } from '../../actions/api';
-import {ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import ClaimProfilePopup from '../FilterPage/ClaimProfilePopup/ClaimProfilePopup';
 import DynamicMeta from '../DynamicMeta/DynamicMeta';
 
@@ -54,7 +54,7 @@ const ProviderProfile = () => {
     }
     return '';
   };
-   useEffect(() => {
+  useEffect(() => {
     const userId = sessionStorage.getItem('userId'); // Check if user is logged in
 
     if (!userId && !slug) {  // If no user is logged in and no `id` in URL
@@ -120,8 +120,8 @@ const ProviderProfile = () => {
       };
       fetchDoctorslugDetails();
     }
-    else{
-    fetchDoctorDetails();
+    else {
+      fetchDoctorDetails();
     }
   }, []);
 
@@ -145,7 +145,7 @@ const ProviderProfile = () => {
         console.error('Failed to copy link: ', err);
       });
   };
-  
+
   const [loading, setLoading] = useState(false);
   const handleVerify = async (e) => {
     e.preventDefault();
@@ -285,20 +285,20 @@ const ProviderProfile = () => {
       document.body.classList.remove('scroll-lock');
     };
   }, []);
-    // Claim Profile using Start
-    const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
-  
-    const openClaimPopup = () => {
-      setIsClaimPopupVisible(true);
-      document.body.classList.add("scroll-lock");
-    };
-  
-    const handleCloseClaimPopup = () => {
-      setIsClaimPopupVisible(false);
-      document.body.classList.remove("scroll-lock");
-    };
-    // Claim Profile using End
-  
+  // Claim Profile using Start
+  const [isClaimPopupVisible, setIsClaimPopupVisible] = useState(false);
+
+  const openClaimPopup = () => {
+    setIsClaimPopupVisible(true);
+    document.body.classList.add("scroll-lock");
+  };
+
+  const handleCloseClaimPopup = () => {
+    setIsClaimPopupVisible(false);
+    document.body.classList.remove("scroll-lock");
+  };
+  // Claim Profile using End
+
   return (
     <>
       <DynamicMeta
@@ -306,138 +306,138 @@ const ProviderProfile = () => {
         description={doctor?.aboutMe}
         image={bufferToBase64(doctor?.profilePicture?.data)}
       />
-      <ToastContainer/>
-    <div className="Provider-profile-container">
-      <div className="Provider-profile-cover-profile-image-head">
-        <img src={coverProfileImg} alt="Background" />
-        {sessionStorage.getItem('userId') === doctor._id && (
-          <div className="Provider-profile-edit-cover-img">
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleChangeCoverimage}
-              style={{ display: 'none' }}
-              accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
-            />
-            <LuPencil className="Provider-profile-cover-edit-icon" onClick={handleEditClick} />
-          </div>
-        )}
-        {/* Preview and confirmation UI */}
-        {showPreview && (
-          <div className="Provider-profile-preview-container">
-            <img src={backgroundImage} alt="Cover Preview" className="Provider-profile-cover-preview" />
-            <div className="Provider-profile-button-group">
-              <button onClick={handleConfirmUpload} className="Provider-profile-savebutton" type="submit" disabled={isSaving}>
-                <span className="Provider-profile-savebutton-text">Confirm</span>
-                {isSaving && <div className="Provider-profile-spinner-overlay">
-                  <div className="Provider-profile-small-spinner"></div>
-                </div>}
-              </button>
-              <button onClick={handleCancel} className="Provider-profile-cancel-btn">Cancel</button>
+      <ToastContainer />
+      <div className="Provider-profile-container">
+        <div className="Provider-profile-cover-profile-image-head">
+          <img src={coverProfileImg} alt="Background" />
+          {sessionStorage.getItem('userId') === doctor._id && (
+            <div className="Provider-profile-edit-cover-img">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleChangeCoverimage}
+                style={{ display: 'none' }}
+                accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+              />
+              <LuPencil className="Provider-profile-cover-edit-icon" onClick={handleEditClick} />
+            </div>
+          )}
+          {/* Preview and confirmation UI */}
+          {showPreview && (
+            <div className="Provider-profile-preview-container">
+              <img src={backgroundImage} alt="Cover Preview" className="Provider-profile-cover-preview" />
+              <div className="Provider-profile-button-group">
+                <button onClick={handleConfirmUpload} className="Provider-profile-savebutton" type="submit" disabled={isSaving}>
+                  <span className="Provider-profile-savebutton-text">Confirm</span>
+                  {isSaving && <div className="Provider-profile-spinner-overlay">
+                    <div className="Provider-profile-small-spinner"></div>
+                  </div>}
+                </button>
+                <button onClick={handleCancel} className="Provider-profile-cancel-btn">Cancel</button>
+              </div>
+            </div>
+          )}
+
+          <div className="Provider-profile-profile-info">
+            <div className="Provider-profile-profile-img">
+              <img src={profileImg} alt="Profile" />
             </div>
           </div>
-        )}
-
-        <div className="Provider-profile-profile-info">
-          <div className="Provider-profile-profile-img">
-            <img src={profileImg} alt="Profile" />
-          </div>
-        </div>
-      </div>
-
-      <div className="Provider-profile-profile-details">
-        <div className="Provider-profile-body">
-          <div className="Provider-profile-body-title-container">
-            <h2>{doctor?.name || "No name available"}</h2>
-          </div>
-          <p className="subtitle">{doctor?.title || "No title available"}</p>
         </div>
 
-        <div className="Provider-profile-body-buttons">
-          <div className="Provider-profile-body-buttons-two">
-            {sessionStorage.getItem('userId') === doctor?._id && (
-              <button className="Edit-button" onClick={handleNavigateDoctorEditProfile}>
-                <TbEdit size="1rem" /> Edit Profile
-              </button>
-            )
-            }
-            {sessionStorage.getItem('userId') === doctor?._id && (
-            <button
-              className="verify-button"
-              onClick={handleVerify}
-              disabled={
-                loading ||
-                doctor.verified === "Pending" ||
-                (doctor.verified === "Verified" &&
-                  doctor.subscriptionVerification === "Verified")
-              }>
-              {doctor.verified === "Verified"
-                ? doctor.subscriptionVerification === "Verified"
-                  ? doctor.subscriptionType
-                  : "Subscribe"
-                : doctor.verified === "Pending"
-                  ? "Pending"
-                  : "Request To Verify"}
-            </button>
-            )}
+        <div className="Provider-profile-profile-details">
+          <div className="Provider-profile-body">
+            <div className="Provider-profile-body-title-container">
+              <h2>{doctor?.name || "No name available"}</h2>
+            </div>
+            <p className="subtitle">{doctor?.title || "No title available"}</p>
+          </div>
+
+          <div className="Provider-profile-body-buttons">
+            <div className="Provider-profile-body-buttons-two">
+              {sessionStorage.getItem('userId') === doctor?._id && (
+                <button className="Edit-button" onClick={handleNavigateDoctorEditProfile}>
+                  <TbEdit size="1rem" /> Edit Profile
+                </button>
+              )
+              }
+              {sessionStorage.getItem('userId') === doctor?._id && (
+                <button
+                  className="verify-button"
+                  onClick={handleVerify}
+                  disabled={
+                    loading ||
+                    doctor.verified === "Pending" ||
+                    (doctor.verified === "Verified" &&
+                      doctor.subscriptionVerification === "Verified")
+                  }>
+                  {doctor.verified === "Verified"
+                    ? doctor.subscriptionVerification === "Verified"
+                      ? doctor.subscriptionType
+                      : "Subscribe"
+                    : doctor.verified === "Pending"
+                      ? "Pending"
+                      : "Request To Verify"}
+                </button>
+              )}
               {/* {id && (
               <button className="appointment-button" onClick={openEditPopup}>Book an Appointment</button>
             )} */}
-            {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
-                        <button className={`appointment-button  mr-2  `}
-                          onClick={openClaimPopup}
-                        >Claim Profile!</button>
-                      ) : slug && (
-                          <button className={`appointment-button `} onClick={openEditPopup} >Book an Appointment</button>
-                      )}
-            <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
-              <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
-            </div>
-            {isDropdownOpen && (
-              <div
-                ref={dropdownRef}
-                className={`Provider-profile-dropdown-content ${isDropdownOpen ? 'show' : ''}`}
-                tabIndex={0}
-                onBlur={handleBlur}
-              >
-                <div className="Provider-profile-dropdown-item" onClick={handleCopyLink}>
-                  <RxExternalLink size="1rem" /> Copy Link
-                </div>
-                <div className="Provider-profile-dropdown-item" onClick={handleShareClick}>
-                  <BiSolidShareAlt size="1rem" /> Share Profile
-                </div>
-
+              {doctor?.createdByAdmin === true && doctor?.profileTransferRequest !== "Accepted" ? (
+                <button className={`appointment-button  mr-2  `}
+                  onClick={openClaimPopup}
+                >Claim Profile!</button>
+              ) : slug && (
+                <button className={`appointment-button `} onClick={openEditPopup} >Book an Appointment</button>
+              )}
+              <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
+                <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
               </div>
+              {isDropdownOpen && (
+                <div
+                  ref={dropdownRef}
+                  className={`Provider-profile-dropdown-content ${isDropdownOpen ? 'show' : ''}`}
+                  tabIndex={0}
+                  onBlur={handleBlur}
+                >
+                  <div className="Provider-profile-dropdown-item" onClick={handleCopyLink}>
+                    <RxExternalLink size="1rem" /> Copy Link
+                  </div>
+                  <div className="Provider-profile-dropdown-item" onClick={handleShareClick}>
+                    <BiSolidShareAlt size="1rem" /> Share Profile
+                  </div>
+
+                </div>
+              )}
+            </div>
+            {isEditPopupOpen && (
+              <AppointmentPOPOP
+                closeEditPopup={closeEditPopup}
+              />
             )}
           </div>
-          {isEditPopupOpen && (
-            <AppointmentPOPOP
-              closeEditPopup={closeEditPopup}
-            />
-          )}
         </div>
-      </div>
-      {isClaimPopupVisible && (
-        <ClaimProfilePopup
-        doctorId={doctor._id}
-          handleCloseClaimPopup={handleCloseClaimPopup} />
-      )}
-      <AboutsProviderProfile doctor={doctor} />
-      <LocationProviderProfile doctor={doctor} />
-      {doctor?.showInsurances && (
-        <AcceptedInsurancesPP insurances={insurances} />
-      )}
-      {doctor?.showAwards && (
-        <AwardsProviderProfile doctor={doctor} />
-      )}
-      {/* {doctor?.showArticle && (
+        {isClaimPopupVisible && (
+          <ClaimProfilePopup
+            doctorId={doctor._id}
+            handleCloseClaimPopup={handleCloseClaimPopup} />
+        )}
+        <AboutsProviderProfile doctor={doctor} />
+        <LocationProviderProfile doctor={doctor} />
+        {doctor?.showInsurances && (
+          <AcceptedInsurancesPP insurances={insurances} />
+        )}
+        {doctor?.showAwards && (
+          <AwardsProviderProfile doctor={doctor} />
+        )}
+        {/* {doctor?.showArticle && (
         <BlogsProviderProfile />
       )} */}
-      {doctor?.showFaq && (
-        <FAQProviderProfile doctor={doctor} />
-      )}
-      <ProviderShareProfilePopup Providername={doctor?.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
-    </div>
+        {doctor?.showFaq && (
+          <FAQProviderProfile doctor={doctor} />
+        )}
+        <ProviderShareProfilePopup Providername={doctor?.name} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
+      </div>
     </>
   )
 }

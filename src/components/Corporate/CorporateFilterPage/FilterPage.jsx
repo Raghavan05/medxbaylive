@@ -8,6 +8,7 @@ import { useSearch } from '../../context/context';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IoClose } from "react-icons/io5";
+import DynamicMeta from '../../DynamicMeta/DynamicMeta';
 
 const FilterPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -170,6 +171,11 @@ const FilterPage = () => {
 
   return (
     <>
+      <DynamicMeta
+        title={"Medxbay"}
+        description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+        image={null}
+      />
       <div className='container-fluid mt-lg-5'>
         <div className='filterpage-container'>
           <button onClick={toggleFilterCanvas} className="filterpage-hamburger btn btn-primary my-3 d-lg-none">

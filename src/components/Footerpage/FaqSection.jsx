@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./FaqSection.css";
+import DynamicMeta from "../DynamicMeta/DynamicMeta";
 
 const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -9,6 +10,12 @@ const FaqSection = () => {
   };
 
   return (
+    <>
+        <DynamicMeta
+                title={"Medxbay"}
+                description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+                image={null}
+            />
     <div className="faq-section00">
       <h1 className="faq-title00">Frequently Asked Questions</h1>
 
@@ -360,6 +367,7 @@ const FaqSection = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

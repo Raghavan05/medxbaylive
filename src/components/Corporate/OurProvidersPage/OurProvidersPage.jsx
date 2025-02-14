@@ -70,15 +70,15 @@ const OurProvidersPage = () => {
     document.body.classList.remove('scroll-lock');
   };
 
-     useEffect(() => {
-      const userId = sessionStorage.getItem('userId'); // Check if user is logged in
-  
-      if (!userId && !slug) {  // If no user is logged in and no `id` in URL
-        toast.warning("You need to log in.");
-        navigate("/login"); // Redirect to login
-      }
-    }, [navigate, slug]);
-  
+  useEffect(() => {
+    const userId = sessionStorage.getItem('userId'); // Check if user is logged in
+
+    if (!userId && !slug) {  // If no user is logged in and no `id` in URL
+      toast.warning("You need to log in.");
+      navigate("/login"); // Redirect to login
+    }
+  }, [navigate, slug]);
+
 
   // Fetch profile data from the backend
   const fetchCorporateDetails = async () => {
@@ -245,126 +245,126 @@ const OurProvidersPage = () => {
 
   return (
     <>
-     <DynamicMeta
-                title={corporate?.corporateName}
-                description={corporate?.overview}
-                image={bufferToBase64(corporate?.profilePicture?.data)}
-            />
-          <ToastContainer/>
-    <div className="our-providers-profile-container">
-      <div className="our-providers-cover-profile-image-head">
-        <img src={backgroundImage} alt="Background" />
-        {sessionStorage.getItem('userId') === corporate._id && (
-        <div className="our-provider-edit-cover-img">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleChangeCoverImage}
-            style={{ display: 'none' }}
-            accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
-          />
-          <LuPencil className="our-provider-cover-edit-icon" onClick={handleEditClick} />
-        </div>
-        )}
-
-        <div className="our-provider-profile-info">
-          <div className="our-provider-profile-img">
-            <img src={profileData.profileImage} alt="Profile" />
-          </div>
-        </div>
-      </div>
-
-      <div className="our-providers-profile-details">
-        <div className="our-providers-body">
-          <div className="our-providers-body-title-container">
-            <h2>{profileData.corporateName}</h2>
-            <div className="our-providers-rating-number">
-              {profileData.rating} <IoIosStar />
+      <DynamicMeta
+        title={corporate?.corporateName}
+        description={corporate?.overview}
+        image={bufferToBase64(corporate?.profilePicture?.data)}
+      />
+      <ToastContainer />
+      <div className="our-providers-profile-container">
+        <div className="our-providers-cover-profile-image-head">
+          <img src={backgroundImage} alt="Background" />
+          {sessionStorage.getItem('userId') === corporate._id && (
+            <div className="our-provider-edit-cover-img">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleChangeCoverImage}
+                style={{ display: 'none' }}
+                accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+              />
+              <LuPencil className="our-provider-cover-edit-icon" onClick={handleEditClick} />
             </div>
-          </div>
-          <p className="Headline">{profileData.tagline}</p>
-          <p className="location">{profileData.location.city + ' | ' + profileData.location.state + ' | ' + profileData.location.country}</p>
-          <p className="followers">
-            {profileData.followers} followers | {profileData.employees} employees
-          </p>
-        </div>
-
-        <div className="our-providers-body-buttons">
-          <div className="our-providers-body-buttons-two">
-            <Link to={'https://medxbay.com/social/'} target='_blank'>
-              <button className="follow-button" ><img src={network} alt='social media' /> Social</button>
-            </Link>
-            <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem' /> Message</button>
-            <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
-              <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
-            </div>
-
-            {isDropdownOpen && (
-              <div className={`our-providers-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
-                {sessionStorage.getItem('userId') === corporate._id && (
-                  <div className="our-providers-dropdown-item" onClick={openAddDoctorPopup}>
-                    <RiUserAddLine size="1rem" /> Add Doctor
-                  </div>
-                )}
-
-                <div className="our-providers-dropdown-item" onClick={copyLink}>
-                  <RxExternalLink size="1rem" /> Copy Link
-                </div>
-                <div className="our-providers-dropdown-item" onClick={handleShareClick}>
-                  <BiSolidShareAlt size="1rem" /> Share Profile
-                </div>
-                {sessionStorage.getItem('userId') === corporate._id && (
-                  <div className="our-providers-dropdown-item" onClick={openEditPopup}>
-                    <TbEdit size="1rem" /> Edit Profile
-                  </div>
-                )}
-
-              </div>
-            )}
-          </div>
-          {corporate?.createdByAdmin === true && corporate?.profileTransferRequest !== "Accepted" ? (
-            <button className={`appointment-button  mr-2  `}
-              onClick={openClaimPopup}
-            >Claim Profile!</button>
-          ) : (
-            <Link to={'/contact-us'}>
-              <button className={`appointment-button `} >Book an Appointment</button>
-            </Link>
           )}
 
+          <div className="our-provider-profile-info">
+            <div className="our-provider-profile-img">
+              <img src={profileData.profileImage} alt="Profile" />
+            </div>
+          </div>
         </div>
-      </div>
-      {isClaimPopupVisible && (
-        <ClaimProfilePopup
-          corporateId={corporate._id}
-          handleCloseClaimPopup={handleCloseClaimPopup} />
-      )}
-      {isEditPopupOpen && (
-        <OurProvidersPEPOP
-          tempProfileData={corporate}
-          handleProfileDataChange={handleProfileDataChange}
-          handleSubmit={handleSubmit}
-          closeEditPopup={closeEditPopup}
-          refreshProfileData={fetchCorporateDetails} // Pass function as prop
-        />
-      )}
+
+        <div className="our-providers-profile-details">
+          <div className="our-providers-body">
+            <div className="our-providers-body-title-container">
+              <h2>{profileData.corporateName}</h2>
+              <div className="our-providers-rating-number">
+                {profileData.rating} <IoIosStar />
+              </div>
+            </div>
+            <p className="Headline">{profileData.tagline}</p>
+            <p className="location">{profileData.location.city + ' | ' + profileData.location.state + ' | ' + profileData.location.country}</p>
+            <p className="followers">
+              {profileData.followers} followers | {profileData.employees} employees
+            </p>
+          </div>
+
+          <div className="our-providers-body-buttons">
+            <div className="our-providers-body-buttons-two">
+              <Link to={'https://medxbay.com/social/'} target='_blank'>
+                <button className="follow-button" ><img src={network} alt='social media' /> Social</button>
+              </Link>
+              <button className="message-button" onClick={handleShowPopup}><PiPaperPlaneTiltBold size='1rem' /> Message</button>
+              <div className="DotsThreeCircle" tabIndex={0} onClick={toggleDropdown}>
+                <PiDotsThreeCircle className={`DotsThreeCircle-icon ${isDropdownOpen ? 'rotate' : ''}`} />
+              </div>
+
+              {isDropdownOpen && (
+                <div className={`our-providers-dropdown-content ${isDropdownOpen ? 'show' : ''}`}>
+                  {sessionStorage.getItem('userId') === corporate._id && (
+                    <div className="our-providers-dropdown-item" onClick={openAddDoctorPopup}>
+                      <RiUserAddLine size="1rem" /> Add Doctor
+                    </div>
+                  )}
+
+                  <div className="our-providers-dropdown-item" onClick={copyLink}>
+                    <RxExternalLink size="1rem" /> Copy Link
+                  </div>
+                  <div className="our-providers-dropdown-item" onClick={handleShareClick}>
+                    <BiSolidShareAlt size="1rem" /> Share Profile
+                  </div>
+                  {sessionStorage.getItem('userId') === corporate._id && (
+                    <div className="our-providers-dropdown-item" onClick={openEditPopup}>
+                      <TbEdit size="1rem" /> Edit Profile
+                    </div>
+                  )}
+
+                </div>
+              )}
+            </div>
+            {corporate?.createdByAdmin === true && corporate?.profileTransferRequest !== "Accepted" ? (
+              <button className={`appointment-button  mr-2  `}
+                onClick={openClaimPopup}
+              >Claim Profile!</button>
+            ) : (
+              <Link to={'/contact-us'}>
+                <button className={`appointment-button `} >Book an Appointment</button>
+              </Link>
+            )}
+
+          </div>
+        </div>
+        {isClaimPopupVisible && (
+          <ClaimProfilePopup
+            corporateId={corporate._id}
+            handleCloseClaimPopup={handleCloseClaimPopup} />
+        )}
+        {isEditPopupOpen && (
+          <OurProvidersPEPOP
+            tempProfileData={corporate}
+            handleProfileDataChange={handleProfileDataChange}
+            handleSubmit={handleSubmit}
+            closeEditPopup={closeEditPopup}
+            refreshProfileData={fetchCorporateDetails} // Pass function as prop
+          />
+        )}
 
 
-      <OverviewActivity corporate={corporate} overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId = {corporate?._id}/>
-      {corporate.showDoctors && (
-        <OurProvidersDC doctors={doctors} />
-      )}
-      {corporate.showReviews && (
-        <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
-      )}
-      {/* {corporate.showConditionLibrary && (
+        <OverviewActivity corporate={corporate} overviewData={overview} corporateSpecialties={corporateSpecialties} corporateId={corporate?._id} />
+        {corporate.showDoctors && (
+          <OurProvidersDC doctors={doctors} />
+        )}
+        {corporate.showReviews && (
+          <OurReviewsDc doctorReviews={doctorReviews} patientReviews={patientReviews} />
+        )}
+        {/* {corporate.showConditionLibrary && (
         <OurBlogDc blogs={blogs} /> 
       )} */}
 
-      <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
-      <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
-      <AddDoctor inviteLinks={inviteLinks} show={isAddDoctorVisible} handleClose={handleCloseAddDoctorPopup} />
-    </div>
+        <BlogPopup show={isPopupVisible} handleClose={handleClosePopup} /> {/* Render Popup */}
+        <OurProvidersSharePopup corporateName={corporate.corporateName} show={isSharePopupVisible} handleClose={handleCloseSharePopup} />
+        <AddDoctor inviteLinks={inviteLinks} show={isAddDoctorVisible} handleClose={handleCloseAddDoctorPopup} />
+      </div>
     </>
   );
 };

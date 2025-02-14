@@ -10,6 +10,7 @@ import WhatMed from "./WhatMed/WhatMed";
 import HWMIhappen from "./HWMIhappen/HWMIhappen";
 import Companion from "./Companion/Companion";
 import Navbar from "../Navbar/Navbar";
+import DynamicMeta from "../DynamicMeta/DynamicMeta";
 // import SignupCard from "../signup/signup";
 // import LoginCard from "../login/login";
 
@@ -42,6 +43,11 @@ const Home = () => {
 
   return (
     <>
+      <DynamicMeta
+        title={"Medxbay"}
+        description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+        image={null}
+      />
       {/* <Navbar/> */}
       <HeroAlterNavbar />
       <div className="heroalter-container">

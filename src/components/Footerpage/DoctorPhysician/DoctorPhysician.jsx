@@ -20,6 +20,7 @@ import plansfive from './DoctorPhysician-assets/Health and Wellness Events.png';
 import LoginCard from '../../login/login';
 import SignupCard from '../../signup/signup';
 import { useNavigate } from 'react-router-dom';
+import DynamicMeta from '../../DynamicMeta/DynamicMeta';
 const DoctorPhysician = () => {
     const revealedCardsRef = useRef(new Set()); // To track revealed cards
     const handleClick = () =>{
@@ -71,6 +72,11 @@ const DoctorPhysician = () => {
   
   return (
     <>
+        <DynamicMeta
+                title={"Medxbay"}
+                description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+                image={null}
+            />
         <div className='GlobalPartner-healthcare-conatiner'>
             <section className="healthcare-section-one">
                 <div className="healthcare-content-one">

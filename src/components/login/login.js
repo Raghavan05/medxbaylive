@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './login.css';
 
 import logobrand from '../Assets/logobrand.png';
@@ -20,6 +20,7 @@ import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DynamicMeta from '../DynamicMeta/DynamicMeta';
 
 const LoginCard = () => {
 
@@ -28,12 +29,12 @@ const LoginCard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [email, setEmail] = useState('');
-  
+
   const [password, setPassword] = useState('');
 
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
-  const [isProvider] = useState(false); 
+  const [isProvider] = useState(false);
 
   const [emailError, setEmailError] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
@@ -41,20 +42,20 @@ const LoginCard = () => {
   const [passwordError, setPasswordError] = useState('');
   const login = async (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      setIsSubmitDisabled(true); 
-      
+      setIsSubmitDisabled(true);
+
       try {
-        const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, 
-          { email, password }, 
+        const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`,
+          { email, password },
           { withCredentials: true }
         );
-        
+
         if (res.data.success) {
           const { user } = res.data;
           const { role, _id: userId, email: userEmail, subscriptionType, subscriptionVerification, trialEndDate } = user;
-          
+
           sessionStorage.setItem('userId', userId);
           sessionStorage.setItem('userEmail', userEmail);
           sessionStorage.setItem('role', role);
@@ -62,14 +63,14 @@ const LoginCard = () => {
           sessionStorage.setItem('subscriptionType', subscriptionType || 'none');
           sessionStorage.setItem('subscriptionVerification', subscriptionVerification || 'not verified');
           sessionStorage.setItem('trialEndDate', trialEndDate || 'not set');
-          
+
           toast.info("Login successful!", {
             position: "top-center",
             closeButton: true,
             progressBar: true,
             className: 'toast-sign toast-success',
           });
-          
+
           setTimeout(() => {
             switch (role) {
               case 'doctor':
@@ -91,13 +92,13 @@ const LoginCard = () => {
                 alert('Unexpected role.');
                 break;
             }
-            
+
             setEmail('');
             setPassword('');
             // handleClose();
           }, 1000);
         }
-        
+
       } catch (err) {
 
         if (err.response && err.response.data && err.response.data.message) {
@@ -139,22 +140,22 @@ const LoginCard = () => {
           });
         }
       } finally {
-        setIsSubmitDisabled(false); 
+        setIsSubmitDisabled(false);
       }
     }
   };
-  
-  
-  
+
+
+
   const forgetPassword = async (e) => {
     e.preventDefault();
     if (validateEmail(email)) {
-      setIsSubmitDisabled(true); 
+      setIsSubmitDisabled(true);
       try {
         const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/forgot-password`, { email });
         if (res.data.success) {
-          toast.info('Password reset email sent successfully.', { 
-            position: "top-center" ,
+          toast.info('Password reset email sent successfully.', {
+            position: "top-center",
             closeButton: true,
             progressBar: true,
             className: 'toast-sign toast-success',
@@ -166,22 +167,22 @@ const LoginCard = () => {
         }
       } catch (err) {
         console.error('Error during password reset:', err);
-        toast.info('Failed to send reset email. Please try again.', { 
-          position: "top-center" ,
+        toast.info('Failed to send reset email. Please try again.', {
+          position: "top-center",
           closeButton: true,
           progressBar: true,
           className: 'toast-sign toast-success',
         });
       } finally {
-        setIsSubmitDisabled(false); 
+        setIsSubmitDisabled(false);
       }
     } else {
       toast.info('Please enter a valid email address.', {
-        position: "top-center" , 
+        position: "top-center",
         closeButton: true,
         progressBar: true,
         className: 'toast-sign toast-success',
-       });
+      });
     }
   };
 
@@ -193,7 +194,7 @@ const LoginCard = () => {
     const email = urlParams.get('email');
     const userSubscriptionType = urlParams.get('userSubscriptionType');
     const userSubscriptionVerification = urlParams.get('userSubscriptionVerification');
-  
+
     if (role && name && id) {
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('userEmail', email);
@@ -202,23 +203,23 @@ const LoginCard = () => {
       sessionStorage.setItem('loggedIn', 'true');
       sessionStorage.setItem('subscriptionType', userSubscriptionType);
       sessionStorage.setItem('subscriptionVerification', userSubscriptionVerification);
-      
+
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
-  
+
   const handleGoogleSignIn = (role) => {
     setIsLoading(true);
     const url = role === 'patient'
       ? `${process.env.REACT_APP_BASE_URL}/auth/google/patient?state=${JSON.stringify({ role })}`
       : `${process.env.REACT_APP_BASE_URL}/auth/google/doctor?state=${JSON.stringify({ role })}`;
-  
+
     window.location.href = url;
   };
-  
+
 
   const validateForm = () => {
-    return   validateEmail(email) && validatePassword(password);
+    return validateEmail(email) && validatePassword(password);
   };
 
 
@@ -267,20 +268,25 @@ const LoginCard = () => {
   };
 
 
-  
+
   return (
     <>
-     <div className='login-new--total-container'>
+      <DynamicMeta
+        title={"Medxbay"}
+        description={"MedxBay is an AI-enabled healthcare platform that revolutionizes provider workflows and patient care."}
+        image={null}
+      />
+      <div className='login-new--total-container'>
         <div className='login-new--close-custom-container'>
           <button type="button" className="login-new--close-custom" aria-label="Close">
             <Link to={'https://medxbay.com'}>
-            <FaTimes size='1rem'/>
+              <FaTimes size='1rem' />
             </Link>
           </button>
         </div>
         <div className='login-new--container'>
           <ToastContainer />
-         
+
           <div className="login-smile-emoji">
             <div className='login-smile-emoji-container-one'>
               <img src={logobrand} alt="logo" className="login-brand-image-logo" />
@@ -317,7 +323,7 @@ const LoginCard = () => {
                     value={email}
                     onChange={handleEmailChange}
                     aria-invalid={!!emailError}
-                    />
+                  />
                   {emailError && <span className="text-danger">{emailError}</span>}
                 </div>
 
@@ -357,7 +363,7 @@ const LoginCard = () => {
                       >
                         Sign In
                       </button>
-                        
+
                     </>
                   ) : (
                     <div className='Reset-Password-container'>
@@ -388,7 +394,7 @@ const LoginCard = () => {
                     </button> 
                     <button className='apple-button-login'><img src={apple} alt='Apple' className='apple-login-image'></img></button>
                 </div> */}
-                    
+
                 <div className='login-option-container'>
                   <div className='account-login'>Don't have an account?</div>
                   <Link className='login-link-signup' to="/signup" >
@@ -396,13 +402,13 @@ const LoginCard = () => {
                   </Link>
                 </div>
               </div>
-            </div>  
-       
+            </div>
+
             <div className='login-smile-emoji-container-one'>
               <div className="login-speech-bubble-container-std">
                 <div className="login-speech-bubble-std">
                   <span className="login-typing-animation-std">
-                    Greetings! 👋 Book your visit <br/>today. 📅
+                    Greetings! 👋 Book your visit <br />today. 📅
                   </span>
                 </div>
               </div>
@@ -414,7 +420,7 @@ const LoginCard = () => {
 
           </div>
         </div>
-      </div>  
+      </div>
     </>
   );
 };

@@ -243,7 +243,7 @@ const OurProductsPage = () => {
 
   return (
     <>
-    <DynamicMeta
+        <DynamicMeta
         title={supplier?.name}
         description={supplier?.overview}
         image={bufferToBase64(supplier?.profilePicture?.data)}
